@@ -1,5 +1,6 @@
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
+import { fr } from '../i18n/fr'
 
 const ICONES: Record<Role, string> = { commerce: '☕', organisme: '🤝', citoyen: '🧑' }
 
@@ -12,14 +13,13 @@ export default function Accueil({ onRole, onVisite }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
-        <h1 className="logo">Maillage</h1>
+        <h1 className="logo">{fr.accueil.titre}</h1>
         <p className="pitch">
-          Des projets à trois, avec vos voisins de Saint-Roch : commerçants, organismes et citoyens se
-          rencontrent sur la carte du quartier.
+          {fr.accueil.accroche}
         </p>
       </div>
       <div className="accueil-bas">
-        <p className="consigne">Vous êtes…</p>
+        <p className="consigne">{fr.accueil.question}</p>
         {(['commerce', 'organisme', 'citoyen'] as Role[]).map((r) => (
           <button key={r} type="button" className="btn btn-role" onClick={() => onRole(r)}>
             <span aria-hidden="true" className="icone">{ICONES[r]}</span>
@@ -27,7 +27,7 @@ export default function Accueil({ onRole, onVisite }: Props) {
           </button>
         ))}
         <button type="button" className="btn btn-lien" onClick={onVisite}>
-          Visite guidée
+          {fr.accueil.visiteGuidee}
         </button>
       </div>
     </main>

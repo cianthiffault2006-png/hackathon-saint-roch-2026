@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
+import { fr } from '../i18n/fr'
 import MapView, { type Pin } from '../components/MapView'
 
 interface Props {
@@ -10,12 +11,7 @@ interface Props {
   onRetour: () => void
 }
 
-const LIBELLE_STATUT: Record<Statut, string> = {
-  proposee: '',
-  interet_envoye: 'Intérêt envoyé',
-  en_attente: 'En attente des partenaires',
-  confirmee: 'Projet confirmé',
-}
+const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts
 
 const MARGE_FEUILLE = 360
 
@@ -67,8 +63,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   if (!prop) {
     return (
       <main className="screen">
-        <p>Aucune proposition pour le moment.</p>
-        <button type="button" className="btn btn-primaire" onClick={onRetour}>Retour</button>
+        <h1>{fr.etats.vide.titre}</h1>
+        <p>{fr.etats.vide.texte}</p>
+        <button type="button" className="btn btn-primaire" onClick={onRetour}>{fr.general.retour}</button>
       </main>
     )
   }
@@ -92,26 +89,26 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   return (
     <div className="screen-carte">
       <MapView pins={pins} margeBas={MARGE_FEUILLE} />
-      <button type="button" className="retour retour-carte" onClick={onRetour} aria-label="Retour">←</button>
+      <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
         className="feuille"
-        aria-label="Proposition"
+        aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
       >
         <div className="feuille-nav">
-          <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label="Proposition précédente">‹</button>
+          <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.visite.precedent}>‹</button>
           <span className="points" aria-label={`Proposition ${index + 1} sur ${propositions.length}`}>
             {propositions.map((p, i) => (
               <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
             ))}
           </span>
-          <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label="Proposition suivante">›</button>
+          <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.visite.suivant}>›</button>
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
-        <p className="score">Compatibilité : {prop.score} %</p>
+        <p className="score">{fr.proposition.score(prop.score)}</p>
 
-        <h2 className="sous-titre">Partenaires</h2>
+        <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
         <ul className="liste-part">
           {prop.partenaires.map((c) => {
             const p = profils.find((x) => x.id === c.profilId)
@@ -126,20 +123,20 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           {lieu && (
             <li className="partenaire">
               <strong>{lieu.nom}</strong>
-              <span className="apport">Lieu proposé</span>
+              <span className="apport">{fr.proposition.lieuSuggere}</span>
             </li>
           )}
         </ul>
 
-        <h2 className="sous-titre">Pourquoi cette suggestion</h2>
+        <h2 className="sous-titre">{fr.proposition.pourquoi}</h2>
         <ul className="liste">{prop.raisons.map((r) => <li key={r}>{r}</li>)}</ul>
 
-        <h2 className="sous-titre">À confirmer</h2>
+        <h2 className="sous-titre">{fr.proposition.aConfirmer}</h2>
         <ul className="liste liste-orange">{prop.aConfirmer.map((r) => <li key={r}>{r}</li>)}</ul>
 
         {proches.length > 0 && (
           <>
-            <h2 className="sous-titre">Événements proches</h2>
+            <h2 className="sous-titre">{fr.proposition.evenementsProches}</h2>
             <ul className="liste">
               {proches.map((e) => <li key={e.id}>{e.titre}, {formaterDate(e.debut)}</li>)}
             </ul>
@@ -153,13 +150,14 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
               className="btn btn-primaire"
               onClick={() => setStatuts((s) => ({ ...s, [prop.id]: 'interet_envoye' }))}
             >
-              Ça m’intéresse
+              {fr.proposition.interet}
             </button>
           ) : (
             <div className={`statut statut-${statut}`} role="status" aria-live="polite">
-              {LIBELLE_STATUT[statut]} <span className="simule">(simulé)</span>
+              {LIBELLE_STATUT[statut]}
             </div>
           )}
+          <p className="note-simulation">{fr.proposition.noteSimulation}</p>
         </div>
       </section>
     </div>

@@ -420,3 +420,10 @@ button {
   white-space: nowrap;
   pointer-events: none;
 }
+
+.note-simulation {
+  margin: 8px 0 0;
+  color: var(--gris);
+  font-size: 13px;
+  text-align: center;
+}

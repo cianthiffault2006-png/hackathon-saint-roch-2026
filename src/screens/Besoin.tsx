@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Role, Tag } from '../types'
 import { lireBesoin } from '../engineAdapter'
+import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
@@ -46,27 +47,27 @@ export default function Besoin({ role, onRetour, onTrouver }: Props) {
   return (
     <main className="screen besoin">
       <header className="entete">
-        <button type="button" className="retour" onClick={onRetour} aria-label="Retour">←</button>
+        <button type="button" className="retour" onClick={onRetour} aria-label={fr.besoin.boutonRetour}>←</button>
         <span className="role-tag">{LIBELLE_ROLE[role]}</span>
       </header>
       <label htmlFor="besoin-texte" className="titre-champ">
-        Décrivez ce que vous cherchez ou offrez
+        {fr.besoin.etiquette}
       </label>
       <textarea
         id="besoin-texte"
         className="champ"
         rows={5}
         value={texte}
-        placeholder="Ex. : Je cherche un artiste pour exposer sur le mur du café, le jeudi soir."
+        placeholder={fr.besoin.placeholders[role]}
         onChange={(e) => surSaisie(e.target.value)}
       />
-      <h2 className="sous-titre">Ressources</h2>
-      <Chips options={TAGS} selected={tags} libelle={LIBELLE_TAG} label="Ressources" onToggle={(t) => setTags((p) => bascule(p, t))} />
-      <h2 className="sous-titre">Créneaux</h2>
-      <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label="Créneaux" onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
+      <h2 className="sous-titre">{fr.besoin.puces.titreTags}</h2>
+      <Chips options={TAGS} selected={tags} libelle={LIBELLE_TAG} label={fr.besoin.puces.titreTags} onToggle={(t) => setTags((p) => bascule(p, t))} />
+      <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
+      <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
       <div className="pied">
         <button type="button" className="btn btn-primaire" disabled={!pret} onClick={soumettre}>
-          Trouver des partenaires
+          {fr.besoin.bouton}
         </button>
       </div>
     </main>

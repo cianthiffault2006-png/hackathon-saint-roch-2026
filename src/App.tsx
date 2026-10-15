@@ -16,6 +16,9 @@ import NouveauProjet from './projet/NouveauProjet'
 import Explorer from './explorer/Explorer'
 import PlusOptions from './explorer/PlusOptions'
 import ProfilPublic from './profil/ProfilPublic'
+import RechercheReclamer from './profil/RechercheReclamer'
+import { appliquerReclames } from './profil/reclamation'
+import { useReclames } from './profil/useReclames'
 import Fiche from './screens/Fiche'
 import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
@@ -31,7 +34,7 @@ import EspaceProjets from './layout/EspaceProjets'
 import { useBureau } from './layout/useBureau'
 import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
+type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau' | 'reclamer'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 const DELAI_PIN_VISITE_MS = 700
@@ -40,7 +43,10 @@ export default function App() {
   const [ecran, setEcran] = useState<Ecran>('accueil')
   const [retourFiche, setRetourFiche] = useState<Ecran>('projets')
   const [role, setRole] = useState<Role>('commerce')
-  const [donnees, setDonnees] = useState<Donnees>(VIDE)
+  const [brutes, setDonnees] = useState<Donnees>(VIDE)
+  // Local « Réclamer ce profil » claims (maillage.reclames) applied once here, so every screen sees the same « pré-rempli ».
+  const reclames = useReclames()
+  const donnees = useMemo(() => ({ ...brutes, profils: appliquerReclames(brutes.profils, reclames) }), [brutes, reclames])
   const [propositions, setPropositions] = useState<PropositionType[]>([])
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
@@ -256,6 +262,15 @@ export default function App() {
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onProposer={enVisite ? undefined : () => setEcran('nouveau')}
           onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
+          onReclamer={enVisite ? undefined : () => setEcran('reclamer')}
+        />
+      )}
+      {ecranActif === 'reclamer' && (
+        <RechercheReclamer
+          profils={donnees.profils}
+          evenements={donnees.evenements}
+          onRetour={() => setEcran('accueil')}
+          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -412,7 +427,7 @@ export default function App() {
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
-      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
+      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
       {etat && <TourBar etat={etat} onPause={basculerPause} onSuivant={suivant} onQuitter={quitterVisite} />}
     </div>
     </Coquille>

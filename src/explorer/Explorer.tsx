@@ -41,6 +41,8 @@ const LIEU_TYPES: Record<Lieu['type'], string> = {
 const themesTxt = (th: string[]) => th.map((x) => fr.besoin.themes[x as keyof typeof fr.besoin.themes] ?? x)
 
 export function badgeVerif(p: Profil): string | null {
+  // The badge comes with activation (« Réclamer ce profil »); a pre-filled profile shows « Profil pré-rempli » only.
+  if (!p.reclame) return null
   return p.verifie === 'sdc' ? t.membreSdc : p.verifie === 'ville' ? t.reconnuVille : null
 }
 

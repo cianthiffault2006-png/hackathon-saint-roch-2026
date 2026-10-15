@@ -1,8 +1,13 @@
+import { useEffect, useRef, useState } from 'react'
 import type { Evenement, Profil } from '../types'
 import { fr } from '../i18n/fr'
 import { LIBELLE_CRENEAU, LIBELLE_TAG } from '../labels'
 import { t } from '../explorer/textes'
+import Reclamer from './Reclamer'
+import { estReclamable } from './reclamation'
+import { annulerReclamation, useReclames } from './useReclames'
 import './ProfilPublic.css'
+import './Reclamer.css'
 
 interface Props {
   profil: Profil
@@ -20,7 +25,20 @@ function dateCourte(iso: string): string {
 }
 
 export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer }: Props) {
-  const verif = profil.verifie === 'sdc' ? t.membreSdc : profil.verifie === 'ville' ? t.reconnuVille : null
+  const reclames = useReclames()
+  const [flux, setFlux] = useState(false)
+  const titre = useRef<HTMLHeadingElement>(null)
+  const sortiDuFlux = useRef(false)
+  // Back from the claim flow: focus returns to the profile heading.
+  useEffect(() => {
+    if (!flux && sortiDuFlux.current) titre.current?.focus()
+    sortiDuFlux.current = flux
+  }, [flux])
+  // The badge comes with activation: a pre-filled profile shows « Profil pré-rempli » only.
+  const verif = !profil.reclame ? null : profil.verifie === 'sdc' ? t.membreSdc : profil.verifie === 'ville' ? t.reconnuVille : null
+  const local = reclames[profil.id]
+  const enAttente = !profil.reclame && local?.statut === 'en_attente'
+  const reclamable = estReclamable(profil, reclames) && !enAttente
   const maintenant = Date.now()
   const prochains = evenements
     .filter((e) => e.promoteurId === profil.id && new Date(e.fin).getTime() >= maintenant)
@@ -35,16 +53,34 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
   const citoyen = profil.role === 'citoyen'
   const nom = citoyen ? t.citoyen : profil.nom
 
+  if (flux) return <Reclamer profil={profil} onFermer={() => setFlux(false)} />
+
   return (
+    <div className="pp-defile">
     <main className="pp-racine">
       <button type="button" className="pp-btn" onClick={onRetour}>← {t.retour}</button>
-      <h1 className="pp-titre">{nom}</h1>
+      <h1 className="pp-titre" ref={titre} tabIndex={-1}>{nom}</h1>
       <p className="pp-sous">{profil.sousType}</p>
       <div className="pp-badges">
         {verif && <span className="pp-badge pp-badge-ok">{verif}</span>}
         {!profil.reclame && <span className="pp-badge">{t.preRempli}</span>}
+        {enAttente && <span className="pp-badge">{fr.reclamer.demandeEnCours}</span>}
       </div>
       <p>{profil.description}</p>
+
+      {reclamable && profil.role !== 'citoyen' && (
+        <section className="pp-reclamer" aria-labelledby="pp-reclamer-q">
+          <p id="pp-reclamer-q" className="pp-reclamer-q">{fr.reclamer.question[profil.role]}</p>
+          <p>{fr.reclamer.ctaAide}</p>
+          <button type="button" className="pp-btn pp-btn-p" onClick={() => setFlux(true)}>{fr.reclamer.cta}</button>
+        </section>
+      )}
+      {enAttente && (
+        <div className="pp-attente">
+          <p>{fr.reclamer.demandeTexte}</p>
+          <button type="button" className="pp-btn pp-lien" onClick={() => annulerReclamation(profil.id)}>{fr.reclamer.reinitialiser}</button>
+        </div>
+      )}
 
       <section aria-labelledby="pp-offre">
         <h2 id="pp-offre">{t.jOffre}</h2>
@@ -105,6 +141,10 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
       </section>
 
       <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>
+      {local?.statut === 'active' && (
+        <button type="button" className="pp-btn pp-lien" onClick={() => annulerReclamation(profil.id)}>{fr.reclamer.reinitialiser}</button>
+      )}
     </main>
+    </div>
   )
 }

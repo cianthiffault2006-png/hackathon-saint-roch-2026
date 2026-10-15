@@ -86,7 +86,7 @@ export const fr = {
     vous: 'Vous',
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,
-    lieuSuggere: 'Lieu suggéré',
+    lieuSuggere: 'Lieu public proposé, à confirmer avec le lieu',
     rolesPartenaire: {
       commerce: 'Commerce',
       organisme: 'Organisme',
@@ -242,7 +242,7 @@ export const fr = {
     dateProposee: 'Date proposée, à confirmer avec les partenaires',
     aConfirmerAvant: 'À confirmer avant la date',
     lieuAConfirmer: 'À déterminer avec les partenaires',
-    progres: (fait: number, total: number) => `${fait}/${total} confirmés`,
+    progres: (fait: number, total: number) => (total === 1 ? `${fait}/1 point vérifié` : `${fait}/${total} points vérifiés`),
     calendrierFait: 'Fichier de calendrier téléchargé (rappel la veille).',
     calendrierOuvert: 'Votre téléphone propose d’ajouter l’événement au calendrier (rappel la veille).',
     calendrierPartage: 'Fichier envoyé : ouvrez-le pour l’ajouter au calendrier (rappel la veille).',
@@ -324,6 +324,7 @@ export const fr = {
       fiche: 'Fiche projet',
       projets: 'Mes projets',
       sdc: 'Tableau de bord du quartier',
+      dashboard: 'Tableau de bord',
       reclamer: 'Réclamer votre fiche',
     },
   },
@@ -368,6 +369,42 @@ export const fr = {
     lieux: 'Lieux publics et quartiers : Ville de Québec, Données Québec, licence CC BY 4.0.',
     culture: 'Culture :',
     profils: 'Profils et événements : fictifs, construits sur la structure des répertoires de la Ville (données réelles confidentielles non utilisées).',
+  },
+
+  // Bureau (écran large) : barre latérale et espace Mes projets.
+  nav: {
+    etiquette: 'Navigation principale',
+    slogan: 'Connecter Saint-Roch',
+    accueil: 'Accueil',
+    dashboard: 'Tableau de bord',
+    explorer: 'Explorer le quartier',
+    proposer: 'Proposer un projet',
+    projets: 'Mes projets',
+    sources: 'Sources des données',
+    sdc: 'Tableau SDC',
+    prototype: 'Prototype de démonstration',
+    nbProjets: (n: number) => (n <= 1 ? `${n} projet` : `${n} projets`),
+    listeProjets: 'Liste de mes projets',
+    choisirProjet: 'Choisissez un projet dans la liste : sa fiche et son fil (participants, mises à jour, discussion) s’affichent ici.',
+  },
+
+  // Tableau de bord personnel (Nana-Lexis), ouvert depuis la barre latérale.
+  dashboard: {
+    titre: 'Tableau de bord',
+    intro: 'Retrouvez vos initiatives et suivez vos collaborations à Saint-Roch.',
+    stats: 'Statistiques de mes projets',
+    total: 'Mes projets',
+    enAttente: 'En attente',
+    confirmes: 'Confirmés (simulation)',
+    proposes: 'Proposés',
+    recents: 'Mes projets récents',
+    voirTous: 'Voir tous les projets →',
+    videTitre: 'Aucun projet pour le moment',
+    videTexte: 'Exprimez votre besoin pour découvrir des partenaires potentiels.',
+    decouvrir: 'Découvrir des collaborations',
+    partenaires: (n: number) => (n <= 1 ? `${n} partenaire` : `${n} partenaires`),
+    ouvrir: 'Ouvrir la fiche →',
+    simulation: 'Les collaborations et confirmations sont simulées dans ce prototype.',
   },
 
   general: {

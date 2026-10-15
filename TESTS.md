@@ -15,9 +15,9 @@ Avant chaque passage sur le téléphone de démo : vider les données du site (r
 | 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir |
 | 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
-| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », bouton « Voir ce que Camille reçoit » |
+| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », lien « Voir ce que Camille reçoit » (l’attente passe seule à « Projet confirmé » en quelques secondes : cliquer sans tarder) |
 | 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |
-| 8 | Retour accueil, « Visite guidée » | Lecture automatique d’environ 57 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
+| 8 | Retour accueil, « Visite guidée » | Lecture automatique d’environ 57 s (à revoir après la visite v2; mesuré le 15 oct. à 14:35: 70 à 80 s), sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 
 ## B. Contrôles transversaux
 
@@ -53,3 +53,4 @@ Remplir une ligne par passage. P = réussi, F = échec, - = non testé.
 | Heure | Commit | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | C1-C6 | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2026-10-15, qa (curl), eba2680 | eba2680 | - | - | - | - | - | - | - | - | - | - | - | - | - | P | - | - | P | - | P | 16 non validé: accueil 200 (0,21 s puis 0,08 s; première requête à froid 3,7 s), bundle 1,3 Mo. Chaînes présentes dans le JS : Maillage, Visite guidée, Démo simulée, Trouver des partenaires, Ça m’intéresse, Projet confirmé, Votre profil, J’offre, Je cherche, Quand, Exposition collaborative, Compatibilité, « enfin connectées ». /data : profils 47, lieux 38, evenements 16, quartier.geojson 200 et valides. Attribution OpenFreeMap/OpenStreetMap dans le JS (14 vu en code seulement). Aucune clé. /labo/ 200, contient « Prêt » (18 vu en code seulement, modèle non chargé). Étapes cliquées (1 à 8, 9 à 13, 15) : à faire par team-lead. |
+| 2026-10-15 14:35, qa (Chrome, GitHub Pages) | d90a250 | P | P | F | F | P | P | P | P | - | - | - | P | P | P | - | P | - | - | - | Fenêtre 767 px, stockage vidé. 3: puces « Semaine, jour » ET « Semaine, soir » allumées (attendu: soir seul), reproduit 3 fois. 4: Compatibilité 83 % au lieu de 87 %. 5: épingles apparaissent 1 à 3 s après l’ouverture. 7: invitation puis Accepter, confirmé. Ajouter au calendrier: .ics valide (22 oct 19:00-22:00). 8: se termine sur « enfin connectées », durée 70 à 80 s. 13: aucune erreur de l’app (seulement avertissements Grammarly). 12: pas de défilement horizontal, corps 16 px, aucun bouton sous 44 px (accueil). 390 px, Android, hors ligne, /labo non testés. |

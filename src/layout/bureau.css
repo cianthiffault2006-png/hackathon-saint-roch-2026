@@ -1,0 +1,218 @@
+/* Desktop layout (from 900 px wide). Under 900 px nothing here applies: the phone layout is unchanged.
+   Colours come from the :root palette in src/styles.css. */
+
+/* Sidebar (Nana-Lexis's design, styles in src/styles.css): desktop only */
+.coquille .sidebar {
+  display: none;
+}
+
+.coquille {
+  display: contents;
+}
+
+@media (min-width: 900px) {
+  .coquille {
+    --largeur-nav: 240px;
+    --trait: #e4e0d6;
+    display: grid;
+    grid-template-columns: var(--largeur-nav) minmax(0, 1fr);
+    height: 100dvh;
+  }
+
+  /* The main pane contains the app's fixed screens (map, full-screen views, badge, tour bar):
+     layout containment makes it their containing block, so inset: 0 means « right of the sidebar ». */
+  .coquille > .racine {
+    position: relative;
+    min-width: 0;
+    height: 100dvh;
+    overflow: hidden;
+    contain: layout;
+  }
+
+  /* Her sidebar is a fixed panel; here it is the grid's first column */
+  .coquille .sidebar {
+    display: flex;
+    position: static;
+    width: auto;
+    height: 100dvh;
+  }
+
+  .sidebar-compteur {
+    min-width: 26px;
+    text-align: center;
+  }
+
+  /* Guided tour: the sidebar is inert (no pointer, no focus) and looks it */
+  .coquille-inerte .sidebar {
+    opacity: 0.5;
+  }
+
+  /* ===== Mes projets and the Fiche: list | fiche | fil ===== */
+  .espace-projets {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    height: 100dvh;
+  }
+
+  .espace-projets.avec-liste {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .espace-projets.liste-seule {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .espace-liste {
+    min-height: 0;
+    border-right: 1px solid var(--trait);
+  }
+
+  .espace-projets .espace-liste .screen {
+    max-width: none;
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .espace-projets.liste-seule .espace-liste {
+    border-right: 0;
+  }
+
+  .espace-projets.liste-seule .espace-liste .screen {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .carte-projet[aria-current='true'] {
+    border-color: var(--vert);
+    background: var(--vert-pale);
+  }
+
+  .espace-detail {
+    min-height: 0;
+    height: 100dvh;
+    overflow-y: auto;
+  }
+
+  /* A fiche is open: the fiche and its thread side by side, each one scrolls */
+  .avec-fiche .espace-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .avec-fiche.sans-fil .espace-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .espace-fiche,
+  .espace-fil {
+    min-height: 0;
+    height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .espace-projets .espace-fiche .screen {
+    height: auto;
+    min-height: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .espace-fil {
+    border-left: 1px solid var(--trait);
+  }
+
+  .espace-fil .pj-page {
+    max-width: 640px;
+    min-height: 0;
+    padding: 56px 20px 40px;
+    overflow: visible;
+    background: transparent;
+  }
+
+  /* The thread sits next to its fiche: no back button, its title is the fiche's (kept for screen readers) */
+  .espace-fil .pj-retour {
+    display: none;
+  }
+
+  .espace-fil .pj-titre {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .espace-fil .pj-sous {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    margin: 0 0 12px;
+    color: var(--vert);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .espace-vide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    padding: 40px;
+    color: var(--gris);
+    text-align: center;
+  }
+
+  .espace-vide p {
+    max-width: 380px;
+    margin: 0;
+    font-size: 17px;
+  }
+
+  /* Medium width: the list folds away while a fiche is open (its back arrow or the sidebar brings it back) */
+  .espace-projets.avec-liste.avec-fiche {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .avec-liste.avec-fiche .espace-liste {
+    display: none;
+  }
+
+  /* Her desktop width for the dashboard and the data sources (was .avec-sidebar .screen) */
+  .coquille .dashboard,
+  .coquille .sources {
+    max-width: 1000px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  /* Map screens: the explorer card and list stay readable on a wide pane */
+  .coquille .ex-fiche {
+    right: auto;
+    width: min(440px, calc(100% - 16px));
+  }
+
+  .coquille .ex-liste ul {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+/* Wide screens: list | fiche | fil, three columns that scroll on their own */
+@media (min-width: 1280px) {
+  .espace-projets.avec-liste.avec-fiche {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .avec-liste.avec-fiche .espace-liste {
+    display: block;
+  }
+}

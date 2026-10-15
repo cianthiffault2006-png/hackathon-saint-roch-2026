@@ -111,21 +111,64 @@ function choisirType(tags: Tag[], themes: Theme[], sansExposition = false, secur
   return 'atelier';
 }
 
-export function titre(type: TypeProjet, nomHote: string): string {
+/** Début du titre de chaque type de projet. */
+const DEBUT: Record<TypeProjet, string> = {
+  exposition: 'Exposition collaborative', spectacle: 'Soirée spectacle', atelier: 'Atelier ouvert',
+  marche_ephemere: 'Marché éphémère', animation_de_rue: 'Animation de rue', verdissement: 'Projet de verdissement',
+  conference: 'Conférence', collecte: 'Collecte communautaire', corvee_proprete: 'Corvée de propreté',
+};
+/** Types qui se passent « chez » l'hôte; les autres se font « avec » lui. */
+const CHEZ: TypeProjet[] = ['exposition', 'spectacle', 'atelier', 'marche_ephemere', 'conference'];
+
+// Genre du premier mot d'un nom de lieu public (Données Québec, SIT): « au Centre… », « à la Salle… ».
+const MASCULINS = [
+  'centre', 'jardin', 'parc', 'pavillon', 'theatre', 'musee', 'complexe', 'carre', 'espace', 'studio', 'cinema',
+  'stade', 'marche', 'quai', 'square', 'local', 'atelier', 'edifice', 'hotel', 'institut', 'college', 'cegep',
+  'amphitheatre', 'auditorium', 'bar', 'cafe', 'club', 'chalet', 'belvedere', 'boise', 'terrain', 'sentier',
+  'entrepot', 'carrefour', 'palais', 'manege', 'observatoire', 'stationnement', 'monastere', 'presbytere', 'lieu',
+];
+const FEMININS = [
+  'bibliotheque', 'salle', 'place', 'maison', 'eglise', 'ecole', 'galerie', 'marina', 'universite', 'patinoire',
+  'piscine', 'halte', 'chapelle', 'cooperative', 'cour', 'terrasse', 'plage', 'promenade', 'gare', 'caserne',
+  'mediatheque', 'colonne', 'agora', 'arena',
+];
+// Mots en h muet: on élide (« à l'Hôtel de ville »); les autres h sont aspirés (« à la Halte »).
+const H_MUET = ['hotel', 'hopital'];
+const sansAccent = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+/**
+ * « à » devant un nom de lieu public, avec élision et contraction : « au Centre Materia », « à la Salle Dauphine »,
+ * « à l’Université… », « aux Jardins… », « au Lieu… » (Le), « aux Ateliers… » (Les), « à La Bordée », « à L’Anti Bar ».
+ * null quand le genre est inconnu (nom propre seul, sigle).
+ */
+export function aLieu(nom: string): string | null {
+  const n = nom.trim().replace(/'/g, '’');
+  if (/^le\s/i.test(n)) return `au ${n.replace(/^le\s+/i, '')}`;
+  if (/^les\s/i.test(n)) return `aux ${n.replace(/^les\s+/i, '')}`;
+  if (/^(la\s|l’)/i.test(n)) return `à ${n}`;
+  const mot = sansAccent(n.split(/[\s,-]/)[0] ?? '');
+  const pluriel = /[sx]$/.test(mot) && !MASCULINS.includes(mot) && !FEMININS.includes(mot);
+  const base = pluriel ? mot.slice(0, -1) : mot;
+  const genre = MASCULINS.includes(base) ? 'm' : FEMININS.includes(base) ? 'f' : null;
+  if (!genre) return null;
+  if (pluriel) return `aux ${n}`;
+  if (/^[aeiouy]/.test(base) || H_MUET.includes(base)) return `à l’${n}`;
+  return genre === 'm' ? `au ${n}` : `à la ${n}`;
+}
+
+/** Lieu public dont on ne peut pas accorder le nom. */
+export const AU_LIEU_PUBLIC = 'au lieu public proposé';
+
+/**
+ * Titre d'une proposition. `lieuPublic`: l'hôte est un lieu public des données ouvertes (pas une entreprise),
+ * donc jamais « chez » ni « avec » : « Soirée spectacle au Centre Materia ».
+ */
+export function titre(type: TypeProjet, nomHote: string, lieuPublic = false): string {
+  if (lieuPublic) return `${DEBUT[type]} ${aLieu(nomHote) ?? AU_LIEU_PUBLIC}`;
+  if (!CHEZ.includes(type)) return `${DEBUT[type]} avec ${nomHote}`;
   // « Chez Untel » est déjà un « chez »: on n'en ajoute pas un deuxième.
-  const hote = /^chez\s/i.test(nomHote.trim()) ? nomHote.trim() : null;
-  const chez = (debut: string) => (hote ? `${debut} ${hote}` : `${debut} chez ${nomHote}`);
-  switch (type) {
-    case 'exposition': return chez('Exposition collaborative');
-    case 'spectacle': return chez('Soirée spectacle');
-    case 'atelier': return chez('Atelier ouvert');
-    case 'marche_ephemere': return chez('Marché éphémère');
-    case 'animation_de_rue': return `Animation de rue avec ${nomHote}`;
-    case 'verdissement': return `Projet de verdissement avec ${nomHote}`;
-    case 'conference': return chez('Conférence');
-    case 'collecte': return `Collecte communautaire avec ${nomHote}`;
-    case 'corvee_proprete': return `Corvée de propreté avec ${nomHote}`;
-  }
+  const hote = nomHote.trim();
+  return /^chez\s/i.test(hote) ? `${DEBUT[type]} ${hote}` : `${DEBUT[type]} chez ${nomHote}`;
 }
 
 const APPORT_TYPE: Record<TypeProjet, string> = {
@@ -331,7 +374,7 @@ export const proposerAu = (
     if (corvee && equipe && equipe.verifie === 'ville') equipeVerifiee.set(idProp, besoin.themes.every((t) => equipe.themes.includes(t)) ? 2 : 1);
     return {
       id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
-      titre: titre(type, hoteNom),
+      titre: titre(type, hoteNom, !corvee && !hoteProfil && !!lieu),
       type,
       partenaires,
       lieuId: lieu?.id,

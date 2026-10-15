@@ -929,6 +929,7 @@ body {
 
 .progres {
   color: var(--cta);
+  white-space: nowrap; /* « 0/6 points vérifiés » moves to the next line as a whole */
 }
 
 .champ {
@@ -1262,4 +1263,225 @@ body {
   left: auto;
   right: 8px;
   bottom: 34px;
+}
+
+/* ================================
+   SIDEBAR - MAILLAGE
+   ================================ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 1px solid #dde7e0;
+  z-index: 12;
+  padding: 24px 14px;
+  overflow-y: auto;
+}
+
+.sidebar-entete {
+  padding: 8px 12px 30px;
+}
+
+.sidebar-logo {
+  font-size: 27px;
+  font-weight: 800;
+  color: var(--vert);
+  letter-spacing: -0.5px;
+}
+
+.sidebar-entete p {
+  margin: 4px 0 0;
+  color: var(--gris);
+  font-size: 13px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-lien {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--texte);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sidebar-lien:hover {
+  background: var(--vert-pale);
+}
+
+.sidebar-lien-actif {
+  background: var(--vert-pale);
+  color: var(--vert-fonce);
+}
+
+.sidebar-icone {
+  width: 24px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 22px;
+}
+
+.sidebar-compteur {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--vert);
+  color: white;
+  font-size: 12px;
+}
+
+.sidebar-bas {
+  margin-top: auto;
+  padding: 20px 12px 4px;
+  color: var(--gris);
+  font-size: 12px;
+}
+
+/* Placement, desktop-only display (900 px and up) and the tour state: src/layout/bureau.css.
+   The phone has no sidebar, so its screens stay exactly as they were. */
+
+
+/* ================================
+   TABLEAU DE BORD PERSONNEL
+   ================================ */
+
+.dashboard {
+  padding-top: 64px;
+}
+
+.dashboard-entete h1 {
+  margin: 0 0 8px;
+  color: var(--vert);
+  font-size: 30px;
+}
+
+.dashboard-entete p {
+  margin: 0 0 28px;
+  color: var(--gris);
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid #dde7e0;
+  border-radius: var(--rayon);
+}
+
+.dashboard-stat span {
+  color: var(--gris);
+  font-size: 14px;
+}
+
+.dashboard-stat strong {
+  color: var(--vert);
+  font-size: 32px;
+}
+
+.dashboard-section {
+  margin-top: 36px;
+}
+
+.dashboard-section-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dashboard-section-entete h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.dashboard-lien {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--vert);
+  font-weight: 700;
+  text-decoration: underline;
+  text-align: left;
+}
+
+.dashboard-projets {
+  display: grid;
+  gap: 14px;
+}
+
+.dashboard-carte-projet,
+.dashboard-vide {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid #dde7e0;
+  border-radius: var(--rayon);
+}
+
+.dashboard-carte-haut {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dashboard-carte-haut h3 {
+  margin: 0;
+  font-size: 17px;
+  color: var(--vert);
+}
+
+.dashboard-carte-projet p,
+.dashboard-vide p {
+  color: var(--gris);
+}
+
+.dashboard-vide .btn {
+  max-width: 340px;
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats {
+    gap: 10px;
+  }
+
+  .dashboard-stat {
+    padding: 14px;
+  }
+
+  .dashboard-stat strong {
+    font-size: 27px;
+  }
+
+  .dashboard-carte-projet {
+    padding: 16px;
+  }
 }

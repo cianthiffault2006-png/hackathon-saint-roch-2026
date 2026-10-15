@@ -970,7 +970,7 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },
@@ -1063,7 +1063,7 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },
@@ -1154,7 +1154,7 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },
@@ -1243,7 +1243,7 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },
@@ -1334,7 +1334,7 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },
@@ -1424,7 +1424,7 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": false,
+  "reclame": true,
   "verifie": "non",
   "contactPublic": false
  },

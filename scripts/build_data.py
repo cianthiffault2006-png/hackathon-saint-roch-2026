@@ -124,7 +124,9 @@ for i, d in enumerate(D):
     if pt is None:
         pt = rest[used]
         used += 1
-    reclame = True if (id_.startswith("story") or id_ in ("p-proprete", "p-sofia")) else (i % 3 != 0)
+    deja_reclame = True if (id_.startswith("story") or id_ in ("p-proprete", "p-sofia")) else (i % 3 != 0)
+    # A citizen is in Maillage only if they signed up themselves: never pre-filled.
+    reclame = deja_reclame or role == "citoyen"
     if role == "commerce":
         verifie = "non" if (org == ENT and i % 4 == 0) else "sdc"
     elif role == "organisme":
@@ -132,7 +134,7 @@ for i, d in enumerate(D):
     else:
         verifie = "non"
     contact = False
-    if reclame:
+    if deja_reclame:  # contact opt-in sequence unchanged; newly claimed citizens keep contactPublic False
         n_claimed += 1
         contact = n_claimed % 2 == 1
     profils.append(dict(id=id_, role=role, sousType=st, nom=nom, description=desc, lat=round(pt[1], 6), lng=round(pt[0], 6),

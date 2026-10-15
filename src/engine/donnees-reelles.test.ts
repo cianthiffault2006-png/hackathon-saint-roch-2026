@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { Besoin, Evenement, Lieu, Profil } from '../types.ts';
 import { proposerAu } from './proposer.ts';
 import { choixDepuisTexte, construireBesoin } from '../lib/besoin.ts';
+import { fr } from '../i18n/fr.ts';
 
 // Lecture des fichiers réels (pas de types node dans tsconfig.app: import.meta.glob de Vite).
 const brut = import.meta.glob('../../public/data/*.json', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
@@ -88,6 +89,24 @@ describe('proposer sur public/data: corvée de propreté', () => {
     expect(res[0].titre).toBe('Corvée de propreté avec Équipe Propreté du Faubourg');
     expect(res[0].type).toBe('corvee_proprete');
     expect(res[0].partenaires.map((x) => x.profilId)).toContain('p-proprete');
-    expect(res[0].raisons.join(' | ')).toMatch(/À pied de vous : .*Équipe Propreté du Faubourg à \d+ minutes?/);
+    expect(res[0].raisons.join(' | ')).toMatch(/Depuis chez vous, à pied : .*Équipe Propreté du Faubourg à \d+ minutes?/);
+  });
+});
+
+describe('visite guidée: phrase du café', () => {
+  const profils = lire<Profil[]>('profils.json');
+  const texte = fr.visite.texteCafe;
+  const choix = choixDepuisTexte('commerce', texte, profils);
+  const besoin = construireBesoin('commerce', texte, profils, choix);
+  const res = proposerAu(besoin, profils, lire<Lieu[]>('lieux.json'), lire<Evenement[]>('evenements.json'), new Date('2026-10-15T12:00:00'));
+  const nom = (id: string) => profils.find((p) => p.id === id)?.nom;
+  it('pastilles: offre espace intérieur, cherche animation, semaine soir', () => {
+    expect(choix.offre).toEqual(['espace_interieur']);
+    expect(choix.cherche).toEqual(['animation']);
+    expect(choix.creneaux).toEqual(['semaine_soir']);
+  });
+  it('87 % avec Camille Vézina et Collectif Les Voisins en Scène', () => {
+    expect(res[0].score).toBe(87);
+    expect(res[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
   });
 });

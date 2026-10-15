@@ -209,7 +209,7 @@ export const fr = {
     titre: 'Visite guidée',
     fil: 'Le fil du projet : participants, mises à jour et discussion.',
     finTitre: 'Maillage : les ressources du quartier, enfin connectées',
-    texteCafe: 'Je suis un café de Saint-Roch. Je cherche un artiste pour exposer sur mon mur le jeudi soir.',
+    texteCafe: 'On a un espace libre le jeudi soir et on cherche des artistes pour l’animer',
     suivant: 'Suivant',
     precedent: 'Précédent',
     quitter: 'Quitter la visite',

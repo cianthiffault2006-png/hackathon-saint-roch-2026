@@ -51,7 +51,11 @@ const minTxt = (m: number) => `${minutes(m)} minute${minutes(m) > 1 ? 's' : ''}`
 const inter = <T,>(a: readonly T[], b: readonly T[]): T[] => a.filter((x) => b.includes(x));
 const sans = <T,>(a: readonly T[], b: readonly T[]): T[] => a.filter((x) => !b.includes(x));
 const uniq = <T,>(a: readonly T[]): T[] => [...new Set(a)];
-const lib = (tags: Tag[]) => tags.map((t) => LIBELLE[t]).join(' et ');
+/** « a », « a et b », « a, b et c ». */
+export const enumerer = (xs: string[]): string =>
+  xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} et ${xs[xs.length - 1]}`;
+const lib = (tags: Tag[]) => enumerer(tags.map((t) => LIBELLE[t]));
+const QUI_ACTIVE: Record<Profil['role'], string> = { citoyen: 'la personne', commerce: 'le commerce', organisme: 'l’organisme' };
 
 interface Cand {
   p: Profil;
@@ -107,17 +111,20 @@ function choisirType(tags: Tag[], themes: Theme[], sansExposition = false, secur
   return 'atelier';
 }
 
-function titre(type: TypeProjet, hote: string): string {
+export function titre(type: TypeProjet, nomHote: string): string {
+  // « Chez Untel » est déjà un « chez »: on n'en ajoute pas un deuxième.
+  const hote = /^chez\s/i.test(nomHote.trim()) ? nomHote.trim() : null;
+  const chez = (debut: string) => (hote ? `${debut} ${hote}` : `${debut} chez ${nomHote}`);
   switch (type) {
-    case 'exposition': return `Exposition collaborative chez ${hote}`;
-    case 'spectacle': return `Soirée spectacle chez ${hote}`;
-    case 'atelier': return `Atelier ouvert chez ${hote}`;
-    case 'marche_ephemere': return `Marché éphémère chez ${hote}`;
-    case 'animation_de_rue': return `Animation de rue avec ${hote}`;
-    case 'verdissement': return `Projet de verdissement avec ${hote}`;
-    case 'conference': return `Conférence chez ${hote}`;
-    case 'collecte': return `Collecte communautaire avec ${hote}`;
-    case 'corvee_proprete': return `Corvée de propreté avec ${hote}`;
+    case 'exposition': return chez('Exposition collaborative');
+    case 'spectacle': return chez('Soirée spectacle');
+    case 'atelier': return chez('Atelier ouvert');
+    case 'marche_ephemere': return chez('Marché éphémère');
+    case 'animation_de_rue': return `Animation de rue avec ${nomHote}`;
+    case 'verdissement': return `Projet de verdissement avec ${nomHote}`;
+    case 'conference': return chez('Conférence');
+    case 'collecte': return `Collecte communautaire avec ${nomHote}`;
+    case 'corvee_proprete': return `Corvée de propreté avec ${nomHote}`;
   }
 }
 
@@ -278,14 +285,14 @@ export const proposerAu = (
     const rComp: string[] = [];
     for (const m of membres) {
       const cr = inter(communs, m.p.creneaux)[0] ?? creneau;
-      if (m.comp.length) rComp.push(`${m.p.nom} offre ${m.comp.map((t) => LIBELLE[t]).join(' et ')} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
+      if (m.comp.length) rComp.push(`${m.p.nom} offre ${lib(m.comp)} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
     }
     const rev = membres.filter((m) => m.rev.length);
     const rRev = rev.length
-      ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond à ce que ${rev.length > 1 ? 'cherchent' : 'cherche'} ${rev.map((m) => m.p.nom).join(' et ')}`]
+      ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond à ce que ${rev.length > 1 ? 'cherchent' : 'cherche'} ${enumerer(rev.map((m) => m.p.nom))}`]
       : [];
     const avecDist = membres.filter((m) => m.dist !== undefined);
-    const rDist = avecDist.length ? [`À pied de vous : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
+    const rDist = avecDist.length ? [`Depuis chez vous, à pied : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
     const rLieu: string[] = [];
     if (lieuRemplace) {
       rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n’offre d’espace)`);
@@ -316,7 +323,7 @@ export const proposerAu = (
       'Accessibilité du lieu pour tous',
       ...(proches.length ? [`Éviter le chevauchement avec : ${proches.map((e) => e.titre).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
-      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : l’organisme doit d’abord activer son profil`),
+      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : ${QUI_ACTIVE[m.p.role]} doit d’abord activer son profil`),
     ];
 
     const idProp = `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`;

@@ -117,6 +117,17 @@ export function badgeReclamation(p: Pick<Profil, 'verifie'>): BadgeReclamation |
   return p.verifie === 'sdc' ? 'sdc' : p.verifie === 'ville' ? 'ville' : null
 }
 
+export type EtapeReclamation = 'choix' | 'code' | 'profil' | 'visibilite' | 'fait' | 'courriel' | 'envoye'
+export const ETAPES_AVEC_LIEN: EtapeReclamation[] = ['choix', 'code', 'profil', 'visibilite', 'fait']
+export const ETAPES_SANS_LIEN: EtapeReclamation[] = ['choix', 'courriel', 'envoye']
+/** On no list (verifie 'non'): no link exists, so no choice step and no way back to it. */
+export const ETAPES_HORS_LISTE: EtapeReclamation[] = ['courriel', 'envoye']
+
+/** The steps a profile starts with: the link/no-link choice when a list vouches for it, else the no-link path only. */
+export function etapesInitiales(p: Pick<Profil, 'verifie'>): EtapeReclamation[] {
+  return badgeReclamation(p) ? ETAPES_AVEC_LIEN : ETAPES_HORS_LISTE
+}
+
 /** Pre-filled business or organisation with no active local claim (a pending request still counts as not claimed). */
 export function estReclamable(p: Profil, r: Reclames = {}): boolean {
   return p.role !== 'citoyen' && !p.reclame && r[p.id]?.statut !== 'active'

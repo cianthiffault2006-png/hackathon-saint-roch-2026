@@ -69,11 +69,11 @@ export default function App() {
     sauverProjets(projets)
   }, [projets])
 
-  // The tour runs the café story through the same engine and the same screens.
+  // The tour runs the café story through the same engine and the same screens, on the raw data: local claims never change it.
   const propositionsVisite = useMemo(() => {
-    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, donnees.profils))
-    return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
-  }, [donnees])
+    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, brutes.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, brutes.profils))
+    return proposer(besoin, brutes.profils, brutes.lieux, brutes.evenements)
+  }, [brutes])
 
   // A throwaway project for the tour: never saved, never mixed with the viewer's own projects.
   const projetVisite = useMemo(() => {

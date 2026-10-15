@@ -9,6 +9,7 @@ import {
   courrielValide,
   ecrireReclames,
   estReclamable,
+  etapesInitiales,
   lireReclames,
   rechercherAReclamer,
   sansReclamation,
@@ -98,6 +99,21 @@ describe('badge from verifie', () => {
     expect(badgeReclamation({ verifie: 'ville' })).toBe('ville')
     expect(badgeReclamation({ verifie: 'non' })).toBeNull()
     expect(badgeReclamation({})).toBeNull()
+  })
+})
+
+describe('claim path from verifie', () => {
+  it('a listed profile starts with the link / no-link choice', () => {
+    expect(etapesInitiales({ verifie: 'sdc' })[0]).toBe('choix')
+    expect(etapesInitiales({ verifie: 'ville' })).toContain('code')
+  })
+  it('a profile on no list gets the no-link path only, with no choice step to go back to', () => {
+    for (const v of [{ verifie: 'non' as const }, {}]) {
+      const etapes = etapesInitiales(v)
+      expect(etapes).toEqual(['courriel', 'envoye'])
+      expect(etapes).not.toContain('choix')
+      expect(etapes).not.toContain('code')
+    }
   })
 })
 

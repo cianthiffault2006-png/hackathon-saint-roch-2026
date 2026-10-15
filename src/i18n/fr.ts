@@ -99,6 +99,7 @@ export const fr = {
       verdissement: 'Verdissement',
       conference: 'Conférence',
       collecte: 'Collecte',
+      corvee_proprete: 'Corvée de propreté',
     },
     precedente: 'Proposition précédente',
     suivante: 'Proposition suivante',
@@ -216,6 +217,8 @@ export const fr = {
       fiche: 'Le projet devient une fiche : date proposée, lieu, partenaires.',
       coches: 'Une liste de points à confirmer, à cocher un à un.',
       projets: 'Tous vos projets au même endroit.',
+      histoire2: 'Sofia, résidente de la rue Saint-Joseph, voit des graffitis et des déchets. Maillage lui propose une corvée de propreté avec Équipe Propreté du Faubourg, des bénévoles et un café du coin.',
+      histoire2Liste: 'À confirmer : autorisation du propriétaire; 311 pour la voie publique.',
     },
   },
 

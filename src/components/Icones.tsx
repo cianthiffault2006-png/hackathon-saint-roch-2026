@@ -43,6 +43,18 @@ export function PinForme({ nom, taille = 24 }: { nom: NomIcone; taille?: number 
   return <span className="forme" aria-hidden="true" dangerouslySetInnerHTML={{ __html: svgPin(nom, taille) }} />
 }
 
+/** The loop mark (logo): two stitches closing a loop, with a brick knot. Decorative, the name sits next to it. */
+export function MarqueBoucle({ taille = 40 }: { taille?: number }) {
+  return (
+    <svg className="marque-boucle" width={taille} height={taille} viewBox="0 0 40 40" fill="none" aria-hidden="true" style={{ stroke: 'var(--vert)' }} strokeWidth="3" strokeLinecap="round">
+      <path d="M8 26c0-9 6-14 12-14s12 5 12 14" />
+      <path d="M4 18c0 9 6 14 12 14" />
+      <path d="M36 18c0 9-6 14-12 14" />
+      <circle cx="20" cy="12" r="2.2" style={{ fill: 'var(--brique)' }} stroke="none" />
+    </svg>
+  )
+}
+
 export function svgIcone(nom: NomIcone, taille = 20): string {
   return `<svg width="${taille}" height="${taille}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CHEMINS[nom]}</svg>`
 }

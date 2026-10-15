@@ -82,6 +82,7 @@ export const fr = {
   },
 
   proposition: {
+    autresOptions: 'Voir d’autres options',
     titre: 'Votre projet à trois',
     nombreTrouvees: (n: number) => (n === 1 ? '1 proposition trouvée' : `${n} propositions trouvées`),
     pourquoi: 'Pourquoi cette suggestion',

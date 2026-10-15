@@ -60,6 +60,11 @@
     animation: tiroir-entree 0.2s ease-out both;
   }
 
+  /* Explorer's top row reaches the right edge: keep room for the menu button */
+  .ex-ligne {
+    padding-right: 52px;
+  }
+
   .sidebar-ouverte .sidebar-lien {
     min-height: 44px;
   }
@@ -78,4 +83,17 @@
   .coquille .sidebar.sidebar-ouverte {
     animation: none;
   }
+}
+
+/* Proposal sheet after « Ça m’intéresse »: two secondary ways out */
+.liens-apres-interet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  margin-top: 8px;
+}
+
+.liens-apres-interet .btn {
+  min-height: 44px;
 }

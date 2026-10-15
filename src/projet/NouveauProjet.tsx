@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { Contribution, Creneau, Evenement, Lieu, Profil, Proposition, Tag, TypeProjet } from '../types'
+import type { Contribution, Creneau, Evenement, Lieu, Profil, Proposition, Tag, Theme, TypeProjet } from '../types'
 import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
@@ -19,10 +19,30 @@ const TYPES = Object.keys(fr.proposition.typesProjet) as TypeProjet[]
 const LIBELLE_TYPE: Record<TypeProjet, string> = fr.proposition.typesProjet
 const CENTRE = { lat: 46.8165, lng: -71.2214 } // Saint-Roch, only when no place or profile is known
 
+const THEMES_TYPE: Record<TypeProjet, Theme[]> = {
+  exposition: ['art', 'culture'],
+  spectacle: ['culture', 'art'],
+  atelier: ['jeunesse', 'communautaire', 'art'],
+  marche_ephemere: ['commerce_local', 'alimentation'],
+  animation_de_rue: ['communautaire', 'culture'],
+  verdissement: ['environnement'],
+  conference: ['communautaire', 'etudiants'],
+  collecte: ['communautaire', 'environnement'],
+  corvee_proprete: ['environnement', 'securite'],
+}
+
 const rad = (d: number) => (d * Math.PI) / 180
 function distanceM(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2
   return 2 * 6371000 * Math.asin(Math.sqrt(h))
+}
+
+function pertinence(p: Profil, type: TypeProjet): number {
+  let pts = 0
+  if (p.themes.some((x) => THEMES_TYPE[type].includes(x))) pts += 3
+  if (p.verifie === 'ville' || p.verifie === 'sdc') pts += 2
+  if (p.reclame) pts += 1
+  return pts
 }
 
 export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }: Props) {
@@ -35,7 +55,9 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }:
   const [cherche, setCherche] = useState(false)
   const [invites, setInvites] = useState<Record<string, Tag[]>>({})
   const [erreur, setErreur] = useState('')
+  const [proposeurId, setProposeurId] = useState('')
 
+  const lieuxUtiles = useMemo(() => lieux.filter((l) => l.offres.length > 0), [lieux])
   const lieu = lieux.find((l) => l.id === lieuId)
   const ref = lieu ?? moi ?? CENTRE
   const danger = mentionneDanger(`${titre} ${description}`)
@@ -45,18 +67,19 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }:
     const res = {} as Record<Tag, { profil: Profil; m: number }[]>
     for (const tag of roles) {
       res[tag] = profils
-        .filter((p) => p.id !== moi?.id && p.offres.includes(tag))
-        .map((profil) => ({ profil, m: distanceM(profil, ref) }))
-        .sort((a, b) => Number(b.profil.reclame) - Number(a.profil.reclame) || a.m - b.m)
+        .filter((p) => p.id !== moi?.id && p.id !== proposeurId && p.offres.includes(tag))
+        .map((profil) => ({ profil, m: distanceM(profil, ref), pts: pertinence(profil, type) }))
+        .sort((a, b) => b.pts - a.pts || a.m - b.m)
         .slice(0, 3)
     }
     return res
-  }, [roles, profils, moi, ref])
+  }, [roles, profils, moi, proposeurId, type, ref])
 
   function exemple() {
     setTitre(t.exemple.titre)
     setDescription(t.exemple.description)
-    setType('collecte')
+    setType('corvee_proprete')
+    setProposeurId('p-sofia')
     setCreneau('fin_de_semaine')
     setLieuId('')
     setRoles(['benevoles', 'materiel', 'expertise', 'visibilite'])
@@ -140,7 +163,7 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }:
         <label className="pj-champ">{t.nouveau.champLieu}
           <select value={lieuId} onChange={(e) => setLieuId(e.target.value)}>
             <option value="">{t.nouveau.lieuTbd}</option>
-            {lieux.map((l) => <option key={l.id} value={l.id}>{l.nom}</option>)}
+            {lieuxUtiles.map((l) => <option key={l.id} value={l.id}>{l.nom}</option>)}
           </select>
         </label>
 

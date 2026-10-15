@@ -5,7 +5,6 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Role } from '../types'
 import { svgPin } from './Icones'
-import { T } from '../textes'
 
 // The bundler moves the library, so its default worker path breaks: point to the emitted file.
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -103,12 +102,12 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       }
       if (p.evenement?.ouvert) {
         const ligne = document.createElement('div')
-        ligne.textContent = T.evenement.nbPersonnes(p.evenement.inscrits + (p.evenement.inscrit ? 1 : 0))
+        ligne.textContent = fr.evenement.nbPersonnes(p.evenement.inscrits + (p.evenement.inscrit ? 1 : 0))
         contenu.appendChild(ligne)
         const bouton = document.createElement('button')
         bouton.type = 'button'
         bouton.className = 'popup-participe'
-        bouton.textContent = p.evenement.inscrit ? T.evenement.inscritMoi : T.evenement.participe
+        bouton.textContent = p.evenement.inscrit ? fr.evenement.inscritMoi : fr.evenement.participe
         const idEvt = p.evenement.id
         bouton.addEventListener('click', () => participer.current?.(idEvt))
         contenu.appendChild(bouton)
@@ -144,7 +143,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     if (demandeur) {
       const el = document.createElement('div')
       el.className = 'cercle-etiquette'
-      el.textContent = T.carte.cinqMinutes
+      el.textContent = fr.carte.cinqMinutes
       el.setAttribute('aria-hidden', 'true')
       etiquetteCercle = new Marker({ element: el, anchor: 'bottom' }).setLngLat([demandeur.lng, demandeur.lat + 400 / 111320]).addTo(map)
     }

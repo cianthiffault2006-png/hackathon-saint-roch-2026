@@ -1,7 +1,6 @@
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import Icone from '../components/Icones'
 
 interface Props {
@@ -39,12 +38,12 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         </button>
         {onExplorer && (
           <button type="button" className="btn btn-lien" onClick={onExplorer}>
-            {T.accueil.explorer}
+            {fr.accueil.explorer}
           </button>
         )}
         {onProposer && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onProposer}>
-            {T.accueil.proposer}
+            {fr.accueil.proposer}
           </button>
         )}
         {onSdc && (
@@ -54,7 +53,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         )}
         {onSources && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onSources}>
-            Sources des données
+            {fr.sources.titre}
           </button>
         )}
         {onProjets && (

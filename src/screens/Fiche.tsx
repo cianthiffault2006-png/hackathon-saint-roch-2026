@@ -4,7 +4,6 @@ import { libelleDateMaj } from '../lib/date'
 import { lienGoogleAgenda, resumePartage, telechargerIcs } from '../lib/calendrier'
 import { nombreCoches, type Projet } from '../lib/projets'
 import Icone from '../components/Icones'
-import { T } from '../textes'
 
 interface Props {
   projet: Projet
@@ -73,9 +72,9 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
         <Icone nom="lieu" taille={20} />
         <span>{projet.lieuNom || fr.fiche.lieuAConfirmer}</span>
       </p>
-      <p className="fiche-statut">{projet.inscrit ? T.evenement.inscrit : fr.proposition.statuts[projet.statut]}</p>
+      <p className="fiche-statut">{projet.inscrit ? fr.evenement.inscrit : fr.proposition.statuts[projet.statut]}</p>
 
-      <h2 className="sous-titre">{projet.inscrit ? T.evenement.organisateur : projet.partenaires.length === 3 ? fr.proposition.partenaires : `Les ${projet.partenaires.length} partenaires`}</h2>
+      <h2 className="sous-titre">{projet.inscrit ? fr.evenement.organisateur : projet.partenaires.length === 3 ? fr.proposition.partenaires : `Les ${projet.partenaires.length} partenaires`}</h2>
       <ul className="liste-part">
         {projet.partenaires.map((p) => (
           <li key={p.nom} className="partenaire">
@@ -128,20 +127,20 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
         </button>
         {onFil && (
           <button type="button" className="btn btn-lien" onClick={onFil}>
-            {T.fiche.ouvrirFil}
+            {fr.fiche.ouvrirFil}
           </button>
         )}
         {onRetirer && !confirmerRetrait && (
           <button type="button" className="btn btn-texte btn-retirer" onClick={() => setConfirmerRetrait(true)}>
-            {projet.inscrit ? T.retirer.boutonEvenement : T.retirer.bouton}
+            {projet.inscrit ? fr.retirer.boutonEvenement : fr.retirer.bouton}
           </button>
         )}
         {onRetirer && confirmerRetrait && (
-          <div className="confirmation" role="alertdialog" aria-label={T.retirer.bouton}>
-            <p>{projet.inscrit ? T.retirer.questionEvenement : T.retirer.question}</p>
+          <div className="confirmation" role="alertdialog" aria-label={fr.retirer.bouton}>
+            <p>{projet.inscrit ? fr.retirer.questionEvenement : fr.retirer.question}</p>
             <div className="confirmation-actions">
-              <button type="button" className="btn btn-danger" onClick={onRetirer}>{T.retirer.confirmer}</button>
-              <button type="button" className="btn btn-lien" onClick={() => setConfirmerRetrait(false)}>{T.retirer.annuler}</button>
+              <button type="button" className="btn btn-danger" onClick={onRetirer}>{fr.retirer.confirmer}</button>
+              <button type="button" className="btn btn-lien" onClick={() => setConfirmerRetrait(false)}>{fr.retirer.annuler}</button>
             </div>
           </div>
         )}

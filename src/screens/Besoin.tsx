@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { choixDepuisTexte, construireBesoin, trouverAsker } from '../lib/besoin'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
@@ -73,7 +72,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
       <h1 className="sr-only">{fr.besoin.titre}</h1>
       {partenaireVoulu && (
         <p className="profil-ligne">
-          {T.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen·ne' : partenaireVoulu.nom}</strong>
+          {fr.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen·ne' : partenaireVoulu.nom}</strong>
         </p>
       )}
       {asker && (

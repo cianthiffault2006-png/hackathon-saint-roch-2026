@@ -60,6 +60,8 @@ export const fr = {
       sport: 'Sport',
       alimentation: 'Alimentation',
     },
+    jOffre: 'J’offre',
+    jeCherche: 'Je cherche',
     bouton: 'Trouver des partenaires',
     boutonRetour: 'Retour',
     compris: 'Nous avons compris :',
@@ -93,6 +95,8 @@ export const fr = {
       conference: 'Conférence',
       collecte: 'Collecte',
     },
+    precedente: 'Proposition précédente',
+    suivante: 'Proposition suivante',
     interet: 'Ça m’intéresse',
     statuts: {
       proposee: 'Proposition',
@@ -111,6 +115,7 @@ export const fr = {
   },
 
   profil: {
+    tagNonReclame: 'Profil pré-rempli',
     nonReclame: 'Ce profil a été pré-rempli à partir de répertoires de la Ville. Il reste caché tant que son propriétaire ne l’a pas réclamé.',
     reclamer: 'Réclamer ce profil',
     pasAffiche: 'Profil non réclamé : non affiché.',

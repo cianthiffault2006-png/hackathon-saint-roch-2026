@@ -13,7 +13,8 @@
    "culture",
    "commerce_local"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-02",
@@ -28,7 +29,9 @@
   "themes": [
    "culture"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 35
  },
  {
   "id": "ev-03",
@@ -44,7 +47,9 @@
    "alimentation",
    "commerce_local"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 60
  },
  {
   "id": "ev-04",
@@ -60,7 +65,8 @@
    "culture",
    "art"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-05",
@@ -76,7 +82,9 @@
    "environnement",
    "communautaire"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 45
  },
  {
   "id": "ev-06",
@@ -92,7 +100,8 @@
    "art",
    "culture"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-07",
@@ -108,7 +117,9 @@
    "alimentation",
    "communautaire"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 80
  },
  {
   "id": "ev-08",
@@ -124,7 +135,8 @@
    "etudiants",
    "jeunesse"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-09",
@@ -140,7 +152,9 @@
    "culture",
    "communautaire"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 70
  },
  {
   "id": "ev-10",
@@ -156,7 +170,9 @@
    "art",
    "commerce_local"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 140
  },
  {
   "id": "ev-11",
@@ -172,7 +188,9 @@
    "jeunesse",
    "culture"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 25
  },
  {
   "id": "ev-12",
@@ -188,7 +206,9 @@
    "sport",
    "jeunesse"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 95
  },
  {
   "id": "ev-13",
@@ -203,21 +223,23 @@
   "themes": [
    "communautaire"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-14",
   "titre": "Soirée d'accueil des nouveaux résidents",
   "lieuNom": "Salle communautaire",
-  "lat": 46.81706,
-  "lng": -71.236183,
+  "lat": 46.810943,
+  "lng": -71.225634,
   "debut": "2026-11-05T18:00:00",
   "fin": "2026-11-05T20:00:00",
   "categorie": "accueil",
   "themes": [
    "communautaire"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  },
  {
   "id": "ev-15",
@@ -233,7 +255,44 @@
    "culture",
    "art"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
+ },
+ {
+  "id": "ev-17",
+  "titre": "Corvée de propreté de la rue Saint-Joseph",
+  "promoteurId": "p-proprete",
+  "lieuNom": "Départ du local de l'Équipe Propreté",
+  "lat": 46.813332,
+  "lng": -71.228968,
+  "debut": "2026-11-01T10:00:00",
+  "fin": "2026-11-01T12:30:00",
+  "categorie": "corvée",
+  "themes": [
+   "environnement",
+   "securite"
+  ],
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 38
+ },
+ {
+  "id": "ev-18",
+  "titre": "Plantation de bulbes et ruelle verte",
+  "promoteurId": "p-comitevert",
+  "lieuNom": "Local du Comité vert",
+  "lat": 46.813652,
+  "lng": -71.227551,
+  "debut": "2026-11-08T10:00:00",
+  "fin": "2026-11-08T13:00:00",
+  "categorie": "verdissement",
+  "themes": [
+   "environnement",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "ouvertAuPublic": true,
+  "inscrits": 12
  },
  {
   "id": "ev-16",
@@ -249,6 +308,7 @@
    "art",
    "culture"
   ],
-  "source": "fictif"
+  "source": "fictif",
+  "ouvertAuPublic": false
  }
 ]

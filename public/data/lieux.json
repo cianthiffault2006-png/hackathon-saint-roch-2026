@@ -382,8 +382,8 @@
   "id": "morris-1",
   "nom": "Colonne Morris fictive 1",
   "type": "colonne_morris",
-  "lat": 46.813332,
-  "lng": -71.228968,
+  "lat": 46.810399,
+  "lng": -71.227536,
   "offres": [
    "affichage",
    "visibilite"
@@ -395,8 +395,8 @@
   "id": "morris-2",
   "nom": "Colonne Morris fictive 2",
   "type": "colonne_morris",
-  "lat": 46.81596,
-  "lng": -71.222069,
+  "lat": 46.819353,
+  "lng": -71.220897,
   "offres": [
    "affichage",
    "visibilite"
@@ -408,8 +408,8 @@
   "id": "morris-3",
   "nom": "Colonne Morris fictive 3",
   "type": "colonne_morris",
-  "lat": 46.810399,
-  "lng": -71.227536,
+  "lat": 46.814711,
+  "lng": -71.227562,
   "offres": [
    "affichage",
    "visibilite"
@@ -421,8 +421,8 @@
   "id": "morris-4",
   "nom": "Colonne Morris fictive 4",
   "type": "colonne_morris",
-  "lat": 46.819353,
-  "lng": -71.220897,
+  "lat": 46.817937,
+  "lng": -71.223381,
   "offres": [
    "affichage",
    "visibilite"
@@ -434,8 +434,8 @@
   "id": "morris-5",
   "nom": "Colonne Morris fictive 5",
   "type": "colonne_morris",
-  "lat": 46.814711,
-  "lng": -71.227562,
+  "lat": 46.81706,
+  "lng": -71.236183,
   "offres": [
    "affichage",
    "visibilite"
@@ -447,8 +447,8 @@
   "id": "morris-6",
   "nom": "Colonne Morris fictive 6",
   "type": "colonne_morris",
-  "lat": 46.817937,
-  "lng": -71.223381,
+  "lat": 46.812296,
+  "lng": -71.229505,
   "offres": [
    "affichage",
    "visibilite"

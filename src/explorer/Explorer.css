@@ -1,0 +1,28 @@
+.ex-racine { position: fixed; inset: 0; background: var(--fond); color: var(--texte); }
+.ex-carte { position: absolute; inset: 0; }
+.ex-carte[hidden] { display: none; }
+.ex-haut { position: absolute; top: 0; left: 0; right: 0; z-index: 5; padding: calc(env(safe-area-inset-top) + 8px) 8px 8px; display: flex; flex-direction: column; gap: 8px; background: linear-gradient(to bottom, rgba(250,247,242,.96) 80%, rgba(250,247,242,0)); }
+.ex-ligne { display: flex; gap: 8px; align-items: center; }
+.ex-recherche { flex: 1; min-width: 0; }
+.ex-recherche input { width: 100%; min-height: 44px; padding: 0 12px; font-size: 16px; border: 2px solid var(--bordure-champ); border-radius: 12px; background: #fff; color: var(--texte); box-sizing: border-box; }
+.ex-btn { min-height: 44px; min-width: 44px; padding: 0 14px; border: 2px solid var(--vert); border-radius: 12px; background: #fff; color: var(--vert); font-size: 15px; font-weight: 600; cursor: pointer; }
+.ex-btn[aria-pressed='true'], .ex-btn-p { background: var(--vert); color: #fff; }
+.ex-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.ex-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px 0 8px; border: 2px solid var(--vert); border-radius: 999px; background: #fff; color: var(--vert); font-size: 15px; cursor: pointer; }
+.ex-chip-on { background: var(--vert); color: #fff; }
+.ex-btn:focus-visible, .ex-chip:focus-visible, .ex-recherche input:focus-visible, .ex-pin:focus-visible, .ex-fermer:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.ex-pin { background: none; border: 0; padding: 0; min-width: 44px; min-height: 44px; display: grid; place-items: center; cursor: pointer; }
+.ex-fiche { position: absolute; z-index: 6; left: 8px; right: 8px; bottom: calc(env(safe-area-inset-bottom) + 28px); display: flex; flex-direction: column; gap: 6px; padding: 16px; background: #fff; border-radius: var(--rayon); box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+.ex-fiche-nom { font-size: 18px; padding-right: 48px; }
+.ex-fermer { position: absolute; top: 4px; right: 4px; width: 44px; height: 44px; border: 0; background: none; font-size: 28px; color: var(--texte); cursor: pointer; }
+.ex-note { color: var(--gris); font-size: 14px; }
+.ex-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.ex-badge { padding: 3px 10px; border-radius: 999px; font-size: 13px; background: var(--orange-pale); color: var(--texte); border: 1px solid var(--bordure-champ); }
+.ex-badge-ok { background: var(--vert-pale); color: var(--vert-fonce); }
+.ex-liste { position: absolute; inset: 0; overflow-y: auto; padding: 150px 12px 24px; }
+.ex-liste ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ex-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; border-radius: 12px; border: 1px solid #d9d4c9; }
+.ex-item-texte { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ex-item-texte span { color: var(--gris); font-size: 14px; }
+.ex-attribution { position: absolute; z-index: 4; left: 8px; bottom: 4px; font-size: 11px; background: rgba(255,255,255,.85); padding: 2px 6px; border-radius: 6px; }
+.ex-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

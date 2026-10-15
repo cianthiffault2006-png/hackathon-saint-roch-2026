@@ -38,10 +38,16 @@ Vite + React + TypeScript. MapLibre GL JS with the OpenFreeMap style `https://ti
 ## Freezes (day 2)
 Pitch Fri Oct 16 14:30 (5 min + 3 min questions). Feature freeze 11:30; code freeze 12:30: tag `v1-pitch`, record the backup video, export slides to PDF, copy to a second laptop and a USB key. After the code freeze, the only change is a revert to the tag and a redeploy: `git checkout v1-pitch && vercel --prod` from L's machine (or revert `main` to the tag and push).
 
-## Data sources used (fill as they are added)
+## Data sources used (full list with notes: `docs/DATA-SOURCES.md`)
 | File | Source dataset | URL | Licence | Pulled on |
 |---|---|---|---|---|
-| | | | | |
+| `data/open/vque_14_lieux_publics.geojson` (+ Saint-Roch extract) | Lieux publics, Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/vque_14 | CC BY 4.0 | 2026-10-15 |
+| `data/open/vque_9_quartiers.geojson` (+ Saint-Roch polygon) | Quartiers, Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/vque_9 | CC BY 4.0 | 2026-10-15 |
+| `data/open/vque_24_reseau_cyclable.geojson` | Réseau cyclable, Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/vque_24 | CC BY 4.0 | 2026-10-15 |
+| `data/open/sit_quebec_hotels_saint_roch.geojson` | Hôtels, SIT Québec (ministère du Tourisme) | https://www.donneesquebec.ca/recherche/dataset/sit-quebec-hotels | CC BY 4.0 | 2026-10-15 |
+| `data/open/sit_quebec_culture_saint_roch.geojson` | Culture, arts et patrimoine, SIT Québec | https://www.donneesquebec.ca/recherche/dataset/sit-quebec-culture-art-et-patrimoine | CC BY 4.0 | 2026-10-15 |
+| profile and event positions | Adresses de la Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/adresses-de-la-ville-de-quebec | CC BY 4.0 | 2026-10-15 |
+| `public/data/profils.json`, `evenements.json`, Morris columns | Fictional rows with the provided files' columns | none | n/a | 2026-10-15 |
 
 ## AI use (also on the last slide and in README)
 Tools: [Claude Code, Claude]. Used for: [coding, data scripts, French copy drafts]. Done by the team itself: [problem framing, interviews, data choices, design decisions, testing, presentation].

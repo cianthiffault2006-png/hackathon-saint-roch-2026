@@ -1,20 +1,23 @@
 # TESTS.md : Maillage, parcours de démo
 
-Production : https://hackathon-saint-roch-2026.vercel.app
+Production (lien officiel, GitHub Pages) : https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/
+Secours : https://hackathon-saint-roch-2026.vercel.app (figé sur une ancienne version sans Explorer, fil ni « Proposer un projet »; peut être périmé).
 Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS/HTML déployé : qa.
 
 ## A. Parcours de démo (obligatoire)
+
+Avant chaque passage sur le téléphone de démo : vider les données du site (réglages du navigateur), puis recharger l'accueil.
 
 | # | Étape | Résultat attendu |
 |---|---|---|
 | 1 | Ouvrir l'accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
 | 2 | Choisir « Commerçant » | Écran Besoin : « Votre profil : Café Le Petit Détour », zone de texte, deux rangées de puces « J’offre » et « Je cherche », puis « Quand » |
-| 3 | Taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Allumés : J’offre : Espace intérieur ; Je cherche : Public ; Quand : Semaine, soir |
+| 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur ; Je cherche : Animation ; Quand : Semaine, soir |
 | 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
-| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée » |
-| 7 | Attendre le 2e changement | Statut : « Projet confirmé (simulé) » (deux changements en tout) |
-| 8 | Retour accueil, « Visite guidée » | Lecture automatique d'environ 47 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
+| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », bouton « Voir ce que Camille reçoit » |
+| 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |
+| 8 | Retour accueil, « Visite guidée » | Lecture automatique d'environ 57 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 
 ## B. Contrôles transversaux
 

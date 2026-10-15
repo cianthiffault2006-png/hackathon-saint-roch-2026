@@ -13,9 +13,10 @@ interface Props {
   actifId?: string | null
   /** Desktop: a fiche is open beside the list, so the list is a section, not the page's main landmark. */
   incrustee?: boolean
+  onDiscuter?: (id: string) => void
 }
 
-export default function Projets({ projets, onRetour, onOuvrir, onRetirer, actifId, incrustee }: Props) {
+export default function Projets({ projets, onRetour, onOuvrir, onRetirer, onDiscuter, actifId, incrustee }: Props) {
   const [aRetirer, setARetirer] = useState<string | null>(null)
   const Balise = incrustee ? 'section' : 'main'
   return (
@@ -38,7 +39,31 @@ export default function Projets({ projets, onRetour, onOuvrir, onRetirer, actifI
                 <span className={`statut-mini statut-${p.statut}`}>{p.inscrit ? fr.evenement.inscrit : fr.proposition.statuts[p.statut]}</span>
                 <span className="carte-projet-ligne">{libelleDateMaj(p)}</span>
                 {p.aConfirmer.length > 0 && <span className="carte-projet-ligne">{fr.fiche.progres(nombreCoches(p), p.aConfirmer.length)}</span>}
-              </button>
+              </button>      
+          {onDiscuter && p.proposition && (
+            <button
+              type="button"
+              className="btn-discussion-projet"
+              onClick={() => onDiscuter(p.id)}
+              aria-label={`Ouvrir la discussion du projet ${p.titre}`}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z" />
+              </svg>
+              Discussion
+            </button>
+          )}
+
               {onRetirer && aRetirer !== p.id && (
                 <button type="button" className="btn btn-texte btn-petit btn-retirer" onClick={() => setARetirer(p.id)}>
                   {p.inscrit ? fr.retirer.boutonEvenement : fr.retirer.bouton}

@@ -55,6 +55,7 @@ export default function App() {
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
+  const [discussionId, setDiscussionId] = useState<string | null>(null)
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
@@ -133,9 +134,21 @@ export default function App() {
   }
 
   function ouvrirFiche(id: string, depuis: Ecran) {
+    setDiscussionId(null)
     setOuvertId(id)
     setRetourFiche(depuis)
     setEcran('fiche')
+  }
+  function ouvrirDiscussion(id: string) {
+    setOuvertId(id)
+    setRetourFiche('projets')
+    setDiscussionId(id)
+
+    if (bureau) {
+      setEcran('fiche')
+    } else {
+      setEcran('fil')
+    }
   }
 
   // « Je participe »: a public event joins the list at once, with no acceptance flow.
@@ -320,6 +333,7 @@ export default function App() {
           onRetour={() => setEcran('accueil')}
           onOuvrir={(id) => ouvrirFiche(id, 'projets')}
           onRetirer={enVisite ? undefined : retirer}
+          onDiscuter={enVisite ? undefined : ouvrirDiscussion}
         />
       )}
       {ecranActif === 'dashboard' && (
@@ -342,6 +356,7 @@ export default function App() {
               onRetour={() => setEcran('accueil')}
               onOuvrir={(id) => ouvrirFiche(id, 'projets')}
               onRetirer={retirer}
+              onDiscuter={ouvrirDiscussion}
             />
           ) : null}
           fiche={ecranActif === 'fiche' && projetAffiche ? (
@@ -356,7 +371,20 @@ export default function App() {
             />
           ) : null}
           fil={filBureau ? (
-            <FilProjet key={idProjet(filBureau.proposition)} proposition={filBureau.proposition} profils={donnees.profils} moi={filBureau.moi} onRetour={() => setEcran('projets')} />
+            
+<FilProjet
+  key={`${idProjet(filBureau.proposition)}-${discussionId === projetAffiche?.id ? 'discussion' : 'normal'}`}
+  proposition={filBureau.proposition}
+  profils={donnees.profils}
+  moi={filBureau.moi}
+  ongletInitial={
+    discussionId === projetAffiche?.id
+      ? 'discussion'
+      : 'participants'
+  }
+  onRetour={() => setEcran('projets')}
+/>
+
           ) : null}
         />
       )}
@@ -398,6 +426,10 @@ export default function App() {
       {ecranActif === 'fil' && filProposition && filMoi && (
         <div className="plein-ecran">
           <FilProjet
+            key={`${idProjet(filProposition)}-${discussionId === ouvertId ? 'discussion' : 'normal'}`}
+            ongletInitial={
+              discussionId === ouvertId ? 'discussion' : 'participants'
+            }
             proposition={filProposition}
             profils={donnees.profils}
             moi={filMoi}

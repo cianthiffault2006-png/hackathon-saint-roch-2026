@@ -2376,3 +2376,27 @@ body:has(.accueil) .badge-demo {
   -webkit-mask-image: linear-gradient(to bottom, transparent calc(env(safe-area-inset-top) + 44px), #000 calc(env(safe-area-inset-top) + 58px));
   mask-image: linear-gradient(to bottom, transparent calc(env(safe-area-inset-top) + 44px), #000 calc(env(safe-area-inset-top) + 58px));
 }
+/* Accès rapide à la discussion depuis Mes projets */
+.btn-discussion-projet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--vert);
+  border-radius: var(--rayon);
+  background: var(--vert-pale);
+  color: var(--vert-fonce);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn-discussion-projet:hover {
+  background: var(--lin);
+}
+
+.btn-discussion-projet svg {
+  flex-shrink: 0;
+}

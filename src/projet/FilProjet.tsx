@@ -13,6 +13,7 @@ interface Props {
   onRetour(): void
   /** Guided tour: the tab shown, and what the Discussion tab shows (the tour's own thread, never saved). */
   visite?: { onglet: Onglet; discussion: React.ReactNode }
+  ongletInitial?: Onglet
 }
 
 export type Onglet = 'participants' | 'maj' | 'discussion'
@@ -40,8 +41,8 @@ function majDepart(noms: string[]): Maj[] {
 }
 const dateCourte = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long' })
 
-export default function FilProjet({ proposition, profils, moi, onRetour, visite }: Props) {
-  const [ongletMoi, setOnglet] = useState<Onglet>('participants')
+export default function FilProjet({ proposition, profils, moi, onRetour, visite,  ongletInitial = 'participants',}: Props) {
+  const [ongletMoi, setOnglet] = useState<Onglet>(ongletInitial)
   const onglet = visite?.onglet ?? ongletMoi
   const cle = cleProjet(proposition)
   const organisateurId = proposition.partenaires[0]?.profilId

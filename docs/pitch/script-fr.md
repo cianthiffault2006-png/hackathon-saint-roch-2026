@@ -55,7 +55,7 @@ Plan B si l’app plante : Cian lance la Visite guidée (environ 57 s, elle rejo
 Diapo 4 (Technologies, outils et données).
 
 « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche.
-Pour la Loi 25 : les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et une position approximative, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. Les fichiers fournis sont confidentiels : la démo utilise des profils fictifs avec les vraies colonnes. »
+Pour la Loi 25 : les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. Les fichiers fournis sont confidentiels : la démo utilise des profils fictifs avec les vraies colonnes. »
 
 Notes (Q&A si on demande) : les nombres sont des totaux de lignes (structure seulement), approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
 

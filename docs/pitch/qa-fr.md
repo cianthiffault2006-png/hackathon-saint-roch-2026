@@ -3,7 +3,7 @@
 Règle : une réponse en 20 secondes, une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer.
 
 ## 1. Et la vie privée, la Loi 25?
-Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et une position approximative, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable. Aucun profil de citoyen n’est publié sans son consentement, on collecte le strict nécessaire et un profil peut être retiré. En déploiement, la SDC ou la Ville serait responsable des renseignements et ferait l’évaluation requise par la Loi 25. Notre démo n’utilise aucune vraie donnée de personne.
+Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable. Aucun profil de citoyen n’est publié sans son consentement, on collecte le strict nécessaire et un profil peut être retiré. En déploiement, la SDC ou la Ville serait responsable des renseignements et ferait l’évaluation requise par la Loi 25. Notre démo n’utilise aucune vraie donnée de personne.
 
 
 ## 2. Qui s’inscrit en premier?
@@ -30,7 +30,7 @@ Nos profils ont les mêmes colonnes que les fichiers fournis. Pour brancher les 
 
 
 ## 9. Et la modération? Si quelqu’un abuse?
-Personne n’est jumelé sans son oui : un projet n’est confirmé que quand chaque partenaire a accepté (dans la démo, la réponse du Collectif est simulée), et il n’y a pas de messagerie ouverte à tous. Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et une position approximative, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. En pilote, la SDC modère et peut retirer un profil, un projet ou un message; nous ne prétendons pas avoir déjà construit cet outil d’administration.
+Personne n’est jumelé sans son oui : un projet n’est confirmé que quand chaque partenaire a accepté (dans la démo, les réponses des autres partenaires sont simulées), et il n’y a pas de messagerie ouverte à tous. Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. En pilote, la SDC modère et peut retirer un profil, un projet ou un message; nous ne prétendons pas avoir déjà construit cet outil d’administration.
 
 
 ## 10. Comment mesurer l’impact?
@@ -75,7 +75,7 @@ Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à 
 Vendredi matin, nous en avons rencontré [À REMPLIR : nombre réel] à Saint-Roch. Avant, nos règles venaient des colonnes des répertoires et du Plan d’action Saint-Roch; nous ne gonflons pas ce chiffre.
 
 ## 22. Je vois un profil pré-rempli sur la carte, vous disiez caché?
-Ce sont les personnes qui restent cachées. Les commerces et organismes apparaissent avec leur nom, leur type, une description et une position approximative, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable.
+Ce sont les personnes qui restent cachées. Les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable.
 
 ## 23. Pourquoi les poids 35/20/20/15/10?
 Ce sont nos choix (complémentarité 35, réciprocité 20, proximité 20, thème 15, créneau 10), affichés dans l’app pour être débattus. En pilote, on les calibre avec les propositions réellement acceptées.

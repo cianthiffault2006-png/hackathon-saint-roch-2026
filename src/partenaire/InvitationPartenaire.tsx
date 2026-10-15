@@ -80,7 +80,7 @@ export default function InvitationPartenaire({ proposition, partenaire, demandeu
       {accepte ? (
         <div className="p2-accepte" role="status" aria-live="polite">
           <span className="p2-coche" aria-hidden="true">✓</span>
-          <p>Vous avez accepté. Le projet est confirmé quand chaque partenaire a accepté. Dans la démo, la réponse du Collectif est simulée.</p>
+          <p>Vous avez accepté. Le projet est confirmé quand chaque partenaire a accepté. Dans la démo, les réponses des autres partenaires sont simulées.</p>
         </div>
       ) : (
         <div className="p2-actions">

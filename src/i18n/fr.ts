@@ -134,7 +134,7 @@ export const fr = {
 
   profil: {
     tagNonReclame: 'Profil pré-rempli',
-    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Seuls son nom, son type, une description et une position approximative sont affichés, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
+    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Seuls son nom, son type, une description et son emplacement sont affichés, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer ce profil',
     pasAffiche: 'Profil non réclamé : non affiché.',
     fictif: 'Données fictives créées pour la démo.',

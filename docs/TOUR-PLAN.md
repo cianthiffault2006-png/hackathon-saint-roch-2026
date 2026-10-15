@@ -1,6 +1,6 @@
 # Visite guidée: current state and proposed storyboard (2026-10-15 ~14:00)
 
-Préparé pour la révision de la visite guidée. Nothing in the tour has been changed yet.
+Préparé pour la révision de la visite guidée.
 
 ## Current tour: 57 s, 13 steps, covers about 12 of 40 features
 role 3 s · saisie 6 · bouton 2.5 · carte 6 · raisons 4.5 · intérêt 4.5 · invitation 4.5 · confirmé 3 · fiche 4 · coches 4 · fil 6 · projets 4 · fin 5.

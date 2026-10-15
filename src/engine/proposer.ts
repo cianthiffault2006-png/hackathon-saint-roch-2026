@@ -282,7 +282,7 @@ export const proposerAu = (
     }
     const rev = membres.filter((m) => m.rev.length);
     const rRev = rev.length
-      ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond aux besoins de ${rev.map((m) => m.p.nom).join(' et ')}`]
+      ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond à ce que ${rev.length > 1 ? 'cherchent' : 'cherche'} ${rev.map((m) => m.p.nom).join(' et ')}`]
       : [];
     const avecDist = membres.filter((m) => m.dist !== undefined);
     const rDist = avecDist.length ? [`À pied de vous : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
@@ -311,7 +311,7 @@ export const proposerAu = (
 
     const aConfirmer = [
       'Date précise du projet',
-      `Capacité d’accueil de ${hoteNom}`,
+      `Capacité d’accueil : ${hoteNom}`,
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
       ...(proches.length ? [`Éviter le chevauchement avec : ${proches.map((e) => e.titre).join(', ')}`] : []),

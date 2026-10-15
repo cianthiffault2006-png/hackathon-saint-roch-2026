@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Profil, Proposition } from '../types'
 import { t } from './textes'
 import { ecrire, lire } from './stockage'
+import BasculeDirect from './BasculeDirect'
+import { lienDirect, partagerLien } from '../lib/filDirect'
 import './projet.css'
 
 interface Props {
@@ -84,18 +86,29 @@ export default function FilProjet({ proposition, profils, moi, onRetour }: Props
       </div>
 
       <div role="tabpanel" id={`pj-panneau-${onglet}`} aria-labelledby={`pj-tab-${onglet}`}>
-        {onglet === 'participants' && <Participants titre={proposition.titre} partenaires={partenaires} moi={moi} />}
+        {onglet === 'participants' && <Participants cle={cle} titre={proposition.titre} partenaires={partenaires} moi={moi} />}
         {onglet === 'maj' && <MisesAJour cle={cle} estOrganisateur={estOrganisateur} depart={demo ? MAJ_SEED : majDepart(partenaires.map((x) => x.profil?.nom ?? 'Partenaire'))} />}
-        {onglet === 'discussion' && <Discussion cle={cle} demo={demo} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />}
+        {onglet === 'discussion' && (
+          <BasculeDirect propositionId={proposition.id} cle={cle} titre={proposition.titre} nomSuggere={moi.nom}>
+            <Discussion cle={cle} demo={demo} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />
+          </BasculeDirect>
+        )}
       </div>
     </main>
   )
 }
 
-function Participants({ titre, partenaires, moi }: { titre: string; partenaires: { c: Proposition['partenaires'][number]; profil?: Profil; statut: string; i: number }[]; moi: Profil }) {
+function Participants({ cle, titre, partenaires, moi }: { cle: string; titre: string; partenaires: { c: Proposition['partenaires'][number]; profil?: Profil; statut: string; i: number }[]; moi: Profil }) {
   const [info, setInfo] = useState('')
 
   async function inviter() {
+    // Live thread on: share its link (any device can open it), else the app link as before.
+    const direct = lienDirect(cle, titre)
+    if (direct) {
+      const r = await partagerLien(direct, t.direct.objetPartage(titre), t.direct.textePartage(titre))
+      setInfo(r === 'copie' ? t.direct.lienCopie : r === 'manuel' ? `${t.direct.lienACopier} ${direct}` : '')
+      return
+    }
     const donnees = { title: t.fil.objetInvitation(titre), text: t.fil.texteInvitation(titre), url: window.location.origin }
     if (typeof navigator.share === 'function') {
       try {

@@ -1,15 +1,16 @@
 # BOARD (team-lead keeps it current)
 
-Gate 1 locked: Maillage (sentence and demo path in CLAUDE.md). Production: https://hackathon-saint-roch-2026.vercel.app · AI lab: /labo/
+Maillage live: https://hackathon-saint-roch-2026.vercel.app · AI lab: /labo/ · main 4dbbc8b
 
-Next for the lead: merge build's chip rule (b) after a Chrome click-through, deploy, record the demo path; 14:30 demo check, 15:00 gate 2.
+Next for the lead: phone check of the map by the team; independent verifier pass on production; end-of-day deposit in the Équipe 14 folder (URL + repo); tomorrow: final polish, screenshots into docs/pitch/img, pptx, final video at code freeze.
 
 | Teammate | Branch | State | Produced (on main) | Needs | Updated |
 |---|---|---|---|---|---|
-| build | feat/app | coding chip rule (b), tour on normal path | scaffold, map fixes; screens and tour on branch | nothing | 11:08 |
-| data | data/v1 | idle | inventory, open data, 47 profils, 38 lieux, 16 events, outline, labo page | nothing | 11:08 |
-| engine (helper) | feat/engine | done | lireBesoin, proposer, 60 tests, diverse top 3 | nothing | 11:08 |
-| copy | copy/fr | idle | fr.ts, pitch script, slides, Q&A | team U review of French | 11:08 |
-| qa | qa/tests | idle | TESTS.md, story seed, DEMO-SCRIPT | phone runs by Q | 11:08 |
+| build | feat/app | standby | screens, tour, fiche, calendar, share, Mes projets, pins, palette, a11y, score breakdown, map lines | phone check | 12:08 |
+| data | data/v1 | standby | inventory, open data, profiles, places, events, labo page | nothing | 12:08 |
+| engine (helper) | feat/engine | done | engine, 73 tests incl. real data, detailScore, safety scenario | nothing | 12:08 |
+| screens2 (helper) | feat/screens2 | done | partner invitation, SDC dashboard | nothing | 12:08 |
+| copy | copy/fr | standby | fr.ts, pitch script (2 voices), slides, 13 Q&A, pptx generator | team read-aloud timing | 12:08 |
+| qa | qa/tests | standby | TESTS.md (19 checks), story seed, DEMO-SCRIPT | phone runs by the team | 12:08 |
 
-Crons (day 1): 369c9701 check-ins 11-15h · 55908ae5 14:30 demo check · 0078f2ea 14:50 gate 2 · 5e980916 16:00 backup · 67a3f849 16:15 wrap · d7385ca6 16:30 end
+Crons (day 1): check-ins 11-15h · 14:30 demo check · 14:50 gate 2 · 16:15 wrap · 16:30 end (16:00 video cancelled: final video tomorrow, Cian 2026-10-15)

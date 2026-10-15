@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Besoin as BesoinType, Evenement, Proposition as PropositionType, Role, Statut } from './types'
+import type { Besoin as BesoinType, Creneau, Evenement, Proposition as PropositionType, Role, Statut, Tag } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
-import { choisirInvite } from './lib/invitation'
+import { choisirInvite, prenom } from './lib/invitation'
 import { trouverAsker } from './lib/besoin'
-import FilAuto from './tour/FilAuto'
+import FilVisite from './tour/FilVisite'
+import Regie from './tour/Regie'
+import { etatEcrans } from './tour/etat'
 import { fr } from './i18n/fr'
 import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
 import Badge from './components/Badge'
@@ -16,6 +18,9 @@ import NouveauProjet from './projet/NouveauProjet'
 import Explorer from './explorer/Explorer'
 import PlusOptions from './explorer/PlusOptions'
 import ProfilPublic from './profil/ProfilPublic'
+import RechercheReclamer from './profil/RechercheReclamer'
+import { appliquerReclames } from './profil/reclamation'
+import { useReclames } from './profil/useReclames'
 import Fiche from './screens/Fiche'
 import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
@@ -24,27 +29,28 @@ import Sdc from './screens/Sdc'
 import Sources from './screens/Sources'
 import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
-import { ETAPES, ROLE_VISITE, SAISIE_MS, TEXTE_VISITE, indexDe } from './tour/script'
+import { ETAPES, PUCES_VISITE, ROLE_VISITE, TEXTE_VISITE, legendeDe } from './tour/script'
 import Coquille from './layout/Coquille'
 import { rubriqueDe } from './layout/rubriques'
 import EspaceProjets from './layout/EspaceProjets'
 import { useBureau } from './layout/useBureau'
 import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
+type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau' | 'reclamer'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
-const DELAI_PIN_VISITE_MS = 700
 
 export default function App() {
   const [ecran, setEcran] = useState<Ecran>('accueil')
   const [retourFiche, setRetourFiche] = useState<Ecran>('projets')
   const [role, setRole] = useState<Role>('commerce')
-  const [donnees, setDonnees] = useState<Donnees>(VIDE)
+  const [brutes, setDonnees] = useState<Donnees>(VIDE)
+  // Local « Réclamer ce profil » claims (maillage.reclames) applied once here, so every screen sees the same « pré-rempli ».
+  const reclames = useReclames()
+  const donnees = useMemo(() => ({ ...brutes, profils: appliquerReclames(brutes.profils, reclames) }), [brutes, reclames])
   const [propositions, setPropositions] = useState<PropositionType[]>([])
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
-  const [statutsVisite, setStatutsVisite] = useState<Record<string, Statut>>({})
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
@@ -52,7 +58,7 @@ export default function App() {
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
   const [annonce, setAnnonce] = useState('')
-  const { etat, demarrer, quitter, basculerPause, suivant } = useTour()
+  const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps } = useTour()
   const bureau = useBureau()
 
   useEffect(() => {
@@ -63,11 +69,11 @@ export default function App() {
     sauverProjets(projets)
   }, [projets])
 
-  // The tour runs the café story through the same engine and the same screens.
+  // The tour runs the café story through the same engine and the same screens, on the raw data: local claims never change it.
   const propositionsVisite = useMemo(() => {
-    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, donnees.profils))
-    return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
-  }, [donnees])
+    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, brutes.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, brutes.profils))
+    return proposer(besoin, brutes.profils, brutes.lieux, brutes.evenements)
+  }, [brutes])
 
   // A throwaway project for the tour: never saved, never mixed with the viewer's own projects.
   const projetVisite = useMemo(() => {
@@ -96,10 +102,8 @@ export default function App() {
   const changerStatut = useCallback(
     (prop: PropositionType, statut: Statut) => {
       const cle = idProjet(prop)
-      if (enVisite) {
-        setStatutsVisite((s) => ({ ...s, [cle]: statut }))
-        return
-      }
+      // The tour sets its statuses from its clock and never saves anything.
+      if (enVisite) return
       setStatuts((s) => ({ ...s, [cle]: statut }))
       setAnnonce(fr.proposition.statuts[statut])
       setProjets((prev) => {
@@ -154,22 +158,15 @@ export default function App() {
     )
   }
 
-  // The tour posts a message in a thread of its own (distinct id), cleared at each start so Camille replies again.
+  // The tour's thread has an id of its own; its Discussion tab is played by FilVisite and never saved.
   const propositionFil = useMemo(
-    () => (propositionsVisite[0] ? { ...propositionsVisite[0], id: `visite-${propositionsVisite[0].id}` } : null),
+    // Confirmed: in the story every partner has accepted, so all of them show as accepted.
+    () => (propositionsVisite[0] ? { ...propositionsVisite[0], id: `visite-${propositionsVisite[0].id}`, statut: 'confirmee' as const } : null),
     [propositionsVisite],
   )
 
   function lancerVisite() {
     setRole(ROLE_VISITE)
-    setStatutsVisite({})
-    if (propositionFil) {
-      try {
-        window.localStorage.removeItem(`maillage.pj.msg.${idProjet(propositionFil)}`)
-      } catch {
-        // Storage blocked: nothing was kept either.
-      }
-    }
     demarrer()
   }
 
@@ -180,44 +177,28 @@ export default function App() {
   }
 
   function accepterInvitation(prop: PropositionType) {
+    if (enVisite) return
     changerStatut(prop, 'confirmee')
-    // Outside the tour, leave a moment to read the partner's confirmation, then go back.
-    if (!enVisite) window.setTimeout(() => setEcran('proposition'), 2400)
+    // Leave a moment to read the partner's confirmation, then go back.
+    window.setTimeout(() => setEcran('proposition'), 2400)
   }
 
-  // What the tour asks of each screen, derived from the step and the time elapsed in it.
-  let texteGuide: string | undefined
-  let pulse = false
-  let raisonsVisibles: number | undefined
-  let interet = false
-  let cochesVisite = 0
-  let defilement: 'actions' | 'liste' | undefined
-  let accepterAuto = false
-  let filAuto = -1
-  let defilerInvitation = false
-  if (etat && etape) {
-    if (etape.id === 'saisie') {
-      texteGuide = TEXTE_VISITE.slice(0, Math.ceil(TEXTE_VISITE.length * Math.min(1, etat.ms / SAISIE_MS)))
-    } else if (etape.id === 'bouton') {
-      texteGuide = TEXTE_VISITE
-      pulse = true
-    }
-    if (etape.id === 'carte') raisonsVisibles = 0
-    if (etape.id === 'raisons') raisonsVisibles = 1 + Math.floor(etat.ms / 1300)
-    interet = etat.index >= indexDe('interet')
-    if (etape.id === 'invitation') {
-      defilerInvitation = etat.ms > 1200
-      accepterAuto = etat.ms > 3000
-    }
-    if (etape.id === 'fiche') {
-      pulse = true
-      if (etat.ms > 1800) defilement = 'actions'
-    }
-    if (etape.id === 'coches') defilement = 'liste'
-    if (etape.id === 'fil') filAuto = etat.ms
-    if (etape.id === 'coches') cochesVisite = Math.floor(etat.ms / 800)
-    if (etat.index > indexDe('coches')) cochesVisite = 3
-  }
+  // What the tour asks of each screen: a pure function of the step and the time elapsed in it
+  // (src/tour/etat.ts), so Pause holds everything and a jump rebuilds it from the index alone.
+  const ee = etat ? etatEcrans(etat.index, etat.ms) : null
+  const propVisite = propositionsVisite[0] ?? null
+  const statutsVisite: Record<string, Statut> = ee && propVisite ? { [idProjet(propVisite)]: ee.statut } : {}
+  const pucesVisite = ee ? PUCES_VISITE.slice(0, ee.puces) : []
+  const guideBesoin = ee
+    ? {
+        texte: TEXTE_VISITE.slice(0, Math.ceil(TEXTE_VISITE.length * ee.texte)),
+        offre: pucesVisite.filter((p) => p.groupe === 'offre').map((p) => p.valeur as Tag),
+        cherche: pucesVisite.filter((p) => p.groupe === 'cherche').map((p) => p.valeur as Tag),
+        creneaux: pucesVisite.filter((p) => p.groupe === 'creneaux').map((p) => p.valeur as Creneau),
+        pulse: ee.pulse,
+      }
+    : undefined
+  const cochesVisite = ee?.coches ?? 0
 
   const projetAffiche: Projet | null = enVisite
     ? projetVisite && { ...projetVisite, coches: projetVisite.coches.map((_, i) => i < cochesVisite) }
@@ -238,12 +219,13 @@ export default function App() {
   const espaceBureau = bureau && !enVisite && (ecranActif === 'projets' || (ecranActif === 'fiche' && projetAffiche !== null))
   const filBureau = espaceBureau && ecranActif === 'fiche' && filProposition && filMoi ? { proposition: filProposition, moi: filMoi } : null
 
-  const propInvitation = enVisite ? (propositionsVisite[0] ?? null) : invitationProp
+  const propInvitation = enVisite ? propVisite : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
+  const legende = etape ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '' }) : ''
 
   return (
     <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={projets.length} inerte={enVisite} onAller={setEcran}>
-    <div className={enVisite ? 'racine tour-actif' : 'racine'}>
+    <div className={enVisite ? (etat.pause ? 'racine tour-actif tour-pause' : 'racine tour-actif') : 'racine'}>
       <div className="ecrans" inert={enVisite}>
       {ecranActif === 'accueil' && (
         <Accueil
@@ -256,6 +238,15 @@ export default function App() {
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onProposer={enVisite ? undefined : () => setEcran('nouveau')}
           onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
+          onReclamer={enVisite ? undefined : () => setEcran('reclamer')}
+        />
+      )}
+      {ecranActif === 'reclamer' && (
+        <RechercheReclamer
+          profils={donnees.profils}
+          evenements={donnees.evenements}
+          onRetour={() => setEcran('accueil')}
+          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -263,21 +254,20 @@ export default function App() {
           role={enVisite ? ROLE_VISITE : role}
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
-          texteGuide={texteGuide}
-          pulse={pulse}
+          guide={guideBesoin}
           onRetour={() => setEcran('accueil')}
           onTrouver={trouver}
         />
       )}
-      {ecranActif === 'proposition' && (
+      {/* During the tour the proposal stays mounted under the invitation, so coming back replays nothing. */}
+      {(ecranActif === 'proposition' || (enVisite && ecranActif === 'invitation')) && (
         <Proposition
+          key={enVisite ? `visite-${saut}` : 'app'}
           propositions={enVisite ? propositionsVisite : propositions}
           profils={donnees.profils}
           lieux={donnees.lieux}
           evenements={donnees.evenements}
-          delaiPinMs={enVisite ? DELAI_PIN_VISITE_MS : undefined}
-          raisonsVisibles={raisonsVisibles}
-          interetAuto={interet}
+          visite={ee ? { animer: ee.chute, anneau: ee.anneau, detail: ee.detail, raisons: ee.raisons } : undefined}
           statuts={enVisite ? statutsVisite : statuts}
           onChangerStatut={changerStatut}
           index={enVisite ? 0 : indexProp}
@@ -296,8 +286,7 @@ export default function App() {
           partenaire={invite.partenaire}
           demandeur={invite.demandeur}
           autre={invite.autre}
-          accepterAuto={accepterAuto}
-          defilerAuto={defilerInvitation}
+          accepteVisite={ee ? ee.accepte : undefined}
           onAccepter={() => accepterInvitation(propInvitation)}
           onRetour={() => setEcran('proposition')}
         />
@@ -305,8 +294,7 @@ export default function App() {
       {ecranActif === 'fiche' && projetAffiche && !espaceBureau && (
         <Fiche
           projet={projetAffiche}
-          pulse={pulse}
-          defilement={defilement}
+          pulse={ee?.pulse}
           onCocher={cocher}
           onRetirer={enVisite ? undefined : () => retirer(projetAffiche.id)}
           onFil={enVisite || !projetAffiche.proposition ? undefined : () => setEcran('fil')}
@@ -392,8 +380,16 @@ export default function App() {
       )}
       {ecranActif === 'fil' && filProposition && filMoi && (
         <div className="plein-ecran">
-          <FilProjet proposition={filProposition} profils={donnees.profils} moi={filMoi} onRetour={() => setEcran(enVisite ? 'fiche' : 'fiche')} />
-          {enVisite && <FilAuto ms={filAuto} />}
+          <FilProjet
+            proposition={filProposition}
+            profils={donnees.profils}
+            moi={filMoi}
+            onRetour={() => setEcran('fiche')}
+            visite={ee && invite ? {
+              onglet: ee.onglet,
+              discussion: <FilVisite fil={ee.fil} moi={invite.demandeur.nom} partenaire={invite.partenaire.nom} autre={invite.autre?.nom ?? ''} />,
+            } : undefined}
+          />
         </div>
       )}
       {ecranActif === 'nouveau' && (
@@ -412,8 +408,20 @@ export default function App() {
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
-      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
-      {etat && <TourBar etat={etat} onPause={basculerPause} onSuivant={suivant} onQuitter={quitterVisite} />}
+      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
+      {etat && <Regie index={etat.index} lireMs={lireMs} />}
+      {etat && (
+        <TourBar
+          etat={etat}
+          legende={legende}
+          onPause={basculerPause}
+          onSuivant={suivant}
+          onPrecedent={precedent}
+          onAller={allerA}
+          onAllerAuTemps={allerAuTemps}
+          onQuitter={quitterVisite}
+        />
+      )}
     </div>
     </Coquille>
   )

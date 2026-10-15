@@ -48,7 +48,7 @@ describe('prebuilt public/ics files', () => {
 
   it('covers every scripted demo project, with its fixed date', () => {
     const cafe = projetCafe()
-    expect(cafe.titre).toBe('Exposition collaborative chez Café Le Petit Détour')
+    expect(cafe.titre).toBe('Exposition collaborative au Café Le Petit Détour')
     expect(Object.keys(DEMOS)).toEqual([cafe.proposition?.id, ID_DEMO_SOFIA])
     expect(cafe).toMatchObject({ jour: '2026-10-22', heureDebut: 19, heureFin: 22 })
     expect(projetSofia()).toMatchObject({ jour: '2026-10-24', heureDebut: 13, heureFin: 17 })

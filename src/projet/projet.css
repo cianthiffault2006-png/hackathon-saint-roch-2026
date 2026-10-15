@@ -33,3 +33,9 @@
 .pj-liste li + li { margin-top: 6px; }
 .pj-h2 { margin: 16px 0 8px; font-size: 16px; color: var(--vert, #1f5f4a); }
 .pj-ligne { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+/* Fil en direct (bêta) */
+.pj-bascule { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; font-weight: 600; }
+.pj-bascule input { width: 24px; height: 24px; margin: 0; accent-color: var(--vert, #1f5f4a); }
+.pj-direct .pj-btn { margin-top: 10px; }
+.pj-lien-manuel { margin: 10px 0 0; }
+.pj-badge-direct { background: var(--vert-pale, #e6f1ec); color: var(--vert-fonce, #164536); }

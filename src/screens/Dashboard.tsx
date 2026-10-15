@@ -18,17 +18,20 @@ export default function Dashboard({
   onRetour,
 }: Props) {
   const total = projets.length
+  // Statuses count collaborative projects only; joining a public event is a sign-up, counted apart.
+  const collaborations = projets.filter((p) => !p.inscrit)
+  const inscriptions = projets.length - collaborations.length
 
-  const enAttente = projets.filter(
+  const enAttente = collaborations.filter(
     (p) => p.statut === 'interet_envoye' ||
            p.statut === 'en_attente'
   ).length
 
-  const confirmes = projets.filter(
+  const confirmes = collaborations.filter(
     (p) => p.statut === 'confirmee'
   ).length
 
-  const proposes = projets.filter(
+  const proposes = collaborations.filter(
     (p) => p.statut === 'proposee'
   ).length
 
@@ -68,6 +71,11 @@ export default function Dashboard({
           <div className="dashboard-stat">
             <span>{fr.dashboard.proposes}</span>
             <strong>{proposes}</strong>
+          </div>
+
+          <div className="dashboard-stat">
+            <span>{fr.dashboard.inscriptions}</span>
+            <strong>{inscriptions}</strong>
           </div>
         </div>
       </section>

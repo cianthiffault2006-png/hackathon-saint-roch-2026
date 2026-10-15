@@ -13,6 +13,8 @@ interface Props {
   autre?: Profil
   onAccepter(): void
   onDecliner(): void
+  /** Guided tour: accepted or not, set by the tour clock instead of a tap. */
+  accepteVisite?: boolean
 }
 
 const rad = (d: number) => (d * Math.PI) / 180
@@ -36,8 +38,9 @@ function construireRaisons(prop: Proposition, part: Profil, dem: Profil): string
   return res
 }
 
-export default function InvitationPartenaire({ proposition, partenaire, demandeur, autre, onAccepter, onDecliner }: Props) {
-  const [accepte, setAccepte] = useState(false)
+export default function InvitationPartenaire({ proposition, partenaire, demandeur, autre, onAccepter, onDecliner, accepteVisite }: Props) {
+  const [accepteMoi, setAccepte] = useState(false)
+  const accepte = accepteVisite ?? accepteMoi
 
   const sonApport = proposition.partenaires.find((c) => c.profilId === partenaire.id)?.apport
   const autreContribution = proposition.partenaires.find((c) => c.profilId !== partenaire.id && c.profilId !== demandeur.id)

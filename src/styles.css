@@ -1281,6 +1281,15 @@ body {
   bottom: 34px;
 }
 
+/* « Simuler la réponse des partenaires »: a quiet secondary link under the invitation link */
+.btn-simuler {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 2px;
+  color: var(--gris);
+  font-size: 14px;
+  text-decoration: underline;
+}
 /* ================================
    SIDEBAR - MAILLAGE
    ================================ */
@@ -1501,6 +1510,7 @@ body {
     padding: 16px;
   }
 }
+
 /* ===== Design: point de maille (docs/DESIGN.md) =====
    Appended overrides: paper, Fraunces titles, stitches and stamps. Tour, map and sheet architecture rules above stay as they are. */
 
@@ -2194,4 +2204,10 @@ body:has(.accueil) .badge-demo {
 
 .carte-fin .btn {
   width: 100%;
+}
+
+/* Main's quiet « Simuler la réponse » link stays grey under the dashed text-link rule */
+.btn-texte.btn-simuler {
+  color: var(--gris-fil);
+  font-weight: 400;
 }

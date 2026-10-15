@@ -16,12 +16,15 @@ interface Props {
   onExplorer?: () => void
   onProposer?: () => void
   onDashboard?: () => void
+  /** Opens the search for a pre-filled business or organisation to claim (simulated). */
+  onReclamer?: () => void
 }
 
-export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer, onDashboard }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer, onDashboard, onReclamer }: Props) {
   const liens = [
     { cle: 'proposer', libelle: fr.accueil.proposer, action: onProposer },
     { cle: 'dashboard', libelle: fr.nav.dashboard, action: onDashboard },
+    { cle: 'reclamer', libelle: fr.reclamer.recherche.lienAccueil, action: onReclamer },
     { cle: 'sdc', libelle: fr.accueil.tableauSdc, action: onSdc },
     { cle: 'sources', libelle: fr.sources.titre, action: onSources },
     { cle: 'projets', libelle: fr.projets.titre, action: onProjets },

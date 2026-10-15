@@ -9,7 +9,7 @@ export const t = {
   vueCarte: 'Carte',
   vueListe: 'Liste',
   aucun: 'Aucun résultat avec ces filtres.',
-  citoyen: 'Citoyen·ne',
+  citoyen: 'Citoyen',
   citoyenNote: 'Position approximative (à environ 100 m).',
   voirProfil: 'Voir le profil',
   fermer: 'Fermer',

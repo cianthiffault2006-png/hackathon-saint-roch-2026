@@ -18,7 +18,9 @@ interface Msg { id: string; auteur: string; texte: string; ts: number; moi?: boo
 const DELAI_S = 15
 const PAUSE_S = 60
 const MAX = 500
-const REPONSE = 'Super, j’apporte aussi deux chevalets !'
+// Scripted content of the café story: only its own project gets it (Camille's canvases, Thu Oct 22).
+const ID_DEMO_CAFE = 'prop-story-cafe-story-artiste+story-organisme'
+const REPONSE_DEMO = 'Super, j’apporte aussi deux chevalets!'
 
 const MAJ_SEED: Maj[] = [
   { id: 's1', titre: 'Date confirmée : jeudi 22 octobre', texte: 'Le lieu est réservé en soirée. Merci de confirmer votre présence.', date: '2026-10-14' },
@@ -26,6 +28,12 @@ const MAJ_SEED: Maj[] = [
 ]
 
 const cleProjet = (p: Proposition) => `${p.id}|${p.titre}`
+
+/** Other projects start with one update built from their own partners. */
+function majDepart(noms: string[]): Maj[] {
+  const liste = noms.length <= 1 ? (noms[0] ?? '') : `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}`
+  return [{ id: 's0', titre: t.fil.majLancement, texte: t.fil.majLancementTexte(liste), date: new Date().toLocaleDateString('en-CA') }]
+}
 const dateCourte = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long' })
 
 export default function FilProjet({ proposition, profils, moi, onRetour }: Props) {
@@ -33,6 +41,7 @@ export default function FilProjet({ proposition, profils, moi, onRetour }: Props
   const cle = cleProjet(proposition)
   const organisateurId = proposition.partenaires[0]?.profilId
   const estOrganisateur = organisateurId === moi.id
+  const demo = proposition.id === ID_DEMO_CAFE
 
   const partenaires = useMemo(
     () =>
@@ -76,8 +85,8 @@ export default function FilProjet({ proposition, profils, moi, onRetour }: Props
 
       <div role="tabpanel" id={`pj-panneau-${onglet}`} aria-labelledby={`pj-tab-${onglet}`}>
         {onglet === 'participants' && <Participants titre={proposition.titre} partenaires={partenaires} moi={moi} />}
-        {onglet === 'maj' && <MisesAJour cle={cle} estOrganisateur={estOrganisateur} />}
-        {onglet === 'discussion' && <Discussion cle={cle} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />}
+        {onglet === 'maj' && <MisesAJour cle={cle} estOrganisateur={estOrganisateur} depart={demo ? MAJ_SEED : majDepart(partenaires.map((x) => x.profil?.nom ?? 'Partenaire'))} />}
+        {onglet === 'discussion' && <Discussion cle={cle} demo={demo} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />}
       </div>
     </main>
   )
@@ -118,7 +127,9 @@ function Participants({ titre, partenaires, moi }: { titre: string; partenaires:
               </span>
             </div>
             <p className="pj-texte">{c.apport}</p>
-            {estMoi ? null : accepte ? (
+            {estMoi ? null : profil?.reclame === false ? (
+              <p className="pj-note">{t.fil.preRempli}</p>
+            ) : accepte ? (
               <>
                 <div className="pj-contacts">
                   <a className="pj-lien" href={`mailto:${mail}`}>{t.fil.courriel}</a>
@@ -139,9 +150,9 @@ function Participants({ titre, partenaires, moi }: { titre: string; partenaires:
   )
 }
 
-function MisesAJour({ cle, estOrganisateur }: { cle: string; estOrganisateur: boolean }) {
+function MisesAJour({ cle, estOrganisateur, depart }: { cle: string; estOrganisateur: boolean; depart: Maj[] }) {
   const cleMaj = `maillage.pj.maj.${cle}`
-  const [liste, setListe] = useState<Maj[]>(() => lire<Maj[]>(cleMaj, MAJ_SEED))
+  const [liste, setListe] = useState<Maj[]>(() => lire<Maj[]>(cleMaj, depart))
   const [titre, setTitre] = useState('')
   const [texte, setTexte] = useState('')
 
@@ -181,20 +192,20 @@ function MisesAJour({ cle, estOrganisateur }: { cle: string; estOrganisateur: bo
   )
 }
 
-function Discussion({ cle, partenaires, moi }: { cle: string; partenaires: string[]; moi: Profil }) {
+function Discussion({ cle, demo, partenaires, moi }: { cle: string; demo: boolean; partenaires: string[]; moi: Profil }) {
   const cleMsg = `maillage.pj.msg.${cle}`
   const autres = partenaires.filter((n) => n !== moi.nom)
-  const camille = autres.find((n) => n.startsWith('Camille')) ?? autres[0] ?? 'Camille'
+  const repondant = (demo ? autres.find((n) => n.startsWith('Camille')) : undefined) ?? autres[0] ?? 'Partenaire'
 
   const [msgs, setMsgs] = useState<Msg[]>(() => {
     const sauve = lire<Msg[] | null>(cleMsg, null)
     if (sauve) return sauve
     const base = Date.now() - 3600_000
-    const a = (i: number) => autres[i % Math.max(autres.length, 1)] ?? camille
+    const a = (i: number) => autres[i % Math.max(autres.length, 1)] ?? repondant
     return [
-      { id: 'x1', auteur: a(0), texte: 'Bonjour tout le monde, ravi de lancer ce projet avec vous !', ts: base, simule: true },
-      { id: 'x2', auteur: a(1), texte: 'Je peux accueillir le groupe en soirée, ça vous irait ?', ts: base + 600_000, simule: true },
-      { id: 'x3', auteur: a(0), texte: 'Parfait pour moi. On confirme la date cette semaine.', ts: base + 1_200_000, simule: true },
+      { id: 'x1', auteur: a(0), texte: t.fil.msgOuverture, ts: base, simule: true },
+      { id: 'x2', auteur: a(1), texte: demo ? 'Je peux accueillir le groupe en soirée, ça vous irait?' : t.fil.msgQuestion, ts: base + 600_000, simule: true },
+      { id: 'x3', auteur: a(0), texte: t.fil.msgSuite, ts: base + 1_200_000, simule: true },
     ]
   })
   const [texte, setTexte] = useState('')
@@ -238,7 +249,7 @@ function Discussion({ cle, partenaires, moi }: { cle: string; partenaires: strin
       window.clearTimeout(minuterie.current)
       minuterie.current = window.setTimeout(() => {
         setMsgs((cur) => {
-          const nv = [...cur, { id: 'rep', auteur: camille, texte: REPONSE, ts: Date.now(), simule: true }]
+          const nv = [...cur, { id: 'rep', auteur: repondant, texte: demo ? REPONSE_DEMO : t.fil.msgReponse, ts: Date.now(), simule: true }]
           ecrire(cleMsg, nv)
           return nv
         })

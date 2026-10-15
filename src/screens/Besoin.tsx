@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Role, Tag } from '../types'
 import { lireBesoin } from '../engineAdapter'
 import { fr } from '../i18n/fr'
@@ -9,13 +9,16 @@ interface Props {
   role: Role
   onRetour: () => void
   onTrouver: (besoin: BesoinType) => void
+  /** Text typed by the guided tour; chips follow it like real typing. */
+  texteGuide?: string
+  pulse?: boolean
 }
 
 function bascule<T>(liste: T[], v: T): T[] {
   return liste.includes(v) ? liste.filter((x) => x !== v) : [...liste, v]
 }
 
-export default function Besoin({ role, onRetour, onTrouver }: Props) {
+export default function Besoin({ role, onRetour, onTrouver, texteGuide, pulse }: Props) {
   const [texte, setTexte] = useState('')
   const [tags, setTags] = useState<Tag[]>([])
   const [creneaux, setCreneaux] = useState<Creneau[]>([])
@@ -28,6 +31,11 @@ export default function Besoin({ role, onRetour, onTrouver }: Props) {
     setTags((prev) => Array.from(new Set([...prev, ...trouves])))
     setCreneaux((prev) => Array.from(new Set([...prev, ...lu.creneaux])))
   }
+
+  useEffect(() => {
+    if (texteGuide !== undefined) surSaisie(texteGuide)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [texteGuide])
 
   function soumettre() {
     const lu = lireBesoin(texte)
@@ -66,7 +74,7 @@ export default function Besoin({ role, onRetour, onTrouver }: Props) {
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
       <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
       <div className="pied">
-        <button type="button" className="btn btn-primaire" disabled={!pret} onClick={soumettre}>
+        <button type="button" className={pulse ? 'btn btn-primaire pulse' : 'btn btn-primaire'} disabled={!pret} onClick={soumettre}>
           {fr.besoin.bouton}
         </button>
       </div>

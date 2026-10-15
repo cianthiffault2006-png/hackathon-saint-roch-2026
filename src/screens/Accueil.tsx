@@ -7,9 +7,11 @@ const ICONES: Record<Role, string> = { commerce: '☕', organisme: '🤝', citoy
 interface Props {
   onRole: (role: Role) => void
   onVisite: () => void
+  /** Role highlighted by the guided tour. */
+  surbrillance?: Role
 }
 
-export default function Accueil({ onRole, onVisite }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
@@ -21,7 +23,7 @@ export default function Accueil({ onRole, onVisite }: Props) {
       <div className="accueil-bas">
         <p className="consigne">{fr.accueil.question}</p>
         {(['commerce', 'organisme', 'citoyen'] as Role[]).map((r) => (
-          <button key={r} type="button" className="btn btn-role" onClick={() => onRole(r)}>
+          <button key={r} type="button" className={r === surbrillance ? 'btn btn-role surbrillance' : 'btn btn-role'} onClick={() => onRole(r)}>
             <span aria-hidden="true" className="icone">{ICONES[r]}</span>
             {LIBELLE_ROLE[r]}
           </button>

@@ -9,23 +9,31 @@ interface Props {
   lieux: Lieu[]
   evenements: Evenement[]
   onRetour: () => void
+  delaiPinMs?: number
+  /** Guided tour: how many pourquoi lines to show (all when undefined). */
+  raisonsVisibles?: number
+  /** Guided tour: presses the interest button once true. */
+  interetAuto?: boolean
 }
 
 const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts
-
-const MARGE_FEUILLE = 360
 
 function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto }: Props) {
+  const enVisite = delaiPinMs !== undefined
   const [index, setIndex] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
   const departX = useRef<number | null>(null)
 
   const prop = propositions[index]
   const statut: Statut = (prop && statuts[prop.id]) || 'proposee'
+
+  useEffect(() => {
+    if (interetAuto && prop) setStatuts((s) => (s[prop.id] ? s : { ...s, [prop.id]: 'interet_envoye' }))
+  }, [interetAuto, prop])
 
   // Simulated confirmation chain: 2 s then 3 s. The timer is cleared if the screen or proposal changes.
   useEffect(() => {
@@ -88,10 +96,16 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
 
   return (
     <div className="screen-carte">
-      <MapView pins={pins} margeBas={MARGE_FEUILLE} />
+      <MapView
+        pins={pins}
+        margeBas={Math.round(window.innerHeight * (enVisite ? 0.5 : 0.58))}
+        margeHaut={enVisite ? 190 : 70}
+        delaiPinMs={delaiPinMs}
+      />
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
         className="feuille"
+        style={{ animationDelay: `${(pins.length + 1) * (delaiPinMs ?? 300)}ms` }}
         aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
@@ -129,7 +143,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         </ul>
 
         <h2 className="sous-titre">{fr.proposition.pourquoi}</h2>
-        <ul className="liste">{prop.raisons.map((r) => <li key={r}>{r}</li>)}</ul>
+        <ul className="liste">{prop.raisons.slice(0, raisonsVisibles ?? prop.raisons.length).map((r) => <li key={r} className="apparait">{r}</li>)}</ul>
 
         <h2 className="sous-titre">{fr.proposition.aConfirmer}</h2>
         <ul className="liste liste-orange">{prop.aConfirmer.map((r) => <li key={r}>{r}</li>)}</ul>
@@ -155,6 +169,16 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           ) : (
             <div className={`statut statut-${statut}`} role="status" aria-live="polite">
               {LIBELLE_STATUT[statut]}
+            </div>
+          )}
+          {statut === 'confirmee' && (
+            <div className="confettis" aria-hidden="true">
+              {Array.from({ length: 16 }, (_, i) => (
+                <span
+                  key={i}
+                  style={{ left: `${6 + i * 6}%`, animationDelay: `${(i % 5) * 120}ms`, background: i % 2 ? 'var(--orange)' : 'var(--vert)' }}
+                />
+              ))}
             </div>
           )}
           <p className="note-simulation">{fr.proposition.noteSimulation}</p>

@@ -59,17 +59,24 @@ const splitClauses = (t: string): string[] =>
     .map((c) => c.trim())
     .filter(Boolean);
 
-const SUFFIXE = String.raw`(\s+(?:en\s+)?(soir|soiree|matin|apres-midi|midi))?`;
-const reFds = new RegExp(String.raw`\b(fin de semaine|fins de semaine|week-?end|fds|samedis?|dimanches?)\b` + SUFFIXE, 'g');
-const reJour = new RegExp(String.raw`\b(lundi|mardi|mercredi|jeudi|vendredi)s?\b` + SUFFIXE, 'g');
+// A day with its moment, left to right: « jeudi soir », « le soir du jeudi », « samedi matin ».
+// The moment next to a day belongs to that day only, so « jeudi soir » is not also « jour ».
+const MOMENT = String.raw`(soir|soiree|soirees|soirs|matin|matins|apres-midi|midi)`;
+const reJourMoment = new RegExp(
+  String.raw`(?:\b${MOMENT}\s+(?:du|de|le|les)\s+)?` +
+    String.raw`\b(fin de semaine|fins de semaine|week-?end|fds|samedis?|dimanches?|lundis?|mardis?|mercredis?|jeudis?|vendredis?)\b` +
+    String.raw`(?:\s+(?:en\s+)?${MOMENT}\b)?`,
+  'g',
+);
+const FDS = /^(fin|fins|week|fds|samedi|dimanche)/;
 
 function lireCreneaux(t: string): Creneau[] {
   const out = new Set<Creneau>();
-  let reste = t;
-  if (reFds.test(reste)) out.add('fin_de_semaine');
-  reste = reste.replace(reFds, ' ');
-  for (const m of reste.matchAll(reJour)) out.add(m[2] && /soir/.test(m[2]) ? 'semaine_soir' : 'semaine_jour');
-  reste = reste.replace(reJour, ' ');
+  for (const m of t.matchAll(reJourMoment)) {
+    if (FDS.test(m[2])) out.add('fin_de_semaine');
+    else out.add(/soir/.test(`${m[1] ?? ''} ${m[3] ?? ''}`) ? 'semaine_soir' : 'semaine_jour');
+  }
+  const reste = t.replace(reJourMoment, ' ');
   if (/\b(soir|soiree|soirees|soirs)\b/.test(reste)) out.add('semaine_soir');
   if (/\b(midi|apres-midi|matin|journee|jour|jours)\b/.test(reste)) out.add('semaine_jour');
   return [...out];

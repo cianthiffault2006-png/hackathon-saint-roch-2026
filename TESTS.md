@@ -10,7 +10,7 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 | 1 | Ouvrir l'accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
 | 2 | Choisir « Commerçant » | Écran Besoin : « Votre profil : Café Le Petit Détour », zone de texte, deux rangées de puces « J'offre » et « Je cherche », puis « Quand » |
 | 3 | Taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Allumés : J'offre : Espace intérieur ; Je cherche : Public ; Quand : Semaine, soir |
-| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 86 %, avec Camille Vézina et Collectif Les Voisins en Scène |
+| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
 | 6 | Appuyer sur « Ça m'intéresse » | Statut : en attente, mention « Démo simulée » |
 | 7 | Attendre le 2e changement | Statut : « Projet confirmé (simulé) » (deux changements en tout) |
@@ -30,6 +30,7 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 | 16 | Temps de chargement, Wi-Fi | Accueil interactif en moins de 3 s |
 | 17 | Aucune donnée personnelle ni clé dans le JS déployé | Aucune clé, aucun nom réel, profils non réclamés cachés |
 | 18 | Page labo : ouvrir /labo/ | Le modèle se charge (environ 130 Mo au premier chargement, barre de progression), puis le statut affiche « Prêt. Le modèle tourne sur votre appareil. » |
+| 19 | Scénario de sécurité (rôle Organisme) | Non reproductible dans l'interface : l'organisme est le demandeur de l'histoire. Couvert par le test du moteur `src/engine/donnees-reelles.test.ts` (`npm test`). |
 
 ## C. Contrôles qa (curl et lecture du code déployé)
 

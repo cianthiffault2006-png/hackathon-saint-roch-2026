@@ -19,6 +19,8 @@ export interface Projet extends Occurrence {
   /** True for a public event the viewer joined (no approval): shown as « Inscrit ». */
   inscrit?: boolean
   evenementId?: string
+  /** The proposition behind the project, for the project thread. */
+  proposition?: Proposition
 }
 
 const CLE = 'maillage.projets.v1'
@@ -67,6 +69,7 @@ export function projetDepuis(p: Proposition, profils: Profil[], lieux: Lieu[], s
     ...prochaineDate(p.creneau),
     aConfirmer: p.aConfirmer,
     coches: p.aConfirmer.map(() => false),
+    proposition: p,
   }
 }
 

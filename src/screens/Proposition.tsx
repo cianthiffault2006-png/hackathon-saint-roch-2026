@@ -28,6 +28,7 @@ interface Props {
   /** The viewer's projects, to show which public events are already joined. */
   projets?: Projet[]
   onParticiper?: (e: Evenement) => void
+  onPlusOptions?: () => void
 }
 
 const LEGENDE: [NomIcone, string][] = [
@@ -44,7 +45,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = [], onParticiper }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = [], onParticiper, onPlusOptions }: Props) {
   const enVisite = delaiPinMs !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLElement>(null)
@@ -242,6 +243,11 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           </>
         )}
 
+        {onPlusOptions && (
+          <button type="button" className="btn btn-texte btn-petit btn-plus-options" onClick={onPlusOptions}>
+            {T.options.plus}
+          </button>
+        )}
         <div className="pied-feuille">
           {statut === 'proposee' ? (
             <button

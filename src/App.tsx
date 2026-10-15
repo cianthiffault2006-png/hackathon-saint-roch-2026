@@ -4,13 +4,19 @@ import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite } from './lib/invitation'
+import { trouverAsker } from './lib/besoin'
+import FilAuto from './tour/FilAuto'
 import { fr } from './i18n/fr'
 import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
 import { T } from './textes'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
 import Besoin from './screens/Besoin'
-import Bientot from './screens/Bientot'
+import FilProjet from './projet/FilProjet'
+import NouveauProjet from './projet/NouveauProjet'
+import Explorer from './explorer/Explorer'
+import PlusOptions from './explorer/PlusOptions'
+import ProfilPublic from './profil/ProfilPublic'
 import Fiche from './screens/Fiche'
 import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
@@ -21,7 +27,7 @@ import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
 import { ETAPES, ROLE_VISITE, SAISIE_MS, TEXTE_VISITE, indexDe } from './tour/script'
 
-type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'fil' | 'nouveau'
+type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 const DELAI_PIN_VISITE_MS = 700
@@ -38,6 +44,9 @@ export default function App() {
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
+  const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
+  const [profilId, setProfilId] = useState<string | null>(null)
+  const [voulu, setVoulu] = useState<string | null>(null)
   const [annonce, setAnnonce] = useState('')
   const { etat, demarrer, quitter, basculerPause, suivant } = useTour()
 
@@ -72,6 +81,8 @@ export default function App() {
           : ecranActif === 'explorer' ? T.accueil.explorer
           : ecranActif === 'fil' ? T.fiche.ouvrirFil
           : ecranActif === 'nouveau' ? T.accueil.proposer
+          : ecranActif === 'profil' ? 'Profil'
+          : ecranActif === 'plus' ? T.options.plus
           : fr.a11y.ecrans[ecranActif],
       )
   }, [ecranActif, enVisite])
@@ -97,6 +108,7 @@ export default function App() {
   )
 
   function trouver(besoin: BesoinType) {
+    setDernierBesoin(besoin)
     const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
     setPropositions(trouvees)
     setAnnonce(fr.proposition.nombreTrouvees(trouvees.length))
@@ -137,9 +149,22 @@ export default function App() {
     )
   }
 
+  // The tour posts a message in a thread of its own (distinct id), cleared at each start so Camille replies again.
+  const propositionFil = useMemo(
+    () => (propositionsVisite[0] ? { ...propositionsVisite[0], id: `visite-${propositionsVisite[0].id}` } : null),
+    [propositionsVisite],
+  )
+
   function lancerVisite() {
     setRole(ROLE_VISITE)
     setStatutsVisite({})
+    if (propositionFil) {
+      try {
+        window.localStorage.removeItem(`maillage.pj.msg.${idProjet(propositionFil)}`)
+      } catch {
+        // Storage blocked: nothing was kept either.
+      }
+    }
     demarrer()
   }
 
@@ -163,6 +188,7 @@ export default function App() {
   let cochesVisite = 0
   let defilement: 'actions' | 'liste' | undefined
   let accepterAuto = false
+  let filAuto = -1
   let defilerInvitation = false
   if (etat && etape) {
     if (etape.id === 'saisie') {
@@ -183,6 +209,7 @@ export default function App() {
       if (etat.ms > 1800) defilement = 'actions'
     }
     if (etape.id === 'coches') defilement = 'liste'
+    if (etape.id === 'fil') filAuto = etat.ms
     if (etape.id === 'coches') cochesVisite = Math.floor(etat.ms / 800)
     if (etat.index > indexDe('coches')) cochesVisite = 3
   }
@@ -191,6 +218,16 @@ export default function App() {
     ? projetVisite && { ...projetVisite, coches: projetVisite.coches.map((_, i) => i < cochesVisite) }
     : (projets.find((p) => p.id === ouvertId) ?? null)
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
+
+  const profilPublic = donnees.profils.find((p) => p.id === profilId) ?? null
+  const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ?? null)
+  const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
+
+  function creerProjet(p: PropositionType) {
+    const projet = projetDepuis(p, donnees.profils, donnees.lieux, 'proposee')
+    setProjets((prev) => (prev.some((x) => x.id === projet.id) ? prev : [...prev, projet]))
+    ouvrirFiche(projet.id, 'accueil')
+  }
 
   const propInvitation = enVisite ? (propositionsVisite[0] ?? null) : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
@@ -214,6 +251,7 @@ export default function App() {
         <Besoin
           role={enVisite ? ROLE_VISITE : role}
           profils={donnees.profils}
+          partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
           texteGuide={texteGuide}
           pulse={pulse}
           onRetour={() => setEcran('accueil')}
@@ -237,6 +275,7 @@ export default function App() {
           onInvitation={(prop) => { setInvitationProp(prop); setEcran('invitation') }}
           projets={enVisite ? undefined : projets}
           onParticiper={enVisite ? undefined : participer}
+          onPlusOptions={enVisite || !dernierBesoin ? undefined : () => setEcran('plus')}
           onRetour={() => setEcran('besoin')}
         />
       )}
@@ -259,7 +298,7 @@ export default function App() {
           defilement={defilement}
           onCocher={cocher}
           onRetirer={enVisite ? undefined : () => retirer(projetAffiche.id)}
-          onFil={enVisite ? undefined : () => setEcran('fil')}
+          onFil={enVisite || !projetAffiche.proposition ? undefined : () => setEcran('fil')}
           onRetour={() => setEcran(retourFiche)}
           onProjets={() => setEcran('projets')}
         />
@@ -272,9 +311,54 @@ export default function App() {
           onRetirer={enVisite ? undefined : retirer}
         />
       )}
-      {ecranActif === 'explorer' && <Bientot titre={T.accueil.explorer} onRetour={() => setEcran('accueil')} />}
-      {ecranActif === 'fil' && <Bientot titre={T.fiche.ouvrirFil} onRetour={() => setEcran('fiche')} />}
-      {ecranActif === 'nouveau' && <Bientot titre={T.accueil.proposer} onRetour={() => setEcran('accueil')} />}
+      {ecranActif === 'explorer' && (
+        <Explorer
+          profils={donnees.profils}
+          lieux={donnees.lieux}
+          evenements={donnees.evenements}
+          onRetour={() => setEcran('accueil')}
+          onOuvrirProfil={(id) => { setProfilId(id); setEcran('profil') }}
+        />
+      )}
+      {ecranActif === 'profil' && profilPublic && (
+        <ProfilPublic
+          profil={profilPublic}
+          profils={donnees.profils}
+          evenements={donnees.evenements}
+          onRetour={() => setEcran('explorer')}
+          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
+        />
+      )}
+      {ecranActif === 'plus' && dernierBesoin && (
+        <div className="plein-ecran">
+          <button type="button" className="retour retour-plein" onClick={() => setEcran('proposition')} aria-label={fr.general.retour}>←</button>
+          <PlusOptions
+            besoin={dernierBesoin}
+            profils={donnees.profils}
+            lieux={donnees.lieux}
+            evenements={donnees.evenements}
+            onChoisir={(p) => { setPropositions([p]); setIndexProp(0); setEcran('proposition') }}
+          />
+        </div>
+      )}
+      {ecranActif === 'fil' && filProposition && filMoi && (
+        <div className="plein-ecran">
+          <FilProjet proposition={filProposition} profils={donnees.profils} moi={filMoi} onRetour={() => setEcran(enVisite ? 'fiche' : 'fiche')} />
+          {enVisite && <FilAuto ms={filAuto} />}
+        </div>
+      )}
+      {ecranActif === 'nouveau' && (
+        <div className="plein-ecran">
+          <NouveauProjet
+            profils={donnees.profils}
+            lieux={donnees.lieux}
+            evenements={donnees.evenements}
+            moi={trouverAsker(role, donnees.profils)}
+            onRetour={() => setEcran('accueil')}
+            onCree={creerProjet}
+          />
+        </div>
+      )}
       {ecranActif === 'sources' && <Sources lieux={donnees.lieux} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>

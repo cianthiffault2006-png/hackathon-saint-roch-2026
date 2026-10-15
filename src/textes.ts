@@ -22,15 +22,18 @@ export const T = {
   carte: {
     cinqMinutes: '5 min à pied',
   },
+  visite: {
+    fil: 'Le fil du projet : participants, mises à jour et discussion.',
+  },
+  options: {
+    plus: 'Plus d’options',
+    voulu: 'Vous souhaitez travailler avec :',
+  },
   accueil: {
     explorer: 'Explorer le quartier',
     proposer: 'Proposer un projet',
   },
   fiche: {
     ouvrirFil: 'Ouvrir le fil du projet',
-  },
-  bientot: {
-    titre: 'Bientôt disponible',
-    texte: 'Cette partie arrive très bientôt.',
   },
 } as const

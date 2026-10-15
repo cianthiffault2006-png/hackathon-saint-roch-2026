@@ -1,0 +1,1524 @@
+[
+ {
+  "id": "story-cafe",
+  "role": "commerce",
+  "sousType": "café",
+  "nom": "Café Le Petit Détour",
+  "description": "Café de quartier qui a un espace libre le jeudi soir et cherche à attirer du monde.",
+  "lat": 46.8148,
+  "lng": -71.222,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "story-artiste",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Camille Vézina",
+  "description": "Artiste en arts visuels qui cherche un lieu chaleureux pour exposer ses toiles.",
+  "lat": 46.8155,
+  "lng": -71.2195,
+  "offres": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "visibilite",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "culture",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "story-organisme",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Collectif Les Voisins en Scène",
+  "description": "Organisme culturel de quartier qui a des bénévoles et un réseau, et veut rejoindre de nouveaux publics.",
+  "lat": 46.8139,
+  "lng": -71.2235,
+  "offres": [
+   "benevoles",
+   "visibilite",
+   "affichage",
+   "animation"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
+ },
+ {
+  "id": "p-resto",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Resto La Tablée du Coin",
+  "description": "Bistro de cuisine du marché, ouvert le soir et la fin de semaine.",
+  "lat": 46.813994,
+  "lng": -71.219611,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "visibilite",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-librairie",
+  "role": "commerce",
+  "sousType": "librairie",
+  "nom": "Librairie La Marge Douce",
+  "description": "Librairie indépendante avec un coin lecture et des vitrines à partager.",
+  "lat": 46.811093,
+  "lng": -71.22991,
+  "offres": [
+   "espace_interieur",
+   "visibilite",
+   "affichage",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-brasserie",
+  "role": "commerce",
+  "sousType": "microbrasserie",
+  "nom": "Microbrasserie Le Houblon Voisin",
+  "description": "Microbrasserie avec une terrasse et une salle de dégustation.",
+  "lat": 46.817874,
+  "lng": -71.226544,
+  "offres": [
+   "espace_interieur",
+   "espace_exterieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "visibilite",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "commerce_local",
+   "alimentation"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
+ },
+ {
+  "id": "p-salle",
+  "role": "commerce",
+  "sousType": "salle de spectacle privée",
+  "nom": "Salle Le Bémol",
+  "description": "Petite salle de spectacle privée de cent places, libre certains soirs.",
+  "lat": 46.812708,
+  "lng": -71.230927,
+  "offres": [
+   "espace_interieur",
+   "public",
+   "affichage"
+  ],
+  "besoins": [
+   "contenu_artistique",
+   "visibilite",
+   "materiel"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "culture",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-boutique",
+  "role": "commerce",
+  "sousType": "boutique",
+  "nom": "Boutique Fil & Aiguille",
+  "description": "Boutique de vêtements de designers locaux, vitrine sur rue passante.",
+  "lat": 46.812337,
+  "lng": -71.226244,
+  "offres": [
+   "visibilite",
+   "affichage",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "commerce_local",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-boulangerie",
+  "role": "commerce",
+  "sousType": "boulangerie",
+  "nom": "Boulangerie Pain de Ville",
+  "description": "Boulangerie de quartier avec une petite terrasse, tôt le matin.",
+  "lat": 46.817676,
+  "lng": -71.231832,
+  "offres": [
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "benevoles",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_jour"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-disquaire",
+  "role": "commerce",
+  "sousType": "disquaire",
+  "nom": "Disques Vinyle Nord",
+  "description": "Disquaire avec un espace libre au fond de la boutique.",
+  "lat": 46.818018,
+  "lng": -71.235613,
+  "offres": [
+   "espace_interieur",
+   "public",
+   "visibilite"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-epicerie",
+  "role": "commerce",
+  "sousType": "épicerie fine",
+  "nom": "Épicerie Le Marché du Coin",
+  "description": "Épicerie de produits locaux avec un grand trottoir devant la porte.",
+  "lat": 46.815671,
+  "lng": -71.230341,
+  "offres": [
+   "nourriture",
+   "visibilite",
+   "affichage",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "benevoles"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "environnement"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-plantes",
+  "role": "commerce",
+  "sousType": "boutique de plantes",
+  "nom": "Les Mains Vertes",
+  "description": "Atelier-boutique de plantes et de matériel de jardinage urbain.",
+  "lat": 46.81979,
+  "lng": -71.218366,
+  "offres": [
+   "materiel",
+   "expertise",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "visibilite",
+   "public"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
+ },
+ {
+  "id": "p-galerie",
+  "role": "commerce",
+  "sousType": "galerie-boutique",
+  "nom": "Galerie L'Éclat",
+  "description": "Galerie-boutique d'artisans qui renouvelle ses murs chaque mois.",
+  "lat": 46.814606,
+  "lng": -71.22064,
+  "offres": [
+   "espace_interieur",
+   "visibilite",
+   "affichage",
+   "public"
+  ],
+  "besoins": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-jeux",
+  "role": "commerce",
+  "sousType": "café-jeux",
+  "nom": "Café-jeux Le Dé Pipé",
+  "description": "Café de jeux de société très fréquenté par les étudiants.",
+  "lat": 46.820909,
+  "lng": -71.231363,
+  "offres": [
+   "espace_interieur",
+   "public",
+   "nourriture"
+  ],
+  "besoins": [
+   "animation",
+   "benevoles",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "etudiants",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-friperie",
+  "role": "commerce",
+  "sousType": "friperie",
+  "nom": "Friperie solidaire Deuxième Vie",
+  "description": "Friperie à vocation sociale avec un grand local au rez-de-chaussée.",
+  "lat": 46.820343,
+  "lng": -71.233335,
+  "offres": [
+   "espace_interieur",
+   "materiel",
+   "visibilite"
+  ],
+  "besoins": [
+   "benevoles",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_jour"
+  ],
+  "themes": [
+   "environnement",
+   "communautaire",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Membres SDC Centre-Ville",
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
+ },
+ {
+  "id": "p-yoga",
+  "role": "commerce",
+  "sousType": "studio de yoga",
+  "nom": "Studio Souffle",
+  "description": "Studio de yoga et de mouvement avec une salle lumineuse.",
+  "lat": 46.818538,
+  "lng": -71.227761,
+  "offres": [
+   "espace_interieur",
+   "expertise"
+  ],
+  "besoins": [
+   "public",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "semaine_soir"
+  ],
+  "themes": [
+   "sport",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Entreprises St-Roch",
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
+ },
+ {
+  "id": "p-mdj",
+  "role": "organisme",
+  "sousType": "organisme jeunesse",
+  "nom": "Maison des jeunes La Cabane Mauve",
+  "description": "Maison des jeunes de douze à dix-sept ans, avec un local d'activités.",
+  "lat": 46.817488,
+  "lng": -71.219845,
+  "offres": [
+   "espace_interieur",
+   "animation",
+   "public"
+  ],
+  "besoins": [
+   "financement",
+   "expertise",
+   "materiel"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-jardins",
+  "role": "organisme",
+  "sousType": "organisme environnemental",
+  "nom": "Jardins collectifs du Faubourg",
+  "description": "Jardins communautaires en bacs avec des jardiniers bénévoles.",
+  "lat": 46.817158,
+  "lng": -71.224901,
+  "offres": [
+   "espace_exterieur",
+   "benevoles",
+   "materiel",
+   "expertise"
+  ],
+  "besoins": [
+   "financement",
+   "visibilite",
+   "affichage"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "communautaire",
+   "alimentation"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
+ },
+ {
+  "id": "p-table",
+  "role": "organisme",
+  "sousType": "organisme communautaire",
+  "nom": "Table de concertation Saint-Roch Solidaire",
+  "description": "Table de concertation des groupes communautaires, avec un babillard et des communications.",
+  "lat": 46.816117,
+  "lng": -71.218376,
+  "offres": [
+   "affichage",
+   "visibilite",
+   "public",
+   "benevoles"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "nourriture",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "semaine_soir"
+  ],
+  "themes": [
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-theatre",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Troupe Les Intempestifs",
+  "description": "Troupe de théâtre amateur qui cherche des lieux de répétition et de représentation.",
+  "lat": 46.818335,
+  "lng": -71.237358,
+  "offres": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "materiel",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "culture",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes LSVC",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-aeav",
+  "role": "organisme",
+  "sousType": "association étudiante",
+  "nom": "Association étudiante des arts visuels",
+  "description": "Association étudiante qui fournit des œuvres et des bénévoles pour des expositions.",
+  "lat": 46.813307,
+  "lng": -71.222454,
+  "offres": [
+   "contenu_artistique",
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "visibilite",
+   "materiel"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-mediation",
+  "role": "organisme",
+  "sousType": "médiation urbaine",
+  "nom": "Équipe Médiation Urbaine Basse-Ville",
+  "description": "Équipe de médiation qui accompagne les passants en soirée.",
+  "lat": 46.816883,
+  "lng": -71.226535,
+  "offres": [
+   "expertise",
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "visibilite",
+   "financement"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "securite",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-comitevert",
+  "role": "organisme",
+  "sousType": "organisme environnemental",
+  "nom": "Comité vert de la Basse-Ville",
+  "description": "Comité de citoyens qui organise des corvées de verdissement.",
+  "lat": 46.813652,
+  "lng": -71.227551,
+  "offres": [
+   "benevoles",
+   "expertise",
+   "materiel"
+  ],
+  "besoins": [
+   "espace_exterieur",
+   "visibilite",
+   "financement"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes LSVC",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-cirque",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Atelier de cirque Les Saltimbanques",
+  "description": "Atelier de cirque social pour jeunes, démonstrations de rue.",
+  "lat": 46.819195,
+  "lng": -71.229043,
+  "offres": [
+   "animation",
+   "expertise",
+   "contenu_artistique",
+   "materiel"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "public",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "culture",
+   "sport"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes LSVC",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-chorale",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Chorale Voix du Faubourg",
+  "description": "Chorale communautaire de quarante membres, concerts sans scène fixe.",
+  "lat": 46.812054,
+  "lng": -71.223538,
+  "offres": [
+   "contenu_artistique",
+   "public",
+   "benevoles"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-marmite",
+  "role": "organisme",
+  "sousType": "organisme communautaire",
+  "nom": "Cuisine collective La Marmite",
+  "description": "Cuisine collective qui prépare des repas et les partage.",
+  "lat": 46.811979,
+  "lng": -71.227948,
+  "offres": [
+   "nourriture",
+   "benevoles",
+   "expertise",
+   "espace_interieur"
+  ],
+  "besoins": [
+   "financement",
+   "public",
+   "visibilite",
+   "materiel"
+  ],
+  "creneaux": [
+   "semaine_jour"
+  ],
+  "themes": [
+   "alimentation",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-foulees",
+  "role": "organisme",
+  "sousType": "organisme sportif",
+  "nom": "Club Les Foulées du Faubourg",
+  "description": "Club de course à pied du quartier, sorties en soirée.",
+  "lat": 46.82017,
+  "lng": -71.230554,
+  "offres": [
+   "public",
+   "benevoles",
+   "expertise"
+  ],
+  "besoins": [
+   "affichage",
+   "espace_exterieur",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "sport",
+   "jeunesse"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes LSVC",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-obscura",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Centre de photographie Obscura",
+  "description": "Centre d'artistes en photographie avec une salle d'exposition.",
+  "lat": 46.819498,
+  "lng": -71.231555,
+  "offres": [
+   "espace_interieur",
+   "contenu_artistique",
+   "expertise",
+   "visibilite"
+  ],
+  "besoins": [
+   "financement",
+   "public",
+   "affichage"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "semaine_soir"
+  ],
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
+ },
+ {
+  "id": "p-radio",
+  "role": "organisme",
+  "sousType": "organisme culturel",
+  "nom": "Radio communautaire Ondes Libres",
+  "description": "Radio communautaire qui relaie les activités locales.",
+  "lat": 46.814761,
+  "lng": -71.224517,
+  "offres": [
+   "visibilite",
+   "affichage",
+   "expertise"
+  ],
+  "besoins": [
+   "benevoles",
+   "espace_interieur",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "culture",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes LSVC",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-aines",
+  "role": "organisme",
+  "sousType": "organisme communautaire",
+  "nom": "Association Mémoire Vive",
+  "description": "Association d'aînés qui partage l'histoire du quartier.",
+  "lat": 46.818393,
+  "lng": -71.220367,
+  "offres": [
+   "expertise",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "espace_interieur",
+   "benevoles"
+  ],
+  "creneaux": [
+   "semaine_jour"
+  ],
+  "themes": [
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
+ },
+ {
+  "id": "p-sculptrice",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Alix R., sculptrice",
+  "description": "Sculptrice qui expose des petites pièces et anime des ateliers.",
+  "lat": 46.814867,
+  "lng": -71.2187,
+  "offres": [
+   "contenu_artistique",
+   "expertise"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "visibilite",
+   "public"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-photographe",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Noé B., photographe",
+  "description": "Photographe de rue qui documente le quartier.",
+  "lat": 46.80914,
+  "lng": -71.228681,
+  "offres": [
+   "contenu_artistique",
+   "visibilite"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "affichage",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-illustratrice",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Zoé L., illustratrice",
+  "description": "Illustratrice qui crée des affiches et des fresques à petite échelle.",
+  "lat": 46.81561,
+  "lng": -71.228626,
+  "offres": [
+   "contenu_artistique",
+   "materiel"
+  ],
+  "besoins": [
+   "visibilite",
+   "espace_interieur",
+   "financement"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-musicien",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Félix M., musicien",
+  "description": "Guitariste-chanteur qui cherche des scènes intimes.",
+  "lat": 46.821432,
+  "lng": -71.238245,
+  "offres": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "public",
+   "visibilite"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "culture",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-danseuse",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Sofia D., danseuse",
+  "description": "Danseuse contemporaine qui propose des performances de rue.",
+  "lat": 46.8185,
+  "lng": -71.218647,
+  "offres": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "besoins": [
+   "espace_exterieur",
+   "public",
+   "visibilite"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-etu-design",
+  "role": "citoyen",
+  "sousType": "étudiant",
+  "nom": "Hugo T., étudiant en design",
+  "description": "Étudiant en design graphique prêt à créer des affiches.",
+  "lat": 46.816033,
+  "lng": -71.227388,
+  "offres": [
+   "benevoles",
+   "contenu_artistique",
+   "expertise"
+  ],
+  "besoins": [
+   "visibilite",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-etu-social",
+  "role": "citoyen",
+  "sousType": "étudiant",
+  "nom": "Inès K., étudiante en travail social",
+  "description": "Étudiante bénévole qui cherche une cause dans le quartier.",
+  "lat": 46.817328,
+  "lng": -71.217881,
+  "offres": [
+   "benevoles",
+   "expertise"
+  ],
+  "besoins": [
+   "public",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-etu-genie",
+  "role": "citoyen",
+  "sousType": "étudiant",
+  "nom": "Malik A., étudiant en génie",
+  "description": "Étudiant qui peut monter des installations et du matériel.",
+  "lat": 46.814783,
+  "lng": -71.222486,
+  "offres": [
+   "benevoles",
+   "materiel",
+   "expertise"
+  ],
+  "besoins": [
+   "visibilite",
+   "public"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "environnement"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-benevoles-cegep",
+  "role": "citoyen",
+  "sousType": "étudiant",
+  "nom": "Équipe bénévole étudiante du Faubourg",
+  "description": "Petit groupe d'étudiants bénévoles disponibles les fins de semaine.",
+  "lat": 46.821126,
+  "lng": -71.236967,
+  "offres": [
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "nourriture"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "jeunesse"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-resident-1",
+  "role": "citoyen",
+  "sousType": "nouveau résident",
+  "nom": "Nouveaux résidents du Quai des Lofts",
+  "description": "Nouveaux résidents d'un immeuble de logements qui veulent rencontrer le quartier.",
+  "lat": 46.816228,
+  "lng": -71.223604,
+  "offres": [
+   "public",
+   "benevoles"
+  ],
+  "besoins": [
+   "animation",
+   "nourriture"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "communautaire",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-resident-2",
+  "role": "citoyen",
+  "sousType": "nouveau résident",
+  "nom": "Résidents de la Coopérative des Arts",
+  "description": "Résidents d'une coopérative d'habitation, disposés à accueillir le public dans la cour.",
+  "lat": 46.814811,
+  "lng": -71.231116,
+  "offres": [
+   "espace_exterieur",
+   "public",
+   "benevoles"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "communautaire",
+   "art"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-resident-3",
+  "role": "citoyen",
+  "sousType": "nouveau résident",
+  "nom": "Jade et Samuel, nouveaux voisins",
+  "description": "Couple installé depuis l'été, curieux et disponibles les soirs.",
+  "lat": 46.816044,
+  "lng": -71.220499,
+  "offres": [
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "nourriture",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_soir"
+  ],
+  "themes": [
+   "communautaire",
+   "alimentation"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-retraite",
+  "role": "citoyen",
+  "sousType": "citoyen engagé",
+  "nom": "Gaston V., retraité",
+  "description": "Retraité du quartier qui connaît l'histoire locale et aime guider des visites.",
+  "lat": 46.81875,
+  "lng": -71.233869,
+  "offres": [
+   "expertise",
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "visibilite",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "communautaire",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-cuisinier",
+  "role": "citoyen",
+  "sousType": "citoyen engagé",
+  "nom": "Rémi C., cuisinier amateur",
+  "description": "Cuisinier amateur qui prépare des repas pour des activités de rue.",
+  "lat": 46.813637,
+  "lng": -71.226102,
+  "offres": [
+   "nourriture",
+   "benevoles"
+  ],
+  "besoins": [
+   "espace_exterieur",
+   "materiel",
+   "visibilite"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-peintre-2",
+  "role": "citoyen",
+  "sousType": "artiste",
+  "nom": "Lou G., muraliste",
+  "description": "Muraliste qui cherche des murs aveugles à embellir avec la permission des propriétaires.",
+  "lat": 46.811831,
+  "lng": -71.22493,
+  "offres": [
+   "contenu_artistique",
+   "expertise"
+  ],
+  "besoins": [
+   "espace_exterieur",
+   "affichage",
+   "visibilite"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "art",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Collection Art Public",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
+ },
+ {
+  "id": "p-etu-musique",
+  "role": "citoyen",
+  "sousType": "étudiant",
+  "nom": "Thomas E., étudiant en musique",
+  "description": "Étudiant en musique qui anime des soirées de poésie et de jazz.",
+  "lat": 46.817433,
+  "lng": -71.221959,
+  "offres": [
+   "contenu_artistique",
+   "animation",
+   "benevoles"
+  ],
+  "besoins": [
+   "espace_interieur",
+   "public"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "etudiants",
+   "culture"
+  ],
+  "source": "fictif",
+  "origine": "Nombre_étudiants_Québec",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-resident-4",
+  "role": "citoyen",
+  "sousType": "nouveau résident",
+  "nom": "Famille Beaulieu-Diop, nouveaux résidents",
+  "description": "Famille arrivée dans un nouveau logement, curieuse des activités jeunesse.",
+  "lat": 46.820373,
+  "lng": -71.237903,
+  "offres": [
+   "benevoles",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "espace_interieur"
+  ],
+  "creneaux": [
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "communautaire"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-proprete",
+  "role": "organisme",
+  "sousType": "entreprise d'économie sociale",
+  "nom": "Équipe Propreté du Faubourg",
+  "description": "Entreprise d'économie sociale qui nettoie et verdit les rues et les ruelles avec des équipes d'insertion.",
+  "lat": 46.813332,
+  "lng": -71.228968,
+  "offres": [
+   "materiel",
+   "expertise",
+   "benevoles"
+  ],
+  "besoins": [
+   "visibilite",
+   "financement",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "securite",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
+ },
+ {
+  "id": "p-sofia",
+  "role": "citoyen",
+  "sousType": "citoyen engagé",
+  "nom": "Sofia, résidente de la rue Saint-Joseph",
+  "description": "Résidente qui voit les déchets s'accumuler dans sa rue et veut agir avec ses voisins.",
+  "lat": 46.81596,
+  "lng": -71.222069,
+  "offres": [
+   "benevoles",
+   "visibilite"
+  ],
+  "besoins": [
+   "benevoles",
+   "materiel",
+   "expertise"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "securite"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ }
+]

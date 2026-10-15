@@ -1,4 +1,5 @@
 import { fr } from '../i18n/fr'
+import { T } from '../textes'
 import { ETAPES, FIN_VISITE } from './script'
 import type { EtatVisite } from './useTour'
 
@@ -27,7 +28,7 @@ export default function TourBar({ etat, onPause, onSuivant, onQuitter }: Props) 
       )}
       <div className="visite-barre" role="region" aria-label={fr.visite.titre}>
         <p className="visite-legende" aria-live="polite">
-          {cle ? fr.visite.etapes[cle] : fr.visite.titre}
+          {cle === null ? fr.visite.titre : cle === 'fiche' || cle === 'coches' || cle === 'projets' ? T.visite[cle] : fr.visite.etapes[cle]}
         </p>
         <div className="visite-progres" aria-hidden="true">
           <div className="visite-progres-rempli" style={{ width: `${progres}%` }} />

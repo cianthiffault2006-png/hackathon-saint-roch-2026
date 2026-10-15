@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
-import MapView, { SIGLE_ROLE, type Pin } from '../components/MapView'
+import { T } from '../textes'
+import Icone, { type NomIcone } from '../components/Icones'
+import MapView, { type Pin } from '../components/MapView'
 
 interface Props {
   propositions: PropositionType[]
@@ -14,7 +16,18 @@ interface Props {
   raisonsVisibles?: number
   /** Guided tour: presses the interest button once true. */
   interetAuto?: boolean
+  /** Reports each status change so the project can be saved. */
+  onStatut?: (prop: PropositionType, statut: Statut) => void
+  onFiche?: (prop: PropositionType) => void
 }
+
+const LEGENDE: [NomIcone, string][] = [
+  ['commerce', T.legende.commerce],
+  ['organisme', T.legende.organisme],
+  ['citoyen', T.legende.citoyen],
+  ['lieu', T.legende.lieu],
+  ['evenement', T.legende.evenement],
+]
 
 const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts
 
@@ -22,7 +35,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, onStatut, onFiche }: Props) {
   const enVisite = delaiPinMs !== undefined
   const [index, setIndex] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
@@ -34,6 +47,10 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   useEffect(() => {
     if (interetAuto && prop) setStatuts((s) => (s[prop.id] ? s : { ...s, [prop.id]: 'interet_envoye' }))
   }, [interetAuto, prop])
+
+  useEffect(() => {
+    if (prop && statut !== 'proposee') onStatut?.(prop, statut)
+  }, [prop, statut, onStatut])
 
   // Simulated confirmation chain: 2 s then 3 s. The timer is cleared if the screen or proposal changes.
   useEffect(() => {
@@ -103,10 +120,10 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         delaiPinMs={delaiPinMs}
       />
       <ul className="legende" style={{ bottom: `calc(${enVisite ? 50 : 58}dvh + 8px)` }} aria-label={fr.carte.legende}>
-        {(['commerce', 'organisme', 'citoyen'] as const).map((r) => (
-          <li key={r}>
-            <span className={`pastille pin-${r}`}>{SIGLE_ROLE[r]}</span>
-            {fr.proposition.rolesPartenaire[r]}
+        {LEGENDE.map(([nom, libelle]) => (
+          <li key={nom}>
+            <span className={`pastille pin-${nom}`}><Icone nom={nom} taille={14} /></span>
+            {libelle}
           </li>
         ))}
       </ul>
@@ -188,6 +205,11 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
                 />
               ))}
             </div>
+          )}
+          {statut === 'confirmee' && onFiche && (
+            <button type="button" className="btn btn-lien btn-fiche" onClick={() => onFiche(prop)}>
+              {T.voirFiche}
+            </button>
           )}
           <p className="note-simulation">{fr.proposition.noteSimulation}</p>
         </div>

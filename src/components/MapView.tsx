@@ -3,8 +3,7 @@ import { LngLatBounds, Map, Marker, Popup, setWorkerUrl, type GeoJSONSource } fr
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Role } from '../types'
-
-export const SIGLE_ROLE: Record<Role, string> = { commerce: 'Co', organisme: 'O', citoyen: 'Ci' }
+import { svgIcone } from './Icones'
 
 // The bundler moves the library, so its default worker path breaks: point to the emitted file.
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -62,7 +61,8 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       interieur.setAttribute('role', 'img')
       interieur.setAttribute('aria-label', p.label)
       interieur.title = p.label
-      interieur.textContent = p.type === 'lieu' ? 'L' : p.type === 'evenement' ? '★' : p.role ? SIGLE_ROLE[p.role] : p.label.charAt(0)
+      // Static markup from our own icon set, never user text.
+      interieur.innerHTML = svgIcone(p.type === 'lieu' ? 'lieu' : p.type === 'evenement' ? 'evenement' : (p.role ?? 'citoyen'), 20)
       el.appendChild(interieur)
       if (p.type !== 'evenement') {
         const etiquette = document.createElement('div')

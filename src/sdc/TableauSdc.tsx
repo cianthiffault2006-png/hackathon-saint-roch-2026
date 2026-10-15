@@ -22,7 +22,9 @@ const TYPES = [
 ]
 
 export default function TableauSdc({ profils }: Props) {
-  const aActiver = profils.filter((p) => !p.reclame).length
+  const reclames = profils.filter((p) => p.reclame).length
+  const aActiver = profils.length - reclames
+  const kpis = KPI.map((k) => (k.libelle === 'Profils réclamés' ? { ...k, valeur: reclames } : k))
   const max = Math.max(...TYPES.map((t) => t.n))
 
   return (
@@ -33,7 +35,7 @@ export default function TableauSdc({ profils }: Props) {
       <section aria-labelledby="p2-kpi">
         <h2 id="p2-kpi" className="p2-sdc-h2">Indicateurs</h2>
         <ul className="p2-kpis">
-          {KPI.map((k) => (
+          {kpis.map((k) => (
             <li key={k.libelle} className="p2-kpi">
               <span className="p2-kpi-n">{k.valeur}</span>
               <span className="p2-kpi-l">{k.libelle}</span>

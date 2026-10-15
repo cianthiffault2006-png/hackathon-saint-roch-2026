@@ -14,6 +14,7 @@ export const fr = {
     visiteGuidee: 'Visite guidée',
     badgeDemo: 'Démo simulée',
     pasDeCompte: 'Aucune inscription pour essayer.',
+    tableauSdc: 'Tableau de bord du quartier (SDC)',
   },
 
   besoin: {
@@ -62,6 +63,7 @@ export const fr = {
     },
     jOffre: 'J’offre',
     jeCherche: 'Je cherche',
+    aideBouton: 'Écrivez un besoin ou choisissez une puce',
     plus: 'Plus',
     moins: 'Moins',
     votreProfil: 'Votre profil :',
@@ -101,6 +103,15 @@ export const fr = {
     precedente: 'Proposition précédente',
     suivante: 'Proposition suivante',
     commentScore: 'Comment ce score',
+    paginationN: (i: number, n: number) => `Proposition ${i} sur ${n}`,
+    detailScore: {
+      complementarite: 'Complémentarité',
+      reciprocite: 'Réciprocité',
+      proximite: 'Proximité',
+      creneau: 'Créneau',
+      theme: 'Thème',
+    },
+    voirInvitation: (prenom: string) => `Voir ce que ${prenom} reçoit`,
     interet: 'Ça m’intéresse',
     statuts: {
       proposee: 'Proposition',
@@ -142,6 +153,11 @@ export const fr = {
     prochaineDate: 'Prochaine date proposée',
     dateProposee: 'Date proposée, à confirmer avec les partenaires',
     aConfirmerAvant: 'À confirmer avant la date',
+    lieuAConfirmer: 'À déterminer avec les partenaires',
+    progres: (fait: number, total: number) => `${fait}/${total} confirmés`,
+    calendrierFait: 'Fichier de calendrier téléchargé (rappel la veille).',
+    rien: 'Rien n’est envoyé automatiquement : vous choisissez à qui partager.',
+    objetPartage: (titre: string) => `Projet Maillage : ${titre}`,
     rappel: 'Rappel la veille',
     courriel: 'Envoyer par courriel',
     texto: 'Envoyer par texto',
@@ -152,12 +168,16 @@ export const fr = {
   projets: {
     titre: 'Mes projets',
     aucun: 'Aucun projet pour l’instant',
+    videTexte: 'Choisissez « Ça m’intéresse » sur une proposition pour la retrouver ici.',
   },
 
   carte: {
     titre: 'Carte de Saint-Roch',
     legende: 'Partenaires et lieux',
     chargement: 'Chargement de la carte…',
+    resume: 'Carte, résumé dans la liste ci-dessous',
+    minutesAPied: '10 min à pied',
+    voirListe: 'Voir la liste',
     lieuPublic: 'Lieu public',
     evenement: 'Événement',
   },
@@ -192,7 +212,30 @@ export const fr = {
       proposition: 'Maillage propose un projet à trois, avec les raisons.',
       interet: 'Le café dit « Ça m’intéresse ».',
       confirme: 'Les partenaires répondent : le projet est confirmé (simulé).',
+      invitation: 'Le partenaire reçoit une invitation claire et l’accepte.',
+      fiche: 'Le projet devient une fiche : date proposée, lieu, partenaires.',
+      coches: 'Une liste de points à confirmer, à cocher un à un.',
+      projets: 'Tous vos projets au même endroit.',
     },
+  },
+
+  a11y: {
+    ecrans: {
+      accueil: 'Accueil',
+      besoin: 'Décrivez votre besoin',
+      proposition: 'Propositions',
+      invitation: 'Invitation du partenaire',
+      fiche: 'Fiche projet',
+      projets: 'Mes projets',
+      sdc: 'Tableau de bord du quartier',
+    },
+  },
+
+  ics: {
+    description: 'Projet Maillage (démo simulée). Date proposée, à confirmer avec les partenaires.',
+    partenaires: 'Partenaires',
+    aConfirmer: 'À confirmer',
+    rappel: 'Rappel : projet Maillage demain',
   },
 
   general: {

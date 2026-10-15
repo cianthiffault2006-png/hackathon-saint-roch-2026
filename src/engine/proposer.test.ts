@@ -177,7 +177,7 @@ describe('proposer: français des sorties', () => {
   it('pas de « chez Chez »', () => {
     expect(titre('exposition', 'Chez Gaston')).toBe('Exposition collaborative Chez Gaston');
     expect(titre('spectacle', 'chez Lulu')).toBe('Soirée spectacle chez Lulu');
-    expect(titre('atelier', 'Café Le Pignon')).toBe('Atelier ouvert chez Café Le Pignon');
+    expect(titre('atelier', 'Café Le Pignon')).toBe('Atelier ouvert au Café Le Pignon');
   });
   it('lieu public: jamais « chez », « à » contracté et élidé', () => {
     expect(titre('spectacle', 'Centre Materia', true)).toBe('Soirée spectacle au Centre Materia');
@@ -192,13 +192,25 @@ describe('proposer: français des sorties', () => {
     expect(titre('collecte', 'Hôtel de ville', true)).toBe('Collecte communautaire à l’Hôtel de ville');
     expect(titre('verdissement', 'Marina Saint-Roch', true)).toBe('Projet de verdissement à la Marina Saint-Roch');
   });
-  it('lieu public au genre inconnu: « au lieu public proposé »', () => {
-    expect(aLieu('Méduse')).toBeNull();
-    expect(aLieu('VU, centre de diffusion et production de la photographie')).toBeNull();
-    expect(titre('spectacle', 'Méduse', true)).toBe('Soirée spectacle au lieu public proposé');
+  it('salles connues sans nom commun: « à l’Impérial Bell », « à Méduse », « à Engramme », « à VU »', () => {
+    expect(titre('spectacle', 'Méduse', true)).toBe('Soirée spectacle à Méduse');
+    expect(titre('spectacle', 'Impérial Bell', true)).toBe('Soirée spectacle à l’Impérial Bell');
+    expect(titre('exposition', 'Engramme', true)).toBe('Exposition collaborative à Engramme');
+    expect(titre('exposition', 'VU, centre de diffusion et production de la photographie', true)).toBe('Exposition collaborative à VU');
   });
-  it('hôte privé (entreprise fictive): garde « chez » et « avec »', () => {
-    expect(titre('spectacle', 'Centre Materia')).toBe('Soirée spectacle chez Centre Materia');
+  it('lieu public au genre inconnu: « au lieu public proposé »', () => {
+    expect(aLieu('Kinémax')).toBeNull();
+    expect(titre('spectacle', 'Kinémax', true)).toBe('Soirée spectacle au lieu public proposé');
+  });
+  it('hôte privé au nom commun: « au Café… », « à la Galerie… »; une personne garde « chez »', () => {
+    expect(titre('exposition', 'Café Le Petit Détour')).toBe('Exposition collaborative au Café Le Petit Détour');
+    expect(titre('exposition', 'Centre de photographie Obscura')).toBe('Exposition collaborative au Centre de photographie Obscura');
+    expect(titre('spectacle', "Galerie L'Éclat")).toBe('Soirée spectacle à la Galerie L’Éclat');
+    expect(titre('marche_ephemere', 'Microbrasserie du Faubourg')).toBe('Marché éphémère à la Microbrasserie du Faubourg');
+    expect(titre('atelier', 'Épicerie Le Panier')).toBe('Atelier ouvert à l’Épicerie Le Panier');
+    expect(titre('conference', 'Association des gens d’affaires')).toBe('Conférence à l’Association des gens d’affaires');
+    expect(titre('exposition', 'Disques Vinyle Nord')).toBe('Exposition collaborative chez Disques Vinyle Nord');
+    expect(titre('spectacle', 'Camille Vézina')).toBe('Soirée spectacle chez Camille Vézina');
     expect(titre('animation_de_rue', 'Café Le Pignon')).toBe('Animation de rue avec Café Le Pignon');
   });
   it('proposition hébergée par un lieu public: titre sans « chez »', () => {

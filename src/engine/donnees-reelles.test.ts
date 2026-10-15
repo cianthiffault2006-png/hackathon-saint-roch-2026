@@ -112,6 +112,12 @@ describe('visite guidée: phrase du café', () => {
   it('87 % avec Camille Vézina et Collectif Les Voisins en Scène', () => {
     expect(res[0].score).toBe(87);
     expect(res[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
+    expect(res[0].titre).toBe('Exposition collaborative au Café Le Petit Détour');
+  });
+  it('proposition 2: l’hôte est le café qui offre l’espace, pas un partenaire qui apporte de l’art', () => {
+    // Le café offre son espace intérieur; Obscura a aussi une salle, mais n'apporte que de l'art et de la visibilité.
+    expect(res[1].titre).toMatch(/ au Café Le Petit Détour$/);
+    for (const p of res) expect(p.titre).not.toMatch(/Obscura|chez/);
   });
   // Same path as the Besoin screen: chips updated at every keystroke (surSaisie), then « Trouver ».
   it.each([texte, texte.replace(/\.$/, ''), texte.replace('’', "'")])('saisie lettre par lettre « %s »: mêmes pastilles, 87 %%', (phrase) => {

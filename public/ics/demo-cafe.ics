@@ -21,11 +21,11 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:propstorycafestoryartistestoryorganismeExpositioncollabo
- rativechezCafLePetitDtour@maillage.demo
+ rativeauCafLePetitDtour@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261022T190000
 DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Exposition collaborative chez Café Le Petit Détour
+SUMMARY:Exposition collaborative au Café Le Petit Détour
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.

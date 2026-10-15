@@ -13,7 +13,7 @@ Avant chaque passage sur le téléphone de démo : vider les données du site (r
 | 1 | Ouvrir l’accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
 | 2 | Choisir « Commerçant » | Écran Besoin : « Votre profil : Café Le Petit Détour », zone de texte, deux rangées de puces « J’offre » et « Je cherche », puis « Quand » |
 | 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir |
-| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
+| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative au Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
 | 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », lien « Voir ce que Camille reçoit » (l’attente passe seule à « Projet confirmé » en quelques secondes : cliquer sans tarder) |
 | 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |

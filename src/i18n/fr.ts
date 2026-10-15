@@ -134,7 +134,7 @@ export const fr = {
 
   profil: {
     tagNonReclame: 'Profil pré-rempli',
-    nonReclame: 'Ce profil a été pré-rempli à partir de répertoires publics de la Ville. Seul son nom public est affiché, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
+    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Seuls son nom, son type, une description et une position approximative sont affichés, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer ce profil',
     pasAffiche: 'Profil non réclamé : non affiché.',
     fictif: 'Données fictives créées pour la démo.',
@@ -209,7 +209,7 @@ export const fr = {
     titre: 'Visite guidée',
     fil: 'Le fil du projet : participants, mises à jour et discussion.',
     finTitre: 'Maillage : les ressources du quartier, enfin connectées',
-    texteCafe: 'On a un espace libre le jeudi soir et on cherche des artistes pour l’animer',
+    texteCafe: 'On a un espace libre le jeudi soir et on cherche des artistes pour l’animer.',
     suivant: 'Suivant',
     precedent: 'Précédent',
     quitter: 'Quitter la visite',

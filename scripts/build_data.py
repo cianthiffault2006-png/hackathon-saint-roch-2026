@@ -65,9 +65,9 @@ LSVC, ORG, ENT, SDC, ART, ETU, ETE = ("Liste organismes reconnus LSVC", "Liste o
 
 # id, role, sousType, nom, description, offres, besoins, creneaux, themes, origine
 D = [
- ("story-cafe", "commerce", "café", "Café Le Parvis", "Café de quartier avec une grande salle et une clientèle fidèle, qui cherche à faire vivre ses soirées.", [EI, N, P], [AN, CA, V], [S], ["culture", "commerce_local"], ENT),
- ("story-artiste", "citoyen", "artiste", "Camille P., peintre", "Peintre du quartier qui cherche un mur et un public pour montrer ses toiles.", [CA, AN], [EI, V, P], [S, W], ["art", "culture", "commerce_local"], ART),
- ("story-organisme", "organisme", "organisme culturel", "Collectif Les Fenêtres Ouvertes", "Collectif culturel qui mobilise des bénévoles et diffuse la création locale, mais sans salle.", [B, V, A, AN], [EI, CA], [S], ["culture", "communautaire"], LSVC),
+ ("story-cafe", "commerce", "café", "Café Le Petit Détour", "Café de quartier qui a un espace libre le jeudi soir et cherche à attirer du monde.", [EI, N, P], [AN, CA, V], [S], ["culture", "commerce_local"], ENT),
+ ("story-artiste", "citoyen", "artiste", "Camille Vézina", "Artiste en arts visuels qui cherche un lieu chaleureux pour exposer ses toiles.", [CA, AN], [EI, V, P], [S, W], ["art", "culture", "commerce_local"], ART),
+ ("story-organisme", "organisme", "organisme culturel", "Collectif Les Voisins en Scène", "Organisme culturel de quartier qui a des bénévoles et un réseau, et veut rejoindre de nouveaux publics.", [B, V, A, AN], [EI, CA], [S], ["culture", "communautaire"], LSVC),
  ("p-resto", "commerce", "restaurant", "Resto La Tablée du Coin", "Bistro de cuisine du marché, ouvert le soir et la fin de semaine.", [EI, N, P], [V, AN], [S, W], ["alimentation", "commerce_local"], SDC),
  ("p-librairie", "commerce", "librairie", "Librairie La Marge Douce", "Librairie indépendante avec un coin lecture et des vitrines à partager.", [EI, V, A, P], [AN, CA], [S], ["culture", "commerce_local"], ENT),
  ("p-brasserie", "commerce", "microbrasserie", "Microbrasserie Le Houblon Voisin", "Microbrasserie avec une terrasse et une salle de dégustation.", [EI, EE, N, P], [AN, V, CA], [S, W], ["commerce_local", "alimentation"], SDC),
@@ -200,7 +200,7 @@ def ev(i, titre, promo, lieu, d, h1, h2, cat, th, pt=None, at=None, insc=None):
 evs = [
  ev(1, "Soirée de lancement de saison", "story-cafe", "Café Le Petit Détour", "10-29", "19:00", "21:30", "soirée", ["culture", "commerce_local"]),
  ev(2, "Lecture publique d'automne", "p-librairie", "Librairie La Marge Douce", "10-22", "19:00", "20:30", "lecture", ["culture"], insc=35),
- ev(3, "Dégustation de bières d'automne", "p-brasserie", "Microbrasserie Le Houblon Voisin", "10-24", "16:00", "19:00", "dégustation", ["alimentation", "commerce_local"], insc=60),
+ ev(3, "Dégustation de bières d’automne", "p-brasserie", "Microbrasserie Le Houblon Voisin", "10-24", "16:00", "19:00", "dégustation", ["alimentation", "commerce_local"], insc=60),
  ev(4, "Spectacle de quartier", "p-salle", "Salle Le Bémol", "11-06", "20:00", "22:30", "spectacle", ["culture", "art"]),
  ev(5, "Corvée de verdissement d'automne", "p-comitevert", "Local du Comité vert", "10-25", "10:00", "13:00", "corvée", ["environnement", "communautaire"], insc=45),
  ev(6, "Vernissage collectif", "p-obscura", "Centre de photographie Obscura", "11-12", "18:00", "20:30", "exposition", ["art", "culture"]),

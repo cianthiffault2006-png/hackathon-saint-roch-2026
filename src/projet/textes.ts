@@ -36,7 +36,7 @@ export const t = {
     msgOuverture: 'Bonjour tout le monde, ravi de lancer ce projet avec vous!',
     msgQuestion: 'Quelles dates vous conviendraient?',
     msgSuite: 'Parfait pour moi. On confirme la date cette semaine.',
-    msgReponse: 'Bien reçu, je regarde mes disponibilités et je vous reviens.',
+    msgReponse: 'Bien reçu, je regarde mes disponibilités et je vous redonne des nouvelles.',
     signaler: 'Signaler',
     signale: 'Message signalé, en attente de modération',
     simule: 'simulé',

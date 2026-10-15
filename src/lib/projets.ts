@@ -59,6 +59,11 @@ export function sauverProjets(projets: Projet[]): void {
   }
 }
 
+/** The proposed date of a suggestion: the fixed demo date, else the next matching slot. Shared by the Fiche and the partner invitation. */
+export function dateProposee(p: Proposition): Occurrence {
+  return DEMOS[p.id]?.date ?? prochaineDate(p.creneau)
+}
+
 export function idProjet(p: Proposition): string {
   return `${p.id}|${p.titre}`
 }
@@ -79,7 +84,7 @@ export function projetDepuis(p: Proposition, profils: Profil[], lieux: Lieu[], s
     statut,
     partenaires,
     lieuNom: lieu?.nom ?? hote,
-    ...(DEMOS[p.id]?.date ?? prochaineDate(p.creneau)),
+    ...dateProposee(p),
     aConfirmer: p.aConfirmer,
     coches: p.aConfirmer.map(() => false),
     proposition: p,

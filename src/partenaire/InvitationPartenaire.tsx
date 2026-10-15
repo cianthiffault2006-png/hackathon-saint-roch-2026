@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { Profil, Proposition, Tag } from '../types'
 import { fr } from '../i18n/fr'
+import { libelleDate } from '../lib/date'
+import { dateProposee } from '../lib/projets'
 import './InvitationPartenaire.css'
 
 interface Props {
@@ -65,7 +67,7 @@ export default function InvitationPartenaire({ proposition, partenaire, demandeu
             <p className="p2-texte"><strong>{autre?.nom ?? 'Partenaire'}</strong> : {autreContribution.apport}</p>
           </>
         )}
-        <p className="p2-date">Date proposée, à confirmer</p>
+        <p className="p2-date">Date proposée : {libelleDate(dateProposee(proposition))} (à confirmer)</p>
       </section>
 
       <section className="p2-carte" aria-labelledby="p2-pourquoi">
@@ -78,7 +80,7 @@ export default function InvitationPartenaire({ proposition, partenaire, demandeu
       {accepte ? (
         <div className="p2-accepte" role="status" aria-live="polite">
           <span className="p2-coche" aria-hidden="true">✓</span>
-          <p>Vous avez accepté. Le projet est confirmé quand les trois partenaires acceptent.</p>
+          <p>Vous avez accepté. Le projet est confirmé quand chaque partenaire a accepté. Dans la démo, la réponse du Collectif est simulée.</p>
         </div>
       ) : (
         <div className="p2-actions">

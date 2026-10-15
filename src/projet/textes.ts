@@ -85,6 +85,7 @@ const parType: Record<TypeProjet, string[]> = {
   animation_de_rue: ['Permis d’événement sur la voie publique (Ville)', 'Plan de circulation et de sécurité', 'Capacité de l’espace et accessibilité'],
   verdissement: ['Autorisation du propriétaire du terrain', 'Vérifier les services souterrains avant de creuser (Info-Excavation)', 'Plan d’arrosage et d’entretien après la plantation'],
   conference: ['Réservation de la salle et de l’équipement', 'Accessibilité du lieu', 'Confirmation des conférenciers'],
+  corvee_proprete: ['Autorisation du propriétaire pour les graffitis sur un bâtiment privé', 'Signaler au 311 de la Ville ce qui relève de la Ville (mobilier urbain, voie publique)', 'Matériel de sécurité (gants, sacs, dossards)'],
   collecte: ['Autorisation du lieu de dépôt', 'Entente avec l’organisme qui reçoit les dons ou les matières', 'Matériel de sécurité (gants, sacs, dossards)'],
 }
 

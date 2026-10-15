@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
-import { lireBesoin } from '../engineAdapter'
-import { construireBesoin, trouverAsker } from '../lib/besoin'
+import { choixDepuisTexte, construireBesoin, trouverAsker } from '../lib/besoin'
 import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
@@ -34,9 +33,9 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
   // Typing refreshes the chips: keywords found are added, the user can still toggle any chip.
   function surSaisie(valeur: string) {
     setTexte(valeur)
-    const lu = lireBesoin(valeur)
-    setCherche((prev) => ajouter(prev, lu.besoins))
-    setOffre((prev) => ajouter(prev, lu.offres))
+    const lu = choixDepuisTexte(role, valeur, profils)
+    setCherche((prev) => ajouter(prev, lu.cherche))
+    setOffre((prev) => ajouter(prev, lu.offre))
     setCreneaux((prev) => ajouter(prev, lu.creneaux))
   }
 

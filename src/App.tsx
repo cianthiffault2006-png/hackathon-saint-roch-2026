@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Besoin as BesoinType, Proposition as PropositionType, Role } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
-import { construireBesoin } from './lib/besoin'
+import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
 import Besoin from './screens/Besoin'
@@ -29,8 +29,7 @@ export default function App() {
 
   // The tour runs the café story through the same engine and the same screens.
   const propositionsVisite = useMemo(() => {
-    // Story profile only: the typed keywords would add needs and push the story trio down (86 to 72).
-    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, { cherche: [], offre: [], creneaux: [] })
+    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, donnees.profils))
     return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
   }, [donnees])
 

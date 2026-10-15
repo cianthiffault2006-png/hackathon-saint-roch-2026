@@ -37,3 +37,21 @@ export function construireBesoin(
     lng: asker?.lng ?? -71.2205,
   }
 }
+
+/**
+ * Chips read from typed text. A typed "je cherche" tag is dropped when the asker's profile already
+ * offers it, and a typed "j'offre" tag when the profile needs it, so the profile stays coherent.
+ */
+export function choixDepuisTexte(
+  role: Role,
+  texte: string,
+  profils: Profil[],
+): { cherche: Tag[]; offre: Tag[]; creneaux: Creneau[] } {
+  const asker = trouverAsker(role, profils)
+  const lu = lireBesoin(texte)
+  return {
+    cherche: lu.besoins.filter((t) => !asker?.offres.includes(t)),
+    offre: lu.offres.filter((t) => !asker?.besoins.includes(t)),
+    creneaux: lu.creneaux,
+  }
+}

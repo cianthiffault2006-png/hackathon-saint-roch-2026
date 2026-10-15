@@ -12,7 +12,7 @@ interface Props {
 
 export default function TourBar({ etat, onPause, onSuivant, onQuitter }: Props) {
   const etape = ETAPES[etat.index]
-  const cle = etape.puis && etat.ms >= etape.puis.apresMs ? etape.puis.legende : etape.legende
+  const cle = etape.legende
   const progres = ((etat.index + etat.ms / etape.dureeMs) / ETAPES.length) * 100
   const fin = etape.id === 'fin'
 
@@ -28,7 +28,7 @@ export default function TourBar({ etat, onPause, onSuivant, onQuitter }: Props) 
       )}
       <div className="visite-barre" role="region" aria-label={fr.visite.titre}>
         <p className="visite-legende" aria-live="polite">
-          {cle === null ? fr.visite.titre : cle === 'fiche' || cle === 'coches' || cle === 'projets' ? T.visite[cle] : fr.visite.etapes[cle]}
+          {cle === null ? fr.visite.titre : cle === 'fiche' || cle === 'coches' || cle === 'projets' || cle === 'invitation' ? T.visite[cle] : fr.visite.etapes[cle]}
         </p>
         <div className="visite-progres" aria-hidden="true">
           <div className="visite-progres-rempli" style={{ width: `${progres}%` }} />

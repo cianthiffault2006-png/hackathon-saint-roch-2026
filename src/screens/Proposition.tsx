@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
 import { T } from '../textes'
 import Icone, { type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
+import { choisirInvite, prenom } from '../lib/invitation'
+import { idProjet } from '../lib/projets'
 
 interface Props {
   propositions: PropositionType[]
@@ -16,9 +18,13 @@ interface Props {
   raisonsVisibles?: number
   /** Guided tour: presses the interest button once true. */
   interetAuto?: boolean
-  /** Reports each status change so the project can be saved. */
-  onStatut?: (prop: PropositionType, statut: Statut) => void
+  /** Status per project id and the way to change it: the state lives in App so other screens can advance it. */
+  statuts: Record<string, Statut>
+  onChangerStatut: (prop: PropositionType, statut: Statut) => void
+  index: number
+  onIndex: (index: number) => void
   onFiche?: (prop: PropositionType) => void
+  onInvitation?: (prop: PropositionType) => void
 }
 
 const LEGENDE: [NomIcone, string][] = [
@@ -35,27 +41,22 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, onStatut, onFiche }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation }: Props) {
   const enVisite = delaiPinMs !== undefined
-  const [index, setIndex] = useState(0)
-  const [statuts, setStatuts] = useState<Record<string, Statut>>({})
   const departX = useRef<number | null>(null)
 
   const prop = propositions[index]
-  const statut: Statut = (prop && statuts[prop.id]) || 'proposee'
+  const statut: Statut = (prop && statuts[idProjet(prop)]) || 'proposee'
+  const invite = prop ? choisirInvite(prop, profils) : null
 
   useEffect(() => {
-    if (interetAuto && prop) setStatuts((s) => (s[prop.id] ? s : { ...s, [prop.id]: 'interet_envoye' }))
-  }, [interetAuto, prop])
-
-  useEffect(() => {
-    if (prop && statut !== 'proposee') onStatut?.(prop, statut)
-  }, [prop, statut, onStatut])
+    if (interetAuto && prop && !statuts[idProjet(prop)]) onChangerStatut(prop, 'interet_envoye')
+  }, [interetAuto, prop, statuts, onChangerStatut])
 
   // Simulated confirmation chain: 2 s then 3 s. The timer is cleared if the screen or proposal changes.
   useEffect(() => {
     if (!prop) return
-    const id = prop.id
+    const courant = prop
     let delai: number
     let suivant: Statut
     if (statut === 'interet_envoye') {
@@ -65,9 +66,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       delai = 3000
       suivant = 'confirmee'
     } else return
-    const t = window.setTimeout(() => setStatuts((s) => ({ ...s, [id]: suivant })), delai)
+    const t = window.setTimeout(() => onChangerStatut(courant, suivant), delai)
     return () => window.clearTimeout(t)
-  }, [prop, statut])
+  }, [prop, statut, onChangerStatut])
 
   const pins: Pin[] = useMemo(() => {
     if (!prop) return []
@@ -101,7 +102,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   const lieu = lieux.find((l) => l.id === prop.lieuId)
 
   function aller(delta: number) {
-    setIndex((i) => Math.min(propositions.length - 1, Math.max(0, i + delta)))
+    onIndex(Math.min(propositions.length - 1, Math.max(0, index + delta)))
   }
 
   function surFin(x: number) {
@@ -187,7 +188,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <button
               type="button"
               className="btn btn-primaire"
-              onClick={() => setStatuts((s) => ({ ...s, [prop.id]: 'interet_envoye' }))}
+              onClick={() => onChangerStatut(prop, 'interet_envoye')}
             >
               {fr.proposition.interet}
             </button>
@@ -206,9 +207,14 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
               ))}
             </div>
           )}
+          {statut === 'en_attente' && onInvitation && invite && (
+            <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
+              Voir ce que {prenom(invite.partenaire)} reçoit
+            </button>
+          )}
           {statut === 'confirmee' && onFiche && (
             <button type="button" className="btn btn-lien btn-fiche" onClick={() => onFiche(prop)}>
-              {T.voirFiche}
+              {fr.fiche.voir}
             </button>
           )}
           <p className="note-simulation">{fr.proposition.noteSimulation}</p>

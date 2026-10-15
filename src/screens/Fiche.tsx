@@ -56,7 +56,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
     <main className="screen fiche">
       <header className="entete">
         <button type="button" className="retour" onClick={onRetour} aria-label={fr.general.retour}>←</button>
-        <span className="role-tag">{T.fiche.titre}</span>
+        <span className="role-tag">{fr.fiche.titre}</span>
       </header>
 
       <h1 className="fiche-titre">{projet.titre}</h1>
@@ -64,7 +64,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
         <Icone nom="evenement" taille={20} />
         <span>{libelleDateMaj(projet)}</span>
       </p>
-      <p className="fiche-note">{T.fiche.dateProposee}</p>
+      <p className="fiche-note">{fr.fiche.dateProposee}</p>
       <p className="fiche-lieu">
         <Icone nom="lieu" taille={20} />
         <span>{projet.lieuNom || T.fiche.lieuAConfirmer}</span>
@@ -82,7 +82,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
       </ul>
 
       <h2 className="sous-titre">
-        {T.fiche.aConfirmer} <span className="progres">{T.fiche.progres(fait, projet.aConfirmer.length)}</span>
+        {fr.fiche.aConfirmerAvant} <span className="progres">{T.fiche.progres(fait, projet.aConfirmer.length)}</span>
       </h2>
       <ul className="coches" ref={refListe}>
         {projet.aConfirmer.map((texte, i) => (
@@ -97,22 +97,21 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
 
       <div className="actions" ref={refActions}>
         <button type="button" className={classeAction} onClick={ajouterAuCalendrier}>
-          {T.fiche.calendrier}
+          {fr.fiche.ajouterCalendrier}
         </button>
         {telecharge && <p className="action-note" role="status">{T.fiche.calendrierFait}</p>}
         <a className="lien-action" href={lienGoogleAgenda(projet)} target="_blank" rel="noreferrer">
-          {T.fiche.googleAgenda}
+          {fr.fiche.googleAgenda}
         </a>
 
         <button type="button" className={classeAction} onClick={partager}>
-          {T.fiche.partager}
+          {fr.fiche.partager}
         </button>
         {repli && (
           <p className="action-note">
-            {T.fiche.partagerRepli}{' '}
-            <a href={`mailto:?subject=${encodeURIComponent(resume.objet)}&body=${encodeURIComponent(resume.texte)}`}>{T.fiche.courriel}</a>
+            <a href={`mailto:?subject=${encodeURIComponent(resume.objet)}&body=${encodeURIComponent(resume.texte)}`}>{fr.fiche.courriel}</a>
             {' · '}
-            <a href={`sms:?&body=${encodeURIComponent(resume.texte)}`}>{T.fiche.texto}</a>
+            <a href={`sms:?&body=${encodeURIComponent(resume.texte)}`}>{fr.fiche.texto}</a>
           </p>
         )}
 

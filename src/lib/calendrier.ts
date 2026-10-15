@@ -1,4 +1,5 @@
 import { T } from '../textes'
+import { fr } from '../i18n/fr'
 import { libelleDate } from './date'
 import type { Projet } from './projets'
 
@@ -108,5 +109,5 @@ export function lienGoogleAgenda(p: Projet): string {
 
 export function resumePartage(p: Projet): { objet: string; texte: string } {
   const noms = p.partenaires.map((x) => x.nom).join(', ')
-  return { objet: T.partage.objet(p.titre), texte: T.partage.texte(p.titre, libelleDate(p), noms) }
+  return { objet: T.partage.objet(p.titre), texte: fr.fiche.partageTexte(p.titre, libelleDate(p), noms) }
 }

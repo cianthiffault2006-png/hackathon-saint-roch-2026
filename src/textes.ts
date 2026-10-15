@@ -47,6 +47,7 @@ export const T = {
     evenement: 'Événement',
   },
   visite: {
+    invitation: 'Le partenaire reçoit une invitation claire et l’accepte.',
     fiche: 'Le projet devient une fiche : date proposée, lieu, partenaires.',
     coches: 'Une liste de points à confirmer, à cocher un à un.',
     projets: 'Tous vos projets au même endroit.',

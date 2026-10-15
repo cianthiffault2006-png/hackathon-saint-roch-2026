@@ -904,3 +904,37 @@ button {
   background: var(--vert);
   color: #fff;
 }
+
+/* Full-screen views that bring their own styles (partner invitation, SDC dashboard) */
+.plein-ecran {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: var(--fond);
+}
+
+.retour-plein {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 8px);
+  left: 8px;
+  z-index: 15;
+}
+
+.tour-actif .plein-ecran {
+  pointer-events: none;
+  padding-top: 150px;
+}
+
+.btn-petit {
+  min-height: 44px;
+  font-size: 15px;
+}
+
+.btn-invitation {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.tour-actif .retour-plein {
+  display: none;
+}

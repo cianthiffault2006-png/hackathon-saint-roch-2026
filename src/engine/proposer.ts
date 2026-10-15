@@ -1,0 +1,281 @@
+import type {
+  Besoin, Contribution, Creneau, Evenement, Lieu, Profil, Proposer, Proposition, Tag, Theme, TypeProjet,
+} from '../types.ts';
+
+const M_PROCHE = 400; // points pleins
+const M_LOIN = 800; // zéro point (≈ 10 minutes à pied)
+const M_PAR_MIN = 80;
+const RAYON_EVENT_M = 600;
+const FENETRE_EVENT_J = 14;
+
+const POIDS = { comp: 35, rev: 20, dist: 20, theme: 15, creneau: 10 };
+
+const LIBELLE: Record<Tag, string> = {
+  espace_interieur: 'un espace intérieur', espace_exterieur: 'un espace extérieur',
+  visibilite: 'de la visibilité', affichage: "de l'affichage", benevoles: 'des bénévoles',
+  public: 'du public', contenu_artistique: 'du contenu artistique', animation: "de l'animation",
+  materiel: 'du matériel', expertise: "de l'expertise", financement: 'du financement',
+  nourriture: 'de la nourriture',
+};
+const NU: Record<Tag, string> = {
+  espace_interieur: 'espace intérieur', espace_exterieur: 'espace extérieur', visibilite: 'visibilité',
+  affichage: 'affichage', benevoles: 'bénévoles', public: 'public', contenu_artistique: 'contenu artistique',
+  animation: 'animation', materiel: 'matériel', expertise: 'expertise', financement: 'financement',
+  nourriture: 'nourriture',
+};
+const CRENEAU_TXT: Record<Creneau, string> = {
+  semaine_soir: 'le soir en semaine', fin_de_semaine: 'la fin de semaine', semaine_jour: 'le jour en semaine',
+};
+const THEME_TXT: Record<Theme, string> = {
+  culture: 'culture', art: 'art', communautaire: 'communautaire', jeunesse: 'jeunesse', etudiants: 'étudiants',
+  environnement: 'environnement', commerce_local: 'commerce local', securite: 'sécurité', sport: 'sport',
+  alimentation: 'alimentation',
+};
+const ORDRE_CRENEAU: Creneau[] = ['semaine_soir', 'fin_de_semaine', 'semaine_jour'];
+const ESPACES: Tag[] = ['espace_interieur', 'espace_exterieur'];
+
+interface Point { lat: number; lng: number }
+
+export function distanceM(a: Point, b: Point): number {
+  const R = 6371000;
+  const rad = (x: number) => (x * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+const minutes = (m: number) => Math.max(1, Math.ceil(m / M_PAR_MIN));
+const minTxt = (m: number) => `${minutes(m)} minute${minutes(m) > 1 ? 's' : ''}`;
+const inter = <T,>(a: readonly T[], b: readonly T[]): T[] => a.filter((x) => b.includes(x));
+const sans = <T,>(a: readonly T[], b: readonly T[]): T[] => a.filter((x) => !b.includes(x));
+const uniq = <T,>(a: readonly T[]): T[] => [...new Set(a)];
+const lib = (tags: Tag[]) => tags.map((t) => LIBELLE[t]).join(' et ');
+
+interface Cand {
+  p: Profil;
+  comp: Tag[]; // offres du candidat qui répondent aux besoins du demandeur
+  rev: Tag[]; // offres du demandeur qui répondent aux besoins du candidat
+  dist?: number;
+  creneaux: Creneau[];
+  score: number; // 0..100
+}
+
+function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null {
+  const creneaux = b.creneaux.length ? inter(b.creneaux, p.creneaux) : p.creneaux;
+  if (!creneaux.length) return null; // créneau commun obligatoire
+  const comp = inter(p.offres, b.besoins);
+  const rev = inter(b.offres, p.besoins);
+  if (!comp.length && !rev.length) return null;
+  const dist = pos ? distanceM(pos, p) : undefined;
+  const sDist = dist === undefined ? 0.5 : dist <= M_PROCHE ? 1 : dist >= M_LOIN ? 0 : (M_LOIN - dist) / (M_LOIN - M_PROCHE);
+  const communs = inter(b.themes, p.themes);
+  const sTheme = b.themes.length ? Math.min(1, communs.length / Math.min(b.themes.length, Math.max(1, p.themes.length))) : 0;
+  const sComp = b.besoins.length ? comp.length / b.besoins.length : 0;
+  const sRev = p.besoins.length ? rev.length / p.besoins.length : 0;
+  const score = POIDS.comp * sComp + POIDS.rev * sRev + POIDS.dist * sDist + POIDS.theme * sTheme + POIDS.creneau;
+  return { p, comp, rev, dist, creneaux, score };
+}
+
+function choisirType(tags: Tag[], themes: Theme[]): TypeProjet {
+  const has = (t: Tag) => tags.includes(t);
+  const th = (t: Theme) => themes.includes(t);
+  const espace = has('espace_interieur') || has('espace_exterieur');
+  if (has('contenu_artistique') && espace) return 'exposition';
+  if (th('environnement')) return 'verdissement';
+  if (has('nourriture') && th('commerce_local')) return 'marche_ephemere';
+  if (has('animation')) {
+    if (has('espace_exterieur') && !has('espace_interieur')) return 'animation_de_rue';
+    return th('culture') || th('art') ? 'spectacle' : 'atelier';
+  }
+  if (has('expertise')) return 'conference';
+  if (has('benevoles') && has('materiel')) return 'collecte';
+  if (th('securite') || th('sport')) return 'animation_de_rue';
+  return 'atelier';
+}
+
+function titre(type: TypeProjet, hote: string): string {
+  switch (type) {
+    case 'exposition': return `Exposition collaborative chez ${hote}`;
+    case 'spectacle': return `Soirée spectacle chez ${hote}`;
+    case 'atelier': return `Atelier ouvert chez ${hote}`;
+    case 'marche_ephemere': return `Marché éphémère chez ${hote}`;
+    case 'animation_de_rue': return `Animation de rue avec ${hote}`;
+    case 'verdissement': return `Projet de verdissement avec ${hote}`;
+    case 'conference': return `Conférence chez ${hote}`;
+    case 'collecte': return `Collecte communautaire avec ${hote}`;
+  }
+}
+
+const APPORT_TYPE: Record<TypeProjet, string> = {
+  exposition: "l'exposition", spectacle: 'le spectacle', atelier: "l'atelier", marche_ephemere: 'le marché',
+  animation_de_rue: "l'animation", verdissement: 'le verdissement', conference: 'la conférence', collecte: 'la collecte',
+};
+
+function lieuLePlusProche(lieux: Lieu[], c: Point, besoins: Tag[]): Lieu | undefined {
+  const voulus = inter(besoins, ESPACES);
+  const pref = voulus.length ? voulus : ESPACES;
+  const ok = lieux.filter((l) => inter(l.offres, pref).length);
+  const pool = ok.length ? ok : lieux.filter((l) => inter(l.offres, ESPACES).length);
+  return [...pool].sort((a, b) => distanceM(c, a) - distanceM(c, b) || a.id.localeCompare(b.id))[0];
+}
+
+const centre = (pts: Point[]): Point => ({
+  lat: pts.reduce((s, p) => s + p.lat, 0) / pts.length,
+  lng: pts.reduce((s, p) => s + p.lng, 0) / pts.length,
+});
+
+const partIds = (p: Proposition) => p.partenaires.slice(1).map((x) => x.profilId);
+
+/** Garde la meilleure, puis des propositions d'un autre type ou sans aucun partenaire déjà proposé (score > 50 d'abord). */
+function diversifier(tries: Proposition[], n: number): Proposition[] {
+  const out: Proposition[] = tries.slice(0, 1);
+  const different = (p: Proposition) =>
+    out.every((o) => p.titre !== o.titre && (p.type !== o.type || !partIds(p).some((i) => partIds(o).includes(i))));
+  const passes: ((p: Proposition) => boolean)[] = [
+    (p) => p.score > 50 && different(p),
+    (p) => p.score > 50 && out.every((o) => p.titre !== o.titre),
+    () => true,
+  ];
+  for (const ok of passes) {
+    for (const p of tries) {
+      if (out.length >= n) break;
+      if (!out.includes(p) && ok(p)) out.push(p);
+    }
+  }
+  return out.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+}
+
+/** `maintenant` sert à filtrer les événements; par défaut l'heure courante. */
+export const proposerAu = (
+  besoin: Besoin, profils: Profil[], lieux: Lieu[], evenements: Evenement[], maintenant: Date = new Date(),
+): Proposition[] => {
+  const moi = besoin.auteurId ? profils.find((p) => p.id === besoin.auteurId) : undefined;
+  const pos: Point | undefined =
+    besoin.lat !== undefined && besoin.lng !== undefined ? { lat: besoin.lat, lng: besoin.lng } : moi;
+
+  const cands = profils
+    .filter((p) => p.id !== besoin.auteurId)
+    .map((p) => scorerPaire(besoin, pos, p))
+    .filter((c): c is Cand => c !== null)
+    .sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));
+
+  // Pour chacun des 5 meilleurs partenaires, tous les tiers utiles; un trio par ensemble de partenaires.
+  const combos = new Map<string, { a: Cand; b?: Cand; valeur: number }>();
+  for (const a of cands.slice(0, 5)) {
+    const nonCouverts = sans(besoin.besoins, a.p.offres);
+    const besoinsA = sans(a.p.besoins, besoin.offres);
+    const groupe = uniq([...besoin.offres, ...a.p.offres]);
+    let nTiers = 0;
+    for (const c of cands) {
+      if (c.p.id === a.p.id) continue;
+      if (!inter(c.creneaux, a.p.creneaux).length) continue;
+      const couvre = inter(c.p.offres, nonCouverts).length;
+      const couvreA = inter(c.p.offres, besoinsA).length;
+      const sert = inter(c.p.besoins, groupe).length;
+      if (!couvre && !couvreA && !sert) continue;
+      nTiers++;
+      const valeur = a.score + (25 * couvre + 15 * couvreA + 8 * sert + c.score) / 4;
+      const cle = [a.p.id, c.p.id].sort().join('+');
+      const deja = combos.get(cle);
+      if (!deja || valeur > deja.valeur) combos.set(cle, { a, b: c, valeur });
+    }
+    if (!nTiers) combos.set(a.p.id, { a, valeur: a.score });
+  }
+  const trios = [...combos.values()].filter((x) => x.b);
+  const choix = trios.length ? trios : [...combos.values()];
+
+  const props = choix.map(({ a, b }): Proposition => {
+    const membres = b && b.score > a.score ? [b, a] : b ? [a, b] : [a];
+    const profs = membres.map((m) => m.p);
+    const communs = (besoin.creneaux.length ? besoin.creneaux : profs[0].creneaux).filter((c) =>
+      profs.every((p) => p.creneaux.includes(c)),
+    );
+    const creneau = ORDRE_CRENEAU.find((c) => communs.includes(c)) ?? communs[0] ?? 'semaine_soir';
+
+    const offresGroupe = uniq([...besoin.offres, ...profs.flatMap((p) => p.offres)]);
+    const pts: Point[] = [...(pos ? [pos] : []), ...profs];
+    const lieu = inter(offresGroupe, ESPACES).length ? undefined : lieuLePlusProche(lieux, centre(pts), besoin.besoins);
+    const tags = uniq([...offresGroupe, ...(lieu ? lieu.offres : [])]);
+    const themes = uniq([...besoin.themes, ...profs.flatMap((p) => p.themes)]);
+    const type = choisirType(tags, themes);
+
+    const hoteProfil = profs.find((p) => inter(p.offres, ESPACES).length) ?? (inter(besoin.offres, ESPACES).length ? moi : undefined);
+    const hoteNom = hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
+    const hotePos: Point = hoteProfil ?? lieu ?? pos ?? profs[0];
+
+    const couverts = uniq([...profs.flatMap((p) => p.offres), ...(lieu ? lieu.offres : [])]);
+    const manquants = sans(besoin.besoins, couverts);
+    const couverture = besoin.besoins.length ? (besoin.besoins.length - manquants.length) / besoin.besoins.length : 0;
+    const score = Math.max(0, Math.min(100, Math.round(0.45 * a.score + 0.2 * (b ? b.score : 0) + 35 * couverture)));
+
+    const partenaires: Contribution[] = [
+      {
+        profilId: besoin.auteurId ?? 'demandeur',
+        apport: besoin.offres.length ? `porte le projet et offre ${lib(besoin.offres)}` : 'porte le projet',
+        tags: besoin.offres,
+      },
+      ...membres.map((m): Contribution => {
+        const tagsM = m.comp.length ? m.comp : m.p.offres;
+        return {
+          profilId: m.p.id,
+          apport: tagsM.some((t) => ESPACES.includes(t)) ? `accueille ${APPORT_TYPE[type]}` : `apporte ${lib(tagsM)}`,
+          tags: tagsM,
+        };
+      }),
+    ];
+
+    const raisons: string[] = [];
+    for (const m of membres) {
+      const cr = inter(communs, m.p.creneaux)[0] ?? creneau;
+      if (m.comp.length) raisons.push(`${m.p.nom} offre ${m.comp.map((t) => LIBELLE[t]).join(' et ')} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
+      if (m.rev.length) raisons.push(`Ce que vous offrez (${m.rev.map((t) => NU[t]).join(', ')}) répond au besoin de ${m.p.nom}`);
+      if (m.dist !== undefined) raisons.push(`${m.p.nom}: à ${minTxt(m.dist)} à pied de vous`);
+    }
+    if (lieu) {
+      raisons.push(`Personne n'offre d'espace: ${lieu.nom} (${lieu.type.replace('_', ' ')}) est à ${minTxt(distanceM(centre(pts), lieu))} à pied du groupe`);
+    }
+    const themesCommuns = themes.filter((t) => besoin.themes.includes(t) && profs.some((p) => p.themes.includes(t)));
+    if (themesCommuns.length) raisons.push(`Thèmes en commun: ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`);
+    raisons.push(`Tous disponibles ${CRENEAU_TXT[creneau]}`);
+
+    const proches = evenements
+      .filter((e) => {
+        const jours = (new Date(e.debut).getTime() - maintenant.getTime()) / 86400000;
+        return jours >= 0 && jours <= FENETRE_EVENT_J && distanceM(hotePos, e) <= RAYON_EVENT_M && inter(e.themes, themes).length > 0;
+      })
+      .sort((x, y) => x.debut.localeCompare(y.debut) || x.id.localeCompare(y.id))
+      .slice(0, 3);
+    if (proches.length) {
+      raisons.push(`À proximité dans les 14 prochains jours: ${proches.map((e) => e.titre).join(', ')} (public à rejoindre ou chevauchement à éviter)`);
+    }
+
+    const aConfirmer = [
+      'Date précise du projet',
+      `Capacité d'accueil de ${hoteNom}`,
+      'Assurances (responsabilité civile) à valider',
+      'Accessibilité du lieu pour tous',
+      ...manquants.map((t) => `Besoin non comblé: ${NU[t]}`),
+      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli: l'organisme doit d'abord activer son profil`),
+    ];
+
+    return {
+      id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
+      titre: titre(type, hoteNom),
+      type,
+      partenaires,
+      lieuId: lieu?.id,
+      creneau,
+      score,
+      raisons,
+      aConfirmer,
+      evenementsProches: proches.map((e) => e.id),
+      statut: 'proposee',
+    };
+  });
+
+  const tries = props.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+  return diversifier(tries, 3);
+};
+
+export const proposer: Proposer = (besoin, profils, lieux, evenements) => proposerAu(besoin, profils, lieux, evenements);

@@ -16,3 +16,31 @@ Coordinates are WGS84 lon/lat (checked on the Saint-Roch polygon). Scripts: filt
 
 ## Not downloaded
 - `vque_54` Utilisation du sol (https://www.donneesquebec.ca/recherche/dataset/vque_54): 167 MB GeoJSON, whole city, no datastore filter. The pack file named "LU quartier St-Roch" is a street-lighting inventory by its columns, so this is not its open twin. Pull only if a land-use layer is wanted, clipped locally.
+
+## Comment Maillage utilise chaque fichier de la Ville
+
+Les 19 fichiers fournis sont confidentiels : aucune valeur n'est dans le dépôt ni dans la démo. La démo utilise des lignes fictives qui reprennent leurs colonnes (`source: fictif`) et des données ouvertes (`source: ouvert`).
+
+| Fichier fourni | Usage en production | Ce qui le remplace dans la démo |
+|---|---|---|
+| 1. Hackathon-Liste_JeuxDonnees_VF.xlsx | Catalogue des jeux de données, lu par l'équipe seulement. | Rien (document de référence, non utilisé par l'app). |
+| Analyse de la couverture médiatique du quartier Saint-Roch_UQ.pdf | Cadrage du problème (perception du quartier, besoin de lien), lu par des humains. | Cité dans le pitch, pas dans l'app. |
+| Hackathon 2026 - Présentation Quartier universitaire.pdf | Contexte du Quartier universitaire et de ses acteurs, lu par des humains. | Pitch seulement. |
+| PlanActionSaint-Roch_Brochure-k.pdf | Cadrage : priorités du Plan d'action, pour justifier le type de projets proposés. | Pitch seulement. |
+| CP-LSVC-Liste organismes reconnus LSVC-k.xlsx | Profils d'organismes (nom, domaine d'intervention, territoire, statut) réclamables par leur responsable. | Profils d'organismes fictifs (`origine` : Liste organismes reconnus LSVC). |
+| CP-LSVC-Liste organismes-k.xlsx | Organismes soutenus (discipline, type de soutien, arrondissement) : thèmes et besoins des organismes culturels. | Profils fictifs (`origine` : Liste organismes LSVC). |
+| DEGP - Entreprises St-Roch-Rev.xlsx | Commerces de la rue, à placer sur la carte et à inviter à réclamer leur profil. | Commerces fictifs (`origine` : Entreprises St-Roch), placés sur de vraies rues. |
+| DEGP - Membres - SDC Centre-Ville-Rev.xlsx | Commerçants membres de la SDC et leur activité commerciale : offres (salle, vitrine) et canal pour les joindre. | Commerces fictifs (`origine` : Membres SDC Centre-Ville). |
+| CP-LSVC-Collection Art Public-k.xlsx | Artistes et œuvres du quartier : repérer les artistes à relier à des lieux, circuits d'art. | Artistes citoyens fictifs (`origine` : Collection Art Public). |
+| Nombre_étudiants_Québec.xlsx | Ampleur de la clientèle étudiante, donc de bénévoles et de public pour les projets. | Étudiants fictifs bénévoles (`origine` : Nombre_étudiants_Québec). |
+| DEGP-Projets_ETE2026_SaintRoch-Rev.xlsx | Semble lister des projets de logements : nouveaux résidents à accueillir et à relier aux voisins. | Nouveaux résidents fictifs (`origine` : Projets ÉTÉ 2026). |
+| CP-LSVC-Événements à venir-k.xlsx | Éviter les conflits d'horaire, se greffer à un événement existant, trouver des promoteurs déjà actifs. | `evenements.json` : 16 événements fictifs (octobre à décembre 2026), certains promus par des profils. |
+| CP-LSVC-Liste installations-k.xlsx | Espaces disponibles (salles, centres, équipements) à proposer comme lieu d'un projet. | Lieux ouverts de la Ville (Lieux publics, vque_14) dans `lieux.json`. |
+| GI - ColonnesMorris_Equip_Urbains-k.zip | Points d'affichage pour annoncer un projet (`offres` : affichage, visibilité). | 6 colonnes Morris fictives dans `lieux.json` (`Données fictives`). |
+| TMI - StationnementsHorsRueMunicipaux-k.geojson | Accès au projet : stationnements à proximité d'un lieu. | Stationnements ouverts (vque_14), sans nombre de cases. |
+| DQC-isq_herbergement-DonneesHotelieres-k.xlsx | Visiteurs comme public potentiel (offre d'hébergement, demande mensuelle), pour les projets touristiques. | Hôtels du SIT Québec (offre seulement), fichier `data/open/`, non affiché dans l'app. |
+| RCC-Saint-Roch-k.xlsx | Incidents signalés : repérer des endroits en soirée à animer pour renforcer le sentiment de sécurité. Production seulement, jamais affiché tel quel. | Rien dans la démo. |
+| GI - LU quartier St-Roch 2026-08-06-Rev.xlsx | Inventaire d'éclairage public : repérer les rues peu éclairées à animer en soirée. Production seulement. | Rien dans la démo. |
+| PAE-Hackathon_StRoch.gdb.zip | Parcs et espaces verts (lieux extérieurs), lieux d'emploi (public du midi), intensité urbaine, score de mobilité, portrait socio-démographique (cibler les quartiers). | Parcs et lieux publics ouverts (vque_14); contour du quartier ouvert (vque_9). |
+
+Position des profils et des événements fictifs : points d'adresse de la Ville de Québec (Adresses de la Ville de Québec, https://www.donneesquebec.ca/recherche/dataset/adresses-de-la-ville-de-quebec, CC BY 4.0) à l'intérieur du contour de Saint-Roch, pour qu'ils tombent sur de vraies rues; seules les coordonnées sont conservées. Script : `scripts/build_data.py`; validation : `scripts/check_data.py`.

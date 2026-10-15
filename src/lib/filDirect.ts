@@ -48,9 +48,9 @@ export function estDemo(id: string): boolean {
   return Object.hasOwn(DEMOS, base) || base === ID_DEMO_SOFIA || base.startsWith('visite-')
 }
 
-/** Live thread ids are random (see nouvelIdFil): letters, digits, - and _, 8 to 120 characters. */
+/** Live thread ids (see nouvelIdFil): f- then letters, digits, - and _; the server enforces the same pattern. */
 export function idFilValide(id: string): boolean {
-  return /^[A-Za-z0-9_-]{8,120}$/.test(id) && !estDemo(id)
+  return /^f-[A-Za-z0-9_-]{8,120}$/.test(id) && id.length <= 120 && !estDemo(id)
 }
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789'

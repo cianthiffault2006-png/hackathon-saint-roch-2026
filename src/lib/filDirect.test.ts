@@ -56,8 +56,11 @@ describe('demo ids never go live', () => {
     expect(idFilValide(id)).toBe(true)
     expect(nouvelIdFil()).not.toBe(id)
     expect(idFilValide('court')).toBe(false)
-    expect(idFilValide('a+b+c-defghij')).toBe(false)
-    expect(idFilValide('x'.repeat(121))).toBe(false)
+    expect(idFilValide('f-court')).toBe(false)
+    expect(idFilValide('abcdefghijkl')).toBe(false)
+    expect(idFilValide('f-a+b+c-defghij')).toBe(false)
+    expect(idFilValide(`f-${'x'.repeat(119)}`)).toBe(false)
+    expect(idFilValide(`f-${'x'.repeat(118)}`)).toBe(true)
   })
 
   it('gives desactive from the hook for demo ids, even when Supabase is configured', () => {

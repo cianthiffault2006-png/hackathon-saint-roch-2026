@@ -1,0 +1,4 @@
+Both components are self-contained (CSS `projet.css`, classes `pj-`, French text in `textes.ts`) and show « Démo simulée ». Both are default exports.
+
+- `import FilProjet from './projet/FilProjet'`: `<FilProjet proposition profils moi onRetour />`. Full-screen coordination page with tabs Participants, Mises à jour, Discussion. Organizer = `proposition.partenaires[0]`; the second partner shows as accepted, the third as pending unless `statut === 'confirmee'`. Updates and messages persist per project in localStorage (`maillage.pj.*`, memory fallback). Contact numbers and emails are fictional.
+- `import NouveauProjet from './projet/NouveauProjet'`: `<NouveauProjet profils lieux evenements moi? onRetour onCree />`. `onCree(p)` receives a `Proposition` with `statut: 'proposee'`, `moi` first when given, then invited profiles. Mount `FilProjet` with it next, or add it to the saved projects with `projetDepuis`.

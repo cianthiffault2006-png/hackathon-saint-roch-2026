@@ -1,11 +1,13 @@
 import type { Creneau, LireBesoin, Tag, Theme } from '../types.ts';
+import { corrigerTexte } from './tolerance.ts';
 
 /** Minuscules, sans accents, apostrophes droites. */
 export const normaliser = (s: string): string =>
   s
     .toLowerCase()
     .replace(/œ/g, 'oe')
-    .replace(/[’‘`]/g, "'")
+    .replace(/[’‘`ʼ]/g, "'")
+    .replace(/[‐‑–—]/g, '-')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
@@ -83,7 +85,7 @@ function lireCreneaux(t: string): Creneau[] {
 }
 
 export const lireBesoin: LireBesoin = (texte) => {
-  const t = normaliser(texte);
+  const t = corrigerTexte(normaliser(texte));
   const besoins = new Set<Tag>();
   const offres = new Set<Tag>();
   const themes = new Set<Theme>();

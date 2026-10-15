@@ -17,9 +17,11 @@ interface Props {
   pulse?: boolean
   /** Guided tour: scrolls the sheet to the action buttons or to the checklist. */
   defilement?: 'actions' | 'liste'
+  /** Desktop: the project thread is open beside the fiche, so the fiche is a section, not a second main landmark. */
+  incrustee?: boolean
 }
 
-export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer, onFil, pulse, defilement }: Props) {
+export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer, onFil, pulse, defilement, incrustee }: Props) {
   const [calendrier, setCalendrier] = useState<ResultatCalendrier | null>(null)
   const [repli, setRepli] = useState(false)
   const [confirmerRetrait, setConfirmerRetrait] = useState(false)
@@ -61,15 +63,16 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
   }
 
   const classeAction = pulse ? 'btn btn-action pulse' : 'btn btn-action'
+  const Balise = incrustee ? 'section' : 'main'
 
   return (
-    <main className="screen fiche">
+    <Balise className="screen fiche" aria-labelledby={incrustee ? 'fiche-titre' : undefined}>
       <header className="entete">
         <button type="button" className="retour" onClick={onRetour} aria-label={fr.general.retour}>←</button>
         <span className="role-tag">{fr.fiche.titre}</span>
       </header>
 
-      <h1 className="fiche-titre">{projet.titre}</h1>
+      <h1 className="fiche-titre" id="fiche-titre">{projet.titre}</h1>
       <p className="fiche-date">
         <Icone nom="evenement" taille={20} />
         <span>{libelleDateMaj(projet)}</span>
@@ -79,6 +82,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
         <Icone nom="lieu" taille={20} />
         <span>{projet.lieuNom || fr.fiche.lieuAConfirmer}</span>
       </p>
+      {projet.proposition?.lieuId && projet.lieuNom && <p className="fiche-note">{fr.proposition.lieuSuggere}</p>}
       <p className="fiche-statut">{projet.inscrit ? fr.evenement.inscrit : fr.proposition.statuts[projet.statut]}</p>
 
       <h2 className="sous-titre">{projet.inscrit ? fr.evenement.organisateur : projet.partenaires.length === 3 ? fr.proposition.partenaires : `Les ${projet.partenaires.length} partenaires`}</h2>
@@ -153,6 +157,6 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
         )}
         <p className="note-simulation">{fr.fiche.rien}</p>
       </div>
-    </main>
+    </Balise>
   )
 }

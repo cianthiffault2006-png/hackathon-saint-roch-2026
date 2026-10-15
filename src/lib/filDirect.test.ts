@@ -2,6 +2,7 @@ import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import BasculeDirect from '../projet/BasculeDirect'
+import { lire } from '../projet/stockage'
 import { t } from '../projet/textes'
 import {
   codeErreur,
@@ -364,5 +365,13 @@ describe('BasculeDirect (Discussion data source)', () => {
     expect(html).toContain('Fil en direct (bêta)')
     expect(html).toContain('<p>fil local</p>')
     expect(html).not.toContain(t.direct.avis)
+  })
+
+  it('writes no device id for demo projects, without configuration, or with the toggle off', () => {
+    configurer()
+    for (const id of [CAFE, SOFIA, VISITE, 'prop-p-7-p-8+p-9']) rendu(id)
+    vi.stubEnv('VITE_SUPABASE_URL', '')
+    rendu('prop-p-7-p-8+p-9')
+    expect(lire('maillage.direct.appareil', '')).toBe('')
   })
 })

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { fr } from '../i18n/fr'
 
 interface Props<T extends string> {
   options: T[]
@@ -33,7 +34,7 @@ export default function Chips<T extends string>({ options, selected, libelle, on
       })}
       {repliable && (
         <button type="button" className="chip chip-plus" aria-expanded={ouvert} onClick={() => setOuvert(!ouvert)}>
-          {ouvert ? 'Moins' : 'Plus'}
+          {ouvert ? fr.besoin.moins : fr.besoin.plus}
         </button>
       )}
     </div>

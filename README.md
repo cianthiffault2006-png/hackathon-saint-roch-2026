@@ -22,6 +22,14 @@ npm run dev
 npm test
 ```
 
+## Prototype et vrai déploiement
+
+- **Comptes :** aucun vrai compte dans le prototype; un vrai déploiement aurait de vrais comptes (connexion, commerces vérifiés).
+- **Données et Loi 25 :** le consentement décide. Les répertoires de la Ville et de la SDC pré-remplissent les fiches; une fiche devient publique seulement quand son responsable la réclame (« Réclamer votre fiche », code envoyé à l’adresse que la SDC ou la Ville a déjà, consentement explicite). Sans consentement, rien n’est public; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour les invitations. La démo montre des fiches fictives marquées « pré-rempli ».
+- **IA :** pas d’IA payante aujourd’hui. La lecture par mots-clés tolère les fautes de frappe, les accents oubliés et quelques mots d’anglais; en phase 2, payée par celui qui déploie, l’IA comprend toutes les langues et toutes les fautes (le modèle testé dans `/labo/`, paraphrase-multilingual-MiniLM, est multilingue).
+- **Modération :** un tableau de modération pour la SDC est prévu, pas construit; les signalements sont déjà recueillis dans le fil en direct.
+- **App Store :** aucune, à cause des coûts et de l’examen; c’est une app web qui marche sur n’importe quel téléphone et s’ajoute à l’écran d’accueil. Une version en boutique pourra venir plus tard.
+
 ## Fil en direct (bêta, optionnel)
 
 La démo du jury reste sur le fil simulé : le projet du café, la corvée de Sofia et la visite guidée ne passent jamais en direct. Pour les autres projets, l’onglet Discussion offre un interrupteur « Fil en direct (bêta) », désactivé par défaut, qui partage les messages entre appareils avec Supabase (lien de partage `#fil/<id>?t=<titre>`). Sans configuration, l’app affiche une note discrète et la discussion reste sur l’appareil.

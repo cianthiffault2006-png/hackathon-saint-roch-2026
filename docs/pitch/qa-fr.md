@@ -3,7 +3,7 @@
 Règle : une réponse en 20 secondes, une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer.
 
 ## 1. Et la vie privée, la Loi 25?
-Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable. Aucun profil de citoyen n’est publié sans son consentement, on collecte le strict nécessaire et un profil peut être retiré. En déploiement, la SDC ou la Ville serait responsable des renseignements et ferait l’évaluation requise par la Loi 25. Notre démo n’utilise aucune vraie donnée de personne.
+Le consentement décide : les répertoires de la Ville et de la SDC pré-remplissent les fiches, mais une fiche ne devient publique que quand son responsable la réclame (« Réclamer votre fiche », code envoyé à l’adresse que la SDC ou la Ville a déjà, puis consentement explicite). Sans consentement, rien n’est montré au public : en pilote, une fiche non réclamée n’est visible que par la SDC, pour envoyer l’invitation, et la démo montre des fiches fictives marquées « pré-rempli ».
 
 
 ## 2. Qui s’inscrit en premier?
@@ -19,18 +19,18 @@ Un répertoire répond à « qui existe? ». Maillage répond à « qui devrait 
 La démo tourne sur des services gratuits (hébergement, cartes ouvertes). Hébergement gratuit pour un projet pilote, et une personne à temps partiel à la SDC pour l’accueil et la modération. Celui qui déploie, la Ville ou la SDC, assume ces coûts, ainsi que celui d’un éventuel modèle de langage en phase 2. Nous ne donnons pas de chiffre précis sans l’avoir calculé.
 
 ## 6. Est-ce de l’IA ou pas?
-Le moteur de la démo est un moteur de règles, pour que chaque suggestion s’explique. Nous avons testé un modèle d’IA multilingue qui tourne dans le navigateur (page /labo/) : il trouve des profils semblables, pas complémentaires, donc l’IA arrive en phase 2 pour lire la demande libre. Claude Code nous a aidés à développer l’app (dernière diapo).
+Pas d’IA payante aujourd’hui : un moteur de règles, pour que chaque suggestion s’explique, car le modèle multilingue testé sur l’appareil (page /labo/) trouvait des profils semblables, pas complémentaires. L’IA est prévue en phase 2, payée par celui qui déploie, et Claude Code nous a aidés à développer l’app (dernière diapo).
 
 
 ## 7. Comment fonctionne le jumelage?
 Le score est une somme pondérée visible : complémentarité 35, réciprocité 20, proximité 20, thème 15, créneau 10. Dans l’app, « Comment ce score » le montre. Les règles : complémentarité (l’un offre ce que l’autre cherche), proximité (environ dix minutes à pied), moment commun (semaine jour, semaine soir ou fin de semaine) et thème commun. Le moteur assemble trois partenaires, ajoute un lieu public si personne n’offre d’espace, puis affiche « Pourquoi cette suggestion » et « À confirmer ».
 
 ## 8. Comment brancher les données de la Ville?
-Nos profils ont les mêmes colonnes que les fichiers fournis. Pour brancher les vraies données, on remplace nos profils fictifs par un export des mêmes colonnes, avec activation des profils par leurs responsables. Les données ouvertes (lieux publics, événements) peuvent se mettre à jour automatiquement.
+Nos profils ont les mêmes colonnes que les fichiers fournis. Pour brancher les vraies données, on remplace nos profils fictifs par un export des mêmes colonnes, qui pré-remplit les fiches; chacune devient publique seulement quand son responsable la réclame et consent. Les données ouvertes (lieux publics, événements) peuvent se mettre à jour automatiquement.
 
 
 ## 9. Et la modération? Si quelqu’un abuse?
-Personne n’est jumelé sans son oui : un projet n’est confirmé que quand chaque partenaire a accepté (dans la démo, les réponses des autres partenaires sont simulées), et il n’y a pas de messagerie ouverte à tous. Les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. En pilote, la SDC modère et peut retirer un profil, un projet ou un message; nous ne prétendons pas avoir déjà construit cet outil d’administration.
+Personne n’est jumelé sans son oui, il n’y a pas de messagerie ouverte à tous, et les signalements du fil en direct sont déjà recueillis. Un tableau de modération pour la SDC est prévu, pas encore construit : la SDC pourra y retirer un profil, un projet ou un message.
 
 
 ## 10. Comment mesurer l’impact?
@@ -53,7 +53,7 @@ Pas pour Maillage lui-même : c’est ce que le pilote mesurera. Pour l’idée 
 Maillage règle un problème précis, de bout en bout : trouver le bon partenaire, se mettre d’accord, se coordonner et passer à l’action. On ne fait ni paiements, ni signalements d’urgence, ni réseau social : on s’arrête là où d’autres outils existent (311, 911, plateformes de financement).
 
 ## 15. Comment les gens communiquent-ils?
-Chaque projet a un fil : participants, mises à jour et discussion, avec un mode lent de 15 secondes contre le pourriel et un bouton de signalement. Le fil est local aujourd’hui; en pilote, une table gratuite derrière le même écran, modérée par la SDC. Les coordonnées ne sont partagées qu’après une acceptation mutuelle.
+Chaque projet a un fil (participants, mises à jour, discussion) avec un bouton de signalement, et les coordonnées ne sont partagées qu’après une acceptation mutuelle. Sur les projets hors démo, un vrai fil partagé optionnel existe déjà (Supabase gratuit, hébergé au Canada, lisible seulement avec le lien du projet, anti-pourriel côté serveur); la démo reste simulée.
 
 
 ## 16. Qui peut créer un événement ou un commerce?
@@ -74,8 +74,8 @@ Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à 
 ## 21. Combien de commerçants avez-vous rencontrés?
 Vendredi matin, nous en avons rencontré [À REMPLIR : nombre réel] à Saint-Roch. Avant, nos règles venaient des colonnes des répertoires et du Plan d’action Saint-Roch; nous ne gonflons pas ce chiffre.
 
-## 22. Je vois un profil pré-rempli sur la carte, vous disiez caché?
-Ce sont les personnes qui restent cachées. Les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation par leur responsable.
+## 22. Je vois une fiche pré-remplie sur la carte, et le consentement?
+Dans la démo, les fiches marquées « pré-rempli » sont fictives : elles montrent comment les répertoires servent. En vrai, une fiche non réclamée n’est visible que par la SDC, pour inviter son responsable, et devient publique seulement après « Réclamer votre fiche » et son consentement.
 
 ## 23. Pourquoi les poids 35/20/20/15/10?
 Ce sont nos choix (complémentarité 35, réciprocité 20, proximité 20, thème 15, créneau 10), affichés dans l’app pour être débattus. En pilote, on les calibre avec les propositions réellement acceptées.
@@ -84,7 +84,7 @@ Ce sont nos choix (complémentarité 35, réciprocité 20, proximité 20, thème
 Un tableur filtre une liste; Maillage assemble trois partenaires complémentaires, ajoute un lieu public de rechange si personne n’offre d’espace et donne une explication lisible sur un téléphone. C’est cet assemblage, avec ses raisons et ses inconnues, qui prend du temps à la main.
 
 ## 25. Qui héberge les données et qui en est responsable?
-En pilote, la SDC ou la Ville est responsable des renseignements, chez un hébergeur au Canada, et fait l’évaluation prévue par la Loi 25. Le prototype, lui, n’enregistre rien côté serveur.
+En pilote, la SDC ou la Ville est responsable des renseignements, chez un hébergeur au Canada, et fait l’évaluation prévue par la Loi 25. Le prototype n’enregistre rien côté serveur, sauf les messages du fil en direct optionnel (Supabase, hébergé au Canada), jamais utilisé dans la démo.
 
 ## 26. Et des commerces concurrents, ou quelqu’un qui refuse?
 Personne n’est jumelé sans son oui : chaque partenaire voit la proposition et accepte ou refuse. Un refus ne coûte rien.
@@ -94,6 +94,15 @@ Maillage outille les organismes qui interviennent déjà, il ne met jamais une p
 
 ## 28. Pourquoi trois partenaires et pas deux?
 Un projet a besoin d’un lieu, d’un contenu et d’un public ou de bras, et c’est rare qu’une seule paire couvre les trois. S’il n’y a que deux partenaires, Maillage propose un lieu public de la Ville comme troisième.
+
+## 29. Et si quelqu’un écrit avec des fautes, ou en anglais?
+Un mentor nous l’a fait remarquer : depuis aujourd’hui, la lecture par mots-clés tolère les fautes de frappe, les accents oubliés et quelques mots d’anglais. En phase 2, l’IA comprend toutes les langues et toutes les fautes : le modèle testé dans /labo/ (paraphrase-multilingual-MiniLM) est déjà multilingue.
+
+## 30. Où sont les comptes?
+Le prototype n’a pas de vrais comptes, pour que le jury l’essaie sans inscription. Un vrai déploiement aurait absolument de vrais comptes : connexion, et commerces vérifiés par la SDC.
+
+## 31. Pourquoi pas dans l’App Store?
+À cause des coûts et de l’examen des boutiques : Maillage est une app web qui marche sur n’importe quel téléphone et s’ajoute à l’écran d’accueil. Une version en boutique pourra venir plus tard.
 
 ## Extras courts
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.

@@ -1,9 +1,10 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { Besoin, Evenement, Lieu, Profil } from '../types.ts';
 import { proposerAu } from './proposer.ts';
 
-const lire = <T,>(f: string): T => JSON.parse(readFileSync(new URL(`../../public/data/${f}`, import.meta.url), 'utf8')) as T;
+// Lecture des fichiers réels (pas de types node dans tsconfig.app: import.meta.glob de Vite).
+const brut = import.meta.glob('../../public/data/*.json', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+const lire = <T,>(f: string): T => JSON.parse(brut[`../../public/data/${f}`]) as T;
 
 describe('proposer sur public/data', () => {
   const profils = lire<Profil[]>('profils.json');

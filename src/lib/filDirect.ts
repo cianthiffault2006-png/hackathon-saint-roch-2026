@@ -12,6 +12,7 @@ export type CodeErreur =
   | 'fil_lien'
   | 'fil_coordonnees'
   | 'fil_sature'
+  | 'signal_limite'
   | 'invalide'
   | 'reseau'
   | 'inconnu'
@@ -155,9 +156,9 @@ export function codeErreur(e: unknown): CodeErreur {
   if (!e || typeof e !== 'object') return 'inconnu'
   const { code, message } = e as { code?: unknown; message?: unknown }
   const texte = typeof message === 'string' ? message : ''
-  const cle = /\b(fil_(?:delai|achalande|repetition|lien|coordonnees|sature))\b/.exec(texte)
+  const cle = /\b(fil_(?:delai|achalande|repetition|lien|coordonnees|sature)|signal_limite)\b/.exec(texte)
   if (cle) return cle[1] as CodeErreur
-  if (code === '23514' || code === '23502' || code === '22001') return 'invalide'
+  if (code === '23514' || code === '23502' || code === '22001' || code === '22023') return 'invalide'
   if (e instanceof TypeError || /fetch|network|load failed|réseau/i.test(texte) || code === '' || code === undefined) return 'reseau'
   return 'inconnu'
 }
@@ -186,7 +187,7 @@ export interface ClientFil {
     select(colonnes: string): { eq(col: string, val: string): { order(col: string, o: { ascending: boolean }): { limit(n: number): PromiseLike<Reponse<Ligne[]>> } } }
     insert(ligne: Pick<Ligne, 'projet_id' | 'auteur' | 'auteur_id' | 'texte'>): { select(colonnes: string): { single(): PromiseLike<Reponse<Ligne>> } }
   }
-  rpc(fn: 'signaler', args: { message_id: string }): PromiseLike<{ error: Reponse<unknown>['error'] }>
+  rpc(fn: 'signaler', args: { message_id: string; appareil_id: string }): PromiseLike<{ error: Reponse<unknown>['error'] }>
   channel(nom: string): CanalFil
   removeChannel(canal: CanalFil): unknown
 }
@@ -227,7 +228,8 @@ const estLigne = (x: unknown): x is Ligne =>
 
 export interface Fil {
   envoyer(texte: string, auteur: string, auteurId: string): Promise<Resultat>
-  signaler(id: string): Promise<Resultat>
+  /** Hides the message for everyone; the server allows 10 reports an hour per device. */
+  signaler(id: string, appareilId: string): Promise<Resultat>
   /** Browser online/offline events. */
   reseau(enLigne: boolean): void
   fermer(): void
@@ -356,9 +358,9 @@ export function ouvrirFil(projetId: string, fournir: () => Promise<ClientFil>, n
         return { ok: true }
       })
     },
-    signaler(id) {
+    signaler(id, appareilId) {
       return appel(async (c) => {
-        const { error } = await c.rpc('signaler', { message_id: id })
+        const { error } = await c.rpc('signaler', { message_id: id, appareil_id: appareilId })
         if (error) return { ok: false, code: codeErreur(error) }
         retirer(id)
         void canal?.send({ type: 'broadcast', event: 'signale', payload: { id } }).catch(() => undefined)
@@ -419,7 +421,10 @@ export function useFilDirect(projetId: string | null): FilDirect {
     (texte: string): Promise<Resultat> => fil.current?.envoyer(texte, lireNom(), moiId) ?? Promise.resolve({ ok: false, code: 'reseau' }),
     [moiId],
   )
-  const signaler = useCallback((id: string): Promise<Resultat> => fil.current?.signaler(id) ?? Promise.resolve({ ok: false, code: 'reseau' }), [])
+  const signaler = useCallback(
+    (id: string): Promise<Resultat> => fil.current?.signaler(id, moiId) ?? Promise.resolve({ ok: false, code: 'reseau' }),
+    [moiId],
+  )
 
   // State from a previous project id never leaks into this one.
   const e = actif && etat.pour === projetId ? etat.e : DEPART

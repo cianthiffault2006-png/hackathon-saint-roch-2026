@@ -58,7 +58,7 @@ export default function DiscussionDirecte({ fil, nomSuggere = '' }: { fil: FilDi
   async function signaler(id: string) {
     setErreur('')
     const r = await fil.signaler(id)
-    if (!r.ok) setErreur(t.direct.signalerEchec)
+    if (!r.ok) setErreur(r.code === 'signal_limite' ? t.direct.erreurs.signal_limite : t.direct.signalerEchec)
   }
 
   function choisirNom(e: React.FormEvent) {

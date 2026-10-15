@@ -74,6 +74,7 @@ export const t = {
       fil_lien: 'Les liens ne sont pas permis dans le fil.',
       fil_coordonnees: 'Ne partagez pas de courriel ni de numéro de téléphone dans le fil.',
       fil_sature: 'Le service est très sollicité. Réessayez dans une minute.',
+      signal_limite: 'Vous avez fait beaucoup de signalements. Réessayez dans une heure.',
       invalide: 'Message invalide : de 1 à 500 caractères.',
       reseau: 'Connexion impossible. Le message n’a pas été envoyé.',
       inconnu: 'Le message n’a pas pu être envoyé. Réessayez.',

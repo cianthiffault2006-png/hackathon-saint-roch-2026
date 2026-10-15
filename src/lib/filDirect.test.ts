@@ -96,11 +96,12 @@ describe('demo ids never go live', () => {
 describe('error codes', () => {
   const pgrst = (message: string, code = 'P0001') => ({ code, message, details: null, hint: null })
   it('maps every server rule to its code', () => {
-    for (const cle of ['fil_delai', 'fil_achalande', 'fil_repetition', 'fil_lien', 'fil_coordonnees', 'fil_sature'] as const) {
+    for (const cle of ['fil_delai', 'fil_achalande', 'fil_repetition', 'fil_lien', 'fil_coordonnees', 'fil_sature', 'signal_limite'] as const) {
       expect(codeErreur(pgrst(cle))).toBe(cle)
     }
     expect(codeErreur(pgrst('new row for relation "messages" violates check constraint', '23514'))).toBe('invalide')
     expect(codeErreur(pgrst('value too long', '22001'))).toBe('invalide')
+    expect(codeErreur(pgrst('signal_invalide', '22023'))).toBe('invalide')
   })
   it('maps network failures and unknown errors', () => {
     expect(codeErreur({ code: '', message: 'TypeError: Failed to fetch' })).toBe('reseau')
@@ -275,10 +276,18 @@ describe('ouvrirFil with a mocked client', () => {
   it('reports through the RPC, hides the message and tells other viewers', async () => {
     const f = fauxClient({ lignes: [ligne('a', 1)] })
     const { fil, dernier } = await ouvrir(f)
-    expect(await fil.signaler('a')).toEqual({ ok: true })
-    expect(f.brut.rpc).toHaveBeenCalledWith('signaler', { message_id: 'a' })
+    expect(await fil.signaler('a', 'appareil-sofia-1')).toEqual({ ok: true })
+    expect(f.brut.rpc).toHaveBeenCalledWith('signaler', { message_id: 'a', appareil_id: 'appareil-sofia-1' })
     expect(dernier().messages).toEqual([])
     expect(f.envoyes).toEqual([{ type: 'broadcast', event: 'signale', payload: { id: 'a' } }])
+  })
+
+  it('keeps the message when the server refuses the report', async () => {
+    const f = fauxClient({ lignes: [ligne('a', 1)], erreurSignal: { code: 'P0001', message: 'signal_limite' } })
+    const { fil, dernier } = await ouvrir(f)
+    expect(await fil.signaler('a', 'appareil-sofia-1')).toEqual({ ok: false, code: 'signal_limite' })
+    expect(dernier().messages.map((m) => m.id)).toEqual(['a'])
+    expect(f.envoyes).toEqual([])
   })
 
   it('is in error when the server refuses the read, offline when the network fails', async () => {

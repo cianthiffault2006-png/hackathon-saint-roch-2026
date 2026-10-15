@@ -18,6 +18,9 @@ import NouveauProjet from './projet/NouveauProjet'
 import Explorer from './explorer/Explorer'
 import PlusOptions from './explorer/PlusOptions'
 import ProfilPublic from './profil/ProfilPublic'
+import RechercheReclamer from './profil/RechercheReclamer'
+import { appliquerReclames } from './profil/reclamation'
+import { useReclames } from './profil/useReclames'
 import Fiche from './screens/Fiche'
 import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
@@ -34,7 +37,7 @@ import EspaceProjets from './layout/EspaceProjets'
 import { useBureau } from './layout/useBureau'
 import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
+type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau' | 'reclamer'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 
@@ -42,7 +45,10 @@ export default function App() {
   const [ecran, setEcran] = useState<Ecran>('accueil')
   const [retourFiche, setRetourFiche] = useState<Ecran>('projets')
   const [role, setRole] = useState<Role>('commerce')
-  const [donnees, setDonnees] = useState<Donnees>(VIDE)
+  const [brutes, setDonnees] = useState<Donnees>(VIDE)
+  // Local « Réclamer ce profil » claims (maillage.reclames) applied once here, so every screen sees the same « pré-rempli ».
+  const reclames = useReclames()
+  const donnees = useMemo(() => ({ ...brutes, profils: appliquerReclames(brutes.profils, reclames) }), [brutes, reclames])
   const [propositions, setPropositions] = useState<PropositionType[]>([])
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
@@ -64,17 +70,17 @@ export default function App() {
     sauverProjets(projets)
   }, [projets])
 
-  // The tour runs the café story through the same engine and the same screens.
+  // The tour runs the café story through the same engine and the same screens, on the raw data: local claims never change it.
   const propositionsVisite = useMemo(() => {
-    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, donnees.profils))
-    return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
-  }, [donnees])
+    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, brutes.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, brutes.profils))
+    return proposer(besoin, brutes.profils, brutes.lieux, brutes.evenements)
+  }, [brutes])
 
-  // The suite's second story: Sofia's corvée, through the same engine.
+  // The suite's second story: Sofia's corvée, through the same engine, on the raw data like the café's.
   const propositionsSofia = useMemo(() => {
-    const besoin = besoinSofia(donnees.profils)
-    return besoin ? proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements).slice(0, 1) : []
-  }, [donnees])
+    const besoin = besoinSofia(brutes.profils)
+    return besoin ? proposer(besoin, brutes.profils, brutes.lieux, brutes.evenements).slice(0, 1) : []
+  }, [brutes])
 
   // A throwaway project for the tour: never saved, never mixed with the viewer's own projects.
   const projetVisite = useMemo(() => {
@@ -206,7 +212,8 @@ export default function App() {
     : (projets.find((p) => p.id === ouvertId) ?? null)
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
 
-  const profilPublic = donnees.profils.find((p) => p.id === (enVisite ? PROFIL_VISITE : profilId)) ?? null
+  // The tour shows its profile and the explorer as in the raw data: the viewer's own claims never change it.
+  const profilPublic = (enVisite ? brutes.profils.find((p) => p.id === PROFIL_VISITE) : donnees.profils.find((p) => p.id === profilId)) ?? null
   const suiteVisite = etape?.parcours === 'suite'
   const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ? { ...projetAffiche.proposition, statut: projetAffiche.statut } : null)
   const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
@@ -242,6 +249,15 @@ export default function App() {
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onProposer={enVisite ? undefined : () => setEcran('nouveau')}
           onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
+          onReclamer={enVisite ? undefined : () => setEcran('reclamer')}
+        />
+      )}
+      {ecranActif === 'reclamer' && (
+        <RechercheReclamer
+          profils={donnees.profils}
+          evenements={donnees.evenements}
+          onRetour={() => setEcran('accueil')}
+          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -345,7 +361,7 @@ export default function App() {
       )}
       {ecranActif === 'explorer' && (
         <Explorer
-          profils={donnees.profils}
+          profils={enVisite ? brutes.profils : donnees.profils}
           lieux={donnees.lieux}
           evenements={donnees.evenements}
           onRetour={() => setEcran('accueil')}
@@ -407,10 +423,10 @@ export default function App() {
         </div>
       )}
       {ecranActif === 'sources' && <Sources lieux={donnees.lieux} onRetour={() => setEcran('accueil')} />}
-      {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
+      {ecranActif === 'sdc' && <Sdc profils={enVisite ? brutes.profils : donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
-      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
+      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
       {etat && <Regie index={etat.index} lireMs={lireMs} />}
       {etat && (
         <TourBar

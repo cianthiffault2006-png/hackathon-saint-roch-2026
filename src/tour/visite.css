@@ -240,3 +240,9 @@
 .tour-actif .pp-racine {
   padding-top: 212px;
 }
+
+.visite-piste:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}

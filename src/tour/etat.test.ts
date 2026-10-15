@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fr } from '../i18n/fr'
 import { DEBUT_SUITE, ETAPES, T, estFin, indexDe, legendeDe } from './script'
-import { CHAPITRES, DEBUTS, DUREE_TOTALE, bornes, dureeParcours, etapeA, etatEcrans, lectureMs, motsDe, poseCurseur, poseDefile, tempsGlobal } from './etat'
+import { CHAPITRES, DEBUTS, DUREE_TOTALE, arrivee, bornes, dureeParcours, etapeA, etatEcrans, lectureMs, minutes, motsDe, poseCurseur, poseDefile, tempsGlobal } from './etat'
 
 const i = indexDe
 
@@ -61,10 +61,53 @@ describe('reading time', () => {
 
   it('names the score and the partner in the captions', () => {
     const valeurs = { score: 87, prenom: 'Camille', scoreSofia: 74 }
-    expect(legendeDe(ETAPES[i('score')], valeurs)).toContain('87 %')
-    expect(legendeDe(ETAPES[i('sofiaPartenaires')], valeurs)).toContain('74 %')
+    expect(legendeDe(ETAPES[i('score')], valeurs)).toContain('87 %')
+    expect(legendeDe(ETAPES[i('sofiaPartenaires')], valeurs)).toContain('74 %')
     expect(legendeDe(ETAPES[i('sofiaPartenaires')], valeurs)).toContain('Malik A.')
     expect(legendeDe(ETAPES[i('invitation')], valeurs)).toContain('Camille reçoit')
+  })
+})
+
+describe('French typography of the tour strings', () => {
+  it('uses non-breaking spaces before « : » and « % » and inside guillemets, none before ? or !', () => {
+    const valeurs = { score: 87, prenom: 'Camille', scoreSofia: 74 }
+    const textes = [
+      ...ETAPES.filter((e) => !estFin(e)).map((e) => legendeDe(e, valeurs)),
+      fr.visite.suite, fr.visite.continuer, fr.visite.finSuite,
+      ...Object.values(fr.visite.chapitres), fr.visite.filMessage, fr.visite.filMoi, fr.visite.filReponse, fr.visite.finTitre,
+    ]
+    for (const t of textes) {
+      expect(t, t).not.toMatch(/ [:%»]|« | [?!]/)
+      expect(t, t).not.toMatch(/—/)
+    }
+  })
+})
+
+describe('reduced motion', () => {
+  it('lands a jump at the step start normally, at its settled end under reduced motion', () => {
+    ETAPES.forEach((e, k) => {
+      expect(arrivee(k, false)).toBe(0)
+      expect(arrivee(k, true)).toBe(e.dureeMs - 1)
+    })
+  })
+
+  it('shows each step settled at its landing time (the screen matches the caption)', () => {
+    const fin = (id: Parameters<typeof i>[0]) => etatEcrans(i(id), arrivee(i(id), true))
+    expect(fin('saisie').texte).toBe(1)
+    expect(fin('puces').puces).toBe(4)
+    expect(fin('score').detail).toBe(true)
+    expect(fin('raisons').raisons).toBe(5)
+    expect(fin('interet').statut).toBe('interet_envoye')
+    expect(fin('accepte').accepte).toBe(true)
+    expect(fin('maj').onglet).toBe('maj')
+    expect(fin('discussion').fil).toMatchObject({ recus: 2, reponse: true })
+    expect(fin('carte').anneau).toBe(true)
+  })
+
+  it('speaks the slider time as m:ss', () => {
+    expect(minutes(0)).toBe('0:00')
+    expect(minutes(44_100)).toBe('0:44')
+    expect(minutes(65_000)).toBe('1:05')
   })
 })
 

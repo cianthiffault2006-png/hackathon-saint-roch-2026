@@ -53,6 +53,6 @@ Position des profils et des événements fictifs : points d'adresse de la Ville 
 | `lieux.json` (32 lieux ouverts) | Ouvert : Lieux publics (vque_14, Ville de Québec, via Données Québec) et Culture, arts et patrimoine (SIT Québec, ministère du Tourisme), filtrés dans Saint-Roch | CC BY 4.0 | Lieux publics : « Source : Ville de Québec, Lieux publics, licence CC BY 4.0 »; sites culturels : « Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0 » (champ `attribution` de chaque lieu) |
 | `lieux.json` (6 colonnes Morris) | Fictif | Sans objet | « Données fictives » |
 | `evenements.json` | Fictif : 16 événements inventés (colonnes de Événements à venir), certains promus par des profils fictifs | Sans objet | `source: fictif` |
-| `quartier.geojson` | Ouvert : Quartiers (vque_9, Ville de Québec, via Données Québec), polygone Saint-Roch | CC BY 4.0 | « Source : Ville de Québec, Quartiers, licence CC BY 4.0 » (champ `properties.source`) |
+| `quartier.geojson` | Ouvert : Quartiers (vque_9, Ville de Québec, via Données Québec), polygone Saint-Roch | CC BY 4.0 | « Ville de Québec, Quartiers (CC BY 4.0) » (champ `properties.source`, tel que dans le fichier) |
 
 Les lignes d'attribution sont notre formulation : le portail n'impose pas de phrase, seulement de créditer le producteur. Le polygone est publié tel quel; les lieux et points sont des extraits filtrés (« adapté de »).

@@ -2,9 +2,11 @@
 
 
 ## What we are building
-[The one sentence from gate 1: Pour [usager] qui [problème], [projet] est [solution] qui [bénéfice], à partir des données [jeu de données].]
+Pour les commerçants, organismes et citoyens de Saint-Roch qui ont des ressources et des projets mais ne se connaissent pas, Maillage est une app mobile qui leur propose des projets communs à trois partenaires sur la carte du quartier, avec les raisons de chaque suggestion, à partir des répertoires d'organismes, de commerces et d'installations de la Ville.
 
-Demo path (the only thing that must work): [step 1] → [step 2] → [step 3]. Everything else is roadmap.
+Matching is a transparent rules engine (no AI in the demo; phase 2 swaps `lireBesoin` for a language model). 'Ça m'intéresse' is simulated and labelled « Démo simulée ». Pre-filled profiles are hidden until claimed (Loi 25).
+
+Demo path (the only thing that must work): choisir un rôle (café) → décrire le besoin (texte + puces) → proposition à 3 partenaires sur la carte (raisons, à confirmer) → « Ça m'intéresse » → statut en attente puis projet confirmé (simulé). Plus a « Visite guidée » auto-play of the same story. Everything else is roadmap.
 
 ## Team and ownership (one owner per file)
 Humans: L Cian (integration, merges, freezes, demo clicks); the team at the table takes D (numbers), U (French text, slides, voice), Q (phone tests, stopwatch, backup video). Each human reviews what the Claude teammate of that role makes.
@@ -14,7 +16,7 @@ Claude teammates (Sonnet, one branch and one worktree each; they report to "team
 - data (for D), branch `data/v1`: `data/**`, `scripts/**`, `public/data/**`, `docs/DATA-SOURCES.md`. Nobody else edits data files.
 - copy (for U), branch `copy/fr`: `src/i18n/fr.ts`, `docs/pitch/**`. Slides themselves live outside the repo.
 - qa (for Q), branch `qa/tests`: `TESTS.md`, `public/seed/**` (separate from D's data), `docs/DEMO-SCRIPT.md`.
-- [db, branch `feat/db`: `supabase/**`, `src/lib/api.ts` | not used] · [build2, branch `feat/console`: `src/console/**` | not used]
+- engine (plain helper for L), branch `feat/engine`: `src/engine/**`. · db, build2: not used.
 
 ## Stack
 Vite + React + TypeScript. MapLibre GL JS with the OpenFreeMap style `https://tiles.openfreemap.org/styles/liberty` (no key). Static GeoJSON/JSON in `public/data/`. Recharts for charts. Turf.js only when spatial math is needed. Deployed on Vercel by the CLI; `main` is production, a preview URL comes from `vercel` in a branch worktree. [Supabase: not used | one table `[name]`, anonymous inserts under RLS, publishable key only, in Vercel env vars, never in the repo.]

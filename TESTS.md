@@ -6,18 +6,18 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 
 ## A. Parcours de démo (obligatoire)
 
-Avant chaque passage sur le téléphone de démo : vider les données du site (réglages du navigateur), puis recharger l'accueil.
+Avant chaque passage sur le téléphone de démo : vider les données du site (réglages du navigateur), puis recharger l’accueil.
 
 | # | Étape | Résultat attendu |
 |---|---|---|
-| 1 | Ouvrir l'accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
+| 1 | Ouvrir l’accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
 | 2 | Choisir « Commerçant » | Écran Besoin : « Votre profil : Café Le Petit Détour », zone de texte, deux rangées de puces « J’offre » et « Je cherche », puis « Quand » |
-| 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur ; Je cherche : Animation ; Quand : Semaine, soir |
+| 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir |
 | 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
 | 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », bouton « Voir ce que Camille reçoit » |
 | 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |
-| 8 | Retour accueil, « Visite guidée » | Lecture automatique d'environ 57 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
+| 8 | Retour accueil, « Visite guidée » | Lecture automatique d’environ 57 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 
 ## B. Contrôles transversaux
 
@@ -29,11 +29,11 @@ Avant chaque passage sur le téléphone de démo : vider les données du site (r
 | 12 | Portable (1280 px ou plus, miroir) | Mise en page propre, carte et panneau visibles sans défilement parasite |
 | 13 | Console du navigateur | Aucune erreur (avertissements tolérés) |
 | 14 | Carte | Attribution (OpenFreeMap / OpenStreetMap et jeux de données de la Ville) visible sur tout écran avec carte |
-| 15 | Hors ligne approximatif : charger, puis couper le Wi-Fi | La visite guidée fonctionne jusqu'au bout (données locales, tuiles déjà vues) |
+| 15 | Hors ligne approximatif : charger, puis couper le Wi-Fi | La visite guidée fonctionne jusqu’au bout (données locales, tuiles déjà vues) |
 | 16 | Temps de chargement, Wi-Fi | Accueil interactif en moins de 3 s |
 | 17 | Aucune donnée personnelle ni clé dans le JS déployé | Aucune clé, aucun nom réel, profils non réclamés cachés |
 | 18 | Page labo : ouvrir /labo/ | Le modèle se charge (environ 130 Mo au premier chargement, barre de progression), puis le statut affiche « Prêt. Le modèle tourne sur votre appareil. » |
-| 19 | Scénario de sécurité (rôle Organisme) | Non reproductible dans l'interface : l'organisme est le demandeur de l'histoire. Couvert par le test du moteur `src/engine/donnees-reelles.test.ts` (`npm test`). |
+| 19 | Scénario de sécurité (rôle Organisme) | Non reproductible dans l’interface : l’organisme est le demandeur de l’histoire. Couvert par le test du moteur `src/engine/donnees-reelles.test.ts` (`npm test`). |
 
 ## C. Contrôles qa (curl et lecture du code déployé)
 

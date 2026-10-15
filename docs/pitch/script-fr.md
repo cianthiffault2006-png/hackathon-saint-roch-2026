@@ -44,9 +44,9 @@ Diapo 3, puis l’écran de l’app. Cian clique et parle en même temps.
 [DÉMO]
 1. 0:50 : accueil, toucher « Commerçant ». Écran « Votre profil : Café Le Petit Détour ». « Je suis Mathieu, du café. »
 2. 0:58 : COLLER la phrase (copiée d’avance, ne pas la taper en direct), puis la lire à voix haute : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer. » Puces allumées : J’offre « Espace intérieur », Je cherche « Animation », Quand « Semaine, soir ». « Maillage lit la phrase et allume les bons choix. » Toucher « Trouver des partenaires ».
-3. 1:15 : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %. « Avec Camille Vézina et le Collectif Les Voisins en Scène, à environ dix minutes à pied. Chacun y gagne : le café apporte son espace et sa clientèle, Camille ses toiles, le Collectif son public. »
+3. 1:15 : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %. « Avec Camille Vézina et le Collectif Les Voisins en Scène, à deux ou trois minutes à pied. Chacun y gagne : le café apporte son espace et sa clientèle, Camille ses toiles, le Collectif son public. »
 4. 1:35 : montrer « Pourquoi cette suggestion » puis « À confirmer ». « Chaque suggestion s’explique, et ce qu’on ne sait pas encore, on le dit. Le score est une somme pondérée visible, sous “Comment ce score”. »
-5. 1:55 : toucher « Ça m’intéresse ». Statut « En attente ». Ne pas attendre : toucher « Voir ce que Camille reçoit ». « Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre de 19 h à 22 h, et ce que chacun apporte. » Toucher « Accepter ». « Elle accepte, et le projet se confirme des deux côtés. Dans la démo, aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation. »
+5. 1:55 : toucher « Ça m’intéresse ». Statut « En attente ». Ne pas attendre : toucher « Voir ce que Camille reçoit ». « Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » Toucher « Accepter ». « Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation. »
 6. 2:25 [SI LE TEMPS LE PERMET, seulement si on est sous 2:20 à ce moment] : Accueil, « Proposer un projet », « Exemple », écran « Avant de commencer ». « Deuxième histoire : Sofia, résidente, organise une corvée de propreté le samedi 24 octobre, de 13 h à 17 h. Avant de commencer, Maillage lui rappelle que le 311 s’occupe de ce qui relève de la Ville. » Sinon, passer directement à la partie 4.
 
 Plan B si l’app plante : Cian lance la Visite guidée (environ 57 s, elle rejoue la même histoire toute seule), sans commentaire d’excuse; continuer le texte. La vidéo de secours reste le dernier recours (Q la lance).
@@ -55,7 +55,7 @@ Plan B si l’app plante : Cian lance la Visite guidée (environ 57 s, elle rejo
 Diapo 4 (Technologies, outils et données).
 
 « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche.
-Pour la Loi 25 : les personnes restent cachées; les commerces et organismes apparaissent avec leur nom public seulement, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. Les fichiers fournis sont confidentiels : la démo utilise des profils fictifs avec les vraies colonnes. »
+Pour la Loi 25 : les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et une position approximative, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. Les fichiers fournis sont confidentiels : la démo utilise des profils fictifs avec les vraies colonnes. »
 
 Notes (Q&A si on demande) : les nombres sont des totaux de lignes (structure seulement), approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
 

@@ -72,7 +72,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
       <h1 className="sr-only">{fr.besoin.titre}</h1>
       {partenaireVoulu && (
         <p className="profil-ligne">
-          {fr.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen·ne' : partenaireVoulu.nom}</strong>
+          {fr.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen' : partenaireVoulu.nom}</strong>
         </p>
       )}
       {asker && (

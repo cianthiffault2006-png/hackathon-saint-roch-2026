@@ -1,7 +1,7 @@
 import type { Role } from '../types'
 import { fr } from '../i18n/fr'
 
-// Visite guidée: the café story played on the real screens. Durations in ms, about 56 s in total.
+// Visite guidée: the café story played on the real screens. Durations in ms, about 57 s in total.
 export type EtapeId =
   | 'role' | 'saisie' | 'bouton' | 'carte' | 'raisons' | 'interet' | 'invitation' | 'confirme' | 'fiche' | 'coches' | 'fil' | 'projets' | 'fin'
 

@@ -4,7 +4,7 @@ Maillage, c’est l’app qui propose à un commerce, un artiste et un organisme
 
 **Essayer l’app :** https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ (lien officiel, GitHub Pages). Le lien Vercel (https://hackathon-saint-roch-2026.vercel.app) est une copie de secours qui peut être périmée.
 
-**Parcours de démo :** Commerçant → coller « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » → Trouver des partenaires → proposition à 87 % avec Camille Vézina et le Collectif Les Voisins en Scène → Ça m’intéresse → Voir ce que Camille reçoit → Accepter. La « Visite guidée » (environ 57 s) rejoue la même histoire toute seule. Détails : `docs/DEMO-SCRIPT.md`, tests : `TESTS.md`.
+**Parcours de démo :** Commerçant → coller « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » → Trouver des partenaires → proposition à 87 % avec Camille Vézina et le Collectif Les Voisins en Scène → Ça m’intéresse → Voir ce que Camille reçoit → Accepter. La « Visite guidée » (2 min en 7 chapitres, plus une suite de 69 s) rejoue la même histoire toute seule. Détails : `docs/DEMO-SCRIPT.md`, tests : `TESTS.md`.
 
 **Technologies :** React, Vite, TypeScript, MapLibre GL JS (fond OpenFreeMap / OpenStreetMap), un moteur de règles transparent (`src/engine/`, score pondéré affiché), et un labo d’IA qui tourne sur l’appareil avec transformers.js (page `/labo/`).
 

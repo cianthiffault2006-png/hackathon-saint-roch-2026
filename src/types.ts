@@ -82,6 +82,15 @@ export interface Contribution {
   tags: Tag[];
 }
 
+export interface DetailScore {
+  complementarite: number;   // each 0..100, with its weight in the total
+  reciprocite: number;
+  proximite: number;
+  creneau: number;
+  theme: number;
+  poids: { complementarite: number; reciprocite: number; proximite: number; creneau: number; theme: number };
+}
+
 export type Statut = 'proposee' | 'interet_envoye' | 'en_attente' | 'confirmee';
 
 export interface Proposition {
@@ -92,6 +101,7 @@ export interface Proposition {
   lieuId?: string;           // a Lieu when no partner offers the space
   creneau: Creneau;
   score: number;             // 0..100
+  detailScore?: DetailScore; // optional breakdown shown in « Comment ce score » (added 11:35, Cian's jury review)
   raisons: string[];         // 'Pourquoi cette suggestion' lines, French
   aConfirmer: string[];      // 'À confirmer' lines, French
   evenementsProches: string[]; // Evenement ids nearby in time and place

@@ -218,7 +218,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       cadre.current = lot
       const bornes = new LngLatBounds()
       cadres.forEach((p) => bornes.extend([p.lng, p.lat]))
-      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 17, duration: 700 })
+      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + (window.innerWidth < 900 ? 76 : 40) }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)

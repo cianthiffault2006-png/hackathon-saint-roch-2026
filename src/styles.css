@@ -1958,7 +1958,8 @@ body:has(.accueil) .badge-demo {
   box-shadow: 0 1px 4px rgba(21, 32, 27, 0.25);
 }
 
-/* Phone, map screen: the licence line moves from the top right (where it wrapped beside the stamp) to the bottom left,
+/* Phone, map screen: the licence line moves from the top right (where it wrapped beside the stamp) to the bottom left
+   (MapView adds 76 px of bottom fit padding under 900 px so no pin or label sits under it),
    just above the sheet's highest point and beside the legend, like the tour rule. Links get 24px+ targets. */
 @media (max-width: 899px) {
   .racine:not(.tour-actif) .screen-carte .attribution {

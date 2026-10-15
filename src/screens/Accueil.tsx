@@ -1,17 +1,19 @@
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
-
-const ICONES: Record<Role, string> = { commerce: '☕', organisme: '🤝', citoyen: '🧑' }
+import { T } from '../textes'
+import Icone from '../components/Icones'
 
 interface Props {
   onRole: (role: Role) => void
   onVisite: () => void
   /** Role highlighted by the guided tour. */
   surbrillance?: Role
+  /** Opens the project list; the link only shows once a project exists. */
+  onProjets?: () => void
 }
 
-export default function Accueil({ onRole, onVisite, surbrillance }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance, onProjets }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
@@ -24,13 +26,18 @@ export default function Accueil({ onRole, onVisite, surbrillance }: Props) {
         <p className="consigne">{fr.accueil.question}</p>
         {(['commerce', 'organisme', 'citoyen'] as Role[]).map((r) => (
           <button key={r} type="button" className={r === surbrillance ? 'btn btn-role surbrillance' : 'btn btn-role'} onClick={() => onRole(r)}>
-            <span aria-hidden="true" className="icone">{ICONES[r]}</span>
+            <span className="icone"><Icone nom={r} taille={26} /></span>
             {LIBELLE_ROLE[r]}
           </button>
         ))}
         <button type="button" className="btn btn-lien" onClick={onVisite}>
           {fr.accueil.visiteGuidee}
         </button>
+        {onProjets && (
+          <button type="button" className="btn btn-texte" onClick={onProjets}>
+            {T.projets.lien}
+          </button>
+        )}
       </div>
     </main>
   )

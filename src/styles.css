@@ -698,3 +698,209 @@ button {
 .pastille.pin-organisme {
   color: #1d1208;
 }
+
+/* Icon pins, legend, project sheet and list. Colours come from variables so a palette swap is one edit. */
+:root {
+  --couleur-commerce: var(--vert);
+  --couleur-organisme: var(--orange);
+  --couleur-citoyen: #5b5bd6;
+  --couleur-lieu: #3b4a45;
+  --couleur-evenement: var(--orange);
+  --sur-organisme: #1d1208;
+}
+
+.pin svg {
+  display: block;
+}
+
+.pin-commerce {
+  background: var(--couleur-commerce);
+}
+
+.pin-organisme {
+  background: var(--couleur-organisme);
+  color: var(--sur-organisme);
+}
+
+.pin-citoyen {
+  background: var(--couleur-citoyen);
+}
+
+.pin-lieu {
+  background: var(--couleur-lieu);
+  color: #fff;
+}
+
+.pin-evenement {
+  background: #fff;
+  border-color: var(--couleur-evenement);
+  color: var(--couleur-evenement);
+}
+
+.pastille {
+  width: 24px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.pastille.pin-evenement {
+  border: 2px solid var(--couleur-evenement);
+}
+
+.legende {
+  font-size: 11px;
+  line-height: 1.55;
+  padding: 5px 8px;
+}
+
+.btn-texte {
+  background: transparent;
+  color: var(--vert);
+  text-decoration: underline;
+}
+
+.btn-fiche {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.fiche,
+.projets {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
+}
+
+.fiche-titre {
+  margin: 4px 0 8px;
+  font-size: 24px;
+  color: var(--vert);
+}
+
+.fiche-date,
+.fiche-lieu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.fiche-note {
+  margin: 0 0 8px;
+  color: var(--gris);
+  font-size: 14px;
+}
+
+.fiche-statut {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--vert);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.progres {
+  margin-left: 6px;
+  color: var(--orange);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.coches {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coche {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 4px 0;
+  font-size: 16px;
+}
+
+.coche input {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  accent-color: var(--vert);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-action {
+  background: var(--orange);
+  color: #1d1208;
+}
+
+.lien-action {
+  display: block;
+  padding: 10px 0;
+  text-align: center;
+  color: var(--vert);
+  font-weight: 600;
+}
+
+.action-note {
+  margin: 0;
+  color: var(--gris);
+  font-size: 14px;
+  text-align: center;
+}
+
+.liste-projets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.carte-projet {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--vert-pale);
+  border-radius: var(--rayon);
+  background: #fff;
+  color: var(--texte);
+  text-align: left;
+}
+
+.carte-projet strong {
+  font-size: 18px;
+  color: var(--vert);
+}
+
+.carte-projet-ligne {
+  color: var(--gris);
+  font-size: 14px;
+}
+
+.statut-mini {
+  align-self: flex-start;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--orange-pale);
+  color: #9a4d12;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.statut-mini.statut-confirmee {
+  background: var(--vert);
+  color: #fff;
+}

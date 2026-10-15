@@ -25,7 +25,7 @@ Slide 1.
 Slide 2.
 
 « À Saint-Roch, les ressources sont là : des locaux, des idées, des bénévoles, du talent. Ce qui manque, c’est de savoir qui a quoi, juste à côté.
-Marie, qui tient un café, voudrait animer sa salle le jeudi soir. Léa, artiste de la relève, cherche un mur depuis des mois. Un organisme culturel cherche un lieu chaleureux pour rejoindre de nouveaux publics. Personne ne sait que les deux autres existent.
+Mathieu, qui tient le Café Le Petit Détour, a un espace libre le jeudi soir. Camille Vézina, artiste de la relève, cherche un mur depuis des mois. Le Collectif Les Voisins en Scène cherche un lieu chaleureux pour rejoindre de nouveaux publics. Personne ne sait que les deux autres existent.
 Les répertoires sont des listes, et les groupes Facebook se perdent dans le fil. Résultat : des projets qui ne naissent pas. »
 
 (Les prénoms sont fictifs. Ne jamais citer un vrai commerce ou une vraie personne.)
@@ -36,10 +36,10 @@ Slide 3, puis écran du téléphone ou de l’app.
 « Voici Maillage : une app mobile qui propose des projets communs à trois partenaires du quartier, sur la carte, avec les raisons de chaque suggestion. »
 
 [DÉMO] (L clique, VOIX 2 raconte)
-1. 0:50 : écran d’accueil, toucher « Commerçant ». « Je suis Marie, du café. »
-2. 1:00 : écran du besoin, taper ou coller « Je voudrais animer mon café le jeudi soir avec de l’art » et toucher les puces « Contenu artistique » et « Semaine, soir ». « Je décris mon besoin avec mes mots, et je précise avec des puces. » Toucher « Trouver des partenaires ».
-3. 1:20 : écran de la proposition. « Maillage me propose une exposition collaborative, avec Léa, l’artiste, et un organisme culturel. Les trois partenaires sont sur la carte, à moins de dix minutes à pied. »
-4. 1:35 : montrer « Pourquoi cette suggestion » : « Léa offre des œuvres, le café offre un mur, l’organisme offre du public. Les trois se complètent, ils sont libres le jeudi soir, et ils partagent le thème de l’art. »
+1. 0:50 : écran d’accueil, toucher « Commerçant ». « Je suis Mathieu, du Café Le Petit Détour. »
+2. 1:00 : écran du besoin, taper « On a un espace libre le jeudi soir et on aimerait attirer du monde » et toucher les puces « Contenu artistique » et « Semaine, soir ». « Je décris mon besoin avec mes mots, et je précise avec des puces. » Toucher « Trouver des partenaires ».
+3. 1:20 : écran de la proposition. « Maillage me propose une exposition collaborative, avec Camille Vézina, l’artiste, et le Collectif Les Voisins en Scène. Les trois partenaires sont sur la carte, à moins de dix minutes à pied. »
+4. 1:35 : montrer « Pourquoi cette suggestion » : « Camille offre des œuvres, le café offre un mur, l’organisme offre du public. Les trois se complètent, ils sont libres le jeudi soir, et ils partagent le thème de l’art. »
 5. 1:50 : montrer « À confirmer » : « Ce qu’on ne sait pas encore, on le dit. L’app ne prétend rien. » Montrer « Événements à proximité » : « Et voici ce qui se passe autour, pour ne pas planifier au mauvais moment. »
 6. 2:05 : toucher « Ça m’intéresse ». Le statut passe à « Intérêt envoyé », puis « En attente des partenaires », puis « Projet confirmé (simulé) ». « Ici, c’est une démo simulée : aucun message ne part. Mais le chemin est complet, de l’idée au projet. »
 7. 2:20 : (option si le temps manque) ne pas lancer la Visite guidée en direct; la mentionner en une phrase : « Une visite guidée rejoue cette histoire toute seule. »

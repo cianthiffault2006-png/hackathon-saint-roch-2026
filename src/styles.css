@@ -1966,3 +1966,166 @@ body:has(.accueil) .badge-demo {
     line-height: 1.2;
   }
 }
+
+/* D. Fiche (and the shared screen header) */
+.retour {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  color: var(--vert-fonce);
+  box-shadow: none;
+}
+
+.retour.retour-carte {
+  box-shadow: 0 1px 4px rgba(21, 32, 27, 0.25);
+}
+
+.role-tag {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--gris-fil);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.profil-ligne {
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  color: var(--encre);
+}
+
+.profil-ligne strong {
+  color: var(--vert-fonce);
+}
+
+.chip {
+  background: var(--craie);
+  color: var(--vert-fonce);
+}
+
+.chip-on {
+  background: var(--vert);
+  color: #fff;
+}
+
+.chip-plus {
+  background: transparent;
+}
+
+.fiche-titre {
+  margin: 6px 0 10px;
+  font-size: 26px;
+}
+
+.fiche-date {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--encre);
+}
+
+.fiche-date svg,
+.fiche-lieu svg {
+  flex: none;
+  color: var(--vert);
+}
+
+.fiche-note {
+  color: var(--gris-fil);
+}
+
+/* Status as the green stamp */
+.fiche-statut {
+  margin: 12px 0 4px;
+  padding: 3px 9px;
+  border: 2px solid var(--vert);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--vert-fonce);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Stitch progress line under « À confirmer » */
+.progres-couture {
+  height: 4px;
+  margin: -2px 0 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--trait) 0 7px, transparent 7px 12px);
+}
+
+.progres-couture > span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--couture);
+  transition: width 0.3s ease-out;
+}
+
+.progres {
+  color: var(--brique-fonce);
+  font-weight: 700;
+}
+
+/* Actions: one brick button, the rest are text links */
+.actions .btn-action ~ .btn-action {
+  border: 2px solid var(--vert);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.actions .btn-action ~ .btn-action:active {
+  background: var(--lin);
+}
+
+.actions .btn-lien {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--vert-fonce);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.actions .confirmation .btn-lien {
+  border: 2px solid var(--vert);
+  text-decoration: none;
+}
+
+.lien-action {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carte-projet strong {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  color: var(--vert-fonce);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progres-couture > span {
+    transition: none;
+  }
+}
+
+.btn-texte.btn-retirer {
+  color: #b3261e;
+}

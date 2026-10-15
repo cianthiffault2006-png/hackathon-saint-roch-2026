@@ -100,6 +100,9 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
       <h2 className="sous-titre">
         {fr.fiche.aConfirmerAvant} <span className="progres">{fr.fiche.progres(fait, projet.aConfirmer.length)}</span>
       </h2>
+      <div className="progres-couture" aria-hidden="true">
+        <span style={{ width: `${(fait / projet.aConfirmer.length) * 100}%` }} />
+      </div>
       <ul className="coches" ref={refListe}>
         {projet.aConfirmer.map((texte, i) => (
           <li key={texte}>

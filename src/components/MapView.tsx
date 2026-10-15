@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { LngLatBounds, Map, Marker, setWorkerUrl, type GeoJSONSource } from 'maplibre-gl'
+import { LngLatBounds, Map, Marker, Popup, setWorkerUrl, type GeoJSONSource } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -15,6 +15,8 @@ export interface Pin {
   lng: number
   type: 'partenaire' | 'lieu' | 'evenement'
   label: string
+  /** Second line of the tap popup, e.g. the role. */
+  detail?: string
 }
 
 interface Props {
@@ -57,7 +59,25 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       interieur.title = p.label
       interieur.textContent = p.type === 'lieu' ? 'L' : p.type === 'evenement' ? '★' : p.label.charAt(0)
       el.appendChild(interieur)
-      return new Marker({ element: el }).setLngLat([p.lng, p.lat]).addTo(map)
+      if (p.type !== 'evenement') {
+        const etiquette = document.createElement('div')
+        etiquette.className = 'pin-etiquette'
+        etiquette.style.animationDelay = `${i * delaiPinMs + 300}ms`
+        etiquette.textContent = p.label.length > 20 ? `${p.label.slice(0, 19)}…` : p.label
+        el.appendChild(etiquette)
+      }
+      // Tap popup with the full name and the role.
+      const contenu = document.createElement('div')
+      const nom = document.createElement('strong')
+      nom.textContent = p.label
+      contenu.appendChild(nom)
+      if (p.detail) {
+        const role = document.createElement('div')
+        role.textContent = p.detail
+        contenu.appendChild(role)
+      }
+      const popup = new Popup({ offset: 24, closeButton: false }).setDOMContent(contenu)
+      return new Marker({ element: el }).setLngLat([p.lng, p.lat]).setPopup(popup).addTo(map)
     })
 
     // Dashed line linking the partners, drawn once their pins have dropped.
@@ -90,10 +110,12 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       }
     }
     minuteur = window.setTimeout(() => essayer(0), pins.length * delaiPinMs)
-    if (pins.length > 0) {
+    // Fit on the partners and the place only: nearby events must not zoom the map out.
+    const cadres = pins.filter((p) => p.type !== 'evenement')
+    if (cadres.length > 0) {
       const bornes = new LngLatBounds()
-      pins.forEach((p) => bornes.extend([p.lng, p.lat]))
-      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 16, duration: 700 })
+      cadres.forEach((p) => bornes.extend([p.lng, p.lat]))
+      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 18, duration: 700 })
     }
     return () => window.clearTimeout(minuteur)
   }, [pins, margeBas, margeHaut, delaiPinMs])

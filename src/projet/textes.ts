@@ -136,7 +136,7 @@ const parType: Record<TypeProjet, string[]> = {
 const nettoyage = [
   'Autorisation du propriétaire pour les graffitis sur un bâtiment privé',
   'Signaler au 311 de la Ville ce qui relève de la Ville (mobilier urbain, voie publique)',
-  'Matériel de sécurité',
+  'Matériel de sécurité (gants, sacs, dossards)',
 ]
 
 /** Checklist for the chosen type; cleanup ideas (graffiti, nettoyage, corvée) get their own items first. */

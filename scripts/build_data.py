@@ -125,6 +125,12 @@ for i, d in enumerate(D):
     reclame = True if id_.startswith("story") else (i % 3 != 0)
     profils.append(dict(id=id_, role=role, sousType=st, nom=nom, description=desc, lat=round(pt[1], 6), lng=round(pt[0], 6),
                         offres=of, besoins=be, creneaux=cr, themes=th, source="fictif", origine=org, reclame=reclame))
+# story profiles: names, descriptions and pins from public/seed/story.json (main), tags from the gate 1 brief
+seed = {x["id"]: x for x in json.load(open(ROOT / "public" / "seed" / "story.json", encoding="utf-8"))}
+for p in profils:
+    if p["id"] in seed:
+        for k in ("nom", "description", "lat", "lng"):
+            p[k] = seed[p["id"]][k]
 byid = {p["id"]: p for p in profils}
 
 # lieux: real open data inside the outline
@@ -175,7 +181,7 @@ def ev(i, titre, promo, lieu, d, h1, h2, cat, th, pt=None, at=None):
 
 
 evs = [
- ev(1, "Soirée de lancement de saison", "story-cafe", "Café Le Parvis", "10-29", "19:00", "21:30", "soirée", ["culture", "commerce_local"]),
+ ev(1, "Soirée de lancement de saison", "story-cafe", "Café Le Petit Détour", "10-29", "19:00", "21:30", "soirée", ["culture", "commerce_local"]),
  ev(2, "Lecture publique d'automne", "p-librairie", "Librairie La Marge Douce", "10-22", "19:00", "20:30", "lecture", ["culture"]),
  ev(3, "Dégustation de bières d'automne", "p-brasserie", "Microbrasserie Le Houblon Voisin", "10-24", "16:00", "19:00", "dégustation", ["alimentation", "commerce_local"]),
  ev(4, "Spectacle de quartier", "p-salle", "Salle Le Bémol", "11-06", "20:00", "22:30", "spectacle", ["culture", "art"]),

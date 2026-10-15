@@ -27,7 +27,7 @@ npm test
 La démo du jury reste sur le fil simulé : le projet du café, la corvée de Sofia et la visite guidée ne passent jamais en direct. Pour les autres projets, l’onglet Discussion offre un interrupteur « Fil en direct (bêta) », désactivé par défaut, qui partage les messages entre appareils avec Supabase (lien de partage `#fil/<id>?t=<titre>`). Sans configuration, l’app affiche une note discrète et la discussion reste sur l’appareil.
 
 Pour l’activer :
-1. Dans un projet Supabase, exécuter les fichiers de `supabase/migrations/` dans l’ordre (éditeur SQL du tableau de bord, ou `supabase db push`). Ils créent la table `messages` (RLS : lecture des messages non signalés, ajout seulement), le déclencheur anti-abus, la fonction `signaler` (10 signalements par heure et par appareil) et l’ajout à la publication Realtime.
+1. Dans un projet Supabase, exécuter les fichiers de `supabase/migrations/` dans l’ordre (éditeur SQL du tableau de bord, ou `supabase db push`). Ils créent la table `messages` (aucun accès direct par l’API), le déclencheur anti-abus et trois fonctions : `lire_fil` (un fil à la fois, il faut son identifiant, donc le lien), `envoyer_message` et `signaler` (10 signalements par heure et par appareil). Les appareils se préviennent par un message Realtime « broadcast » sur `fil:<id>` puis relisent le fil, et relisent aussi toutes les 20 secondes.
 2. Créer `.env.local` à la racine (ignoré par git, modèle : `.env.example`) avec `VITE_SUPABASE_URL` et `VITE_SUPABASE_PUBLISHABLE_KEY` (clé publiable, jamais la clé secrète ni `service_role`). Sur Vercel, mettre les mêmes variables dans les réglages du projet.
 3. `npm run dev` ou `npm run build`. La bibliothèque Supabase n’est chargée qu’à l’ouverture d’un fil en direct.
 

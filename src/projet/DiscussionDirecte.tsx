@@ -79,7 +79,7 @@ export default function DiscussionDirecte({ fil, nomSuggere = '' }: { fil: FilDi
       <ul className="pj-fil" aria-live="polite">
         {fil.messages.length === 0 && !fil.chargement && <li className="pj-texte">{t.direct.aucunMsg}</li>}
         {fil.messages.map((m) => {
-          const moi = m.auteurId === fil.moiId
+          const moi = m.deMoi
           return (
             <li key={m.id} className={moi ? 'pj-msg pj-msg-moi' : 'pj-msg'}>
               <div className="pj-msg-tete">

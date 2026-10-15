@@ -8,12 +8,14 @@ import {
   configFil,
   ecrireBascule,
   estDemo,
+  horodatage,
   idFilValide,
   lienDirect,
   lienFil,
   lireLienFil,
   nouvelIdFil,
   ouvrirFil,
+  RELECTURE_MS,
   useFilDirect,
   type CanalFil,
   type ClientFil,
@@ -143,9 +145,9 @@ describe('deep link', () => {
   })
 })
 
-// A mocked supabase-js client: records calls, lets the test push Realtime events.
+// A mocked supabase-js client: RPCs and a broadcast channel; the test pushes pings and channel states.
 function fauxClient(options: { lignes?: unknown[]; erreurLecture?: unknown; erreurAjout?: unknown; erreurSignal?: unknown } = {}) {
-  const rappels: Record<string, (c: { new?: unknown; payload?: unknown }) => void> = {}
+  const rappels: Record<string, (c: { payload?: unknown }) => void> = {}
   let statutCanal: ((s: string) => void) | undefined
   const envoyes: unknown[] = []
   const canal: CanalFil = {
@@ -163,155 +165,172 @@ function fauxClient(options: { lignes?: unknown[]; erreurLecture?: unknown; erre
     },
   }
   let compteur = 0
-  const ajouts: unknown[] = []
-  const filtres: unknown[] = []
-  const client = {
-    from: () => ({
-      select: () => ({
-        eq: (col: string, val: string) => {
-          filtres.push([col, val])
-          return {
-            order: () => ({
-              limit: (n: number) =>
-                Promise.resolve(
-                  options.erreurLecture ? { data: null, error: options.erreurLecture } : { data: (options.lignes ?? []).slice(0, n), error: null },
-                ),
-            }),
-          }
-        },
-      }),
-      insert: (ligne: Record<string, string>) => ({
-        select: () => ({
-          single: () => {
-            ajouts.push(ligne)
-            if (options.erreurAjout) return Promise.resolve({ data: null, error: options.erreurAjout })
-            compteur += 1
-            return Promise.resolve({ data: { id: `nouveau-${compteur}`, signale: false, cree_le: '2026-10-15T18:00:00Z', ...ligne }, error: null })
-          },
-        }),
-      }),
-    }),
-    rpc: vi.fn(() => Promise.resolve({ error: (options.erreurSignal ?? null) as never })),
-    channel: vi.fn(() => canal),
-    removeChannel: vi.fn(),
-  }
+  const lectures: Record<string, string>[] = []
+  const ajouts: Record<string, string>[] = []
+  const serveur = { lignes: [...(options.lignes ?? [])] }
+  const rpc = vi.fn((fn: string, args: Record<string, string>) => {
+    if (fn === 'lire_fil') {
+      lectures.push(args)
+      return Promise.resolve(options.erreurLecture ? { data: null, error: options.erreurLecture } : { data: [...serveur.lignes], error: null })
+    }
+    if (fn === 'envoyer_message') {
+      ajouts.push(args)
+      if (options.erreurAjout) return Promise.resolve({ data: null, error: options.erreurAjout })
+      compteur += 1
+      return Promise.resolve({ data: [{ id: `nouveau-${compteur}`, auteur: args.nom, texte: args.contenu, cree_le: '2026-10-15T18:00:00.123456+00:00', de_moi: true }], error: null })
+    }
+    return Promise.resolve({ data: null, error: (options.erreurSignal ?? null) as never })
+  })
+  const client = { rpc, channel: vi.fn(() => canal), removeChannel: vi.fn() }
   return {
     client: client as unknown as ClientFil,
     brut: client,
+    serveur,
     rappels,
     envoyes,
+    lectures,
     ajouts,
-    filtres,
     statutCanal: (s: string) => statutCanal?.(s),
   }
 }
 
+// What lire_fil returns: no author id, only de_moi.
 const ligne = (id: string, minute: number, extra: Record<string, unknown> = {}) => ({
   id,
-  projet_id: 'f-test-fil-0001',
   auteur: 'Camille',
-  auteur_id: 'appareil-camille',
   texte: `Message ${id}`,
-  signale: false,
-  cree_le: `2026-10-15T17:${String(minute).padStart(2, '0')}:00Z`,
+  cree_le: `2026-10-15T17:${String(minute).padStart(2, '0')}:00.654321+00:00`,
+  de_moi: false,
   ...extra,
 })
 
+const APPAREIL = 'appareil-sofia-1'
+
 async function ouvrir(f: ReturnType<typeof fauxClient>) {
   const etats: EtatFil[] = []
-  const fil = ouvrirFil('f-test-fil-0001', () => Promise.resolve(f.client), (e) => etats.push(e))
+  const fil = ouvrirFil('f-test-fil-0001', () => Promise.resolve(f.client), (e) => etats.push(e), () => APPAREIL)
   await vi.waitFor(() => expect(etats.some((e) => !e.chargement)).toBe(true))
   return { fil, dernier: () => etats[etats.length - 1] }
 }
 
 describe('ouvrirFil with a mocked client', () => {
-  it('loads the last messages in order, is connected, and reloads after a Realtime drop', async () => {
-    // The server answers newest first.
-    const f = fauxClient({ lignes: [ligne('b', 2), ligne('a', 1)] })
-    const { dernier } = await ouvrir(f)
-    expect(f.filtres).toEqual([['projet_id', 'f-test-fil-0001']])
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('reads the thread through lire_fil with this device id, in order, without author ids', async () => {
+    const f = fauxClient({ lignes: [ligne('a', 1), ligne('b', 2, { de_moi: true })] })
+    const { fil, dernier } = await ouvrir(f)
+    expect(f.lectures).toEqual([{ projet_id: 'f-test-fil-0001', appareil_id: APPAREIL }])
     expect(f.brut.channel).toHaveBeenCalledWith('fil:f-test-fil-0001')
-    expect(dernier().messages.map((m) => m.id)).toEqual(['a', 'b'])
-    // Loaded and the channel has not failed: connected (sending goes through the REST API).
+    expect(dernier().messages.map((m) => [m.id, m.deMoi])).toEqual([['a', false], ['b', true]])
+    expect(Object.keys(dernier().messages[0]).sort()).toEqual(['auteur', 'deMoi', 'id', 'texte', 'ts'])
     expect(dernier().statut).toBe('connecte')
-    f.statutCanal('SUBSCRIBED')
-    expect(dernier().statut).toBe('connecte')
-    f.statutCanal('CHANNEL_ERROR')
-    expect(dernier().statut).toBe('hors_ligne')
-    expect(dernier().dejaConnecte).toBe(true)
-    f.statutCanal('SUBSCRIBED')
-    await vi.waitFor(() => expect(f.filtres).toHaveLength(2))
-    expect(dernier().statut).toBe('connecte')
+    fil.fermer()
   })
 
-  it('adds Realtime inserts once, and drops reported ones', async () => {
+  it('re-reads on a ping and never trusts its content', async () => {
     const f = fauxClient({ lignes: [ligne('a', 1)] })
-    const { dernier } = await ouvrir(f)
-    f.rappels['postgres_changes:INSERT']({ new: ligne('c', 3) })
-    f.rappels['postgres_changes:INSERT']({ new: ligne('c', 3) })
-    expect(dernier().messages.map((m) => m.id)).toEqual(['a', 'c'])
-    f.rappels['postgres_changes:UPDATE']({ new: ligne('a', 1, { signale: true }) })
-    expect(dernier().messages.map((m) => m.id)).toEqual(['c'])
-    f.rappels['broadcast:signale']({ payload: { id: 'c' } })
-    expect(dernier().messages).toEqual([])
-    f.rappels['postgres_changes:INSERT']({ new: { pas: 'une ligne' } })
-    expect(dernier().messages).toEqual([])
+    const { fil, dernier } = await ouvrir(f)
+    f.serveur.lignes = [ligne('a', 1), ligne('c', 3)]
+    f.rappels['broadcast:maj']({ payload: { id: 'faux', texte: 'message inventé' } })
+    // Just after a read, pings are coalesced into one read a second later.
+    await vi.waitFor(() => expect(dernier().messages.map((m) => m.id)).toEqual(['a', 'c']), { timeout: 2500 })
+    expect(dernier().messages.some((m) => m.texte === 'message inventé')).toBe(false)
+    expect(f.rappels['broadcast:signale']).toBeUndefined()
+    // A report elsewhere: the next read drops the message.
+    f.serveur.lignes = [ligne('c', 3)]
+    await new Promise((r) => setTimeout(r, 1100))
+    f.rappels['broadcast:maj']({ payload: {} })
+    await vi.waitFor(() => expect(dernier().messages.map((m) => m.id)).toEqual(['c']))
+    fil.fermer()
   })
 
-  it('sends a message and keeps one copy when Realtime echoes it', async () => {
+  it('re-reads after a Realtime drop and every 20 s', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval', 'setTimeout', 'clearTimeout', 'Date'] })
+    const f = fauxClient({ lignes: [ligne('a', 1)] })
+    const etats: EtatFil[] = []
+    const fil = ouvrirFil('f-test-fil-0001', () => Promise.resolve(f.client), (e) => etats.push(e), () => APPAREIL)
+    await vi.advanceTimersByTimeAsync(10)
+    expect(f.lectures).toHaveLength(1)
+    f.statutCanal('SUBSCRIBED')
+    f.statutCanal('CHANNEL_ERROR')
+    await vi.advanceTimersByTimeAsync(1500)
+    f.statutCanal('SUBSCRIBED')
+    await vi.advanceTimersByTimeAsync(10)
+    expect(f.lectures).toHaveLength(2)
+    await vi.advanceTimersByTimeAsync(RELECTURE_MS)
+    expect(f.lectures).toHaveLength(3)
+    fil.fermer()
+    await vi.advanceTimersByTimeAsync(RELECTURE_MS * 2)
+    expect(f.lectures).toHaveLength(3)
+    expect(f.brut.removeChannel).toHaveBeenCalledTimes(1)
+  })
+
+  it('posts through envoyer_message, shows the message as mine and pings the others', async () => {
     const f = fauxClient()
     const { fil, dernier } = await ouvrir(f)
-    expect(await fil.envoyer('  Bonjour!  ', 'Sofia', 'appareil-sofia-1')).toEqual({ ok: true })
-    expect(f.ajouts).toEqual([{ projet_id: 'f-test-fil-0001', auteur: 'Sofia', auteur_id: 'appareil-sofia-1', texte: 'Bonjour!' }])
-    f.rappels['postgres_changes:INSERT']({ new: { ...ligne('nouveau-1', 0), cree_le: '2026-10-15T18:00:00Z', texte: 'Bonjour!' } })
-    expect(dernier().messages.map((m) => m.texte)).toEqual(['Bonjour!'])
-    expect(await fil.envoyer('   ', 'Sofia', 'appareil-sofia-1')).toEqual({ ok: false, code: 'invalide' })
-    expect(await fil.envoyer('x'.repeat(501), 'Sofia', 'appareil-sofia-1')).toEqual({ ok: false, code: 'invalide' })
+    expect(await fil.envoyer('  Bonjour!  ', 'Sofia')).toEqual({ ok: true })
+    expect(f.ajouts).toEqual([{ projet_id: 'f-test-fil-0001', nom: 'Sofia', appareil_id: APPAREIL, contenu: 'Bonjour!' }])
+    expect(dernier().messages.map((m) => [m.texte, m.deMoi])).toEqual([['Bonjour!', true]])
+    expect(f.envoyes).toEqual([{ type: 'broadcast', event: 'maj', payload: {} }])
+    expect(await fil.envoyer('   ', 'Sofia')).toEqual({ ok: false, code: 'invalide' })
+    expect(await fil.envoyer('x'.repeat(501), 'Sofia')).toEqual({ ok: false, code: 'invalide' })
     expect(f.ajouts).toHaveLength(1)
+    fil.fermer()
   })
 
   it('returns the server rule as a code', async () => {
     const f = fauxClient({ erreurAjout: { code: 'P0001', message: 'fil_delai', hint: 'Attendez 15 secondes entre deux messages.' } })
     const { fil } = await ouvrir(f)
-    expect(await fil.envoyer('Encore moi', 'Sofia', 'appareil-sofia-1')).toEqual({ ok: false, code: 'fil_delai' })
+    expect(await fil.envoyer('Encore moi', 'Sofia')).toEqual({ ok: false, code: 'fil_delai' })
+    expect(f.envoyes).toEqual([])
+    fil.fermer()
   })
 
-  it('reports through the RPC, hides the message and tells other viewers', async () => {
+  it('reports through the RPC with this device id, hides the message and pings the others', async () => {
     const f = fauxClient({ lignes: [ligne('a', 1)] })
     const { fil, dernier } = await ouvrir(f)
-    expect(await fil.signaler('a', 'appareil-sofia-1')).toEqual({ ok: true })
-    expect(f.brut.rpc).toHaveBeenCalledWith('signaler', { message_id: 'a', appareil_id: 'appareil-sofia-1' })
+    expect(await fil.signaler('a')).toEqual({ ok: true })
+    expect(f.brut.rpc).toHaveBeenCalledWith('signaler', { message_id: 'a', appareil_id: APPAREIL })
     expect(dernier().messages).toEqual([])
-    expect(f.envoyes).toEqual([{ type: 'broadcast', event: 'signale', payload: { id: 'a' } }])
+    expect(f.envoyes).toEqual([{ type: 'broadcast', event: 'maj', payload: {} }])
+    fil.fermer()
   })
 
   it('keeps the message when the server refuses the report', async () => {
     const f = fauxClient({ lignes: [ligne('a', 1)], erreurSignal: { code: 'P0001', message: 'signal_limite' } })
     const { fil, dernier } = await ouvrir(f)
-    expect(await fil.signaler('a', 'appareil-sofia-1')).toEqual({ ok: false, code: 'signal_limite' })
+    expect(await fil.signaler('a')).toEqual({ ok: false, code: 'signal_limite' })
     expect(dernier().messages.map((m) => m.id)).toEqual(['a'])
     expect(f.envoyes).toEqual([])
+    fil.fermer()
   })
 
   it('is in error when the server refuses the read, offline when the network fails', async () => {
-    const refuse = await ouvrir(fauxClient({ erreurLecture: { code: '42P01', message: 'relation "public.messages" does not exist' } }))
+    const refuse = await ouvrir(fauxClient({ erreurLecture: { code: '22023', message: 'fil_invalide' } }))
     expect(refuse.dernier().statut).toBe('erreur')
+    refuse.fil.fermer()
     const coupe = await ouvrir(fauxClient({ erreurLecture: { code: '', message: 'TypeError: Failed to fetch' } }))
     expect(coupe.dernier()).toMatchObject({ statut: 'hors_ligne', dejaConnecte: false, chargement: false })
+    coupe.fil.fermer()
   })
 
   it('is offline when supabase-js cannot load, and sends nothing', async () => {
     const etats: EtatFil[] = []
-    const fil = ouvrirFil('f-test-fil-0001', () => Promise.reject(new Error('chunk')), (e) => etats.push(e))
-    expect(await fil.envoyer('Bonjour', 'Sofia', 'appareil-sofia-1')).toEqual({ ok: false, code: 'reseau' })
+    const fil = ouvrirFil('f-test-fil-0001', () => Promise.reject(new Error('chunk')), (e) => etats.push(e), () => APPAREIL)
+    expect(await fil.envoyer('Bonjour', 'Sofia')).toEqual({ ok: false, code: 'reseau' })
     expect(etats[etats.length - 1]).toMatchObject({ statut: 'hors_ligne', chargement: false })
-  })
-
-  it('closes its channel', async () => {
-    const f = fauxClient()
-    const { fil } = await ouvrir(f)
     fil.fermer()
-    expect(f.brut.removeChannel).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('horodatage', () => {
+  it('reads server timestamps with microseconds, and falls back to now', () => {
+    expect(horodatage('2026-10-15T18:40:44.311818+00:00')).toBe(Date.UTC(2026, 9, 15, 18, 40, 44, 311))
+    expect(horodatage('2026-10-15T18:40:44Z')).toBe(Date.UTC(2026, 9, 15, 18, 40, 44))
+    const avant = Date.now()
+    expect(horodatage('pas une date')).toBeGreaterThanOrEqual(avant)
   })
 })
 

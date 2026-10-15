@@ -41,7 +41,7 @@ Il faudrait des données réelles de collaborations réussies : le pilote les pr
 Nos profils et nos règles s’appuient sur les colonnes des répertoires de la Ville et sur le Plan d’action Saint-Roch. Nous ne prétendons pas avoir fait des entrevues; le pilote servira à les valider avec des gens du quartier.
 
 ## 13. Avez-vous des preuves que ça aide un quartier?
-Pas pour Maillage lui-même, c’est ce que le pilote mesurera. Pour l’idée générale, un essai randomisé à Philadelphie sur 541 terrains vacants (Branas et coll., 2018, PNAS) a trouvé que les verdir et les entretenir réduisait les agressions armées : environ 29 % dans les quartiers sous le seuil de pauvreté et de 3 à 7 % sur l’ensemble des quartiers. C’est un autre type d’intervention : nous le citons pour dire que soigner les espaces communs peut compter, pas pour promettre le même résultat.
+Pas pour Maillage lui-même : c’est ce que le pilote mesurera. Pour l’idée générale, un essai randomisé à Philadelphie sur 541 terrains vacants (Moyer, MacDonald, Ridgeway et Branas, American Journal of Public Health, 2019) a trouvé que les verdir (−6,8 %) ou les tondre et nettoyer (−9,2 %) réduisait les tirs de façon significative, sans signe de déplacement vers les zones voisines. C’est un autre type d’intervention : nous le citons pour dire que soigner les espaces communs peut compter, pas pour promettre le même résultat.
 
 ## Si on ne sait pas
 « Bonne question. Nous ne l’avons pas encore tranchée. Dans un pilote avec la SDC, voici comment nous le vérifierions : … » Puis une phrase. Ne jamais inventer un chiffre ni dire qu’une fonction existe si elle n’existe pas.

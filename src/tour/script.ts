@@ -1,4 +1,5 @@
 import type { Role } from '../types'
+import { fr } from '../i18n/fr'
 
 // Visite guidée: the café story played on the real screens. Durations in ms, about 46 s in total.
 export type EtapeId = 'role' | 'saisie' | 'bouton' | 'carte' | 'raisons' | 'interet' | 'fin'
@@ -14,13 +15,12 @@ export interface Etape {
 
 export const ROLE_VISITE: Role = 'commerce'
 
-export const TEXTE_VISITE =
-  'Je suis un café de Saint-Roch. Je cherche un artiste pour exposer sur mon mur le jeudi soir.'
+export const TEXTE_VISITE = fr.visite.texteCafe
 
 /** The typing takes this long at the start of the « saisie » step. */
 export const SAISIE_MS = 4500
 
-export const FIN_VISITE = 'Maillage : les ressources du quartier, enfin connectées'
+export const FIN_VISITE = fr.visite.finTitre
 
 export const ETAPES: Etape[] = [
   { id: 'role', ecran: 'accueil', dureeMs: 5000, legende: 'role' },

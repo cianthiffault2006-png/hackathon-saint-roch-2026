@@ -64,7 +64,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
       </header>
       {asker && (
         <p className="profil-ligne">
-          Votre profil : <strong>{asker.nom}</strong>
+          {fr.besoin.votreProfil} <strong>{asker.nom}</strong>
           <span className="profil-resume">{fr.besoin.jOffre} : {liste(asker.offres)}</span>
           <span className="profil-resume">{fr.besoin.jeCherche} : {liste(asker.besoins)}</span>
         </p>

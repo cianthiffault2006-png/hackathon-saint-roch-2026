@@ -1,3 +1,19 @@
+:root {
+  --vert: #1f5f4a;
+  --vert-fonce: #164536;
+  --vert-pale: #e6f1ec;
+  --orange: #e8833a;
+  --orange-pale: #fdf0e4;
+  --texte: #1d2a25;
+  --gris: #5d6b65;
+  --fond: #f7f6f2;
+  --rayon: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html,
 body,
 #root {
@@ -5,39 +21,402 @@ body,
   height: 100dvh;
   overflow: hidden;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--texte);
+  background: var(--fond);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Screens */
+.screen {
+  height: 100dvh;
+  overflow-y: auto;
+  padding: calc(env(safe-area-inset-top) + 56px) 20px calc(env(safe-area-inset-bottom) + 24px);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.accueil {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  margin: 24px 0 8px;
+  font-size: 44px;
+  letter-spacing: -1px;
+  color: var(--vert);
+}
+
+.pitch {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--gris);
+}
+
+.consigne {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.accueil-bas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.btn {
+  min-height: 56px;
+  border: 0;
+  border-radius: var(--rayon);
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn-role {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--vert);
+  color: #fff;
+}
+
+.btn-role:active {
+  background: var(--vert-fonce);
+}
+
+.icone {
+  font-size: 24px;
+}
+
+.btn-lien {
+  background: transparent;
+  color: var(--vert);
+  border: 2px solid var(--vert);
+}
+
+.btn-primaire {
+  width: 100%;
+  background: var(--orange);
+  color: #1d1208;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Besoin */
+.entete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.retour {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--vert);
+  font-size: 22px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.role-tag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--vert-pale);
+  color: var(--vert);
+  font-weight: 600;
+}
+
+.titre-champ {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.champ {
+  width: 100%;
+  border: 2px solid #c9d3ce;
+  border-radius: var(--rayon);
+  padding: 12px;
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.champ:focus {
+  outline: 3px solid var(--orange);
+  border-color: var(--vert);
+}
+
+.sous-titre {
+  margin: 18px 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 2px solid var(--vert);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--vert);
+  font-size: 15px;
+}
+
+.chip-on {
+  background: var(--vert);
+  color: #fff;
+}
+
+.pied {
+  position: sticky;
+  bottom: 0;
+  padding: 16px 0 0;
+  background: linear-gradient(to top, var(--fond) 70%, transparent);
+}
+
+/* Map and sheet */
+.screen-carte {
+  position: fixed;
+  inset: 0;
 }
 
 .map {
-  /* maplibre-gl.css sets position: relative on .maplibregl-map, so size it explicitly */
   width: 100%;
   height: 100dvh;
 }
 
-.badge {
+.retour-carte {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 8px);
   left: 8px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #222;
-  font-size: 12px;
-  font-weight: 600;
-  pointer-events: none;
 }
 
 .attribution {
   position: absolute;
   right: 0;
-  bottom: 0;
-  max-width: 100%;
+  top: 0;
+  max-width: 45%;
   padding: 2px 6px;
   background: rgba(255, 255, 255, 0.8);
   color: #333;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.3;
 }
 
 .attribution a {
   color: inherit;
+}
+
+.pin {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--vert);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.pin-lieu {
+  background: var(--orange);
+  color: #1d1208;
+}
+
+.pin-evenement {
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.feuille {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 58dvh;
+  max-width: 560px;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding: 12px 20px calc(env(safe-area-inset-bottom) + 16px);
+  border-radius: 24px 24px 0 0;
+  background: #fff;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.feuille-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-btn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--vert-pale);
+  color: var(--vert);
+  font-size: 24px;
+}
+
+.nav-btn:disabled {
+  opacity: 0.35;
+}
+
+.points {
+  display: flex;
+  gap: 8px;
+}
+
+.point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9d3ce;
+}
+
+.point-on {
+  background: var(--orange);
+}
+
+.feuille-titre {
+  margin: 4px 0;
+  font-size: 22px;
+  color: var(--vert);
+}
+
+.score {
+  margin: 0;
+  color: var(--gris);
+  font-size: 14px;
+}
+
+.liste-part,
+.liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partenaire {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: var(--vert-pale);
+}
+
+.apport {
+  flex-basis: 100%;
+  color: var(--gris);
+  font-size: 14px;
+}
+
+.tag-prerempli {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--orange-pale);
+  color: #9a4d12;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.liste li {
+  position: relative;
+  padding: 4px 0 4px 18px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.liste li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 12px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--vert);
+}
+
+.liste-orange li::before {
+  background: var(--orange);
+}
+
+.pied-feuille {
+  position: sticky;
+  bottom: -16px;
+  margin-top: 16px;
+  padding: 8px 0;
+  background: #fff;
+}
+
+.statut {
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--rayon);
+  background: var(--orange-pale);
+  color: #9a4d12;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.statut-confirmee {
+  background: var(--vert);
+  color: #fff;
+}
+
+.simule {
+  font-weight: 400;
+  font-size: 13px;
+}
+
+/* Permanent badge, top centre so it never meets the back button or the attribution */
+.badge-demo {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: #1d1208;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
 }

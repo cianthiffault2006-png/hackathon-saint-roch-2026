@@ -115,12 +115,13 @@ function titre(type: TypeProjet, hote: string): string {
     case 'verdissement': return `Projet de verdissement avec ${hote}`;
     case 'conference': return `Conférence chez ${hote}`;
     case 'collecte': return `Collecte communautaire avec ${hote}`;
+    case 'corvee_proprete': return `Corvée de propreté avec ${hote}`;
   }
 }
 
 const APPORT_TYPE: Record<TypeProjet, string> = {
   exposition: "l’exposition", spectacle: 'le spectacle', atelier: "l’atelier", marche_ephemere: 'le marché',
-  animation_de_rue: "l’animation", verdissement: 'le verdissement', conference: 'la conférence', collecte: 'la collecte',
+  animation_de_rue: "l’animation", verdissement: 'le verdissement', conference: 'la conférence', collecte: 'la collecte', corvee_proprete: 'la corvée',
 };
 
 function lieuLePlusProche(lieux: Lieu[], c: Point, besoins: Tag[]): Lieu | undefined {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { choixDepuisTexte, construireBesoin, trouverAsker } from '../lib/besoin'
 import { fr } from '../i18n/fr'
+import { T } from '../textes'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
@@ -13,6 +14,8 @@ interface Props {
   /** Text typed by the guided tour; chips follow it like real typing. */
   texteGuide?: string
   pulse?: boolean
+  /** A profile opened in the explorer: its offers become needs, and its name shows above the field. */
+  partenaireVoulu?: Profil
 }
 
 const COMMUNES: Tag[] = ['espace_interieur', 'visibilite', 'public', 'contenu_artistique', 'animation', 'benevoles']
@@ -29,12 +32,17 @@ function ajouter<T>(prev: T[], plus: T[]): T[] {
   return Array.from(new Set([...prev, ...plus]))
 }
 
-export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide, pulse }: Props) {
+export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide, pulse, partenaireVoulu }: Props) {
   const [texte, setTexte] = useState('')
   const [cherche, setCherche] = useState<Tag[]>([])
   const [offre, setOffre] = useState<Tag[]>([])
   const [creneaux, setCreneaux] = useState<Creneau[]>([])
   const asker = trouverAsker(role, profils)
+
+  useEffect(() => {
+    if (partenaireVoulu) setCherche((prev) => ajouter(prev, partenaireVoulu.offres.filter((t) => !asker?.offres.includes(t))))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [partenaireVoulu])
 
   // Typing refreshes the chips: keywords found are added, the user can still toggle any chip.
   function surSaisie(valeur: string) {
@@ -63,6 +71,11 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
         <span className="role-tag">{LIBELLE_ROLE[role]}</span>
       </header>
       <h1 className="sr-only">{fr.besoin.titre}</h1>
+      {partenaireVoulu && (
+        <p className="profil-ligne">
+          {T.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen·ne' : partenaireVoulu.nom}</strong>
+        </p>
+      )}
       {asker && (
         <p className="profil-ligne">
           {fr.besoin.votreProfil} <strong>{asker.nom}</strong>

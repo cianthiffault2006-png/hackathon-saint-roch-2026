@@ -48,6 +48,7 @@ Feuille de route en trois temps :
 - Plus tard : modèle de langage pour lire les demandes, autres quartiers.
 Mesures : projets confirmés, nouveaux partenariats, fréquentation des événements créés.
 Signal [CIAN] : portée : « Maillage règle un problème précis, de bout en bout : trouver le bon partenaire, se mettre d’accord, se coordonner et passer à l’action. On s’arrête là où d’autres outils existent (311, 911, plateformes de financement). » Puis coût : « Hébergement gratuit pour un projet pilote, et une personne à temps partiel à la SDC pour l’accueil et la modération. » Dans la démo aucun message ne part; en pilote, la boucle complète est ce qu’on ajoute. (50 s)
+Histoire 2 (visite guidée ou une diapo, pas en direct) : Sofia, résidente de la rue Saint-Joseph, voit des graffitis et des déchets; Maillage lui propose une « Corvée de propreté avec Équipe Propreté du Faubourg », des bénévoles et un café du coin, avec la liste « autorisation du propriétaire, 311 pour la voie publique ». Noms fictifs.
 À ajouter à la feuille de route seulement si non démontré en direct : Explorer le quartier, profils publics, fil de projet, projets ouverts.
 
 ## 8. Conclusion

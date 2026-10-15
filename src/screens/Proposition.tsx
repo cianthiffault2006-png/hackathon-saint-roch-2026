@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
-import MapView, { type Pin } from '../components/MapView'
+import MapView, { SIGLE_ROLE, type Pin } from '../components/MapView'
 
 interface Props {
   propositions: PropositionType[]
@@ -57,7 +57,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
     const res: Pin[] = []
     for (const c of prop.partenaires) {
       const p = profils.find((x) => x.id === c.profilId)
-      if (p) res.push({ id: p.id, lat: p.lat, lng: p.lng, type: 'partenaire', label: p.nom, detail: fr.proposition.rolesPartenaire[p.role] })
+      if (p) res.push({ id: p.id, lat: p.lat, lng: p.lng, type: 'partenaire', label: p.nom, role: p.role, detail: fr.proposition.rolesPartenaire[p.role] })
     }
     const lieu = lieux.find((l) => l.id === prop.lieuId)
     if (lieu) res.push({ id: lieu.id, lat: lieu.lat, lng: lieu.lng, type: 'lieu', label: lieu.nom, detail: fr.proposition.lieuSuggere })
@@ -102,6 +102,14 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         margeHaut={enVisite ? 190 : 70}
         delaiPinMs={delaiPinMs}
       />
+      <ul className="legende" style={{ bottom: `calc(${enVisite ? 50 : 58}dvh + 8px)` }} aria-label={fr.carte.legende}>
+        {(['commerce', 'organisme', 'citoyen'] as const).map((r) => (
+          <li key={r}>
+            <span className={`pastille pin-${r}`}>{SIGLE_ROLE[r]}</span>
+            {fr.proposition.rolesPartenaire[r]}
+          </li>
+        ))}
+      </ul>
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
         className="feuille"

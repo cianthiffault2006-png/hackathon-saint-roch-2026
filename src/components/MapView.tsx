@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import { LngLatBounds, Map, Marker, Popup, setWorkerUrl, type GeoJSONSource } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import type { Role } from '../types'
+
+export const SIGLE_ROLE: Record<Role, string> = { commerce: 'Co', organisme: 'O', citoyen: 'Ci' }
 
 // The bundler moves the library, so its default worker path breaks: point to the emitted file.
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -15,6 +18,8 @@ export interface Pin {
   lng: number
   type: 'partenaire' | 'lieu' | 'evenement'
   label: string
+  /** Role of a partner pin: sets its colour and its letters. */
+  role?: Role
   /** Second line of the tap popup, e.g. the role. */
   detail?: string
 }
@@ -52,12 +57,12 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     marqueurs.current = pins.map((p, i) => {
       const el = document.createElement('div')
       const interieur = document.createElement('div')
-      interieur.className = `pin pin-${p.type}`
+      interieur.className = p.role ? `pin pin-${p.type} pin-${p.role}` : `pin pin-${p.type}`
       interieur.style.animationDelay = `${i * delaiPinMs}ms`
       interieur.setAttribute('role', 'img')
       interieur.setAttribute('aria-label', p.label)
       interieur.title = p.label
-      interieur.textContent = p.type === 'lieu' ? 'L' : p.type === 'evenement' ? '★' : p.label.charAt(0)
+      interieur.textContent = p.type === 'lieu' ? 'L' : p.type === 'evenement' ? '★' : p.role ? SIGLE_ROLE[p.role] : p.label.charAt(0)
       el.appendChild(interieur)
       if (p.type !== 'evenement') {
         const etiquette = document.createElement('div')

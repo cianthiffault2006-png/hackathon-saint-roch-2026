@@ -15,6 +15,12 @@ interface Props {
   pulse?: boolean
 }
 
+const COMMUNES: Tag[] = ['espace_interieur', 'visibilite', 'public', 'contenu_artistique', 'animation', 'benevoles']
+
+function liste(tags: Tag[]): string {
+  return tags.map((t) => LIBELLE_TAG[t].toLowerCase()).join(', ')
+}
+
 function bascule<T>(liste: T[], v: T): T[] {
   return liste.includes(v) ? liste.filter((x) => x !== v) : [...liste, v]
 }
@@ -59,6 +65,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
       {asker && (
         <p className="profil-ligne">
           Votre profil : <strong>{asker.nom}</strong>
+          <span className="profil-resume">{fr.besoin.jOffre} : {liste(asker.offres)}</span>
+          <span className="profil-resume">{fr.besoin.jeCherche} : {liste(asker.besoins)}</span>
         </p>
       )}
       <label htmlFor="besoin-texte" className="titre-champ">
@@ -73,9 +81,9 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
         onChange={(e) => surSaisie(e.target.value)}
       />
       <h2 className="sous-titre">{fr.besoin.jOffre}</h2>
-      <Chips options={TAGS} selected={offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} onToggle={(t) => setOffre((p) => bascule(p, t))} />
+      <Chips options={TAGS} selected={offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} communes={COMMUNES} onToggle={(t) => setOffre((p) => bascule(p, t))} />
       <h2 className="sous-titre">{fr.besoin.jeCherche}</h2>
-      <Chips options={TAGS} selected={cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} onToggle={(t) => setCherche((p) => bascule(p, t))} />
+      <Chips options={TAGS} selected={cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => setCherche((p) => bascule(p, t))} />
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
       <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
       <div className="pied">

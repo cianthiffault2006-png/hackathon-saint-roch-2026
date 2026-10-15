@@ -57,13 +57,13 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
     const res: Pin[] = []
     for (const c of prop.partenaires) {
       const p = profils.find((x) => x.id === c.profilId)
-      if (p) res.push({ id: p.id, lat: p.lat, lng: p.lng, type: 'partenaire', label: p.nom })
+      if (p) res.push({ id: p.id, lat: p.lat, lng: p.lng, type: 'partenaire', label: p.nom, detail: fr.proposition.rolesPartenaire[p.role] })
     }
-    const lieu = lieux.find((l) => l.id === prop.lieuId) ?? lieux[0]
-    if (lieu) res.push({ id: lieu.id, lat: lieu.lat, lng: lieu.lng, type: 'lieu', label: lieu.nom })
+    const lieu = lieux.find((l) => l.id === prop.lieuId)
+    if (lieu) res.push({ id: lieu.id, lat: lieu.lat, lng: lieu.lng, type: 'lieu', label: lieu.nom, detail: fr.proposition.lieuSuggere })
     for (const id of prop.evenementsProches) {
       const e = evenements.find((x) => x.id === id)
-      if (e) res.push({ id: e.id, lat: e.lat, lng: e.lng, type: 'evenement', label: e.titre })
+      if (e) res.push({ id: e.id, lat: e.lat, lng: e.lng, type: 'evenement', label: e.titre, detail: e.categorie })
     }
     return res
   }, [prop, profils, lieux, evenements])

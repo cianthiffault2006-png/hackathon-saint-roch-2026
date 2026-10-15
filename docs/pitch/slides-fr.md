@@ -18,7 +18,7 @@ Visuel : capture de l’écran de proposition. Message de fond : une app mobile 
 Signal [CIAN] : « Voici Maillage », puis passer au téléphone pour la démo. (1 min 45 s avec la démo)
 
 ## 4. Ce que la démo montre
-Ligne : « Commerçant, besoin, proposition à trois (86 %), Ça m’intéresse, projet confirmé (simulé). »
+Ligne : « Commerçant, besoin, proposition à trois (87 %), Ça m’intéresse, projet confirmé (simulé). »
 Diapo : Commerçant ; Besoin ; Proposition à trois ; Ça m’intéresse ; Confirmé (simulé)
 Visuel : les 5 étapes en frise, badge « Démo simulée ».
 Signal [CIAN] : à garder à l’écran si l’app plante, puis lancer la vidéo de secours. (peut être sautée si le temps manque)

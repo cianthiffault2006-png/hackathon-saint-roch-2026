@@ -13,7 +13,7 @@ export default function Projets({ projets, onRetour, onOuvrir }: Props) {
   return (
     <main className="screen projets">
       <header className="entete">
-        <button type="button" className="retour" onClick={onRetour} aria-label={T.projets.retour}>←</button>
+        <button type="button" className="retour" onClick={onRetour} aria-label={fr.general.retour}>←</button>
         <span className="role-tag">{fr.projets.titre}</span>
       </header>
       {projets.length === 0 ? (

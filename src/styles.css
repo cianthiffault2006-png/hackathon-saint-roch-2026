@@ -1117,3 +1117,11 @@ body {
   bottom: calc(50dvh + 8px);
   max-width: 55%;
 }
+
+/* Small text links on the accueil: not full-width buttons */
+.btn-texte {
+  align-self: center;
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 15px;
+}

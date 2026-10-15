@@ -71,7 +71,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
       </p>
       <p className="fiche-statut">{fr.proposition.statuts[projet.statut]}</p>
 
-      <h2 className="sous-titre">{T.fiche.partenaires}</h2>
+      <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
       <ul className="liste-part">
         {projet.partenaires.map((p) => (
           <li key={p.nom} className="partenaire">
@@ -116,7 +116,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
         )}
 
         <button type="button" className="btn btn-lien" onClick={onProjets}>
-          {T.fiche.mesProjets}
+          {fr.projets.titre}
         </button>
         <p className="note-simulation">{T.fiche.rien}</p>
       </div>

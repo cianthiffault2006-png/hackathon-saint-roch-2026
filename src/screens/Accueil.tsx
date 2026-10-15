@@ -1,7 +1,6 @@
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import Icone from '../components/Icones'
 
 interface Props {
@@ -41,7 +40,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         )}
         {onProjets && (
           <button type="button" className="btn btn-texte" onClick={onProjets}>
-            {T.projets.lien}
+            {fr.projets.titre}
           </button>
         )}
       </div>

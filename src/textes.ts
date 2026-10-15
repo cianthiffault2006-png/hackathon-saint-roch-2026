@@ -1,36 +1,17 @@
-// Strings for the project sheet, the project list and the pin legend, kept in one place until
-// copy moves them into src/i18n/fr.ts (same shape, one move).
+// Strings that fr.ts does not have yet (project sheet extras, map and accessibility texts, calendar
+// file text). Everything fr.ts already has is read from there.
 export const T = {
-  voirFiche: 'Voir la fiche projet',
   fiche: {
-    titre: 'Fiche projet',
-    dateProposee: 'Date proposée, à confirmer avec les partenaires',
-    lieu: 'Lieu',
     lieuAConfirmer: 'À déterminer avec les partenaires',
-    partenaires: 'Les partenaires',
-    aConfirmer: 'À confirmer avant la date',
     progres: (fait: number, total: number) => `${fait}/${total} confirmés`,
-    calendrier: 'Ajouter au calendrier',
     calendrierFait: 'Fichier de calendrier téléchargé (rappel la veille).',
-    googleAgenda: 'Google Agenda',
-    partager: 'Partager',
-    partagerRepli: 'Envoyer par',
-    courriel: 'Courriel',
-    texto: 'Texto',
-    mesProjets: 'Mes projets',
     rien: 'Rien n’est envoyé automatiquement : vous choisissez à qui partager.',
   },
   projets: {
-    titre: 'Mes projets',
-    lien: 'Mes projets',
-    vide: 'Aucun projet pour l’instant',
     videTexte: 'Choisissez « Ça m’intéresse » sur une proposition pour la retrouver ici.',
-    ouvrir: 'Ouvrir',
-    retour: 'Retour',
   },
   partage: {
     objet: (titre: string) => `Projet Maillage : ${titre}`,
-    texte: (titre: string, date: string, noms: string) => `Projet Maillage : ${titre}, ${date}, avec ${noms}.`,
   },
   ics: {
     description: 'Projet Maillage (démo simulée). Date proposée, à confirmer avec les partenaires.',
@@ -42,14 +23,6 @@ export const T = {
     resume: 'Carte, résumé dans la liste ci-dessous',
     minutesAPied: '10 min à pied',
     voirListe: 'Voir la liste',
-  },
-  legende: {
-    titre: 'Légende',
-    commerce: 'Commerce',
-    organisme: 'Organisme',
-    citoyen: 'Citoyen',
-    lieu: 'Lieu public',
-    evenement: 'Événement',
   },
   a11y: {
     ecrans: {

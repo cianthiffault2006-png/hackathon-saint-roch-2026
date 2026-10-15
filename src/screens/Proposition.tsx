@@ -28,11 +28,11 @@ interface Props {
 }
 
 const LEGENDE: [NomIcone, string][] = [
-  ['commerce', T.legende.commerce],
-  ['organisme', T.legende.organisme],
-  ['citoyen', T.legende.citoyen],
-  ['lieu', T.legende.lieu],
-  ['evenement', T.legende.evenement],
+  ['commerce', fr.proposition.rolesPartenaire.commerce],
+  ['organisme', fr.proposition.rolesPartenaire.organisme],
+  ['citoyen', fr.proposition.rolesPartenaire.citoyen],
+  ['lieu', fr.carte.lieuPublic],
+  ['evenement', fr.carte.evenement],
 ]
 
 const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts

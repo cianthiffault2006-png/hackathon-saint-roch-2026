@@ -18,8 +18,21 @@ import Sources from './screens/Sources'
 import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
 import { ETAPES, ROLE_VISITE, SAISIE_MS, TEXTE_VISITE, indexDe } from './tour/script'
+import Sidebar, {
+  type PageSidebar,
+} from './components/Sidebar'
+import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources'
+type Ecran =
+  | 'accueil'
+  | 'dashboard'
+  | 'besoin'
+  | 'proposition'
+  | 'invitation'
+  | 'fiche'
+  | 'projets'
+  | 'sdc'
+  | 'sources'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 const DELAI_PIN_VISITE_MS = 700
@@ -62,12 +75,33 @@ export default function App() {
   const etape = etat ? ETAPES[etat.index] : null
   const enVisite = etat !== null && etape !== null
   const ecranActif: Ecran = etape ? etape.ecran : ecran
+  const afficherSidebar =
+  !enVisite &&
+  (
+    ecranActif === 'dashboard' ||
+    ecranActif === 'projets' ||
+    ecranActif === 'fiche' ||
+    ecranActif === 'sources'
+  )
+ const pageSidebar: PageSidebar =
+  ecranActif === 'dashboard' ? 'dashboard' :
+  ecranActif === 'fiche' ? 'projets' :
+  ecranActif === 'projets' ? 'projets' :
+  ecranActif === 'sources' ? 'sources' :
+  'accueil'
 
   // One permanent polite live region: its text changes when the screen or the result changes.
   useEffect(() => {
-    if (!enVisite) setAnnonce(ecranActif === 'sources' ? 'Sources des données' : fr.a11y.ecrans[ecranActif])
+    if (!enVisite) {
+      setAnnonce(
+        ecranActif === 'dashboard'
+          ? 'Tableau de bord'
+          : ecranActif === 'sources'
+            ? 'Sources des données'
+            : fr.a11y.ecrans[ecranActif]
+      )
+    }
   }, [ecranActif, enVisite])
-
   // One place for every status change: the screen state and, outside the tour, the saved project.
   const changerStatut = useCallback(
     (prop: PropositionType, statut: Statut) => {
@@ -168,8 +202,24 @@ export default function App() {
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
 
   return (
-    <div className={enVisite ? 'racine tour-actif' : 'racine'}>
+    <div
+      className={
+        enVisite
+          ? 'racine tour-actif'
+          : afficherSidebar
+            ? 'racine avec-sidebar'
+            : 'racine'
+      }
+    >
+      {afficherSidebar && (
+        <Sidebar
+          pageActive={pageSidebar}
+          nombreProjets={projets.length}
+          onNaviguer={(page) => setEcran(page)}
+        />
+      )}
       <div className="ecrans" inert={enVisite}>
+
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
@@ -230,6 +280,14 @@ export default function App() {
           onProjets={() => setEcran('projets')}
         />
       )}
+      {ecranActif === 'dashboard' && (
+      <Dashboard
+        projets={projetsAffiches}
+        onVoirProjets={() => setEcran('projets')}
+        onOuvrirProjet={(id) => ouvrirFiche(id, 'dashboard')}
+        onNouveauProjet={() => setEcran('accueil')}
+      />
+    )}
       {ecranActif === 'projets' && (
         <Projets
           projets={projetsAffiches}

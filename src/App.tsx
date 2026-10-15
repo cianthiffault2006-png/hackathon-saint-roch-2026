@@ -437,7 +437,7 @@ export default function App() {
           onPrecedent={precedent}
           onAller={allerA}
           onAllerAuTemps={allerAuTemps}
-          onContinuer={continuer}
+          onContinuer={propositionsSofia.length > 0 ? continuer : undefined}
           onQuitter={quitterVisite}
         />
       )}

@@ -16,8 +16,8 @@ interface Props {
   onAller: (index: number) => void
   /** Jumps to the step playing at a time of the current tour (ms). */
   onAllerAuTemps: (t: number) => void
-  /** End card of the main tour: plays the « Suite de la visite ». */
-  onContinuer: () => void
+  /** End card of the main tour: plays the « Suite de la visite ». Absent when its story can't be built (fallback data). */
+  onContinuer?: () => void
   onQuitter: () => void
 }
 
@@ -78,7 +78,7 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
       {fin && (
         <div className="carte-fin" role="dialog" aria-modal="true" aria-label={etape.parcours === 'suite' ? fr.visite.suite : fr.visite.titre} onKeyDown={piegeFocus}>
           <p>{etape.parcours === 'suite' ? fr.visite.finSuite : FIN_VISITE}</p>
-          {etape.parcours === 'principal' && (
+          {etape.parcours === 'principal' && onContinuer && (
             <button type="button" className="btn btn-primaire" ref={boutonFin} onClick={onContinuer}>
               {fr.visite.continuer}
             </button>
@@ -86,7 +86,7 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
           <button
             type="button"
             className={etape.parcours === 'principal' ? 'btn visite-quitter-fin' : 'btn btn-primaire'}
-            ref={etape.parcours === 'suite' ? boutonFin : undefined}
+            ref={etape.parcours === 'suite' || !onContinuer ? boutonFin : undefined}
             onClick={onQuitter}
           >
             {fr.visite.quitter}

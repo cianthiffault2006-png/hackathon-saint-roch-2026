@@ -21,17 +21,17 @@ Signal [CIAN] : « Voyons comment ça marche », puis passer à l’app : coller
 
 ## 4. Technologies, outils et données utilisés
 Ligne : « Personne ne commence avec une page blanche. »
-Diapo : React, Vite, TypeScript, MapLibre ; GitHub Pages, Claude Code ; 386 membres (fichier fourni par la SDC) ; 614 organismes reconnus (toute la ville) ; Données Québec, CC BY 4.0
+Diapo : React, Vite, TypeScript, MapLibre, GitHub Pages, Claude Code ; 386 membres (fichier fourni par la SDC) ; 614 organismes reconnus (toute la ville) ; Données Québec, CC BY 4.0 ; Loi 25 : publique après consentement
 Contenu en trois colonnes :
 - Technologies : Vite, React, TypeScript, MapLibre GL JS.
 - Outils et plateformes : OpenFreeMap et OpenStreetMap (fond de carte), GitHub Pages (hébergement; Vercel en secours), GitHub (code), Claude Code comme assistant de développement.
 - Données : Données Québec, données ouvertes de la Ville de Québec et du SIT Québec (CC BY 4.0, attribution dans l’app). Fichiers fournis confidentiels : structure et nombre de lignes seulement, remplacés par des profils fictifs dans la démo. Les nombres sont des totaux de lignes : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville » (jamais « dans Saint-Roch » pour un fichier de toute la ville).
-Signal [CIAN] : dire « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche. » Puis la Loi 25 : « les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation ». Nos règles s’appuient aussi sur le Plan d’action Saint-Roch. (35 s)
+Signal [CIAN] : dire « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche. » Puis la Loi 25 : « Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches; une fiche devient publique seulement si son responsable la réclame, avec un code envoyé à l’adresse que la SDC ou la Ville a déjà, et consent. Sinon, seule la SDC la voit. La démo montre des fiches fictives, marquées pré-rempli. » Nos règles s’appuient aussi sur le Plan d’action Saint-Roch. (38 s)
 
 ## 5. Transparence : un moteur de règles, l’IA en phase 2
 Ligne : « On l’a testée, on a choisi des règles pour que chaque suggestion s’explique. »
-Diapo : Règles visibles ; Score pondéré visible ; Phase 2 : l’IA lit la demande libre
-Visuel : une carte de proposition avec « Pourquoi cette suggestion » et « À confirmer » surlignés; en bas, en petit : « Chaque suggestion s’explique. » Notes du test d’IA (pas sur la diapo, à voix haute seulement si on veut) : « Modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/) : 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase. Trouve des profils semblables, pas complémentaires. » 
+Diapo : Règles visibles ; Score pondéré visible ; IA phase 2 : toutes les langues, toutes les fautes
+Visuel : une carte de proposition avec « Pourquoi cette suggestion » et « À confirmer » surlignés; en bas, en petit : « Chaque suggestion s’explique. » Notes du test d’IA (pas sur la diapo, à voix haute seulement si on veut) : « Modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/) : 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase. Trouve des profils semblables, pas complémentaires. » Ce modèle (paraphrase-multilingual-MiniLM) est multilingue. Déjà dans l’app : tolérance aux fautes, aux accents oubliés et à quelques mots d’anglais. Pas d’IA payante aujourd’hui; en phase 2, celui qui déploie la paie. 
 Signal [COÉQUIPIÈRE] : verdict d’abord : on l’a testée, on a choisi des règles pour que chaque suggestion s’explique. Chiffres du test seulement si le jury demande. (20 s)
 
 ## 6. Impact et feuille de route

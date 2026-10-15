@@ -218,7 +218,11 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       cadre.current = lot
       const bornes = new LngLatBounds()
       cadres.forEach((p) => bornes.extend([p.lng, p.lat]))
-      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + (window.innerWidth < 900 ? 76 : 40) }, maxZoom: 17, duration: 700 })
+      // Phones: the licence line sits bottom-left above the sheet, so keep pins and their labels (about 50 px below the centre) clear of it.
+      const telephone = window.innerWidth < 900
+      const licence = telephone ? document.querySelector('.screen-carte .attribution')?.getBoundingClientRect().height ?? 0 : 0
+      const cote = telephone ? 72 : 50
+      map.fitBounds(bornes, { padding: { top: margeHaut, left: cote, right: cote, bottom: margeBas + 40 + (telephone ? licence + 50 : 0) }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)

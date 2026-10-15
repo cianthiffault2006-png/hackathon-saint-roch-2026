@@ -40,6 +40,10 @@ describe('proposer sur public/data: organisme sans salle', () => {
     expect(res[0].raisons.join(' | ')).toContain('Lieu public proposé');
     for (const p of res) expect(p.raisons.length).toBeLessThanOrEqual(5);
   });
+  it('lieu public hôte: « au Centre Materia », jamais « chez »', () => {
+    expect(res[0].titre).not.toMatch(/chez/);
+    expect(res[0].titre).toMatch(/ (au|aux|à la|à l’|à) [A-ZÉÈ]|au lieu public proposé$/);
+  });
 });
 
 describe('proposer sur public/data: sécurité en soirée', () => {

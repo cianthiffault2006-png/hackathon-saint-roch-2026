@@ -3,7 +3,9 @@ import { libelleDate } from './date'
 import type { Projet } from './projets'
 
 function heure(h: number): string {
-  return String(h).padStart(2, '0') + '0000'
+  const hh = Math.floor(h)
+  const mm = Math.round((h - hh) * 60)
+  return String(hh).padStart(2, '0') + String(mm).padStart(2, '0') + '00'
 }
 
 function debutFin(p: Projet): { debut: string; fin: string } {
@@ -80,8 +82,20 @@ export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
   return lignes.map(plier).join('\r\n') + '\r\n'
 }
 
-/** Downloads the .ics through a Blob; phones offer to add it to their calendar. No backend. */
+/** iPhone, iPad and iPadOS Safari (which reports itself as a Mac with a touch screen). */
+export function estIos(nav: Pick<Navigator, 'userAgent' | 'platform' | 'maxTouchPoints'> = navigator): boolean {
+  return /iPad|iPhone|iPod/.test(nav.userAgent) || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1)
+}
+
+/**
+ * Adds the event to the calendar without a backend. iOS Safari ignores a Blob download of .ics, but opens
+ * its native « Ajouter au calendrier » sheet for a data: URL (the file keeps CRLF line endings).
+ */
 export function telechargerIcs(p: Projet): void {
+  if (estIos()) {
+    window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(contenuIcs(p))
+    return
+  }
   const blob = new Blob([contenuIcs(p)], { type: 'text/calendar;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

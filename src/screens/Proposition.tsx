@@ -4,7 +4,8 @@ import { fr } from '../i18n/fr'
 import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
 import { choisirInvite, prenom } from '../lib/invitation'
-import { idProjet } from '../lib/projets'
+import { T } from '../textes'
+import { idEvenement, idProjet, type Projet } from '../lib/projets'
 
 interface Props {
   propositions: PropositionType[]
@@ -24,6 +25,9 @@ interface Props {
   onIndex: (index: number) => void
   onFiche?: (prop: PropositionType) => void
   onInvitation?: (prop: PropositionType) => void
+  /** The viewer's projects, to show which public events are already joined. */
+  projets?: Projet[]
+  onParticiper?: (e: Evenement) => void
 }
 
 const LEGENDE: [NomIcone, string][] = [
@@ -40,7 +44,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = [], onParticiper }: Props) {
   const enVisite = delaiPinMs !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLElement>(null)
@@ -82,10 +86,15 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
     if (lieu) res.push({ id: lieu.id, lat: lieu.lat, lng: lieu.lng, type: 'lieu', label: lieu.nom, detail: fr.proposition.lieuSuggere })
     for (const id of prop.evenementsProches) {
       const e = evenements.find((x) => x.id === id)
-      if (e) res.push({ id: e.id, lat: e.lat, lng: e.lng, type: 'evenement', label: e.titre, detail: e.categorie })
+      if (e) {
+        res.push({
+          id: e.id, lat: e.lat, lng: e.lng, type: 'evenement', label: e.titre, detail: e.categorie,
+          evenement: { id: e.id, ouvert: e.ouvertAuPublic === true, inscrits: e.inscrits ?? 0, inscrit: projets.some((p) => p.id === idEvenement(e)) },
+        })
+      }
     }
     return res
-  }, [prop, profils, lieux, evenements])
+  }, [prop, profils, lieux, evenements, projets])
 
   if (!prop) {
     return (
@@ -120,6 +129,10 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         margeBas={Math.round(window.innerHeight * (enVisite ? 0.5 : 0.58))}
         margeHaut={enVisite ? 190 : 70}
         delaiPinMs={delaiPinMs}
+        onParticiper={(id) => {
+          const e = evenements.find((x) => x.id === id)
+          if (e) onParticiper?.(e)
+        }}
       />
       <ul className="legende" style={{ bottom: `calc(${enVisite ? 50 : 58}dvh + 8px)` }} aria-label={fr.carte.legende}>
         {LEGENDE.map(([nom, libelle]) => (
@@ -154,6 +167,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
+        <p className="etiquette-collab">{T.evenement.collab}</p>
         <p className="score">{fr.proposition.score(prop.score)}</p>
         {prop.detailScore && (
           <div className="detail-score">
@@ -205,7 +219,25 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           <>
             <h2 className="sous-titre">{fr.proposition.evenementsProches}</h2>
             <ul className="liste">
-              {proches.map((e) => <li key={e.id}>{e.titre}, {formaterDate(e.debut)}</li>)}
+              {proches.map((e) => {
+                const inscrit = projets.some((p) => p.id === idEvenement(e))
+                return (
+                  <li key={e.id} className={e.ouvertAuPublic ? 'evenement-ouvert' : undefined}>
+                    {e.titre}, {formaterDate(e.debut)}
+                    {e.ouvertAuPublic && (
+                      <span className="evenement-bloc">
+                        <span className="tag-ouvert">{T.evenement.ouvert}</span>
+                        <span className="evenement-nb">{T.evenement.nbPersonnes((e.inscrits ?? 0) + (inscrit ? 1 : 0))}</span>
+                        {onParticiper && (
+                          <button type="button" className="btn btn-participe" onClick={() => onParticiper(e)}>
+                            {inscrit ? T.evenement.inscritMoi : T.evenement.participe}
+                          </button>
+                        )}
+                      </span>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
           </>
         )}

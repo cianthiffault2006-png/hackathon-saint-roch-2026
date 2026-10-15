@@ -1,4 +1,4 @@
-import type { Lieu, Profil, Proposition, Role, Statut } from '../types'
+import type { Evenement, Lieu, Profil, Proposition, Role, Statut } from '../types'
 import { prochaineDate, type Occurrence } from './date'
 
 export interface PartenaireProjet {
@@ -16,6 +16,9 @@ export interface Projet extends Occurrence {
   lieuNom: string
   aConfirmer: string[]
   coches: boolean[]
+  /** True for a public event the viewer joined (no approval): shown as « Inscrit ». */
+  inscrit?: boolean
+  evenementId?: string
 }
 
 const CLE = 'maillage.projets.v1'
@@ -64,6 +67,34 @@ export function projetDepuis(p: Proposition, profils: Profil[], lieux: Lieu[], s
     ...prochaineDate(p.creneau),
     aConfirmer: p.aConfirmer,
     coches: p.aConfirmer.map(() => false),
+  }
+}
+
+export function idEvenement(e: Evenement): string {
+  return `evt|${e.id}`
+}
+
+function heureDe(iso: string): number {
+  const [h, m] = iso.slice(11, 16).split(':').map(Number)
+  return h + (m || 0) / 60
+}
+
+/** A public event joined with « Je participe »: a project that needs no acceptance. */
+export function projetDepuisEvenement(e: Evenement, profils: Profil[]): Projet {
+  const promoteur = profils.find((p) => p.id === e.promoteurId)
+  return {
+    id: idEvenement(e),
+    titre: e.titre,
+    statut: 'confirmee',
+    partenaires: promoteur ? [{ nom: promoteur.nom, role: promoteur.role, apport: 'Organise l’événement' }] : [],
+    lieuNom: e.lieuNom,
+    jour: e.debut.slice(0, 10),
+    heureDebut: heureDe(e.debut),
+    heureFin: heureDe(e.fin),
+    aConfirmer: [],
+    coches: [],
+    inscrit: true,
+    evenementId: e.id,
   }
 }
 

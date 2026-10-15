@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contenuIcs, lienGoogleAgenda } from './calendrier'
+import { contenuIcs, estIos, lienGoogleAgenda } from './calendrier'
 import { libelleDate, prochaineDate } from './date'
 import type { Projet } from './projets'
 
@@ -41,6 +41,25 @@ describe('contenuIcs', () => {
   it('escapes commas and semicolons and folds long lines', () => {
     expect(ics).toContain('SUMMARY:Exposition collaborative\\, au café')
     for (const ligne of ics.split('\r\n')) expect(ligne.length).toBeLessThanOrEqual(61)
+  })
+})
+
+describe('iOS and line endings', () => {
+  it('uses CRLF everywhere, never a bare LF', () => {
+    const ics = contenuIcs(projet, new Date('2026-10-15T12:00:00Z'))
+    expect(/(?<!\r)\n/.test(ics)).toBe(false)
+    expect(ics.endsWith('END:VCALENDAR\r\n')).toBe(true)
+  })
+  it('detects iPhone, iPad and touch Macs but not desktops', () => {
+    expect(estIos({ userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', platform: 'iPhone', maxTouchPoints: 5 })).toBe(true)
+    expect(estIos({ userAgent: 'Mozilla/5.0 (Macintosh)', platform: 'MacIntel', maxTouchPoints: 5 })).toBe(true)
+    expect(estIos({ userAgent: 'Mozilla/5.0 (Macintosh)', platform: 'MacIntel', maxTouchPoints: 0 })).toBe(false)
+    expect(estIos({ userAgent: 'Mozilla/5.0 (Windows NT 10.0)', platform: 'Win32', maxTouchPoints: 0 })).toBe(false)
+  })
+  it('handles half hours in the event time', () => {
+    const ics = contenuIcs({ ...projet, heureDebut: 16.5, heureFin: 18 }, new Date('2026-10-15T12:00:00Z'))
+    expect(ics).toContain('DTSTART;TZID=America/Toronto:20261022T163000')
+    expect(libelleDate({ jour: '2026-10-22', heureDebut: 16.5, heureFin: 18 })).toBe('jeudi 22 octobre, 16 h 30 à 18 h')
   })
 })
 

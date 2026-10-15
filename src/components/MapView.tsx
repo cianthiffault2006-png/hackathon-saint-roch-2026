@@ -5,6 +5,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Role } from '../types'
 import { svgPin } from './Icones'
+import { T } from '../textes'
 
 // The bundler moves the library, so its default worker path breaks: point to the emitted file.
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -20,6 +21,8 @@ export interface Pin {
   label: string
   /** Role of a partner pin: sets its colour and its letters. */
   role?: Role
+  /** A public event: its popup offers « Je participe » without approval. */
+  evenement?: { id: string; ouvert: boolean; inscrits: number; inscrit: boolean }
   /** Second line of the tap popup, e.g. the role. */
   detail?: string
 }
@@ -32,6 +35,7 @@ interface Props {
   margeHaut?: number
   /** Delay between two pin drops. */
   delaiPinMs?: number
+  onParticiper?: (evenementId: string) => void
 }
 
 function cerclePoints(lng: number, lat: number, rayonM: number): number[][] {
@@ -45,10 +49,12 @@ function cerclePoints(lng: number, lat: number, rayonM: number): number[][] {
   return pts
 }
 
-export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300 }: Props) {
+export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300, onParticiper }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
+  const participer = useRef(onParticiper)
+  participer.current = onParticiper
 
   useEffect(() => {
     if (!conteneur.current) return
@@ -95,16 +101,28 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
         role.textContent = p.detail
         contenu.appendChild(role)
       }
+      if (p.evenement?.ouvert) {
+        const ligne = document.createElement('div')
+        ligne.textContent = T.evenement.nbPersonnes(p.evenement.inscrits + (p.evenement.inscrit ? 1 : 0))
+        contenu.appendChild(ligne)
+        const bouton = document.createElement('button')
+        bouton.type = 'button'
+        bouton.className = 'popup-participe'
+        bouton.textContent = p.evenement.inscrit ? T.evenement.inscritMoi : T.evenement.participe
+        const idEvt = p.evenement.id
+        bouton.addEventListener('click', () => participer.current?.(idEvt))
+        contenu.appendChild(bouton)
+      }
       const popup = new Popup({ offset: 24, closeButton: false }).setDOMContent(contenu)
       return new Marker({ element: el }).setLngLat([p.lng, p.lat]).setPopup(popup).addTo(map)
     })
 
-    // Thin dashed lines from the asker (first partner) to each other partner, and a faint 800 m circle
-    // around the asker (about 10 minutes on foot), drawn once the pins have dropped.
+    // Thin dashed lines from the asker (first partner) to each other partner, and a 400 m ring
+    // around the asker (about 5 minutes on foot), drawn once the pins have dropped.
     const partenaires = pins.filter((p) => p.type === 'partenaire')
     const demandeur = partenaires[0]
     const lignes = demandeur ? partenaires.slice(1).map((p) => [[demandeur.lng, demandeur.lat], [p.lng, p.lat]]) : []
-    const cercle = demandeur ? cerclePoints(demandeur.lng, demandeur.lat, 800) : []
+    const cercle = demandeur ? cerclePoints(demandeur.lng, demandeur.lat, 400) : []
     const tracer = () => {
       const geoLiens = { type: 'Feature' as const, properties: {}, geometry: { type: 'MultiLineString' as const, coordinates: lignes } }
       const geoCercle = { type: 'Feature' as const, properties: {}, geometry: { type: 'Polygon' as const, coordinates: cercle.length ? [cercle] : [] } }
@@ -126,9 +144,9 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     if (demandeur) {
       const el = document.createElement('div')
       el.className = 'cercle-etiquette'
-      el.textContent = fr.carte.minutesAPied
+      el.textContent = T.carte.cinqMinutes
       el.setAttribute('aria-hidden', 'true')
-      etiquetteCercle = new Marker({ element: el, anchor: 'bottom' }).setLngLat([demandeur.lng, demandeur.lat + 800 / 111320]).addTo(map)
+      etiquetteCercle = new Marker({ element: el, anchor: 'bottom' }).setLngLat([demandeur.lng, demandeur.lat + 400 / 111320]).addTo(map)
     }
     // The style may still be loading when the pins drop: retry for a few seconds.
     let minuteur = 0
@@ -146,7 +164,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     if (cadres.length > 0) {
       const bornes = new LngLatBounds()
       cadres.forEach((p) => bornes.extend([p.lng, p.lat]))
-      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 18, duration: 700 })
+      map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)

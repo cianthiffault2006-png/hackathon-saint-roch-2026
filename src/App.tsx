@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { Map, NavigationControl } from 'maplibre-gl'
+import { Map, NavigationControl, setWorkerUrl } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
+
+// The bundler moves the library, so its default worker path breaks: point to the emitted file.
+setWorkerUrl(new URL(workerUrl, window.location.href).href)
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
 const CENTER: [number, number] = [-71.2195, 46.8155]

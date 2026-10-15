@@ -1,6 +1,6 @@
 # BOARD (team-lead keeps it current)
 
-Maillage live: https://hackathon-saint-roch-2026.vercel.app · AI lab: /labo/ · main 4dbbc8b
+Maillage live: Vercel https://hackathon-saint-roch-2026.vercel.app (frozen at 11:51 build, daily deploy limit) · newest: https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ · AI lab: /labo/ · main a7c7d8e
 
 Next for the lead: phone check of the map by the team; independent verifier pass on production; end-of-day deposit in the Équipe 14 folder (URL + repo); tomorrow: final polish, screenshots into docs/pitch/img, pptx, final video at code freeze.
 

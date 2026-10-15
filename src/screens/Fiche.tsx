@@ -75,7 +75,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
       </p>
       <p className="fiche-statut">{projet.inscrit ? T.evenement.inscrit : fr.proposition.statuts[projet.statut]}</p>
 
-      <h2 className="sous-titre">{projet.inscrit ? T.evenement.organisateur : fr.proposition.partenaires}</h2>
+      <h2 className="sous-titre">{projet.inscrit ? T.evenement.organisateur : projet.partenaires.length === 3 ? fr.proposition.partenaires : `Les ${projet.partenaires.length} partenaires`}</h2>
       <ul className="liste-part">
         {projet.partenaires.map((p) => (
           <li key={p.nom} className="partenaire">

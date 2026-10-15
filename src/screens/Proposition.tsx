@@ -47,7 +47,7 @@ function formaterDate(iso: string): string {
 export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = [], onParticiper, onPlusOptions }: Props) {
   const enVisite = delaiPinMs !== undefined
   const departX = useRef<number | null>(null)
-  const feuilleRef = useRef<HTMLElement>(null)
+  const feuilleRef = useRef<HTMLDivElement>(null)
   const [detailOuvert, setDetailOuvert] = useState(false)
 
   const prop = propositions[index]
@@ -146,107 +146,108 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         {fr.carte.voirListe}
       </button>
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
+      {/* The white card does not scroll; a transparent inner element does. An opaque scroll
+          container over the WebGL canvas made Chrome skip repainting the map above the sheet. */}
       <section
         className="feuille"
-        ref={feuilleRef}
-        id="liste-proposition"
-        tabIndex={-1}
         style={{ animationDelay: `${(pins.length + 1) * (delaiPinMs ?? 300)}ms` }}
         aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
       >
-        <div className="feuille-nav">
-          <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
-          <span className="points">
-            <span className="sr-only" aria-live="polite">{fr.proposition.paginationN(index + 1, propositions.length)}</span>
-            {propositions.map((p, i) => (
-              <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
-            ))}
-          </span>
-          <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
-        </div>
-        <h1 className="feuille-titre">{prop.titre}</h1>
-        <p className="etiquette-collab">{fr.evenement.collab}</p>
-        <p className="score">{fr.proposition.score(prop.score)}</p>
-        {prop.detailScore && (
-          <div className="detail-score">
-            <button type="button" className="detail-bouton" aria-expanded={detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
-              {fr.proposition.commentScore}
-            </button>
-            {detailOuvert && (
-              <ul className="barres">
-                {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
-                  <li key={cle}>
-                    <span className="barre-nom">{fr.proposition.detailScore[cle]}</span>
-                    <span className="barre" aria-hidden="true"><span style={{ width: `${prop.detailScore?.[cle] ?? 0}%` }} /></span>
-                    <span className="barre-val">{prop.detailScore?.[cle]} %</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+        <div className="feuille-defile" ref={feuilleRef} id="liste-proposition" tabIndex={-1}>
+          <div className="feuille-nav">
+            <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
+            <span className="points">
+              <span className="sr-only" aria-live="polite">{fr.proposition.paginationN(index + 1, propositions.length)}</span>
+              {propositions.map((p, i) => (
+                <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
+              ))}
+            </span>
+            <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
           </div>
-        )}
-
-        <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
-        <ul className="liste-part">
-          {prop.partenaires.map((c) => {
-            const p = profils.find((x) => x.id === c.profilId)
-            return (
-              <li key={c.profilId} className="partenaire">
-                <strong>{p?.nom ?? c.profilId}</strong>
-                {p && !p.reclame && <span className="tag-prerempli">{fr.profil.tagNonReclame}</span>}
-                <span className="apport">{c.apport}</span>
-              </li>
-            )
-          })}
-          {lieu && (
-            <li className="partenaire">
-              <strong>{lieu.nom}</strong>
-              <span className="apport">{fr.proposition.lieuSuggere}</span>
-              <span className="apport apport-source">Lieu public : {lieu.attribution}</span>
-            </li>
+          <h1 className="feuille-titre">{prop.titre}</h1>
+          <p className="etiquette-collab">{fr.evenement.collab}</p>
+          <p className="score">{fr.proposition.score(prop.score)}</p>
+          {prop.detailScore && (
+            <div className="detail-score">
+              <button type="button" className="detail-bouton" aria-expanded={detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
+                {fr.proposition.commentScore}
+              </button>
+              {detailOuvert && (
+                <ul className="barres">
+                  {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
+                    <li key={cle}>
+                      <span className="barre-nom">{fr.proposition.detailScore[cle]}</span>
+                      <span className="barre" aria-hidden="true"><span style={{ width: `${prop.detailScore?.[cle] ?? 0}%` }} /></span>
+                      <span className="barre-val">{prop.detailScore?.[cle]} %</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           )}
-        </ul>
 
-        <h2 className="sous-titre">{fr.proposition.pourquoi}</h2>
-        <ul className="liste">{prop.raisons.slice(0, raisonsVisibles ?? prop.raisons.length).map((r) => <li key={r} className="apparait">{r}</li>)}</ul>
+          <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
+          <ul className="liste-part">
+            {prop.partenaires.map((c) => {
+              const p = profils.find((x) => x.id === c.profilId)
+              return (
+                <li key={c.profilId} className="partenaire">
+                  <strong>{p?.nom ?? c.profilId}</strong>
+                  {p && !p.reclame && <span className="tag-prerempli">{fr.profil.tagNonReclame}</span>}
+                  <span className="apport">{c.apport}</span>
+                </li>
+              )
+            })}
+            {lieu && (
+              <li className="partenaire">
+                <strong>{lieu.nom}</strong>
+                <span className="apport">{fr.proposition.lieuSuggere}</span>
+                <span className="apport apport-source">Lieu public : {lieu.attribution}</span>
+              </li>
+            )}
+          </ul>
 
-        <h2 className="sous-titre">{fr.proposition.aConfirmer}</h2>
-        <ul className="liste liste-orange">{prop.aConfirmer.map((r) => <li key={r}>{r}</li>)}</ul>
+          <h2 className="sous-titre">{fr.proposition.pourquoi}</h2>
+          <ul className="liste">{prop.raisons.slice(0, raisonsVisibles ?? prop.raisons.length).map((r) => <li key={r} className="apparait">{r}</li>)}</ul>
 
-        {proches.length > 0 && (
-          <>
-            <h2 className="sous-titre">{fr.proposition.evenementsProches}</h2>
-            <ul className="liste">
-              {proches.map((e) => {
-                const inscrit = projets.some((p) => p.id === idEvenement(e))
-                return (
-                  <li key={e.id} className={e.ouvertAuPublic ? 'evenement-ouvert' : undefined}>
-                    {e.titre}, {formaterDate(e.debut)}
-                    {e.ouvertAuPublic && (
-                      <span className="evenement-bloc">
-                        <span className="tag-ouvert">{fr.evenement.ouvert}</span>
-                        <span className="evenement-nb">{fr.evenement.nbPersonnes((e.inscrits ?? 0) + (inscrit ? 1 : 0))}</span>
-                        {onParticiper && (
-                          <button type="button" className="btn btn-participe" onClick={() => onParticiper(e)}>
-                            {inscrit ? fr.evenement.inscritMoi : fr.evenement.participe}
-                          </button>
-                        )}
-                      </span>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </>
-        )}
+          <h2 className="sous-titre">{fr.proposition.aConfirmer}</h2>
+          <ul className="liste liste-orange">{prop.aConfirmer.map((r) => <li key={r}>{r}</li>)}</ul>
 
-        {onPlusOptions && (
-          <button type="button" className="btn btn-texte btn-petit btn-plus-options" onClick={onPlusOptions}>
-            {fr.options.plus}
-          </button>
-        )}
+          {proches.length > 0 && (
+            <>
+              <h2 className="sous-titre">{fr.proposition.evenementsProches}</h2>
+              <ul className="liste">
+                {proches.map((e) => {
+                  const inscrit = projets.some((p) => p.id === idEvenement(e))
+                  return (
+                    <li key={e.id} className={e.ouvertAuPublic ? 'evenement-ouvert' : undefined}>
+                      {e.titre}, {formaterDate(e.debut)}
+                      {e.ouvertAuPublic && (
+                        <span className="evenement-bloc">
+                          <span className="tag-ouvert">{fr.evenement.ouvert}</span>
+                          <span className="evenement-nb">{fr.evenement.nbPersonnes((e.inscrits ?? 0) + (inscrit ? 1 : 0))}</span>
+                          {onParticiper && (
+                            <button type="button" className="btn btn-participe" onClick={() => onParticiper(e)}>
+                              {inscrit ? fr.evenement.inscritMoi : fr.evenement.participe}
+                            </button>
+                          )}
+                        </span>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </>
+          )}
+
+          {onPlusOptions && (
+            <button type="button" className="btn btn-texte btn-petit btn-plus-options" onClick={onPlusOptions}>
+              {fr.options.plus}
+            </button>
+          )}
+        </div>
         <div className="pied-feuille">
           {statut === 'proposee' ? (
             <button

@@ -1,26 +1,46 @@
 :root {
-  /* Palette: change colours here only. */
+  /* Palette: change colours here only. Design « le point de maille » (docs/DESIGN.md); the aliases keep older var() names working. */
+  --papier: #f7f1e6;
+  --lin: #efe7d8;
+  --craie: #fffdf8;
+  --trait: #d9cfbd;
+  --encre: #15201b;
+  --gris-fil: #4f5f58;
   --vert: #1f5f4a;
   --vert-fonce: #164536;
   --vert-pale: #e6f1ec;
-  --cta: #b9460e;
-  --cta-fonce: #8f360a;
-  --accent: #e8833a; /* decorative fills only, never behind white text */
-  --orange: var(--accent);
-  --orange-pale: #fdf0e4;
-  --texte: #1c2b25;
-  --gris: #5b6b64;
-  --fond: #faf7f2;
-  --surface: #ffffff;
-  --bordure-champ: #758580;
+  --fil: var(--vert);
+  --brique: #b9460e;
+  --brique-fonce: #8f360a;
+  --brique-pale: #fbe9dc;
+  --ocre: #e3b100;
   --focus: #164536;
-  --rayon: 16px;
   --couleur-commerce: #b9460e;
   --couleur-organisme: #0072b2;
   --couleur-citoyen: #7b3f9e;
-  --couleur-lieu: #009e73;
+  --couleur-lieu: #009e73; /* icons only, never behind text */
+  --couleur-lieu-texte: #00694d;
   --couleur-evenement: #e3b100;
-  --contour-evenement: #1c2b25;
+  --contour-evenement: #15201b;
+  --rayon: 10px;
+  --rayon-petit: 6px;
+  --rayon-pilule: 999px;
+  --rayon-feuille: 16px;
+  --ombre-flottante: 0 -2px 10px rgba(21, 32, 27, 0.18);
+  --police: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --police-titre: "Fraunces", Georgia, "Times New Roman", serif;
+  --couture: repeating-linear-gradient(90deg, var(--fil) 0 7px, transparent 7px 12px);
+  --couture-v: repeating-linear-gradient(180deg, var(--fil) 0 7px, transparent 7px 12px);
+  --fond: var(--papier);
+  --surface: var(--craie);
+  --texte: var(--encre);
+  --gris: var(--gris-fil);
+  --cta: var(--brique);
+  --cta-fonce: var(--brique-fonce);
+  --orange-pale: var(--brique-pale);
+  --accent: #e8833a; /* decorative fills only, never behind white text */
+  --orange: var(--accent);
+  --bordure-champ: #758580;
 }
 
 * {
@@ -33,7 +53,7 @@ body,
   margin: 0;
   height: 100dvh;
   overflow: hidden;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--police);
   color: var(--texte);
   background: var(--fond);
 }
@@ -906,11 +926,7 @@ body {
   outline-color: #fff;
 }
 
-/* Buttons: pill shape, white text on the dark CTA colour */
-.btn {
-  border-radius: 999px;
-}
-
+/* Buttons: white text on the dark CTA colour */
 .btn-primaire,
 .btn-action {
   background: var(--cta);
@@ -1493,4 +1509,705 @@ body {
   .dashboard-carte-projet {
     padding: 16px;
   }
+}
+
+/* ===== Design: point de maille (docs/DESIGN.md) =====
+   Appended overrides: paper, Fraunces titles, stitches and stamps. Tour, map and sheet architecture rules above stay as they are. */
+
+/* A. Global */
+body {
+  background-color: var(--papier);
+  background-image:
+    linear-gradient(to right, rgba(31, 95, 74, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 95, 74, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+#root {
+  background: transparent;
+}
+
+.logo,
+.feuille-titre,
+.fiche-titre,
+.pj-titre,
+.pp-titre,
+.p2-sdc-titre,
+.p2-invit-titre,
+.po-titre,
+.carte-fin p,
+.dashboard-entete h1 {
+  font-family: var(--police-titre);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  color: var(--vert-fonce);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.carte-fin p {
+  color: #fff;
+}
+
+/* Cards: craie on paper, a linen line, no drop shadow (only the sheet and the floating map buttons keep one) */
+.carte-projet,
+.dashboard-stat,
+.dashboard-carte-projet,
+.dashboard-vide {
+  background: var(--craie);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  box-shadow: none;
+}
+
+/* Stitch: dividers, section rules, progress tracks */
+.couture {
+  height: 2px;
+  margin: 16px 0;
+  border: 0;
+  background: var(--couture);
+}
+
+.sous-titre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gris-fil);
+}
+
+.sous-titre::after {
+  content: '';
+  flex: 1;
+  min-width: 24px;
+  height: 2px;
+  background: var(--couture);
+  opacity: 0.45;
+}
+
+/* Partners threaded on one line instead of pale-green blocks */
+.liste-part {
+  position: relative;
+  padding-left: 18px;
+}
+
+.liste-part::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 10px;
+  bottom: 18px;
+  width: 2px;
+  background: var(--couture-v);
+}
+
+.partenaire {
+  position: relative;
+  background: var(--craie);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+}
+
+.partenaire::before {
+  content: '';
+  position: absolute;
+  left: -19px;
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fil);
+  box-shadow: 0 0 0 2px var(--papier);
+}
+
+.tag-prerempli {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--brique-fonce);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Bars and pagination as stitches */
+.barre,
+.p2-barre-piste {
+  height: 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--lin) 0 6px, transparent 6px 9px);
+  box-shadow: inset 0 0 0 1px var(--lin);
+}
+
+.barre > span,
+.p2-barre-rempli {
+  background: var(--vert);
+  border-radius: 2px;
+}
+
+.point {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--trait);
+}
+
+.point-on {
+  background: var(--brique);
+}
+
+/* The stamp, not the badge */
+.badge-demo,
+.tampon {
+  padding: 3px 9px;
+  border: 2px solid var(--brique);
+  border-radius: 4px;
+  background: var(--papier);
+  color: var(--brique-fonce);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tampon {
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.tampon-vert {
+  border-color: var(--vert);
+  color: var(--vert-fonce);
+  transform: none;
+}
+
+/* Section labels and helper text */
+.consigne {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gris-fil);
+}
+
+/* B. Accueil, per docs/design/mock-m-accueil.png */
+body:has(.accueil) .badge-demo {
+  left: calc(env(safe-area-inset-left) + 20px);
+}
+
+.marque {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 4px;
+}
+
+.marque-boucle {
+  display: block;
+  flex: none;
+}
+
+.logo {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1;
+  font-variation-settings: "SOFT" 100, "opsz" 72;
+}
+
+.lieu {
+  margin: 0 0 12px;
+  color: var(--gris-fil);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pitch {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--encre);
+  font-variation-settings: "SOFT" 100, "opsz" 20;
+}
+
+.accueil .couture {
+  margin: 18px 0;
+}
+
+.accueil-bas {
+  gap: 10px;
+}
+
+.accueil-bas .couture {
+  margin: 8px 0;
+}
+
+.accueil-bas .consigne {
+  margin: 0;
+}
+
+.btn-role {
+  gap: 14px;
+  padding-left: 22px;
+  border: 1.5px solid var(--trait);
+  background: var(--craie);
+  color: var(--encre);
+  text-align: left;
+  font-weight: 700;
+  box-shadow: inset 6px 0 0 var(--c, var(--vert));
+}
+
+.btn-role:active {
+  background: var(--lin);
+}
+
+.btn-role .forme {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+}
+
+.role-indice {
+  margin-left: auto;
+  color: var(--gris-fil);
+  font-size: 14px;
+  font-weight: 400;
+  text-align: right;
+}
+
+.btn-lien {
+  color: var(--vert-fonce);
+  font-weight: 700;
+}
+
+.liens-accueil {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 18px;
+}
+
+/* Text buttons and links: a dashed underline, like a seam to cut along */
+.btn-texte,
+.lien-action {
+  color: var(--vert-fonce);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.liens-accueil .btn-texte {
+  padding: 0 2px;
+}
+
+/* C. Proposition sheet. .feuille stays an opaque, non-scrolling card; .feuille-defile stays a transparent scroller
+   (no overflow, background, opacity or backdrop-filter added to it); .pied-feuille stays outside it. */
+.feuille {
+  border-radius: var(--rayon-feuille) var(--rayon-feuille) 0 0;
+  border: 1px solid var(--trait);
+  border-bottom: 0;
+  background: var(--craie);
+  box-shadow: var(--ombre-flottante);
+}
+
+/* Stitch handle: a flex child of the card, outside the scroller */
+.feuille::before {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 48px;
+  height: 3px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--trait) 0 7px, transparent 7px 11px);
+}
+
+.nav-btn {
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.points {
+  gap: 5px;
+}
+
+.feuille-titre {
+  margin: 6px 0 4px;
+  font-size: 24px;
+}
+
+.etiquette-collab {
+  color: var(--gris-fil);
+  font-size: 14px;
+}
+
+.score {
+  margin: 2px 0 0;
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--vert);
+}
+
+.detail-bouton {
+  color: var(--vert-fonce);
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.barres li {
+  grid-template-columns: 7.5rem 1fr 3rem;
+}
+
+.liste li::before {
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+.liste-orange li::before {
+  background: var(--brique);
+}
+
+.statut {
+  border-left: 4px solid var(--brique);
+  border-radius: var(--rayon);
+  background: var(--lin);
+  color: var(--brique-fonce);
+}
+
+.statut-confirmee {
+  border-left-color: var(--vert-fonce);
+  background: var(--vert);
+  color: #fff;
+}
+
+.statut-mini {
+  border-radius: 4px;
+  background: transparent;
+  border: 2px solid var(--brique);
+  color: var(--brique-fonce);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statut-mini.statut-confirmee {
+  border-color: var(--vert);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.legende,
+.pin-etiquette,
+.cercle-etiquette {
+  border-radius: var(--rayon-petit);
+  background: var(--craie);
+}
+
+.legende {
+  border: 1px solid var(--trait);
+}
+
+.pin-etiquette {
+  color: var(--encre);
+  box-shadow: 0 0 0 1px var(--trait);
+}
+
+.evenement-bloc {
+  border-radius: var(--rayon);
+  background: var(--craie);
+}
+
+.tag-ouvert {
+  color: var(--couleur-lieu-texte);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.btn-participe,
+.popup-participe {
+  background: var(--couleur-lieu-texte);
+  border-radius: var(--rayon);
+}
+
+/* Floating buttons over the map keep their shadow */
+.retour-carte {
+  box-shadow: 0 1px 4px rgba(21, 32, 27, 0.25);
+}
+
+/* Phone, map screen: the licence line moves from the top right (where it wrapped beside the stamp) to the bottom left,
+   just above the sheet's highest point and beside the legend, like the tour rule. Links get 24px+ targets. */
+@media (max-width: 899px) {
+  .racine:not(.tour-actif) .screen-carte .attribution {
+    top: auto;
+    right: auto;
+    left: calc(env(safe-area-inset-left) + 8px);
+    bottom: calc(58dvh + 8px);
+    max-width: calc(100% - 150px);
+    border-radius: var(--rayon-petit);
+    background: rgba(255, 253, 248, 0.92);
+  }
+
+  .screen-carte .attribution a {
+    padding: 5px 2px;
+    line-height: 1.2;
+  }
+}
+
+/* D. Fiche (and the shared screen header) */
+.retour {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  color: var(--vert-fonce);
+  box-shadow: none;
+}
+
+.retour.retour-carte {
+  box-shadow: 0 1px 4px rgba(21, 32, 27, 0.25);
+}
+
+.role-tag {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--gris-fil);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.profil-ligne {
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  color: var(--encre);
+}
+
+.profil-ligne strong {
+  color: var(--vert-fonce);
+}
+
+.chip {
+  background: var(--craie);
+  color: var(--vert-fonce);
+}
+
+.chip-on {
+  background: var(--vert);
+  color: #fff;
+}
+
+.chip-plus {
+  background: transparent;
+}
+
+.fiche-titre {
+  margin: 6px 0 10px;
+  font-size: 26px;
+}
+
+.fiche-date {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--encre);
+}
+
+.fiche-date svg,
+.fiche-lieu svg {
+  flex: none;
+  color: var(--vert);
+}
+
+.fiche-note {
+  color: var(--gris-fil);
+}
+
+/* Status as the green stamp */
+.fiche-statut {
+  margin: 12px 0 4px;
+  padding: 3px 9px;
+  border: 2px solid var(--vert);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--vert-fonce);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Stitch progress line under « À confirmer » */
+.progres-couture {
+  height: 4px;
+  margin: -2px 0 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--trait) 0 7px, transparent 7px 12px);
+}
+
+.progres-couture > span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--couture);
+  transition: width 0.3s ease-out;
+}
+
+.progres {
+  color: var(--brique-fonce);
+  font-weight: 700;
+}
+
+/* Actions: one brick button, the rest are text links */
+.actions .btn-action ~ .btn-action {
+  border: 2px solid var(--vert);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.actions .btn-action ~ .btn-action:active {
+  background: var(--lin);
+}
+
+.actions .btn-lien {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--vert-fonce);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.actions .confirmation .btn-lien {
+  border: 2px solid var(--vert);
+  text-decoration: none;
+}
+
+.lien-action {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carte-projet strong {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  color: var(--vert-fonce);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progres-couture > span {
+    transition: none;
+  }
+}
+
+.btn-texte.btn-retirer {
+  color: #b3261e;
+}
+
+/* G. Tour bar (overrides on the existing tour class names; the tour's own rules above are untouched) */
+.visite-barre {
+  border-radius: var(--rayon);
+  background: var(--vert-fonce);
+}
+
+.visite-legende {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+/* Progress as a stitch: pale dashes for the track, warm dashes for what has played */
+.visite-progres {
+  height: 3px;
+  border-radius: 0;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 7px, transparent 7px 12px);
+}
+
+.visite-progres-rempli {
+  border-radius: 0;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 7px, transparent 7px 12px);
+}
+
+.visite-btn {
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  color: var(--vert-fonce);
+  font-weight: 700;
+}
+
+.visite-btn.visite-quitter {
+  flex: 0 1 auto;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+/* End card: Fraunces, with the loop mark drawn in chalk */
+.carte-fin::before {
+  content: '';
+  width: 56px;
+  height: 56px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%23fffdf8' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M8 26c0-9 6-14 12-14s12 5 12 14'/%3E%3Cpath d='M4 18c0 9 6 14 12 14'/%3E%3Cpath d='M36 18c0 9-6 14-12 14'/%3E%3Ccircle cx='20' cy='12' r='2.2' fill='%23e8833a' stroke='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.carte-fin p {
+  max-width: 22ch;
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.carte-fin .btn {
+  width: 100%;
+}
+
+/* Main's quiet « Simuler la réponse » link stays grey under the dashed text-link rule */
+.btn-texte.btn-simuler {
+  color: var(--gris-fil);
+  font-weight: 400;
 }

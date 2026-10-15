@@ -11,6 +11,12 @@ export const fr = {
       organisme: 'Organisme',
       citoyen: 'Citoyen',
     },
+    lieu: 'Saint-Roch · Québec',
+    indices: {
+      commerce: 'café, boutique, resto',
+      organisme: 'OBNL, collectif, école',
+      citoyen: 'artiste, voisin, bénévole',
+    },
     visiteGuidee: 'Visite guidée',
     badgeDemo: 'Démo simulée',
     pasDeCompte: 'Aucune inscription pour essayer.',

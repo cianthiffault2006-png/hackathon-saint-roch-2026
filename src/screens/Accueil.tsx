@@ -1,7 +1,8 @@
+import type { CSSProperties } from 'react'
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
-import Icone from '../components/Icones'
+import { MarqueBoucle, PinForme } from '../components/Icones'
 
 interface Props {
   onRole: (role: Role) => void
@@ -20,22 +21,44 @@ interface Props {
 }
 
 export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer, onDashboard, onReclamer }: Props) {
+  const liens = [
+    { cle: 'proposer', libelle: fr.accueil.proposer, action: onProposer },
+    { cle: 'dashboard', libelle: fr.nav.dashboard, action: onDashboard },
+    { cle: 'reclamer', libelle: fr.reclamer.recherche.lienAccueil, action: onReclamer },
+    { cle: 'sdc', libelle: fr.accueil.tableauSdc, action: onSdc },
+    { cle: 'sources', libelle: fr.sources.titre, action: onSources },
+    { cle: 'projets', libelle: fr.projets.titre, action: onProjets },
+  ].filter((l) => l.action)
+
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
-        <h1 className="logo">{fr.accueil.titre}</h1>
+        <div className="marque">
+          <MarqueBoucle />
+          <h1 className="logo">{fr.accueil.titre}</h1>
+        </div>
+        <p className="lieu">{fr.accueil.lieu}</p>
         <p className="pitch">
           {fr.accueil.accroche}
         </p>
+        <hr className="couture" />
       </div>
       <div className="accueil-bas">
         <p className="consigne">{fr.accueil.question}</p>
         {(['commerce', 'organisme', 'citoyen'] as Role[]).map((r) => (
-          <button key={r} type="button" className={r === surbrillance ? 'btn btn-role surbrillance' : 'btn btn-role'} onClick={() => onRole(r)}>
-            <span className="icone"><Icone nom={r} taille={26} /></span>
-            {LIBELLE_ROLE[r]}
+          <button
+            key={r}
+            type="button"
+            className={r === surbrillance ? 'btn btn-role surbrillance' : 'btn btn-role'}
+            style={{ '--c': `var(--couleur-${r})` } as CSSProperties}
+            onClick={() => onRole(r)}
+          >
+            <PinForme nom={r} taille={30} />
+            <span className="role-nom">{LIBELLE_ROLE[r]}</span>
+            <small className="role-indice">{fr.accueil.indices[r]}</small>
           </button>
         ))}
+        <hr className="couture" />
         <button type="button" className="btn btn-lien" data-visite onClick={onVisite}>
           {fr.accueil.visiteGuidee}
         </button>
@@ -44,35 +67,14 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
             {fr.accueil.explorer}
           </button>
         )}
-        {onProposer && (
-          <button type="button" className="btn btn-texte btn-petit" onClick={onProposer}>
-            {fr.accueil.proposer}
-          </button>
-        )}
-        {onDashboard && (
-          <button type="button" className="btn btn-texte btn-petit" onClick={onDashboard}>
-            {fr.nav.dashboard}
-          </button>
-        )}
-        {onReclamer && (
-          <button type="button" className="btn btn-texte btn-petit" onClick={onReclamer}>
-            {fr.reclamer.recherche.lienAccueil}
-          </button>
-        )}
-        {onSdc && (
-          <button type="button" className="btn btn-texte btn-petit" onClick={onSdc}>
-            {fr.accueil.tableauSdc}
-          </button>
-        )}
-        {onSources && (
-          <button type="button" className="btn btn-texte btn-petit" onClick={onSources}>
-            {fr.sources.titre}
-          </button>
-        )}
-        {onProjets && (
-          <button type="button" className="btn btn-texte" onClick={onProjets}>
-            {fr.projets.titre}
-          </button>
+        {liens.length > 0 && (
+          <div className="liens-accueil">
+            {liens.map((l) => (
+              <button key={l.cle} type="button" className="btn btn-texte btn-petit" onClick={l.action}>
+                {l.libelle}
+              </button>
+            ))}
+          </div>
         )}
       </div>
     </main>

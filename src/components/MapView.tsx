@@ -179,7 +179,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
         map.addLayer({ id: 'cercle-bord', type: 'line', source: 'cercle', paint: { 'line-color': '#1f5f4a', 'line-opacity': 0.45, 'line-width': 1.5 } })
       }
       if (!map.getLayer('lien')) {
-        map.addLayer({ id: 'lien', type: 'line', source: 'lien', paint: { 'line-color': '#1c2b25', 'line-width': 2, 'line-dasharray': [2, 2] } })
+        map.addLayer({ id: 'lien', type: 'line', source: 'lien', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#1f5f4a', 'line-width': 3, 'line-dasharray': [1.5, 2.5] } })
       }
       appliquerAnneau()
     }

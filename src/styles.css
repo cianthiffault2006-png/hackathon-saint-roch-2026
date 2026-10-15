@@ -249,14 +249,24 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
   max-height: 58dvh;
   max-width: 560px;
   margin: 0 auto;
-  overflow-y: auto;
-  padding: 12px 20px calc(env(safe-area-inset-bottom) + 16px);
   border-radius: 24px 24px 0 0;
   background: #fff;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* The scroller stays transparent: Chrome treats an opaque scroll container as covering
+   the map above it and stops repainting that part of the WebGL canvas after a zoom or pan. */
+.feuille-defile {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  border-radius: inherit;
+  padding: 12px 20px 8px;
 }
 
 .feuille-nav {
@@ -362,12 +372,11 @@ button {
   background: var(--orange);
 }
 
+/* Outside the scroller on purpose: an opaque sticky footer inside it also stopped the map
+   above the sheet from repainting in Chrome. */
 .pied-feuille {
-  position: sticky;
-  bottom: -16px;
-  margin-top: 16px;
-  padding: 8px 0;
-  background: #fff;
+  flex: none;
+  padding: 8px calc(env(safe-area-inset-right) + 20px) calc(env(safe-area-inset-bottom) + 16px) calc(env(safe-area-inset-left) + 20px);
 }
 
 .statut {
@@ -1071,7 +1080,7 @@ body {
 }
 
 /* Sheet and safe areas */
-.feuille {
+.feuille-defile {
   overscroll-behavior: contain;
   touch-action: pan-y;
   padding-left: calc(env(safe-area-inset-left) + 20px);

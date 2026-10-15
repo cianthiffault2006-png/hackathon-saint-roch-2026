@@ -783,11 +783,6 @@ button {
   margin: 4px 0;
   font-size: 17px;
   font-weight: 600;
-  text-transform: capitalize;
-}
-
-.fiche-lieu {
-  text-transform: none;
 }
 
 .fiche-note {
@@ -893,7 +888,6 @@ button {
 .carte-projet-ligne {
   color: var(--gris);
   font-size: 14px;
-  text-transform: capitalize;
 }
 
 .statut-mini {

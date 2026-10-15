@@ -40,3 +40,8 @@ export function libelleDate(o: Occurrence): string {
   }).format(new Date(Date.UTC(y, m - 1, d, 12)))
   return `${texte}, ${o.heureDebut} h à ${o.heureFin} h`
 }
+
+export function libelleDateMaj(o: Occurrence): string {
+  const t = libelleDate(o)
+  return t.charAt(0).toUpperCase() + t.slice(1)
+}

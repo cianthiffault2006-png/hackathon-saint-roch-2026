@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fr } from '../i18n/fr'
 import { T } from '../textes'
-import { libelleDate } from '../lib/date'
+import { libelleDateMaj } from '../lib/date'
 import { lienGoogleAgenda, resumePartage, telechargerIcs } from '../lib/calendrier'
 import { nombreCoches, type Projet } from '../lib/projets'
 import Icone from '../components/Icones'
@@ -13,13 +13,23 @@ interface Props {
   onCocher: (index: number) => void
   /** Guided tour: the calendar and share buttons pulse. */
   pulse?: boolean
+  /** Guided tour: scrolls the sheet to the action buttons or to the checklist. */
+  defilement?: 'actions' | 'liste'
 }
 
-export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse }: Props) {
+export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, defilement }: Props) {
   const [telecharge, setTelecharge] = useState(false)
   const [repli, setRepli] = useState(false)
+  const refActions = useRef<HTMLDivElement>(null)
+  const refListe = useRef<HTMLUListElement>(null)
   const resume = resumePartage(projet)
   const fait = nombreCoches(projet)
+
+  useEffect(() => {
+    if (!defilement) return
+    const cible = defilement === 'actions' ? refActions.current : refListe.current
+    cible?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [defilement])
 
   async function partager() {
     const donnees = { title: resume.objet, text: resume.texte, url: window.location.origin }
@@ -52,7 +62,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse }: 
       <h1 className="fiche-titre">{projet.titre}</h1>
       <p className="fiche-date">
         <Icone nom="evenement" taille={20} />
-        <span>{libelleDate(projet)}</span>
+        <span>{libelleDateMaj(projet)}</span>
       </p>
       <p className="fiche-note">{T.fiche.dateProposee}</p>
       <p className="fiche-lieu">
@@ -74,7 +84,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse }: 
       <h2 className="sous-titre">
         {T.fiche.aConfirmer} <span className="progres">{T.fiche.progres(fait, projet.aConfirmer.length)}</span>
       </h2>
-      <ul className="coches">
+      <ul className="coches" ref={refListe}>
         {projet.aConfirmer.map((texte, i) => (
           <li key={texte}>
             <label className="coche">
@@ -85,7 +95,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse }: 
         ))}
       </ul>
 
-      <div className="actions">
+      <div className="actions" ref={refActions}>
         <button type="button" className={classeAction} onClick={ajouterAuCalendrier}>
           {T.fiche.calendrier}
         </button>

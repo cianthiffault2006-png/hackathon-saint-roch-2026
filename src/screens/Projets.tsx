@@ -1,6 +1,6 @@
 import { fr } from '../i18n/fr'
 import { T } from '../textes'
-import { libelleDate } from '../lib/date'
+import { libelleDateMaj } from '../lib/date'
 import { nombreCoches, type Projet } from '../lib/projets'
 
 interface Props {
@@ -28,7 +28,7 @@ export default function Projets({ projets, onRetour, onOuvrir }: Props) {
               <button type="button" className="carte-projet" onClick={() => onOuvrir(p.id)}>
                 <strong>{p.titre}</strong>
                 <span className={`statut-mini statut-${p.statut}`}>{fr.proposition.statuts[p.statut]}</span>
-                <span className="carte-projet-ligne">{libelleDate(p)}</span>
+                <span className="carte-projet-ligne">{libelleDateMaj(p)}</span>
                 <span className="carte-projet-ligne">{T.fiche.progres(nombreCoches(p), p.aConfirmer.length)}</span>
               </button>
             </li>

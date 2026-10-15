@@ -96,6 +96,7 @@ export default function App() {
   let raisonsVisibles: number | undefined
   let interet = false
   let cochesVisite = 0
+  let defilement: 'actions' | 'liste' | undefined
   if (etat && etape) {
     if (etape.id === 'saisie') {
       texteGuide = TEXTE_VISITE.slice(0, Math.ceil(TEXTE_VISITE.length * Math.min(1, etat.ms / SAISIE_MS)))
@@ -106,7 +107,11 @@ export default function App() {
     if (etape.id === 'carte') raisonsVisibles = 0
     if (etape.id === 'raisons') raisonsVisibles = 1 + Math.floor(etat.ms / 1300)
     interet = etat.index >= indexDe('interet')
-    if (etape.id === 'fiche') pulse = true
+    if (etape.id === 'fiche') {
+      pulse = true
+      if (etat.ms > 1800) defilement = 'actions'
+    }
+    if (etape.id === 'coches') defilement = 'liste'
     if (etape.id === 'coches') cochesVisite = Math.floor(etat.ms / 800)
     if (etat.index > indexDe('coches')) cochesVisite = 3
   }
@@ -154,6 +159,7 @@ export default function App() {
         <Fiche
           projet={projetAffiche}
           pulse={pulse}
+          defilement={defilement}
           onCocher={cocher}
           onRetour={() => setEcran(retourFiche)}
           onProjets={() => setEcran('projets')}

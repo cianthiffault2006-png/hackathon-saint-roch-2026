@@ -18,7 +18,7 @@
  },
  {
   "id": "ev-02",
-  "titre": "Lecture publique d'automne",
+  "titre": "Lecture publique d’automne",
   "promoteurId": "p-librairie",
   "lieuNom": "Librairie La Marge Douce",
   "lat": 46.811093,
@@ -70,7 +70,7 @@
  },
  {
   "id": "ev-05",
-  "titre": "Corvée de verdissement d'automne",
+  "titre": "Corvée de verdissement d’automne",
   "promoteurId": "p-comitevert",
   "lieuNom": "Local du Comité vert",
   "lat": 46.813652,
@@ -228,7 +228,7 @@
  },
  {
   "id": "ev-14",
-  "titre": "Soirée d'accueil des nouveaux résidents",
+  "titre": "Soirée d’accueil des nouveaux résidents",
   "lieuNom": "Salle communautaire",
   "lat": 46.810943,
   "lng": -71.225634,
@@ -243,7 +243,7 @@
  },
  {
   "id": "ev-15",
-  "titre": "Soirée d'improvisation du jeudi",
+  "titre": "Soirée d’improvisation du jeudi",
   "promoteurId": "p-theatre",
   "lieuNom": "Salle Le Bémol",
   "lat": 46.812708,

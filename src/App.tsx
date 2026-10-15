@@ -27,8 +27,13 @@ import Sources from './screens/Sources'
 import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
 import { ETAPES, PUCES_VISITE, ROLE_VISITE, TEXTE_VISITE, legendeDe } from './tour/script'
+import Coquille from './layout/Coquille'
+import { rubriqueDe } from './layout/rubriques'
+import EspaceProjets from './layout/EspaceProjets'
+import { useBureau } from './layout/useBureau'
+import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
+type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 
@@ -48,6 +53,7 @@ export default function App() {
   const [voulu, setVoulu] = useState<string | null>(null)
   const [annonce, setAnnonce] = useState('')
   const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps } = useTour()
+  const bureau = useBureau()
 
   useEffect(() => {
     chargerDonnees().then(setDonnees)
@@ -194,7 +200,7 @@ export default function App() {
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
 
   const profilPublic = donnees.profils.find((p) => p.id === profilId) ?? null
-  const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ?? null)
+  const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ? { ...projetAffiche.proposition, statut: projetAffiche.statut } : null)
   const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
 
   function creerProjet(p: PropositionType) {
@@ -203,11 +209,16 @@ export default function App() {
     ouvrirFiche(projet.id, 'accueil')
   }
 
+  // Desktop (900 px and up), outside the tour: Mes projets and the Fiche share one space with the project thread.
+  const espaceBureau = bureau && !enVisite && (ecranActif === 'projets' || (ecranActif === 'fiche' && projetAffiche !== null))
+  const filBureau = espaceBureau && ecranActif === 'fiche' && filProposition && filMoi ? { proposition: filProposition, moi: filMoi } : null
+
   const propInvitation = enVisite ? propVisite : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
   const legende = etape ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '' }) : ''
 
   return (
+    <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={projets.length} inerte={enVisite} onAller={setEcran}>
     <div className={enVisite ? (etat.pause ? 'racine tour-actif tour-pause' : 'racine tour-actif') : 'racine'}>
       <div className="ecrans" inert={enVisite}>
       {ecranActif === 'accueil' && (
@@ -220,6 +231,7 @@ export default function App() {
           onSources={enVisite ? undefined : () => setEcran('sources')}
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onProposer={enVisite ? undefined : () => setEcran('nouveau')}
+          onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -264,7 +276,7 @@ export default function App() {
           onRetour={() => setEcran('proposition')}
         />
       )}
-      {ecranActif === 'fiche' && projetAffiche && (
+      {ecranActif === 'fiche' && projetAffiche && !espaceBureau && (
         <Fiche
           projet={projetAffiche}
           pulse={ee?.pulse}
@@ -275,12 +287,50 @@ export default function App() {
           onProjets={() => setEcran('projets')}
         />
       )}
-      {ecranActif === 'projets' && (
+      {ecranActif === 'projets' && !espaceBureau && (
         <Projets
           projets={projetsAffiches}
           onRetour={() => setEcran('accueil')}
           onOuvrir={(id) => ouvrirFiche(id, 'projets')}
           onRetirer={enVisite ? undefined : retirer}
+        />
+      )}
+      {ecranActif === 'dashboard' && (
+        <Dashboard
+          projets={projetsAffiches}
+          onVoirProjets={() => setEcran('projets')}
+          onOuvrirProjet={(id) => ouvrirFiche(id, 'dashboard')}
+          onNouveauProjet={() => setEcran('accueil')}
+          onRetour={bureau ? undefined : () => setEcran('accueil')}
+        />
+      )}
+      {espaceBureau && (
+        <EspaceProjets
+          vide={projets.length === 0}
+          liste={ecranActif === 'projets' || retourFiche === 'projets' ? (
+            <Projets
+              projets={projets}
+              actifId={ecranActif === 'fiche' ? ouvertId : null}
+              incrustee={ecranActif === 'fiche'}
+              onRetour={() => setEcran('accueil')}
+              onOuvrir={(id) => ouvrirFiche(id, 'projets')}
+              onRetirer={retirer}
+            />
+          ) : null}
+          fiche={ecranActif === 'fiche' && projetAffiche ? (
+            <Fiche
+              key={projetAffiche.id}
+              projet={projetAffiche}
+              incrustee={filBureau !== null}
+              onCocher={cocher}
+              onRetirer={() => retirer(projetAffiche.id)}
+              onRetour={() => setEcran(retourFiche)}
+              onProjets={() => setEcran('projets')}
+            />
+          ) : null}
+          fil={filBureau ? (
+            <FilProjet key={idProjet(filBureau.proposition)} proposition={filBureau.proposition} profils={donnees.profils} moi={filBureau.moi} onRetour={() => setEcran('projets')} />
+          ) : null}
         />
       )}
       {ecranActif === 'explorer' && (
@@ -358,5 +408,6 @@ export default function App() {
         />
       )}
     </div>
+    </Coquille>
   )
 }

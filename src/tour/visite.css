@@ -210,3 +210,13 @@
 .tour-actif .plein-ecran {
   padding-top: 212px;
 }
+
+/* Zero-size probe at the origin of the fixed layer (the app pane on a desktop). */
+.visite-origine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}

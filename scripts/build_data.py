@@ -199,10 +199,10 @@ def ev(i, titre, promo, lieu, d, h1, h2, cat, th, pt=None, at=None, insc=None):
 
 evs = [
  ev(1, "Soirée de lancement de saison", "story-cafe", "Café Le Petit Détour", "10-29", "19:00", "21:30", "soirée", ["culture", "commerce_local"]),
- ev(2, "Lecture publique d'automne", "p-librairie", "Librairie La Marge Douce", "10-22", "19:00", "20:30", "lecture", ["culture"], insc=35),
+ ev(2, "Lecture publique d’automne", "p-librairie", "Librairie La Marge Douce", "10-22", "19:00", "20:30", "lecture", ["culture"], insc=35),
  ev(3, "Dégustation de bières d’automne", "p-brasserie", "Microbrasserie Le Houblon Voisin", "10-24", "16:00", "19:00", "dégustation", ["alimentation", "commerce_local"], insc=60),
  ev(4, "Spectacle de quartier", "p-salle", "Salle Le Bémol", "11-06", "20:00", "22:30", "spectacle", ["culture", "art"]),
- ev(5, "Corvée de verdissement d'automne", "p-comitevert", "Local du Comité vert", "10-25", "10:00", "13:00", "corvée", ["environnement", "communautaire"], insc=45),
+ ev(5, "Corvée de verdissement d’automne", "p-comitevert", "Local du Comité vert", "10-25", "10:00", "13:00", "corvée", ["environnement", "communautaire"], insc=45),
  ev(6, "Vernissage collectif", "p-obscura", "Centre de photographie Obscura", "11-12", "18:00", "20:30", "exposition", ["art", "culture"]),
  ev(7, "Soupe populaire de novembre", "p-marmite", "Cuisine collective La Marmite", "11-14", "11:30", "13:30", "repas communautaire", ["alimentation", "communautaire"], insc=80),
  ev(8, "Soirée de jeux étudiante", "p-jeux", "Café-jeux Le Dé Pipé", "11-18", "18:30", "22:00", "soirée étudiante", ["etudiants", "jeunesse"]),
@@ -211,8 +211,8 @@ evs = [
  ev(11, "Démonstration de cirque de rue", "p-cirque", "Atelier de cirque", "11-28", "14:00", "16:00", "animation de rue", ["jeunesse", "culture"], insc=25),
  ev(12, "Course nocturne des lumières", "p-foulees", "Départ du local du club", "12-03", "18:30", "20:30", "sport", ["sport", "jeunesse"], insc=95),
  ev(13, "Café-causerie sur l'histoire du quartier", "p-aines", "Local de l'association", "10-30", "14:00", "15:30", "conférence", ["communautaire"]),
- ev(14, "Soirée d'accueil des nouveaux résidents", None, "Salle communautaire", "11-05", "18:00", "20:00", "accueil", ["communautaire"], pt=rest[used]),
- ev(15, "Soirée d'improvisation du jeudi", "p-theatre", "Salle Le Bémol", "12-10", "20:00", "22:00", "spectacle", ["culture", "art"], at="p-salle"),
+ ev(14, "Soirée d’accueil des nouveaux résidents", None, "Salle communautaire", "11-05", "18:00", "20:00", "accueil", ["communautaire"], pt=rest[used]),
+ ev(15, "Soirée d’improvisation du jeudi", "p-theatre", "Salle Le Bémol", "12-10", "20:00", "22:00", "spectacle", ["culture", "art"], at="p-salle"),
  ev(17, "Corvée de propreté de la rue Saint-Joseph", "p-proprete", "Départ du local de l'Équipe Propreté", "11-01", "10:00", "12:30", "corvée", ["environnement", "securite"], insc=38),
  ev(18, "Plantation de bulbes et ruelle verte", "p-comitevert", "Local du Comité vert", "11-08", "10:00", "13:00", "verdissement", ["environnement", "communautaire"], insc=12),
  ev(16, "Atelier de peinture ouvert", "story-artiste", "Atelier de Camille", "12-12", "13:00", "16:00", "atelier", ["art", "culture"]),

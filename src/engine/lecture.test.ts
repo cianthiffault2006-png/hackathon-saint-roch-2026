@@ -87,6 +87,16 @@ describe('lireBesoin: créneaux et thèmes', () => {
     ['mardi midi', ['semaine_jour']],
     ['mercredi après-midi', ['semaine_jour']],
     ['jeudi soir ou samedi', ['fin_de_semaine', 'semaine_soir']],
+    ['les jeudis soirs', ['semaine_soir']],
+    ['le jeudi en soirée', ['semaine_soir']],
+    ['la soirée du jeudi', ['semaine_soir']],
+    ['le soir du mardi', ['semaine_soir']],
+    ['le matin du jeudi', ['semaine_jour']],
+    ['jeudi matin', ['semaine_jour']],
+    ['la soirée du samedi', ['fin_de_semaine']],
+    ['dimanche matin', ['fin_de_semaine']],
+    ['vendredi soir le samedi', ['fin_de_semaine', 'semaine_soir']],
+    ['jeudi', ['semaine_jour']],
   ] as const)('créneau %s', (t, att) => {
     expect([...cas(t).creneaux].sort()).toEqual([...att].sort());
   });

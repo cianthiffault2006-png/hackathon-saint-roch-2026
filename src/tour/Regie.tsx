@@ -17,12 +17,25 @@ const CONTENEUR: Record<string, string> = {
   fil: '.plein-ecran',
 }
 
+const racineDoc = () => (document.scrollingElement as HTMLElement) ?? document.documentElement
+
+const defile = (n: Element) => {
+  const o = getComputedStyle(n).overflowY
+  return (o === 'auto' || o === 'scroll') && n.scrollHeight > n.clientHeight
+}
+
 function defilable(el: Element | null): HTMLElement {
   for (let n = el?.parentElement ?? null; n; n = n.parentElement) {
-    const o = getComputedStyle(n).overflowY
-    if ((o === 'auto' || o === 'scroll') && n.scrollHeight > n.clientHeight) return n
+    if (defile(n)) return n
   }
-  return (document.scrollingElement as HTMLElement) ?? document.documentElement
+  return racineDoc()
+}
+
+/** Where a screen scrolls when there is no target: its own scroller, the screen itself (desktop), or the page (phone). */
+function conteneurParDefaut(ecran: string): HTMLElement | null {
+  if (CONTENEUR[ecran]) return document.querySelector<HTMLElement>(CONTENEUR[ecran])
+  const ecranEl = document.querySelector<HTMLElement>('.ecrans .screen')
+  return ecranEl && defile(ecranEl) ? ecranEl : racineDoc()
 }
 
 /** The scrollTop of a container that puts an element at the top, middle or bottom of what is visible. */
@@ -51,6 +64,7 @@ function cibleScroll(conteneur: HTMLElement, el: Element, bloc: 'start' | 'cente
  */
 export default function Regie({ index, lireMs }: Props) {
   const curseur = useRef<HTMLDivElement>(null)
+  const origine = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const calme = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -65,7 +79,7 @@ export default function Regie({ index, lireMs }: Props) {
       const vers = d.vers ? document.querySelector(d.vers) : null
       const de = d.de ? document.querySelector(d.de) : null
       const ref = vers ?? de
-      const conteneur = ref ? defilable(ref) : CONTENEUR[ecran] ? document.querySelector<HTMLElement>(CONTENEUR[ecran]) : (document.scrollingElement as HTMLElement)
+      const conteneur = ref ? defilable(ref) : conteneurParDefaut(ecran)
       if (conteneur && (vers || !d.vers) && (de || !d.de)) {
         const fin = vers ? cibleScroll(conteneur, vers, d.bloc) : 0
         const debut = de ? cibleScroll(conteneur, de, d.deBloc) : d.de ? fin : 0
@@ -92,6 +106,10 @@ export default function Regie({ index, lireMs }: Props) {
             x = a.left + a.width / 2 + (x - (a.left + a.width / 2)) * p
             y = a.top + a.height / 2 + (y - (a.top + a.height / 2)) * p
           }
+          // On a desktop the app pane (right of the sidebar) is the containing block of fixed elements.
+          const o = origine.current?.getBoundingClientRect()
+          x -= o?.left ?? 0
+          y -= o?.top ?? 0
           const echelle = c.presse !== null && !calme ? 1 - 0.18 * Math.sin((c.presse / 350) * Math.PI) : 1
           el.style.opacity = avant || calme ? '1' : String(Math.min(1, c.progres * 3))
           el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px) scale(${echelle.toFixed(3)})`
@@ -105,11 +123,14 @@ export default function Regie({ index, lireMs }: Props) {
   }, [index, lireMs])
 
   return (
+    <>
+    <span className="visite-origine" ref={origine} aria-hidden="true" />
     <div className="visite-curseur" ref={curseur} aria-hidden="true">
       <svg width="28" height="28" viewBox="0 0 28 28" focusable="false">
         <path d="M4 2 L4 22 L9.5 17 L13 25 L16.5 23.5 L13 15.8 L20.5 15.8 Z" fill="#fff" stroke="#1c2b25" strokeWidth="2" strokeLinejoin="round" />
       </svg>
       <span className="visite-curseur-onde" />
     </div>
+    </>
   )
 }

@@ -4,7 +4,6 @@ import { fr } from '../i18n/fr'
 import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
 import { choisirInvite, prenom } from '../lib/invitation'
-import { T } from '../textes'
 import { idEvenement, idProjet, type Projet } from '../lib/projets'
 
 interface Props {
@@ -168,7 +167,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
-        <p className="etiquette-collab">{T.evenement.collab}</p>
+        <p className="etiquette-collab">{fr.evenement.collab}</p>
         <p className="score">{fr.proposition.score(prop.score)}</p>
         {prop.detailScore && (
           <div className="detail-score">
@@ -227,11 +226,11 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
                     {e.titre}, {formaterDate(e.debut)}
                     {e.ouvertAuPublic && (
                       <span className="evenement-bloc">
-                        <span className="tag-ouvert">{T.evenement.ouvert}</span>
-                        <span className="evenement-nb">{T.evenement.nbPersonnes((e.inscrits ?? 0) + (inscrit ? 1 : 0))}</span>
+                        <span className="tag-ouvert">{fr.evenement.ouvert}</span>
+                        <span className="evenement-nb">{fr.evenement.nbPersonnes((e.inscrits ?? 0) + (inscrit ? 1 : 0))}</span>
                         {onParticiper && (
                           <button type="button" className="btn btn-participe" onClick={() => onParticiper(e)}>
-                            {inscrit ? T.evenement.inscritMoi : T.evenement.participe}
+                            {inscrit ? fr.evenement.inscritMoi : fr.evenement.participe}
                           </button>
                         )}
                       </span>
@@ -245,7 +244,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
 
         {onPlusOptions && (
           <button type="button" className="btn btn-texte btn-petit btn-plus-options" onClick={onPlusOptions}>
-            {T.options.plus}
+            {fr.options.plus}
           </button>
         )}
         <div className="pied-feuille">

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { ETAPES, FIN_VISITE } from './script'
 import type { EtatVisite } from './useTour'
 
@@ -39,7 +38,7 @@ export default function TourBar({ etat, onPause, onSuivant, onQuitter }: Props) 
       )}
       <div className="visite-barre" role="region" aria-label={fr.visite.titre} ref={barre} tabIndex={-1}>
         <p className="visite-legende" aria-live="polite">
-          {cle === null ? fr.visite.titre : cle === 'fil' ? T.visite.fil : fr.visite.etapes[cle]}
+          {cle === null ? fr.visite.titre : cle === 'fil' ? fr.visite.fil : fr.visite.etapes[cle]}
         </p>
         <div className="visite-progres" aria-hidden="true">
           <div className="visite-progres-rempli" style={{ width: `${progres}%` }} />

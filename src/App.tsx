@@ -8,7 +8,6 @@ import { trouverAsker } from './lib/besoin'
 import FilAuto from './tour/FilAuto'
 import { fr } from './i18n/fr'
 import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
-import { T } from './textes'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
 import Besoin from './screens/Besoin'
@@ -77,12 +76,12 @@ export default function App() {
   // One permanent polite live region: its text changes when the screen or the result changes.
   useEffect(() => {
     if (!enVisite) setAnnonce(
-        ecranActif === 'sources' ? 'Sources des données'
-          : ecranActif === 'explorer' ? T.accueil.explorer
-          : ecranActif === 'fil' ? T.fiche.ouvrirFil
-          : ecranActif === 'nouveau' ? T.accueil.proposer
+        ecranActif === 'sources' ? fr.sources.titre
+          : ecranActif === 'explorer' ? fr.accueil.explorer
+          : ecranActif === 'fil' ? fr.fiche.ouvrirFil
+          : ecranActif === 'nouveau' ? fr.accueil.proposer
           : ecranActif === 'profil' ? 'Profil'
-          : ecranActif === 'plus' ? T.options.plus
+          : ecranActif === 'plus' ? fr.options.plus
           : fr.a11y.ecrans[ecranActif],
       )
   }, [ecranActif, enVisite])
@@ -126,7 +125,7 @@ export default function App() {
   function participer(e: Evenement) {
     const cle = idEvenement(e)
     setProjets((prev) => (prev.some((p) => p.id === cle) ? prev : [...prev, projetDepuisEvenement(e, donnees.profils)]))
-    setAnnonce(T.evenement.inscrit)
+    setAnnonce(fr.evenement.inscrit)
     ouvrirFiche(cle, 'proposition')
   }
 
@@ -138,7 +137,7 @@ export default function App() {
       return suite
     })
     // After the screen change, which announces the new screen first.
-    window.setTimeout(() => setAnnonce(T.retirer.fait), 200)
+    window.setTimeout(() => setAnnonce(fr.retirer.fait), 200)
     if (id === ouvertId) setEcran('projets')
   }
 

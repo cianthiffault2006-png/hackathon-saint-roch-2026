@@ -17,7 +17,7 @@ Avant chaque passage sur le téléphone de démo : vider les données du site (r
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
 | 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », lien « Voir ce que Camille reçoit » (l’attente passe seule à « Projet confirmé » en quelques secondes : cliquer sans tarder) |
 | 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |
-| 8 | Retour accueil, « Visite guidée » | Lecture automatique d’environ 57 s (à revoir après la visite v2; mesuré le 15 oct. à 14:35: 70 à 80 s), sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
+| 8 | Retour accueil, « Visite guidée » | Lecture automatique de 2 min en 7 chapitres (mesuré le 15 oct. à 15:44 : environ 120 s), puis « Continuer la visite » (suite de 69 s), sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 
 ## B. Contrôles transversaux
 

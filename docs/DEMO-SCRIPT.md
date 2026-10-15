@@ -28,7 +28,7 @@ Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 2:20 si la
 Déclencheur : l’app est lente, plante ou la carte ne charge pas à 1:20 au plus tard.
 1. Cian revient à l’accueil (logo Maillage ou bouton retour).
 2. Toucher **Visite guidée** : l’histoire se joue seule (même histoire que ci-dessus).
-3. Cian commente pendant la lecture, sans refaire les clics. Durée environ 57 secondes; elle se termine sur « Maillage : les ressources du quartier, enfin connectées ». Pas de clic requis.
+3. Cian commente pendant la lecture, sans refaire les clics. Durée 2 min en 7 chapitres (plus une suite optionnelle de 69 s). En plan B, jouer les chapitres 1 à 4 (environ 70 s), puis « Quitter la visite ». Pas de clic requis.
 4. Si la carte reste grise : continuer, la visite montre les raisons et le statut.
 
 ## Plan C : vidéo de secours

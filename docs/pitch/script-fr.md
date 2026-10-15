@@ -2,7 +2,7 @@
 
 Équipe 14, Hackathon étudiant 2026 Saint-Roch. Vendredi 16 octobre, 14 h 30.
 Deux voix : [COÉQUIPIÈRE] ouvre et conclut, [CIAN] fait la démo. Cian clique lui-même pendant qu’il parle. Les autres ne parlent pas, sauf aux questions.
-Durée visée : 4 min 45 s, arrêt ferme à 4 min 50 s. Débit calme : environ 130 mots par minute. Décompte : voir la dernière section (à chronométrer en répétition).
+Durée visée : 4 min 48 s, arrêt ferme à 4 min 50 s. Débit calme : environ 130 mots par minute. Décompte : voir la dernière section (à chronométrer en répétition).
 
 Lien officiel de l’app (GitHub Pages) : https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/
 Le lien Vercel est figé sur une ancienne version (sans Explorer, sans fil, sans « Proposer un projet ») : secours seulement, peut être périmé.
@@ -12,10 +12,10 @@ Le lien Vercel est figé sur une ancienne version (sans Explorer, sans fil, sans
 | 1. Accroche, quoi, qui | COÉQUIPIÈRE | 0:00 | 20 s |
 | 2. Le problème | COÉQUIPIÈRE | 0:20 | 30 s |
 | 3. La démo | CIAN | 0:50 | 1 min 50 s |
-| 4. Les données | CIAN | 2:40 | 35 s |
-| 5. Transparence et IA | COÉQUIPIÈRE | 3:15 | 20 s |
-| 6. Impact et faisabilité | CIAN | 3:35 | 55 s |
-| 7. Conclusion | COÉQUIPIÈRE | 4:30 | 15 s |
+| 4. Les données | CIAN | 2:40 | 38 s |
+| 5. Transparence et IA | COÉQUIPIÈRE | 3:18 | 20 s |
+| 6. Impact et faisabilité | CIAN | 3:38 | 55 s |
+| 7. Conclusion | COÉQUIPIÈRE | 4:33 | 15 s |
 
 ---
 
@@ -49,31 +49,31 @@ Diapo 3, puis l’écran de l’app. Cian clique et parle en même temps.
 5. 1:55 : toucher « Ça m’intéresse ». Statut « En attente ». Ne pas attendre : toucher « Voir ce que Camille reçoit ». « Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » Toucher « Accepter ». « Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation. »
 6. 2:25 [SI LE TEMPS LE PERMET, seulement si on est sous 2:20 à ce moment] : Accueil, « Proposer un projet », « Exemple », écran « Avant de commencer ». « Deuxième histoire : Sofia, résidente, organise une corvée de propreté le samedi 24 octobre, de 13 h à 17 h. Avant de commencer, Maillage lui rappelle que le 311 s’occupe de ce qui relève de la Ville. » Sinon, passer directement à la partie 4.
 
-Plan B si l’app plante : Cian lance la Visite guidée (environ 57 s, elle rejoue la même histoire toute seule), sans commentaire d’excuse; continuer le texte. La vidéo de secours reste le dernier recours (Q la lance).
+Plan B si l’app plante : Cian lance la Visite guidée (2 min en 7 chapitres; jouer les chapitres 1 à 4, environ 70 s, puis « Quitter la visite »), sans commentaire d’excuse; continuer le texte. La vidéo de secours reste le dernier recours (Q la lance).
 
-## 4. Les données (2:40 à 3:15) [CIAN]
+## 4. Les données (2:40 à 3:18) [CIAN]
 Diapo 4 (Technologies, outils et données).
 
 « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche.
-Pour la Loi 25 : les personnes restent cachées; les commerces et organismes apparaissent avec leur nom, leur type, une description et leur emplacement sur la carte, sans coordonnées, étiquetés pré-remplis, jusqu’à activation. Les fichiers fournis sont confidentiels : la démo utilise des profils fictifs avec les vraies colonnes. »
+Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches; une fiche devient publique seulement si son responsable la réclame, avec un code envoyé à l’adresse que la SDC ou la Ville a déjà, et consent. Sinon, seule la SDC la voit. La démo montre des fiches fictives, marquées pré-rempli. »
 
-Notes (Q&A si on demande) : les nombres sont des totaux de lignes (structure seulement), approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
+Notes (Q&A si on demande) : sur la carte, « Réclamer votre fiche » envoie un code à l’adresse déjà au dossier, puis demande un consentement explicite; en pilote, une fiche non réclamée n’est visible que par la SDC. Les fichiers fournis restent confidentiels (structure et nombre de lignes seulement). Les nombres sont des totaux de lignes (structure seulement), approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
 
-## 5. Transparence et IA (3:15 à 3:35) [COÉQUIPIÈRE]
+## 5. Transparence et IA (3:18 à 3:38) [COÉQUIPIÈRE]
 Diapo 5. Les chiffres du test restent dans les notes de la diapo, pas à voix haute.
 
-« Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. L’IA arrive en phase 2, pour lire la demande libre; les écrans ne changent pas. L’app suggère, les personnes décident. »
+« Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. L’app tolère déjà les fautes et un peu d’anglais; en phase 2, l’IA comprendra toutes les langues, toutes les fautes. L’app suggère, les personnes décident. »
 
-Notes (si on veut aller plus loin, sinon en Q&A) : modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/); 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase; il comprend le sens mais trouve des profils semblables, pas complémentaires.
+Notes (si on veut aller plus loin, sinon en Q&A) : modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/); 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase; il comprend le sens mais trouve des profils semblables, pas complémentaires. Ce modèle (paraphrase-multilingual-MiniLM) est multilingue : c’est la preuve que la phase 2 peut lire toutes les langues. Tolérance aux fautes, aux accents oubliés et à quelques mots d’anglais ajoutée le 15 octobre, après la remarque d’un mentor. Pas d’IA payante aujourd’hui; en phase 2, celui qui déploie la paie.
 
-## 6. Impact et faisabilité (3:35 à 4:30) [CIAN]
+## 6. Impact et faisabilité (3:38 à 4:33) [CIAN]
 Diapo 6 (Feuille de route).
 
 « L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
 Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement.
-Le fil est local aujourd’hui; en pilote, une table gratuite derrière le même écran, modérée par la SDC. Le pilote coûte un hébergement gratuit et une personne à temps partiel à la SDC. Prochaines étapes : le pilote avec la SDC, les profils activés, puis l’IA. »
+Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada, et la SDC le modère en pilote. Le pilote coûte un hébergement gratuit et une personne à temps partiel à la SDC. Prochaines étapes : le pilote avec la SDC, les profils activés, puis l’IA. »
 
-## 7. Conclusion (4:30 à 4:45) [COÉQUIPIÈRE]
+## 7. Conclusion (4:33 à 4:48) [COÉQUIPIÈRE]
 Diapo 7.
 
 « Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci! »
@@ -95,17 +95,17 @@ Arrêt au plus tard à 4 min 50 s. Rester debout, sourire, attendre les question
 Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à agir. Surtout, chaque couleur respecte les contrastes d’accessibilité, et les épingles combinent forme, icône et couleur pour les personnes daltoniennes (environ 8 % des hommes).
 
 ## Décompte
-Recompté le 15 octobre (mots entre guillemets français dits à voix haute, étiquettes d’écran exclues), à 130 mots par minute :
+Recompté le 15 octobre à 16 h (parties 4 et 5 mises à jour : consentement et IA; mots entre guillemets français dits à voix haute, étiquettes d’écran exclues), à 130 mots par minute :
 
 | Partie | Mots | Parole | Créneau |
 |---|---|---|---|
 | 1. Accroche, quoi, qui | 44 | 20 s | 20 s |
 | 2. Le problème | 64 | 30 s | 30 s (+ 5 s si citation) |
 | 3. La démo | 145 | 67 s | 1 min 50 s (environ 40 s de clics, collage et chargement) |
-| 4. Les données | 74 | 34 s | 35 s |
-| 5. Transparence et IA | 37 | 17 s | 20 s |
+| 4. Les données | 82 | 38 s | 38 s |
+| 5. Transparence et IA | 42 | 19 s | 20 s |
 | 6. Impact et faisabilité | 101 | 47 s | 55 s |
 | 7. Conclusion | 31 | 14 s | 15 s |
-| Total | environ 495 | environ 3 min 50 s | environ 4 min 45 s avec les clics |
+| Total | environ 508 | environ 3 min 55 s | environ 4 min 48 s avec les clics |
 
 L’étape 6 de la démo [SI LE TEMPS LE PERMET] ajoute environ 37 mots et 25 s avec les clics : à faire seulement si le chrono est sous 2:20 à la fin de l’étape 5.

@@ -4,7 +4,7 @@ Maillage, c’est l’app qui propose à un commerce, un artiste et un organisme
 
 **Essayer l’app :** https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ (lien officiel, GitHub Pages). Le lien Vercel (https://hackathon-saint-roch-2026.vercel.app) est une copie de secours qui peut être périmée.
 
-**Parcours de démo :** Commerçant → coller « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » → Trouver des partenaires → proposition à 87 % avec Camille Vézina et le Collectif Les Voisins en Scène → Ça m’intéresse → Voir ce que Camille reçoit → Accepter. La « Visite guidée » (environ 57 s) rejoue la même histoire toute seule. Détails : `docs/DEMO-SCRIPT.md`, tests : `TESTS.md`.
+**Parcours de démo :** Commerçant → coller « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » → Trouver des partenaires → proposition à 87 % avec Camille Vézina et le Collectif Les Voisins en Scène → Ça m’intéresse → Voir ce que Camille reçoit → Accepter. La « Visite guidée » (2 min en 7 chapitres, plus une suite de 69 s) rejoue la même histoire toute seule. Détails : `docs/DEMO-SCRIPT.md`, tests : `TESTS.md`.
 
 **Technologies :** React, Vite, TypeScript, MapLibre GL JS (fond OpenFreeMap / OpenStreetMap), un moteur de règles transparent (`src/engine/`, score pondéré affiché), et un labo d’IA qui tourne sur l’appareil avec transformers.js (page `/labo/`).
 
@@ -21,6 +21,14 @@ npm ci
 npm run dev
 npm test
 ```
+
+## Prototype et vrai déploiement
+
+- **Comptes :** aucun vrai compte dans le prototype; un vrai déploiement aurait de vrais comptes (connexion, commerces vérifiés).
+- **Données et Loi 25 :** le consentement décide. Les répertoires de la Ville et de la SDC pré-remplissent les fiches; une fiche devient publique seulement quand son responsable la réclame (« Réclamer votre fiche », code envoyé à l’adresse que la SDC ou la Ville a déjà, consentement explicite). Sans consentement, rien n’est public; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour les invitations. La démo montre des fiches fictives marquées « pré-rempli ».
+- **IA :** pas d’IA payante aujourd’hui. La lecture par mots-clés tolère les fautes de frappe, les accents oubliés et quelques mots d’anglais; en phase 2, payée par celui qui déploie, l’IA comprend toutes les langues et toutes les fautes (le modèle testé dans `/labo/`, paraphrase-multilingual-MiniLM, est multilingue).
+- **Modération :** un tableau de modération pour la SDC est prévu, pas construit; les signalements sont déjà recueillis dans le fil en direct.
+- **App Store :** aucune, à cause des coûts et de l’examen; c’est une app web qui marche sur n’importe quel téléphone et s’ajoute à l’écran d’accueil. Une version en boutique pourra venir plus tard.
 
 ## Fil en direct (bêta, optionnel)
 

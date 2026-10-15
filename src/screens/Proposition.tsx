@@ -25,6 +25,8 @@ interface Props {
   projets?: Projet[]
   onParticiper?: (e: Evenement) => void
   onPlusOptions?: () => void
+  /** After « Ça m’intéresse »: leave the proposal for the neighbourhood map. */
+  onExplorer?: () => void
 }
 
 const LEGENDE: [NomIcone, string][] = [
@@ -56,7 +58,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = AUCUN_PROJET, onParticiper, onPlusOptions }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = AUCUN_PROJET, onParticiper, onPlusOptions, onExplorer }: Props) {
   const enVisite = visite !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLDivElement>(null)
@@ -293,6 +295,20 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <button type="button" className="btn btn-lien btn-fiche" onClick={() => onFiche(prop)}>
               {fr.fiche.voir}
             </button>
+          )}
+          {(statut === 'en_attente' || statut === 'confirmee') && !enVisite && (onPlusOptions || onExplorer) && (
+            <div className="liens-apres-interet">
+              {onPlusOptions && (
+                <button type="button" className="btn btn-texte btn-petit" onClick={onPlusOptions}>
+                  {fr.proposition.autresOptions}
+                </button>
+              )}
+              {onExplorer && (
+                <button type="button" className="btn btn-texte btn-petit" onClick={onExplorer}>
+                  {fr.nav.explorer}
+                </button>
+              )}
+            </div>
           )}
           <p className="note-simulation">{fr.proposition.noteSimulation}</p>
         </div>

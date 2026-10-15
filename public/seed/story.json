@@ -1,0 +1,50 @@
+[
+  {
+    "id": "story-cafe",
+    "role": "commerce",
+    "sousType": "café",
+    "nom": "Café Le Petit Détour",
+    "description": "Café de quartier qui a un espace libre le jeudi soir et cherche à attirer du monde.",
+    "lat": 46.8148,
+    "lng": -71.2220,
+    "offres": ["espace_interieur", "visibilite"],
+    "besoins": ["public", "animation"],
+    "creneaux": ["semaine_soir"],
+    "themes": ["commerce_local", "culture"],
+    "source": "fictif",
+    "origine": "Entreprises St-Roch",
+    "reclame": true
+  },
+  {
+    "id": "story-artiste",
+    "role": "citoyen",
+    "sousType": "artiste",
+    "nom": "Camille Vézina",
+    "description": "Artiste en arts visuels qui cherche un lieu chaleureux pour exposer ses toiles.",
+    "lat": 46.8155,
+    "lng": -71.2195,
+    "offres": ["contenu_artistique", "animation"],
+    "besoins": ["espace_interieur", "visibilite", "public"],
+    "creneaux": ["semaine_soir", "fin_de_semaine"],
+    "themes": ["art", "culture"],
+    "source": "fictif",
+    "origine": "Collection Art Public",
+    "reclame": true
+  },
+  {
+    "id": "story-organisme",
+    "role": "organisme",
+    "sousType": "organisme culturel",
+    "nom": "Collectif Les Voisins en Scène",
+    "description": "Organisme culturel de quartier qui a des bénévoles et un réseau, et veut rejoindre de nouveaux publics.",
+    "lat": 46.8139,
+    "lng": -71.2235,
+    "offres": ["benevoles", "affichage", "materiel"],
+    "besoins": ["espace_interieur", "public"],
+    "creneaux": ["semaine_soir"],
+    "themes": ["communautaire", "culture", "art"],
+    "source": "fictif",
+    "origine": "Liste organismes reconnus LSVC",
+    "reclame": true
+  }
+]

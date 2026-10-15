@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { fr } from '../i18n/fr'
 import { ETAPES, FIN_VISITE } from './script'
-import { CHAPITRES, DUREE_TOTALE, tempsGlobal } from './etat'
+import { CHAPITRES, DUREE_TOTALE, minutes, tempsGlobal } from './etat'
 import type { EtatVisite } from './useTour'
 import './visite.css'
 
@@ -42,10 +42,34 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
     onAllerAuTemps(part * DUREE_TOTALE)
   }
 
+  // The progress bar is a slider over the steps: arrows move by one step, Home and End to the ends.
+  function surTouche(e: React.KeyboardEvent<HTMLDivElement>) {
+    const cible =
+      e.key === 'ArrowRight' || e.key === 'ArrowUp' ? etat.index + 1
+        : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? etat.index - 1
+          : e.key === 'Home' ? 0
+            : e.key === 'End' ? ETAPES.length - 1
+              : null
+    if (cible === null) return
+    e.preventDefault()
+    if (cible >= 0 && cible < ETAPES.length && cible !== etat.index) onAller(cible)
+  }
+
+  // The end card is modal: Tab stays on its buttons.
+  function piegeFocus(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== 'Tab') return
+    const boutons = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>('button'))
+    if (boutons.length === 0) return
+    const i = boutons.indexOf(document.activeElement as HTMLButtonElement)
+    const suivantI = e.shiftKey ? (i <= 0 ? boutons.length - 1 : i - 1) : (i === boutons.length - 1 ? 0 : i + 1)
+    e.preventDefault()
+    boutons[suivantI].focus()
+  }
+
   return (
     <>
       {fin && (
-        <div className="carte-fin" role="dialog" aria-modal="true" aria-label={fr.visite.titre}>
+        <div className="carte-fin" role="dialog" aria-modal="true" aria-label={fr.visite.titre} onKeyDown={piegeFocus}>
           <p>{FIN_VISITE}</p>
           <button type="button" className="btn btn-primaire" ref={boutonFin} onClick={onQuitter}>
             {fr.visite.quitter}
@@ -75,8 +99,18 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
           </div>
         </div>
         <p className="visite-legende" aria-live="polite">{legende}</p>
-        {/* Pointer shortcut; the chapter buttons above and Précédent / Suivant do the same from the keyboard. */}
-        <div className="visite-piste" onClick={surPiste} aria-hidden="true">
+        <div
+          className="visite-piste"
+          role="slider"
+          tabIndex={0}
+          aria-label={fr.visite.progression}
+          aria-valuemin={1}
+          aria-valuemax={ETAPES.length}
+          aria-valuenow={etat.index + 1}
+          aria-valuetext={fr.visite.etapeN(etat.index + 1, ETAPES.length, minutes(tempsGlobal(etat.index, Math.min(etat.ms, etape.dureeMs))))}
+          onClick={surPiste}
+          onKeyDown={surTouche}
+        >
           <div className="visite-progres">
             <div className="visite-progres-rempli" style={{ width: `${progres}%` }} />
             {CHAPITRES.slice(1).map((c) => (

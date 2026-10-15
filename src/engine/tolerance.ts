@@ -78,6 +78,7 @@ const CONNU = new Set(VOCAB);
 // Real French words one edit away from a dictionary word: never "corrected".
 // (aimer→aider is not in VOCAB, but these guard the ones that are.)
 const PROTEGES = new Set([
+  'passages', 'especes', 'espece', 'plaintes', 'plainte', 'visiter', 'voisine', 'voisines', 'expose', 'affichee',
   'aimer', 'maternel', 'maternelle', 'culturels', 'culturelles', 'passant', 'chaise',
   'publics', 'publique', 'publiques', 'sportifs', 'sportives', 'voisin', 'citoyen',
   'boisson', 'conseil', 'besoins', 'recherches', 'cherches', 'cherchez', 'cherchons',

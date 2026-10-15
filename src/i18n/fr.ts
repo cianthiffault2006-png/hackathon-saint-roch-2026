@@ -62,6 +62,9 @@ export const fr = {
     },
     jOffre: 'J’offre',
     jeCherche: 'Je cherche',
+    plus: 'Plus',
+    moins: 'Moins',
+    votreProfil: 'Votre profil :',
     bouton: 'Trouver des partenaires',
     boutonRetour: 'Retour',
     compris: 'Nous avons compris :',
@@ -152,6 +155,8 @@ export const fr = {
 
   visite: {
     titre: 'Visite guidée',
+    finTitre: 'Maillage : les ressources du quartier, enfin connectées',
+    texteCafe: 'Je suis un café de Saint-Roch. Je cherche un artiste pour exposer sur mon mur le jeudi soir.',
     suivant: 'Suivant',
     precedent: 'Précédent',
     quitter: 'Quitter la visite',

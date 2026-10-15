@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
 import { choisirInvite, prenom } from '../lib/invitation'
@@ -131,7 +130,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         ))}
       </ul>
       <button type="button" className="lien-evitement" onClick={() => feuilleRef.current?.focus()}>
-        {T.carte.voirListe}
+        {fr.carte.voirListe}
       </button>
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
@@ -147,7 +146,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         <div className="feuille-nav">
           <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
           <span className="points">
-            <span className="sr-only" aria-live="polite">{T.a11y.pagination(index + 1, propositions.length)}</span>
+            <span className="sr-only" aria-live="polite">{fr.proposition.paginationN(index + 1, propositions.length)}</span>
             {propositions.map((p, i) => (
               <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
             ))}
@@ -165,7 +164,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
               <ul className="barres">
                 {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
                   <li key={cle}>
-                    <span className="barre-nom">{T.a11y.detail[cle]}</span>
+                    <span className="barre-nom">{fr.proposition.detailScore[cle]}</span>
                     <span className="barre" aria-hidden="true"><span style={{ width: `${prop.detailScore?.[cle] ?? 0}%` }} /></span>
                     <span className="barre-val">{prop.detailScore?.[cle]} %</span>
                   </li>
@@ -236,7 +235,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           )}
           {statut === 'en_attente' && onInvitation && invite && (
             <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
-              Voir ce que {prenom(invite.partenaire)} reçoit
+              {fr.proposition.voirInvitation(prenom(invite.partenaire))}
             </button>
           )}
           {statut === 'confirmee' && onFiche && (

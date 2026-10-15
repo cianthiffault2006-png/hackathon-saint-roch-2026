@@ -35,7 +35,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         </button>
         {onSdc && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onSdc}>
-            Tableau de bord du quartier (SDC)
+            {fr.accueil.tableauSdc}
           </button>
         )}
         {onProjets && (

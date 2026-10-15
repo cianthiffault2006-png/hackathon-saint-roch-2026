@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
+import { fr } from '../i18n/fr'
 import { LngLatBounds, Map, Marker, Popup, setWorkerUrl, type GeoJSONSource } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Role } from '../types'
 import { svgPin } from './Icones'
-import { T } from '../textes'
 
 // The bundler moves the library, so its default worker path breaks: point to the emitted file.
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -126,7 +126,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     if (demandeur) {
       const el = document.createElement('div')
       el.className = 'cercle-etiquette'
-      el.textContent = T.carte.minutesAPied
+      el.textContent = fr.carte.minutesAPied
       el.setAttribute('aria-hidden', 'true')
       etiquetteCercle = new Marker({ element: el, anchor: 'bottom' }).setLngLat([demandeur.lng, demandeur.lat + 800 / 111320]).addTo(map)
     }
@@ -156,7 +156,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
 
   return (
     <>
-      <div ref={conteneur} className="map" role="img" aria-label={T.carte.resume} />
+      <div ref={conteneur} className="map" role="img" aria-label={fr.carte.resume} />
       <div className="attribution">
         <a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a>{' '}
         © <a href="https://openmaptiles.org" target="_blank" rel="noreferrer">OpenMapTiles</a>

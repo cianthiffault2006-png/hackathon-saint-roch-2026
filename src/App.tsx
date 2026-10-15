@@ -4,7 +4,6 @@ import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite } from './lib/invitation'
-import { T } from './textes'
 import { fr } from './i18n/fr'
 import { chargerProjets, idProjet, projetDepuis, sauverProjets, type Projet } from './lib/projets'
 import Badge from './components/Badge'
@@ -65,7 +64,7 @@ export default function App() {
 
   // One permanent polite live region: its text changes when the screen or the result changes.
   useEffect(() => {
-    if (!enVisite) setAnnonce(T.a11y.ecrans[ecranActif])
+    if (!enVisite) setAnnonce(fr.a11y.ecrans[ecranActif])
   }, [ecranActif, enVisite])
 
   // One place for every status change: the screen state and, outside the tour, the saved project.
@@ -212,6 +211,7 @@ export default function App() {
           proposition={propInvitation}
           partenaire={invite.partenaire}
           demandeur={invite.demandeur}
+          autre={invite.autre}
           accepterAuto={accepterAuto}
           defilerAuto={defilerInvitation}
           onAccepter={() => accepterInvitation(propInvitation)}

@@ -1137,3 +1137,7 @@ body {
 .attribution a {
   padding: 3px 2px;
 }
+
+.plein-ecran {
+  padding-top: calc(env(safe-area-inset-top) + 52px);
+}

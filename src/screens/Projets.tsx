@@ -1,5 +1,4 @@
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { libelleDateMaj } from '../lib/date'
 import { nombreCoches, type Projet } from '../lib/projets'
 
@@ -19,7 +18,7 @@ export default function Projets({ projets, onRetour, onOuvrir }: Props) {
       {projets.length === 0 ? (
         <>
           <h1 className="fiche-titre">{fr.projets.aucun}</h1>
-          <p className="fiche-note">{T.projets.videTexte}</p>
+          <p className="fiche-note">{fr.projets.videTexte}</p>
         </>
       ) : (
         <ul className="liste-projets">
@@ -29,7 +28,7 @@ export default function Projets({ projets, onRetour, onOuvrir }: Props) {
                 <strong>{p.titre}</strong>
                 <span className={`statut-mini statut-${p.statut}`}>{fr.proposition.statuts[p.statut]}</span>
                 <span className="carte-projet-ligne">{libelleDateMaj(p)}</span>
-                <span className="carte-projet-ligne">{T.fiche.progres(nombreCoches(p), p.aConfirmer.length)}</span>
+                <span className="carte-projet-ligne">{fr.fiche.progres(nombreCoches(p), p.aConfirmer.length)}</span>
               </button>
             </li>
           ))}

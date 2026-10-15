@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { choixDepuisTexte, construireBesoin, trouverAsker } from '../lib/besoin'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
@@ -98,7 +97,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
         >
           {fr.besoin.bouton}
         </button>
-        <p id="aide-besoin" className="sr-only">{T.a11y.aideBesoin}</p>
+        <p id="aide-besoin" className="sr-only">{fr.besoin.aideBouton}</p>
       </div>
     </main>
   )

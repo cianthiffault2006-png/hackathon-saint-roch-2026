@@ -11,7 +11,7 @@ export interface Etape {
   id: EtapeId
   ecran: 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets'
   dureeMs: number
-  /** Caption: a key of fr.visite.etapes, or one of the tour's own lines in textes.ts. */
+  /** Caption: a key of fr.visite.etapes. */
   legende: LegendeId | null
 }
 

@@ -7,6 +7,7 @@ interface Props {
   proposition: Proposition
   partenaire: Profil
   demandeur: Profil
+  autre?: Profil
   onAccepter: () => void
   onRetour: () => void
   /** Guided tour: presses « Accepter » by itself once true. */
@@ -15,7 +16,7 @@ interface Props {
   defilerAuto?: boolean
 }
 
-export default function Invitation({ proposition, partenaire, demandeur, onAccepter, onRetour, accepterAuto, defilerAuto }: Props) {
+export default function Invitation({ proposition, partenaire, demandeur, autre, onAccepter, onRetour, accepterAuto, defilerAuto }: Props) {
   useEffect(() => {
     if (defilerAuto) document.querySelector('.p2-actions')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }, [defilerAuto])
@@ -34,6 +35,7 @@ export default function Invitation({ proposition, partenaire, demandeur, onAccep
         proposition={proposition}
         partenaire={partenaire}
         demandeur={demandeur}
+        autre={autre}
         onAccepter={onAccepter}
         onDecliner={onRetour}
       />

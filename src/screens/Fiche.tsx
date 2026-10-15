@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
 import { libelleDateMaj } from '../lib/date'
 import { lienGoogleAgenda, resumePartage, telechargerIcs } from '../lib/calendrier'
 import { nombreCoches, type Projet } from '../lib/projets'
@@ -67,7 +66,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
       <p className="fiche-note">{fr.fiche.dateProposee}</p>
       <p className="fiche-lieu">
         <Icone nom="lieu" taille={20} />
-        <span>{projet.lieuNom || T.fiche.lieuAConfirmer}</span>
+        <span>{projet.lieuNom || fr.fiche.lieuAConfirmer}</span>
       </p>
       <p className="fiche-statut">{fr.proposition.statuts[projet.statut]}</p>
 
@@ -82,7 +81,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
       </ul>
 
       <h2 className="sous-titre">
-        {fr.fiche.aConfirmerAvant} <span className="progres">{T.fiche.progres(fait, projet.aConfirmer.length)}</span>
+        {fr.fiche.aConfirmerAvant} <span className="progres">{fr.fiche.progres(fait, projet.aConfirmer.length)}</span>
       </h2>
       <ul className="coches" ref={refListe}>
         {projet.aConfirmer.map((texte, i) => (
@@ -99,7 +98,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
         <button type="button" className={classeAction} onClick={ajouterAuCalendrier}>
           {fr.fiche.ajouterCalendrier}
         </button>
-        {telecharge && <p className="action-note" role="status">{T.fiche.calendrierFait}</p>}
+        {telecharge && <p className="action-note" role="status">{fr.fiche.calendrierFait}</p>}
         <a className="lien-action" href={lienGoogleAgenda(projet)} target="_blank" rel="noreferrer">
           {fr.fiche.googleAgenda}
         </a>
@@ -118,7 +117,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, pulse, de
         <button type="button" className="btn btn-lien" onClick={onProjets}>
           {fr.projets.titre}
         </button>
-        <p className="note-simulation">{T.fiche.rien}</p>
+        <p className="note-simulation">{fr.fiche.rien}</p>
       </div>
     </main>
   )

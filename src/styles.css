@@ -1241,3 +1241,16 @@ body {
 .btn-plus-options {
   width: 100%;
 }
+
+/* Third-party screens bring their own header: keep the badge clear of it */
+.badge-haut-droite {
+  left: auto;
+  right: 8px;
+}
+
+.badge-bas-droite {
+  top: auto;
+  left: auto;
+  right: 8px;
+  bottom: 34px;
+}

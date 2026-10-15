@@ -1,0 +1,195 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Map, Marker, setWorkerUrl } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
+import 'maplibre-gl/dist/maplibre-gl.css'
+import type { Evenement, Lieu, Profil } from '../types'
+import { fr } from '../i18n/fr'
+import { svgPin, PinForme, type NomIcone } from '../components/Icones'
+import { CENTRE_SAINT_ROCH, distanceM, flou } from './geo'
+import { t } from './textes'
+import './Explorer.css'
+
+setWorkerUrl(new URL(workerUrl, window.location.href).href)
+const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
+
+type Genre = NomIcone
+interface Entree {
+  id: string
+  genre: Genre
+  nom: string
+  detail: string
+  lat: number
+  lng: number
+  recherche: string
+  profil?: Profil
+  evenement?: Evenement
+}
+
+interface Props {
+  profils: Profil[]
+  lieux: Lieu[]
+  evenements: Evenement[]
+  onRetour(): void
+  onOuvrirProfil(id: string): void
+}
+
+const sans = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+const LIEU_TYPES: Record<Lieu['type'], string> = {
+  parc: 'Parc', salle: 'Salle', lieu_culturel: 'Lieu culturel', place_publique: 'Place publique',
+  stationnement: 'Stationnement', colonne_morris: 'Colonne Morris',
+}
+const themesTxt = (th: string[]) => th.map((x) => fr.besoin.themes[x as keyof typeof fr.besoin.themes] ?? x)
+
+export function badgeVerif(p: Profil): string | null {
+  return p.verifie === 'sdc' ? t.membreSdc : p.verifie === 'ville' ? t.reconnuVille : null
+}
+
+function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): Entree[] {
+  const out: Entree[] = []
+  for (const p of profils) {
+    if (p.role === 'citoyen') {
+      // Loi 25: seulement les citoyens qui ont réclamé leur profil, nom générique, position floutée.
+      if (!p.reclame) continue
+      const pos = flou(p.id, p.lat, p.lng)
+      out.push({ id: p.id, genre: 'citoyen', nom: t.citoyen, detail: p.sousType, ...pos, profil: p, recherche: sans([p.sousType, ...themesTxt(p.themes)].join(' ')) })
+    } else {
+      out.push({ id: p.id, genre: p.role, nom: p.nom, detail: p.sousType, lat: p.lat, lng: p.lng, profil: p, recherche: sans([p.nom, p.sousType, ...themesTxt(p.themes)].join(' ')) })
+    }
+  }
+  for (const l of lieux) out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: LIEU_TYPES[l.type], lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${LIEU_TYPES[l.type]}`) })
+  for (const e of evenements) out.push({ id: e.id, genre: 'evenement', nom: e.titre, detail: e.categorie, lat: e.lat, lng: e.lng, evenement: e, recherche: sans([e.titre, e.categorie, e.lieuNom, ...themesTxt(e.themes)].join(' ')) })
+  return out
+}
+
+function Etiquettes({ el }: { el: Entree }) {
+  const p = el.profil
+  const verif = p ? badgeVerif(p) : null
+  if (!verif && !(p && !p.reclame) && !el.evenement?.ouvertAuPublic) return null
+  return (
+    <div className="ex-badges">
+      {verif && <span className="ex-badge ex-badge-ok">{verif}</span>}
+      {p && !p.reclame && <span className="ex-badge">{t.preRempli}</span>}
+      {el.evenement?.ouvertAuPublic && <span className="ex-badge ex-badge-ok">{t.ouvertPublic}</span>}
+    </div>
+  )
+}
+
+const GENRES: Genre[] = ['commerce', 'organisme', 'citoyen', 'lieu', 'evenement']
+
+export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil }: Props) {
+  const conteneur = useRef<HTMLDivElement>(null)
+  const carte = useRef<Map | null>(null)
+  const marqueurs = useRef<Marker[]>([])
+  const [actifs, setActifs] = useState<Record<Genre, boolean>>({ commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true })
+  const [requete, setRequete] = useState('')
+  const [liste, setListe] = useState(false)
+  const [choisi, setChoisi] = useState<string | null>(null)
+
+  const tous = useMemo(() => construire(profils, lieux, evenements), [profils, lieux, evenements])
+  const visibles = useMemo(() => {
+    const q = sans(requete.trim())
+    return tous.filter((e) => actifs[e.genre] && (!q || e.recherche.includes(q)))
+  }, [tous, actifs, requete])
+  const parDistance = useMemo(
+    () => visibles.map((e) => ({ e, d: distanceM(CENTRE_SAINT_ROCH, e) })).sort((a, b) => a.d - b.d),
+    [visibles],
+  )
+  const selection = visibles.find((e) => e.id === choisi) ?? null
+
+  useEffect(() => {
+    if (!conteneur.current) return
+    const map = new Map({ container: conteneur.current, style: STYLE_URL, center: [CENTRE_SAINT_ROCH.lng, CENTRE_SAINT_ROCH.lat], zoom: 14.5, attributionControl: false })
+    carte.current = map
+    const canvas = map.getCanvas()
+    canvas.setAttribute('aria-hidden', 'true')
+    canvas.tabIndex = -1
+    return () => { map.remove(); carte.current = null }
+  }, [])
+
+  useEffect(() => {
+    const map = carte.current
+    if (!map) return
+    marqueurs.current.forEach((m) => m.remove())
+    marqueurs.current = visibles.map((e) => {
+      // Un vrai bouton: atteignable au clavier, nom lu par les lecteurs d'écran.
+      const bouton = document.createElement('button')
+      bouton.type = 'button'
+      bouton.className = 'ex-pin'
+      bouton.setAttribute('aria-label', `${e.nom}, ${e.detail}`)
+      bouton.innerHTML = svgPin(e.genre, 44)
+      bouton.addEventListener('click', () => setChoisi(e.id))
+      return new Marker({ element: bouton }).setLngLat([e.lng, e.lat]).addTo(map)
+    })
+  }, [visibles])
+
+  // La carte reste montée (cachée) pendant la vue liste: position et zoom conservés.
+  useEffect(() => { if (!liste) carte.current?.resize() }, [liste])
+
+  return (
+    <div className="ex-racine">
+      <div ref={conteneur} className="ex-carte" role="img" aria-label={t.carteAria} hidden={liste} />
+      <header className="ex-haut">
+        <div className="ex-ligne">
+          <button type="button" className="ex-btn" onClick={onRetour}>← {t.retour}</button>
+          <label className="ex-recherche">
+            <span className="ex-sr">{t.rechercheEtiquette}</span>
+            <input type="search" value={requete} placeholder={t.recherche} onChange={(ev) => setRequete(ev.target.value)} />
+          </label>
+          <button type="button" className="ex-btn" aria-pressed={liste} onClick={() => setListe((v) => !v)}>
+            {t.vueListe}
+          </button>
+        </div>
+        <div className="ex-chips" role="group" aria-label={t.filtres}>
+          {GENRES.map((g) => (
+            <button key={g} type="button" className={`ex-chip${actifs[g] ? ' ex-chip-on' : ''}`} aria-pressed={actifs[g]} onClick={() => setActifs({ ...actifs, [g]: !actifs[g] })}>
+              <PinForme nom={g} taille={22} /> {t.chips[g]}
+            </button>
+          ))}
+        </div>
+        <p className="ex-sr" role="status">{t.nbResultats(visibles.length)}</p>
+      </header>
+
+      {liste && (
+        <main className="ex-liste">
+          {parDistance.length === 0 ? <p>{t.aucun}</p> : (
+            <ul>
+              {parDistance.map(({ e, d }) => (
+                <li key={e.id} className="ex-item">
+                  <PinForme nom={e.genre} taille={32} />
+                  <div className="ex-item-texte">
+                    <strong>{e.nom}</strong>
+                    <span>{e.detail} · {t.distance(d)}</span>
+                    <Etiquettes el={e} />
+                  </div>
+                  {e.profil && (
+                    <button type="button" className="ex-btn ex-btn-p" onClick={() => onOuvrirProfil(e.id)}>
+                      {t.voirProfil}<span className="ex-sr"> : {e.nom}</span>
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </main>
+      )}
+
+      {!liste && selection && (
+        <section className="ex-fiche" aria-label={selection.nom}>
+          <button type="button" className="ex-fermer" aria-label={t.fermer} onClick={() => setChoisi(null)}>×</button>
+          <strong className="ex-fiche-nom">{selection.nom}</strong>
+          <span>{selection.detail}</span>
+          {selection.genre === 'citoyen' && <span className="ex-note">{t.citoyenNote}</span>}
+          <Etiquettes el={selection} />
+          {selection.profil && <button type="button" className="ex-btn ex-btn-p" onClick={() => onOuvrirProfil(selection.id)}>{t.voirProfil}</button>}
+        </section>
+      )}
+
+      {!liste && (
+        <div className="ex-attribution">
+          <a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a> © <a href="https://openmaptiles.org" target="_blank" rel="noreferrer">OpenMapTiles</a>{' · '}
+          données © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">contributeurs OpenStreetMap</a>
+        </div>
+      )}
+    </div>
+  )
+}

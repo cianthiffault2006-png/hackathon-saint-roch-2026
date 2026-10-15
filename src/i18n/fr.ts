@@ -159,6 +159,9 @@ export const fr = {
     lieuAConfirmer: 'À déterminer avec les partenaires',
     progres: (fait: number, total: number) => `${fait}/${total} confirmés`,
     calendrierFait: 'Fichier de calendrier téléchargé (rappel la veille).',
+    calendrierOuvert: 'Votre téléphone propose d’ajouter l’événement au calendrier (rappel la veille).',
+    calendrierPartage: 'Fichier envoyé : ouvrez-le pour l’ajouter au calendrier (rappel la veille).',
+    calendrierGoogle: 'Sur cet appareil, l’ajout passe par Google Agenda (lien ci-dessous).',
     rien: 'Rien n’est envoyé automatiquement : vous choisissez à qui partager.',
     objetPartage: (titre: string) => `Projet Maillage : ${titre}`,
     ouvrirFil: 'Ouvrir le fil du projet',
@@ -244,6 +247,7 @@ export const fr = {
     partenaires: 'Partenaires',
     aConfirmer: 'À confirmer',
     rappel: 'Rappel : projet Maillage demain',
+    dansMaillage: 'Partenaires et liste à cocher dans Maillage.',
   },
 
   retirer: {

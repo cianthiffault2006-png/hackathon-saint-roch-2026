@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { fr } from '../i18n/fr'
 import { libelleDateMaj } from '../lib/date'
-import { lienGoogleAgenda, resumePartage, telechargerIcs } from '../lib/calendrier'
+import { ajouterAuCalendrier as ajouterIcs, lienGoogleAgenda, resumePartage, type ResultatCalendrier } from '../lib/calendrier'
 import { nombreCoches, type Projet } from '../lib/projets'
 import Icone from '../components/Icones'
 
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer, onFil, pulse, defilement }: Props) {
-  const [telecharge, setTelecharge] = useState(false)
+  const [calendrier, setCalendrier] = useState<ResultatCalendrier | null>(null)
   const [repli, setRepli] = useState(false)
   const [confirmerRetrait, setConfirmerRetrait] = useState(false)
   const refActions = useRef<HTMLDivElement>(null)
@@ -48,9 +48,16 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
     }
   }
 
-  function ajouterAuCalendrier() {
-    telechargerIcs(projet)
-    setTelecharge(true)
+  async function ajouterAuCalendrier() {
+    setCalendrier(await ajouterIcs(projet))
+  }
+
+  const noteCalendrier: Record<ResultatCalendrier, string | null> = {
+    telecharge: fr.fiche.calendrierFait,
+    ouvert: fr.fiche.calendrierOuvert,
+    partage: fr.fiche.calendrierPartage,
+    google: fr.fiche.calendrierGoogle,
+    annule: null,
   }
 
   const classeAction = pulse ? 'btn btn-action pulse' : 'btn btn-action'
@@ -106,7 +113,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
         <button type="button" className={classeAction} onClick={ajouterAuCalendrier}>
           {fr.fiche.ajouterCalendrier}
         </button>
-        {telecharge && <p className="action-note" role="status">{fr.fiche.calendrierFait}</p>}
+        {calendrier && noteCalendrier[calendrier] && <p className="action-note" role="status">{noteCalendrier[calendrier]}</p>}
         <a className="lien-action" href={lienGoogleAgenda(projet)} target="_blank" rel="noreferrer">
           {fr.fiche.googleAgenda}
         </a>

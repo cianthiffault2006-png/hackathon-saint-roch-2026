@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contenuIcs, estIos, lienGoogleAgenda } from './calendrier'
+import { cheminIcsStatique, contenuIcs, estIos, fichierIcs, lienGoogleAgenda, modeCalendrier } from './calendrier'
 import { libelleDate, prochaineDate } from './date'
 import type { Projet } from './projets'
 
@@ -68,5 +68,40 @@ describe('lienGoogleAgenda', () => {
     const url = new URL(lienGoogleAgenda(projet))
     expect(url.searchParams.get('dates')).toBe('20261022T190000/20261022T220000')
     expect(url.searchParams.get('ctz')).toBe('America/Toronto')
+  })
+})
+
+describe('modeCalendrier (never a data: URL on iOS)', () => {
+  const evenement = { evenementId: 'ev-01' }
+  it('downloads a Blob on desktop and Android, whatever the project', () => {
+    expect(modeCalendrier(projet, false, true)).toBe('telechargement')
+    expect(modeCalendrier(evenement, false, false)).toBe('telechargement')
+  })
+  it('opens the prebuilt https file on iOS for a public event', () => {
+    expect(modeCalendrier(evenement, true, true)).toBe('fichier')
+    expect(cheminIcsStatique(evenement)).toBe('ics/ev-01.ics')
+  })
+  it('opens the prebuilt file on iOS for the scripted demo projects', () => {
+    const cafe = { proposition: { id: 'prop-story-cafe-story-artiste+story-organisme' } }
+    expect(modeCalendrier(cafe, true, true)).toBe('fichier')
+    expect(cheminIcsStatique(cafe)).toBe('ics/demo-cafe.ics')
+    expect(cheminIcsStatique({ proposition: { id: 'ouvert-demo-sofia' } })).toBe('ics/demo-corvee.ics')
+    expect(cheminIcsStatique({ proposition: { id: 'ouvert-1760000000000' } })).toBeNull()
+  })
+  it('the static description points to the app instead of the live checklist', () => {
+    const ics = contenuIcs(projet, new Date('2026-10-15T12:00:00Z'), true)
+    expect(ics.replace(/\r\n /g, '')).toContain('Partenaires et liste à cocher dans Maillage.')
+    expect(ics).not.toContain('[x]')
+  })
+  it('uses the share sheet on iOS for a project with a computed date, else Google Agenda', () => {
+    expect(modeCalendrier(projet, true, true)).toBe('partage')
+    expect(modeCalendrier(projet, true, false)).toBe('google')
+    expect(cheminIcsStatique(projet)).toBeNull()
+  })
+  it('shares a text/calendar file with the same content', async () => {
+    const f = fichierIcs(projet)
+    expect(f.type).toBe('text/calendar')
+    expect(f.name.endsWith('.ics')).toBe(true)
+    expect(await f.text()).toContain('DTSTART;TZID=America/Toronto:20261022T190000')
   })
 })

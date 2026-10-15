@@ -23,6 +23,19 @@ export interface Projet extends Occurrence {
   proposition?: Proposition
 }
 
+/** Id of the « Exemple » project of Nouveau projet (Sofia's corvée) when its title is left as is. */
+export const ID_DEMO_SOFIA = 'ouvert-demo-sofia'
+
+/**
+ * The scripted demo projects shown to the jury get fixed dates (what prochaineDate gives on pitch day,
+ * Oct 16), so their .ics can be prebuilt in public/ics and iOS opens its native calendar sheet.
+ * Keyed by proposition id.
+ */
+export const DEMOS: Record<string, { fichier: string; date: Occurrence }> = {
+  'prop-story-cafe-story-artiste+story-organisme': { fichier: 'demo-cafe', date: { jour: '2026-10-22', heureDebut: 19, heureFin: 22 } },
+  [ID_DEMO_SOFIA]: { fichier: 'demo-corvee', date: { jour: '2026-10-24', heureDebut: 13, heureFin: 17 } },
+}
+
 const CLE = 'maillage.projets.v1'
 let memoire: Projet[] = []
 
@@ -66,7 +79,7 @@ export function projetDepuis(p: Proposition, profils: Profil[], lieux: Lieu[], s
     statut,
     partenaires,
     lieuNom: lieu?.nom ?? hote,
-    ...prochaineDate(p.creneau),
+    ...(DEMOS[p.id]?.date ?? prochaineDate(p.creneau)),
     aConfirmer: p.aConfirmer,
     coches: p.aConfirmer.map(() => false),
     proposition: p,

@@ -1,6 +1,6 @@
 import { fr } from '../i18n/fr'
 import { libelleDate } from './date'
-import type { Projet } from './projets'
+import { DEMOS, type Projet } from './projets'
 
 function heure(h: number): string {
   const hh = Math.floor(h)
@@ -17,7 +17,11 @@ export function lieuComplet(p: Projet): string {
   return p.lieuNom ? `${p.lieuNom}, Saint-Roch, Québec` : 'Saint-Roch, Québec'
 }
 
-export function descriptionProjet(p: Projet): string {
+/** The prebuilt (statique) files cannot follow the live checklist, so they point back to the app. */
+export function descriptionProjet(p: Projet, statique = false): string {
+  if (statique) return `${fr.ics.description}
+
+${fr.ics.dansMaillage}`
   const partenaires = p.partenaires.map((x) => `- ${x.nom} : ${x.apport}`).join('\n')
   const points = p.aConfirmer.map((x, i) => `${p.coches[i] ? '[x]' : '[ ]'} ${x}`).join('\n')
   return `${fr.ics.description}\n\n${fr.ics.partenaires} :\n${partenaires}\n\n${fr.ics.aConfirmer} :\n${points}`
@@ -54,7 +58,7 @@ const FUSEAU = [
   'END:VTIMEZONE',
 ]
 
-export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
+export function contenuIcs(p: Projet, maintenant: Date = new Date(), statique = false): string {
   const { debut, fin } = debutFin(p)
   const stamp = maintenant.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
   const lignes = [
@@ -69,7 +73,7 @@ export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
     `DTSTART;TZID=America/Toronto:${debut}`,
     `DTEND;TZID=America/Toronto:${fin}`,
     `SUMMARY:${echapper(p.titre)}`,
-    `DESCRIPTION:${echapper(descriptionProjet(p))}`,
+    `DESCRIPTION:${echapper(descriptionProjet(p, statique))}`,
     `LOCATION:${echapper(lieuComplet(p))}`,
     'BEGIN:VALARM',
     'ACTION:DISPLAY',
@@ -87,15 +91,38 @@ export function estIos(nav: Pick<Navigator, 'userAgent' | 'platform' | 'maxTouch
   return /iPad|iPhone|iPod/.test(nav.userAgent) || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1)
 }
 
+/** Date stamp of the prebuilt files in public/ics, so regenerating them gives the same bytes. */
+export const STAMP_STATIQUE = new Date('2026-10-15T00:00:00Z')
+
+type Cle = Partial<Pick<Projet, 'evenementId'>> & { proposition?: { id: string } }
+
 /**
- * Adds the event to the calendar without a backend. iOS Safari ignores a Blob download of .ics, but opens
- * its native « Ajouter au calendrier » sheet for a data: URL (the file keeps CRLF line endings).
+ * Public events and the scripted demo projects have fixed dates, so their .ics is prebuilt in public/ics and
+ * served over https as text/calendar: iOS (Safari and Chrome) opens its native « Ajouter au calendrier » sheet.
  */
-export function telechargerIcs(p: Projet): void {
-  if (estIos()) {
-    window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(contenuIcs(p))
-    return
-  }
+export function cheminIcsStatique(p: Cle): string | null {
+  if (p.evenementId) return `ics/${p.evenementId.replace(/[^A-Za-z0-9-]/g, '')}.ics`
+  const demo = p.proposition && DEMOS[p.proposition.id]
+  return demo ? `ics/${demo.fichier}.ics` : null
+}
+
+export type ModeCalendrier = 'fichier' | 'partage' | 'google' | 'telechargement'
+
+/**
+ * iOS does not open a data: or Blob .ics (the load stalls), so on iOS: the prebuilt https file, else the
+ * share sheet with the file, else Google Agenda. Desktop and Android download a Blob.
+ */
+export function modeCalendrier(p: Cle, ios: boolean, partageFichiers: boolean): ModeCalendrier {
+  if (!ios) return 'telechargement'
+  if (cheminIcsStatique(p)) return 'fichier'
+  return partageFichiers ? 'partage' : 'google'
+}
+
+export function fichierIcs(p: Projet): File {
+  return new File([contenuIcs(p)], 'maillage-projet.ics', { type: 'text/calendar' })
+}
+
+function telechargerBlob(p: Projet): void {
   const blob = new Blob([contenuIcs(p)], { type: 'text/calendar;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -105,6 +132,35 @@ export function telechargerIcs(p: Projet): void {
   a.click()
   a.remove()
   window.setTimeout(() => URL.revokeObjectURL(url), 10000)
+}
+
+/** What the sheet tells the user after the tap; 'annule' says nothing. */
+export type ResultatCalendrier = 'telecharge' | 'ouvert' | 'partage' | 'annule' | 'google'
+
+/** Call from the click handler itself: the share sheet and the new tab need the user's tap. */
+export async function ajouterAuCalendrier(p: Projet): Promise<ResultatCalendrier> {
+  const fichier = fichierIcs(p)
+  const peutPartager = typeof navigator.canShare === 'function' && navigator.canShare({ files: [fichier] })
+  const mode = modeCalendrier(p, estIos(), peutPartager)
+  if (mode === 'telechargement') {
+    telechargerBlob(p)
+    return 'telecharge'
+  }
+  if (mode === 'fichier') {
+    window.location.href = cheminIcsStatique(p) as string
+    return 'ouvert'
+  }
+  if (mode === 'partage') {
+    try {
+      await navigator.share({ files: [fichier], title: p.titre })
+      return 'partage'
+    } catch (e) {
+      // Closing the share sheet is not an error; anything else points to Google Agenda.
+      return e instanceof DOMException && e.name === 'AbortError' ? 'annule' : 'google'
+    }
+  }
+  window.open(lienGoogleAgenda(p), '_blank', 'noreferrer')
+  return 'google'
 }
 
 export function lienGoogleAgenda(p: Projet): string {

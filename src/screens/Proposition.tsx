@@ -12,11 +12,8 @@ interface Props {
   lieux: Lieu[]
   evenements: Evenement[]
   onRetour: () => void
-  delaiPinMs?: number
-  /** Guided tour: how many pourquoi lines to show (all when undefined). */
-  raisonsVisibles?: number
-  /** Guided tour: presses the interest button once true. */
-  interetAuto?: boolean
+  /** Guided tour: what the tour clock shows on this screen. The statuses come in `statuts`. */
+  visite?: GuideProposition
   /** Status per project id and the way to change it: the state lives in App so other screens can advance it. */
   statuts: Record<string, Statut>
   onChangerStatut: (prop: PropositionType, statut: Statut) => void
@@ -38,14 +35,29 @@ const LEGENDE: [NomIcone, string][] = [
   ['evenement', fr.carte.evenement],
 ]
 
+export interface GuideProposition {
+  /** The pins drop and the sheet slides in (first step on the map only). */
+  animer: boolean
+  anneau: boolean
+  /** « Comment ce score » is open. */
+  detail: boolean
+  /** How many pourquoi lines show. */
+  raisons: number
+}
+
+/** Shared empty list: a new [] on every render made the pins, then every marker, change each time. */
+const AUCUN_PROJET: Projet[] = []
+
+const DELAI_PIN_VISITE_MS = 400
+
 const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts
 
 function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = [], onParticiper, onPlusOptions }: Props) {
-  const enVisite = delaiPinMs !== undefined
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = AUCUN_PROJET, onParticiper, onPlusOptions }: Props) {
+  const enVisite = visite !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLDivElement>(null)
   const [detailOuvert, setDetailOuvert] = useState(false)
@@ -54,26 +66,15 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   const statut: Statut = (prop && statuts[idProjet(prop)]) || 'proposee'
   const invite = prop ? choisirInvite(prop, profils) : null
 
+  // « Intérêt envoyé » becomes « En attente » after 2 s. It then stays there until the partner accepts
+  // in the invitation, or « Simuler la réponse des partenaires » is pressed: no timer confirms it,
+  // so a presenter who talks keeps the invitation link. The guided tour sets every status from its clock.
   useEffect(() => {
-    if (interetAuto && prop && !statuts[idProjet(prop)]) onChangerStatut(prop, 'interet_envoye')
-  }, [interetAuto, prop, statuts, onChangerStatut])
-
-  // Simulated confirmation chain: 2 s then 3 s. The timer is cleared if the screen or proposal changes.
-  useEffect(() => {
-    if (!prop) return
+    if (!prop || enVisite || statut !== 'interet_envoye') return
     const courant = prop
-    let delai: number
-    let suivant: Statut
-    if (statut === 'interet_envoye') {
-      delai = 2000
-      suivant = 'en_attente'
-    } else if (statut === 'en_attente') {
-      delai = 3000
-      suivant = 'confirmee'
-    } else return
-    const t = window.setTimeout(() => onChangerStatut(courant, suivant), delai)
+    const t = window.setTimeout(() => onChangerStatut(courant, 'en_attente'), 2000)
     return () => window.clearTimeout(t)
-  }, [prop, statut, onChangerStatut])
+  }, [prop, statut, onChangerStatut, enVisite])
 
   const pins: Pin[] = useMemo(() => {
     if (!prop) return []
@@ -123,12 +124,14 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   }
 
   return (
-    <div className="screen-carte">
+    <div className={visite && !visite.animer ? 'screen-carte sans-anim' : 'screen-carte'}>
       <MapView
         pins={pins}
         margeBas={Math.round(window.innerHeight * (enVisite ? 0.5 : 0.58))}
-        margeHaut={enVisite ? 190 : 70}
-        delaiPinMs={delaiPinMs}
+        margeHaut={enVisite ? 215 : 70}
+        delaiPinMs={enVisite ? DELAI_PIN_VISITE_MS : undefined}
+        animerPins={visite?.animer}
+        anneauVisible={visite?.anneau}
         onParticiper={(id) => {
           const e = evenements.find((x) => x.id === id)
           if (e) onParticiper?.(e)
@@ -150,7 +153,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           container over the WebGL canvas made Chrome skip repainting the map above the sheet. */}
       <section
         className="feuille"
-        style={{ animationDelay: `${(pins.length + 1) * (delaiPinMs ?? 300)}ms` }}
+        style={{ animationDelay: `${(pins.length + 1) * (enVisite ? DELAI_PIN_VISITE_MS : 300)}ms` }}
         aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
@@ -171,10 +174,10 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           <p className="score">{fr.proposition.score(prop.score)}</p>
           {prop.detailScore && (
             <div className="detail-score">
-              <button type="button" className="detail-bouton" aria-expanded={detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
+              <button type="button" className="detail-bouton" aria-expanded={visite ? visite.detail : detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
                 {fr.proposition.commentScore}
               </button>
-              {detailOuvert && (
+              {(visite ? visite.detail : detailOuvert) && (
                 <ul className="barres">
                   {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
                     <li key={cle}>
@@ -209,15 +212,19 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             )}
           </ul>
 
-          <h2 className="sous-titre">{fr.proposition.pourquoi}</h2>
-          <ul className="liste">{prop.raisons.slice(0, raisonsVisibles ?? prop.raisons.length).map((r) => <li key={r} className="apparait">{r}</li>)}</ul>
+          <h2 className="sous-titre" data-visite="pourquoi">{fr.proposition.pourquoi}</h2>
+          <ul className="liste">
+            {prop.raisons.slice(0, visite ? visite.raisons : prop.raisons.length).map((r, i) => (
+              <li key={r} className="apparait" data-visite={`raison-${i}`}>{r}</li>
+            ))}
+          </ul>
 
-          <h2 className="sous-titre">{fr.proposition.aConfirmer}</h2>
+          <h2 className="sous-titre" data-visite="a-confirmer">{fr.proposition.aConfirmer}</h2>
           <ul className="liste liste-orange">{prop.aConfirmer.map((r) => <li key={r}>{r}</li>)}</ul>
 
           {proches.length > 0 && (
             <>
-              <h2 className="sous-titre">{fr.proposition.evenementsProches}</h2>
+              <h2 className="sous-titre" data-visite="evenements">{fr.proposition.evenementsProches}</h2>
               <ul className="liste">
                 {proches.map((e) => {
                   const inscrit = projets.some((p) => p.id === idEvenement(e))
@@ -275,6 +282,11 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           {statut === 'en_attente' && onInvitation && invite && (
             <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
               {fr.proposition.voirInvitation(prenom(invite.partenaire))}
+            </button>
+          )}
+          {statut === 'en_attente' && !enVisite && (
+            <button type="button" className="btn btn-texte btn-petit btn-simuler" onClick={() => onChangerStatut(prop, 'confirmee')}>
+              {fr.proposition.simulerReponse}
             </button>
           )}
           {statut === 'confirmee' && onFiche && (

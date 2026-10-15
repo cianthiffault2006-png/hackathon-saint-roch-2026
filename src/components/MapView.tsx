@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { fr } from '../i18n/fr'
 import { LngLatBounds, Map, Marker, Popup, setWorkerUrl, type GeoJSONSource } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
@@ -34,6 +34,13 @@ interface Props {
   margeHaut?: number
   /** Delay between two pin drops. */
   delaiPinMs?: number
+  /**
+   * Whether the pins drop when they are placed. By default they drop once per set of pins:
+   * coming back to the same proposal (from the invitation, or after a status change) does not replay it.
+   */
+  animerPins?: boolean
+  /** Guided tour: shows or hides the 5-minute ring and the links (by default they show after the drop). */
+  anneauVisible?: boolean
   onParticiper?: (evenementId: string) => void
 }
 
@@ -48,17 +55,49 @@ function cerclePoints(lng: number, lat: number, rayonM: number): number[][] {
   return pts
 }
 
-export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300, onParticiper }: Props) {
+/** The last set of pins that dropped, kept across remounts (ids joined). */
+let dernierLot = ''
+
+export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
+  const etiquetteAnneau = useRef<Marker | null>(null)
+  const cadre = useRef('')
   const participer = useRef(onParticiper)
   participer.current = onParticiper
+  const listePins = useRef(pins)
+  const animer = useRef(animerPins)
+  const anneau = useRef(anneauVisible)
+  // Latest props for the effects below, which must not re-run (and rebuild markers) when only these change.
+  useLayoutEffect(() => {
+    listePins.current = pins
+    animer.current = animerPins
+    anneau.current = anneauVisible
+  })
+  // Markers are rebuilt only when what they show changes, never on a parent re-render: a new
+  // array with the same pins used to remove and re-add every marker, replaying the drop each time.
+  const signature = pins.map((p) => `${p.id}@${p.lat},${p.lng}:${p.evenement ? Number(p.evenement.inscrit) : ''}`).join('|')
+  const lot = pins.map((p) => p.id).join('|')
+
+  // The ring and the links follow anneauVisible when it is given, else they show.
+  const appliquerAnneau = useCallback(() => {
+    const map = carte.current
+    if (!map) return
+    const visible = anneau.current !== false
+    for (const id of ['cercle-bord', 'lien']) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none')
+    }
+    const el = etiquetteAnneau.current?.getElement()
+    if (el) el.style.visibility = visible && map.getLayer('cercle-bord') ? 'visible' : 'hidden'
+  }, [])
 
   useEffect(() => {
     if (!conteneur.current) return
     const map = new Map({ container: conteneur.current, style: STYLE_URL, center: CENTRE, zoom: 15, attributionControl: false })
     carte.current = map
+    // A new map has not been fitted yet.
+    cadre.current = ''
     // The canvas is not keyboard- or screen-reader-friendly: the list below the map carries the same facts.
     const canvas = map.getCanvas()
     canvas.setAttribute('aria-hidden', 'true')
@@ -72,13 +111,16 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
   useEffect(() => {
     const map = carte.current
     if (!map) return
+    const pins = listePins.current
+    const chute = animer.current ?? lot !== dernierLot
     marqueurs.current.forEach((m) => m.remove())
     // MapLibre positions the marker element with a transform, so the drop animates an inner node.
     marqueurs.current = pins.map((p, i) => {
       const el = document.createElement('div')
       const interieur = document.createElement('div')
       interieur.className = 'pin-forme'
-      interieur.style.animationDelay = `${i * delaiPinMs}ms`
+      if (chute) interieur.style.animationDelay = `${i * delaiPinMs}ms`
+      else interieur.style.animation = 'none'
       // Static markup from our own icon set, never user text.
       interieur.innerHTML = svgPin(p.type === 'lieu' ? 'lieu' : p.type === 'evenement' ? 'evenement' : (p.role ?? 'citoyen'), 40)
       el.appendChild(interieur)
@@ -86,7 +128,8 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       if (p.type !== 'evenement') {
         const etiquette = document.createElement('div')
         etiquette.className = 'pin-etiquette'
-        etiquette.style.animationDelay = `${i * delaiPinMs + 300}ms`
+        if (chute) etiquette.style.animationDelay = `${i * delaiPinMs + 300}ms`
+        else etiquette.style.animation = 'none'
         etiquette.textContent = p.label.length > 20 ? `${p.label.slice(0, 19)}…` : p.label
         el.appendChild(etiquette)
       }
@@ -138,6 +181,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       if (!map.getLayer('lien')) {
         map.addLayer({ id: 'lien', type: 'line', source: 'lien', paint: { 'line-color': '#1c2b25', 'line-width': 2, 'line-dasharray': [2, 2] } })
       }
+      appliquerAnneau()
     }
     let etiquetteCercle: Marker | null = null
     if (demandeur) {
@@ -145,8 +189,11 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       el.className = 'cercle-etiquette'
       el.textContent = fr.carte.cinqMinutes
       el.setAttribute('aria-hidden', 'true')
+      // Hidden until the ring is drawn.
+      el.style.visibility = 'hidden'
       etiquetteCercle = new Marker({ element: el, anchor: 'bottom' }).setLngLat([demandeur.lng, demandeur.lat + 400 / 111320]).addTo(map)
     }
+    etiquetteAnneau.current = etiquetteCercle
     // The style may still be loading when the pins drop: retry for a few seconds.
     let minuteur = 0
     // isStyleLoaded() stays false while tiles download, so try to add the layers and retry on failure.
@@ -157,19 +204,33 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
         if (n < 160) minuteur = window.setTimeout(() => essayer(n + 1), 250)
       }
     }
-    minuteur = window.setTimeout(() => essayer(0), pins.length * delaiPinMs)
+    // Remember this set once its drop has played, so coming back to it does not replay it. Recorded
+    // after the drop rather than now, so React's double effect run in development cannot skip it.
+    const memoire = window.setTimeout(() => {
+      dernierLot = lot
+    }, chute ? pins.length * delaiPinMs + 600 : 0)
+    // When the tour drives the ring, or nothing drops, draw it now (hidden or shown by appliquerAnneau).
+    minuteur = window.setTimeout(() => essayer(0), anneau.current !== undefined || !chute ? 0 : pins.length * delaiPinMs)
     // Fit on the partners and the place only: nearby events must not zoom the map out.
     const cadres = pins.filter((p) => p.type !== 'evenement')
-    if (cadres.length > 0) {
+    // Once per set of pins on this map: a new event status does not move the camera.
+    if (cadres.length > 0 && cadre.current !== lot) {
+      cadre.current = lot
       const bornes = new LngLatBounds()
       cadres.forEach((p) => bornes.extend([p.lng, p.lat]))
       map.fitBounds(bornes, { padding: { top: margeHaut, left: 50, right: 50, bottom: margeBas + 40 }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)
+      window.clearTimeout(memoire)
       etiquetteCercle?.remove()
+      etiquetteAnneau.current = null
     }
-  }, [pins, margeBas, margeHaut, delaiPinMs])
+  }, [signature, lot, margeBas, margeHaut, delaiPinMs, appliquerAnneau])
+
+  useEffect(() => {
+    appliquerAnneau()
+  }, [anneauVisible, appliquerAnneau])
 
   return (
     <>

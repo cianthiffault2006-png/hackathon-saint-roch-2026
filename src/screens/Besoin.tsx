@@ -10,11 +10,19 @@ interface Props {
   profils: Profil[]
   onRetour: () => void
   onTrouver: (besoin: BesoinType) => void
-  /** Text typed by the guided tour; chips follow it like real typing. */
-  texteGuide?: string
-  pulse?: boolean
+  /** Guided tour: the text and the chips come from the tour clock (the screen shows them as given). */
+  guide?: GuideBesoin
   /** A profile opened in the explorer: its offers become needs, and its name shows above the field. */
   partenaireVoulu?: Profil
+}
+
+export interface GuideBesoin {
+  texte: string
+  offre: Tag[]
+  cherche: Tag[]
+  creneaux: Creneau[]
+  /** « Trouver des partenaires » pulses. */
+  pulse: boolean
 }
 
 const COMMUNES: Tag[] = ['espace_interieur', 'visibilite', 'public', 'contenu_artistique', 'animation', 'benevoles']
@@ -31,7 +39,7 @@ function ajouter<T>(prev: T[], plus: T[]): T[] {
   return Array.from(new Set([...prev, ...plus]))
 }
 
-export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide, pulse, partenaireVoulu }: Props) {
+export default function Besoin({ role, profils, onRetour, onTrouver, guide, partenaireVoulu }: Props) {
   const [texte, setTexte] = useState('')
   const [cherche, setCherche] = useState<Tag[]>([])
   const [offre, setOffre] = useState<Tag[]>([])
@@ -52,16 +60,13 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
     setCreneaux((prev) => ajouter(prev, lu.creneaux))
   }
 
-  useEffect(() => {
-    if (texteGuide !== undefined) surSaisie(texteGuide)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [texteGuide])
-
   function soumettre() {
     onTrouver(construireBesoin(role, texte, profils, { cherche, offre, creneaux }))
   }
 
-  const pret = texte.trim().length > 0 || cherche.length > 0 || offre.length > 0
+  // During the tour the screen only shows what the tour sets; nothing is kept in its own state.
+  const vue = guide ?? { texte, offre, cherche, creneaux, pulse: false }
+  const pret = vue.texte.trim().length > 0 || vue.cherche.length > 0 || vue.offre.length > 0
 
   return (
     <main className="screen besoin">
@@ -89,20 +94,20 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
         id="besoin-texte"
         className="champ"
         rows={5}
-        value={texte}
+        value={vue.texte}
         placeholder={fr.besoin.placeholders[role]}
         onChange={(e) => surSaisie(e.target.value)}
       />
       <h2 className="sous-titre">{fr.besoin.jOffre}</h2>
-      <Chips options={TAGS} selected={offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} communes={COMMUNES} onToggle={(t) => setOffre((p) => bascule(p, t))} />
+      <Chips options={TAGS} selected={vue.offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} communes={COMMUNES} onToggle={(t) => setOffre((p) => bascule(p, t))} />
       <h2 className="sous-titre">{fr.besoin.jeCherche}</h2>
-      <Chips options={TAGS} selected={cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => setCherche((p) => bascule(p, t))} />
+      <Chips options={TAGS} selected={vue.cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => setCherche((p) => bascule(p, t))} />
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
-      <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
+      <Chips options={CRENEAUX} selected={vue.creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
       <div className="pied">
         <button
           type="button"
-          className={pulse ? 'btn btn-primaire pulse' : 'btn btn-primaire'}
+          className={vue.pulse ? 'btn btn-primaire pulse' : 'btn btn-primaire'}
           aria-disabled={!pret}
           aria-describedby={pret ? undefined : 'aide-besoin'}
           onClick={() => { if (pret) soumettre() }}

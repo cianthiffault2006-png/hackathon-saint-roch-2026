@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Besoin, Evenement, Lieu, Profil } from '../types.ts';
 import { proposerAu } from './proposer.ts';
-import { choixDepuisTexte, construireBesoin } from '../lib/besoin.ts';
+import { choixDepuisTexte, construireBesoin, suivreSaisie, type Choix } from '../lib/besoin.ts';
 import { fr } from '../i18n/fr.ts';
 
 // Lecture des fichiers réels (pas de types node dans tsconfig.app: import.meta.glob de Vite).
@@ -112,5 +112,19 @@ describe('visite guidée: phrase du café', () => {
   it('87 % avec Camille Vézina et Collectif Les Voisins en Scène', () => {
     expect(res[0].score).toBe(87);
     expect(res[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
+  });
+  // Same path as the Besoin screen: chips updated at every keystroke (surSaisie), then « Trouver ».
+  it.each([texte, texte.replace(/\.$/, ''), texte.replace('’', "'")])('saisie lettre par lettre « %s »: mêmes pastilles, 87 %%', (phrase) => {
+    let cur: Choix = { cherche: [], offre: [], creneaux: [] };
+    let avant: Choix = { cherche: [], offre: [], creneaux: [] };
+    for (let i = 1; i <= phrase.length; i++) {
+      const lu = choixDepuisTexte('commerce', phrase.slice(0, i), profils);
+      cur = { cherche: suivreSaisie(cur.cherche, avant.cherche, lu.cherche), offre: suivreSaisie(cur.offre, avant.offre, lu.offre), creneaux: suivreSaisie(cur.creneaux, avant.creneaux, lu.creneaux) };
+      avant = lu;
+    }
+    expect(cur).toEqual({ cherche: ['animation'], offre: ['espace_interieur'], creneaux: ['semaine_soir'] });
+    const r = proposerAu(construireBesoin('commerce', phrase, profils, cur), profils, lire<Lieu[]>('lieux.json'), lire<Evenement[]>('evenements.json'), new Date('2026-10-15T12:00:00'));
+    expect(r[0].score).toBe(87);
+    expect(r[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
   });
 });

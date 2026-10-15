@@ -96,7 +96,7 @@ Maillage outille les organismes qui interviennent déjà, il ne met jamais une p
 Un projet a besoin d’un lieu, d’un contenu et d’un public ou de bras, et c’est rare qu’une seule paire couvre les trois. S’il n’y a que deux partenaires, Maillage propose un lieu public de la Ville comme troisième.
 
 ## Extras courts
-- Licence du code : le dépôt est public sur GitHub; aucune licence n’est encore choisie, nous proposerions une licence libre à la SDC pour le pilote.
+- Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.
 - Notifications : pas dans la démo (aucun message ne part); en pilote, chaque partenaire reçoit l’invitation par courriel ou par notification.
 - Autres langues : tous les textes de l’interface sont dans un seul fichier, `src/i18n/fr.ts`; une autre langue, c’est un deuxième fichier du même format.
 

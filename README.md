@@ -21,3 +21,7 @@ npm ci
 npm run dev
 npm test
 ```
+
+## Licence
+
+Code sous licence MIT (fichier `LICENSE`). Les données ouvertes gardent leur licence d’origine (CC BY 4.0).

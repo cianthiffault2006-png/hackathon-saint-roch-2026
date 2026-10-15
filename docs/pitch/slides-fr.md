@@ -10,7 +10,7 @@ Signal [VOIX 1] : lancer l’accroche, ne pas lire la diapo. (10 s)
 ## 2. Le problème
 Ligne : « Les ressources de Saint-Roch sont là, mais les voisins ne se connaissent pas. »
 Visuel : trois icônes isolées (café, artiste, organisme) à cinq minutes à pied.
-Signal [VOIX 1] : histoire de Marie, de Léa et de l’organisme. Finir par « Personne ne sait que les autres existent. » (40 s)
+Signal [VOIX 1] : histoire de Mathieu (Café Le Petit Détour), de Camille Vézina et du Collectif Les Voisins en Scène. Finir par « Personne ne sait que les autres existent. » (40 s)
 
 ## 3. La solution : Maillage
 Ligne : « Une app mobile qui propose des projets à trois partenaires, sur la carte, avec les raisons. »

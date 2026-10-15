@@ -77,6 +77,21 @@ describe('proposer: detailScore', () => {
   });
 });
 
+describe('proposer: élisions', () => {
+  const textes = () => lancer(besoinCafe).flatMap((p) => [p.titre, ...p.raisons, ...p.aConfirmer]);
+  it('aucune contraction fautive devant un nom (de Le, à Le, de Les, de Équipe…)', () => {
+    for (const x of textes()) {
+      expect(x).not.toMatch(/(de|à) (Le|Les)/);
+      expect(x).not.toMatch(/de [AÀÂEÉÈÊIÎOÔUÛHY]/);
+    }
+  });
+  it('« répond à ce que cherche(nt) » au lieu de « aux besoins de »', () => {
+    const r = lancer(besoinCafe)[0].raisons.join(' | ');
+    expect(r).toMatch(/répond à ce que cherchent? /);
+    expect(r).not.toContain('aux besoins de');
+  });
+});
+
 describe('proposer: raisons', () => {
   it('au plus 5 lignes, complémentarité en premier', () => {
     for (const p of lancer(besoinCafe)) {

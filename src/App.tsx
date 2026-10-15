@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Besoin as BesoinType, Proposition as PropositionType, Role } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { lireBesoin, proposer } from './engineAdapter'
+import { construireBesoin } from './lib/besoin'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
 import Besoin from './screens/Besoin'
@@ -28,12 +29,10 @@ export default function App() {
 
   // The tour runs the café story through the same engine and the same screens.
   const propositionsVisite = useMemo(() => {
-    const besoin: BesoinType = {
-      auteurRole: ROLE_VISITE,
-      auteurId: 'story-cafe',
-      texte: TEXTE_VISITE,
-      ...lireBesoin(TEXTE_VISITE),
-    }
+    const lu = lireBesoin(TEXTE_VISITE)
+    const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, {
+      cherche: lu.besoins, offre: lu.offres, creneaux: lu.creneaux,
+    })
     return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
   }, [donnees])
 
@@ -80,6 +79,7 @@ export default function App() {
       {ecranActif === 'besoin' && (
         <Besoin
           role={enVisite ? ROLE_VISITE : role}
+          profils={donnees.profils}
           texteGuide={texteGuide}
           pulse={pulse}
           onRetour={() => setEcran('accueil')}

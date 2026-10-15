@@ -3,26 +3,93 @@ import type { Evenement, Lieu, Profil } from '../types'
 // Local fallback used until public/data/*.json is served. Fictional rows only.
 export const profils: Profil[] = [
   {
-    id: 'story-cafe', role: 'commerce', sousType: 'café', nom: 'Café Le Trait d’union',
-    description: 'Café de quartier avec un grand mur libre et une salle à l’arrière.',
-    lat: 46.8148, lng: -71.219, offres: ['espace_interieur', 'visibilite', 'nourriture'],
-    besoins: ['public', 'contenu_artistique'], creneaux: ['semaine_soir', 'fin_de_semaine'],
-    themes: ['culture', 'commerce_local'], source: 'fictif', origine: 'Entreprises St-Roch', reclame: true,
+    "id": "story-cafe",
+    "role": "commerce",
+    "sousType": "café",
+    "nom": "Café Le Petit Détour",
+    "description": "Café de quartier qui a un espace libre le jeudi soir et cherche à attirer du monde.",
+    "lat": 46.8148,
+    "lng": -71.222,
+    "offres": [
+      "espace_interieur",
+      "nourriture",
+      "public"
+    ],
+    "besoins": [
+      "animation",
+      "contenu_artistique",
+      "visibilite"
+    ],
+    "creneaux": [
+      "semaine_soir"
+    ],
+    "themes": [
+      "culture",
+      "commerce_local"
+    ],
+    "source": "fictif",
+    "origine": "Entreprises St-Roch",
+    "reclame": true
   },
   {
-    id: 'story-artiste', role: 'citoyen', sousType: 'artiste', nom: 'Léa Fortin-Bouchard',
-    description: 'Artiste visuelle qui cherche un lieu pour exposer ses toiles.',
-    lat: 46.8162, lng: -71.2225, offres: ['contenu_artistique', 'animation'],
-    besoins: ['espace_interieur', 'visibilite'], creneaux: ['semaine_soir'],
-    themes: ['art', 'culture'], source: 'fictif', origine: 'Collection Art Public', reclame: false,
+    "id": "story-artiste",
+    "role": "citoyen",
+    "sousType": "artiste",
+    "nom": "Camille Vézina",
+    "description": "Artiste en arts visuels qui cherche un lieu chaleureux pour exposer ses toiles.",
+    "lat": 46.8155,
+    "lng": -71.2195,
+    "offres": [
+      "contenu_artistique",
+      "animation"
+    ],
+    "besoins": [
+      "espace_interieur",
+      "visibilite",
+      "public"
+    ],
+    "creneaux": [
+      "semaine_soir",
+      "fin_de_semaine"
+    ],
+    "themes": [
+      "art",
+      "culture",
+      "commerce_local"
+    ],
+    "source": "fictif",
+    "origine": "Collection Art Public",
+    "reclame": true
   },
   {
-    id: 'story-organisme', role: 'organisme', sousType: 'organisme culturel', nom: 'Corridor des Arts Saint-Roch',
-    description: 'Organisme qui anime la vie culturelle du quartier et recrute des bénévoles.',
-    lat: 46.8139, lng: -71.216, offres: ['benevoles', 'public', 'animation', 'affichage'],
-    besoins: ['espace_interieur', 'contenu_artistique'], creneaux: ['semaine_soir', 'fin_de_semaine'],
-    themes: ['culture', 'communautaire'], source: 'fictif', origine: 'Liste organismes reconnus LSVC', reclame: false,
-  },
+    "id": "story-organisme",
+    "role": "organisme",
+    "sousType": "organisme culturel",
+    "nom": "Collectif Les Voisins en Scène",
+    "description": "Organisme culturel de quartier qui a des bénévoles et un réseau, et veut rejoindre de nouveaux publics.",
+    "lat": 46.8139,
+    "lng": -71.2235,
+    "offres": [
+      "benevoles",
+      "visibilite",
+      "affichage",
+      "animation"
+    ],
+    "besoins": [
+      "espace_interieur",
+      "contenu_artistique"
+    ],
+    "creneaux": [
+      "semaine_soir"
+    ],
+    "themes": [
+      "culture",
+      "communautaire"
+    ],
+    "source": "fictif",
+    "origine": "Liste organismes reconnus LSVC",
+    "reclame": true
+  }
 ]
 
 export const lieux: Lieu[] = [

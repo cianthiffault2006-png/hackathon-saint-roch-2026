@@ -111,13 +111,13 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
       >
         <div className="feuille-nav">
-          <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.visite.precedent}>‹</button>
+          <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
           <span className="points" aria-label={`Proposition ${index + 1} sur ${propositions.length}`}>
             {propositions.map((p, i) => (
               <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
             ))}
           </span>
-          <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.visite.suivant}>›</button>
+          <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
         <p className="score">{fr.proposition.score(prop.score)}</p>
@@ -129,7 +129,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             return (
               <li key={c.profilId} className="partenaire">
                 <strong>{p?.nom ?? c.profilId}</strong>
-                {p && !p.reclame && <span className="tag-prerempli">Profil pré-rempli</span>}
+                {p && !p.reclame && <span className="tag-prerempli">{fr.profil.tagNonReclame}</span>}
                 <span className="apport">{c.apport}</span>
               </li>
             )

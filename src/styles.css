@@ -603,3 +603,11 @@ button {
 .tour-actif .feuille {
   max-height: 50dvh;
 }
+
+.profil-ligne {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--vert-pale);
+  color: var(--vert);
+}

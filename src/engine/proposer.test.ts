@@ -60,6 +60,23 @@ describe('proposer: organisme sans salle', () => {
   });
 });
 
+describe('proposer: detailScore', () => {
+  it('valeurs 0..100, poids 35/20/20/10/15, total cohérent, créneau partiel à 60', () => {
+    for (const x of lancer(besoinCafe)) {
+      const d = x.detailScore!;
+      expect(d.poids).toEqual({ complementarite: 35, reciprocite: 20, proximite: 20, creneau: 10, theme: 15 });
+      for (const k of ['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const) {
+        expect(d[k]).toBeGreaterThanOrEqual(0);
+        expect(d[k]).toBeLessThanOrEqual(100);
+      }
+      const somme = (Object.keys(d.poids) as (keyof typeof d.poids)[]).reduce((u, k) => u + (d.poids[k] * d[k]) / 100, 0);
+      expect(x.score).toBe(Math.round(somme));
+    }
+    const large: Besoin = { ...besoinCafe, creneaux: ['semaine_soir', 'fin_de_semaine'] };
+    expect(lancer(large).some((x) => x.detailScore!.creneau === 60)).toBe(true);
+  });
+});
+
 describe('proposer: raisons', () => {
   it('au plus 5 lignes, complémentarité en premier', () => {
     for (const p of lancer(besoinCafe)) {

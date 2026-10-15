@@ -59,7 +59,9 @@ interface Cand {
   rev: Tag[]; // offres du demandeur qui répondent aux besoins du candidat
   dist?: number;
   creneaux: Creneau[];
-  score: number; // 0..100
+  sDist: number; // 0..1
+  sTheme: number; // 0..1
+  score: number; // 0..100 (paire, sert à choisir les partenaires)
 }
 
 function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null {
@@ -75,14 +77,22 @@ function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null 
   const sComp = b.besoins.length ? comp.length / b.besoins.length : 0;
   const sRev = p.besoins.length ? rev.length / p.besoins.length : 0;
   const score = POIDS.comp * sComp + POIDS.rev * sRev + POIDS.dist * sDist + POIDS.theme * sTheme + POIDS.creneau;
-  return { p, comp, rev, dist, creneaux, score };
+  return { p, comp, rev, dist, creneaux, sDist, sTheme, score };
 }
 
-function choisirType(tags: Tag[], themes: Theme[], sansExposition = false): TypeProjet {
+function lienEntre(x: Profil, y: Profil): { sDist: number; sTheme: number } {
+  const d = distanceM(x, y);
+  const sDist = d <= M_PROCHE ? 1 : d >= M_LOIN ? 0 : (M_LOIN - d) / (M_LOIN - M_PROCHE);
+  const sTheme = Math.min(1, inter(x.themes, y.themes).length / Math.max(1, Math.min(x.themes.length, y.themes.length)));
+  return { sDist, sTheme };
+}
+
+function choisirType(tags: Tag[], themes: Theme[], sansExposition = false, securiteExterieur = false): TypeProjet {
   const has = (t: Tag) => tags.includes(t);
   const th = (t: Theme) => themes.includes(t);
   const espace = has('espace_interieur') || has('espace_exterieur');
   if (has('contenu_artistique') && espace && !sansExposition) return 'exposition';
+  if (securiteExterieur) return 'animation_de_rue';
   if (th('environnement')) return 'verdissement';
   if (has('nourriture') && th('commerce_local')) return 'marche_ephemere';
   if (has('animation')) {
@@ -186,7 +196,8 @@ export const proposerAu = (
   const trios = [...combos.values()].filter((x) => x.b);
   const choix = trios.length ? trios : [...combos.values()];
 
-  const props = choix.map(({ a, b }): Proposition => {
+  const rang = new Map<string, number>(); // qualité des paires, pour départager les scores égaux
+  const props = choix.map(({ a, b, valeur }): Proposition => {
     const membres = b && b.score > a.score ? [b, a] : b ? [a, b] : [a];
     const profs = membres.map((m) => m.p);
     const communs = (besoin.creneaux.length ? besoin.creneaux : profs[0].creneaux).filter((c) =>
@@ -208,7 +219,8 @@ export const proposerAu = (
     const sansExposition = veutEspace && !besoin.offres.includes('contenu_artistique') && !parleExpo &&
       (themes.includes('culture') || themes.includes('communautaire')) &&
       (besoin.offres.includes('animation') || besoin.offres.includes('benevoles'));
-    const type = choisirType(tags, themes, sansExposition);
+    const securiteExt = themes.includes('securite') && besoin.besoins.includes('espace_exterieur') && !besoin.besoins.includes('contenu_artistique');
+    const type = choisirType(tags, themes, sansExposition, securiteExt);
 
     const hoteProfil = profs.find((p) => inter(p.offres, ESPACES).length) ?? (inter(besoin.offres, ESPACES).length ? moi : undefined);
     const hoteNom = hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
@@ -217,7 +229,24 @@ export const proposerAu = (
     const couverts = uniq([...profs.flatMap((p) => p.offres), ...(lieuRemplace ? lieuRemplace.offres : [])]);
     const manquants = sans(besoin.besoins, couverts);
     const couverture = besoin.besoins.length ? (besoin.besoins.length - manquants.length) / besoin.besoins.length : 0;
-    const score = Math.max(0, Math.min(100, Math.round(0.45 * a.score + 0.2 * (b ? b.score : 0) + 35 * couverture)));
+    // Détail du score: chaque valeur 0..100, total = round(Σ poids × valeur / 100).
+    const moy = (xs: number[], vide: number) => (xs.length ? xs.reduce((u, v) => u + v, 0) / xs.length : vide);
+    // Réciprocité: la part des besoins de chaque partenaire que le demandeur comble lui-même.
+    const avecBesoins = membres.filter((m) => m.p.besoins.length);
+    const toutesCommunes = !besoin.creneaux.length || besoin.creneaux.every((c) => communs.includes(c));
+    // Les partenaires entre eux comptent aussi: le groupe doit tenir dans un même coin de quartier et partager des thèmes.
+    const entrePartenaires = membres.length === 2 ? [lienEntre(membres[0].p, membres[1].p)] : [];
+    const valeurs = {
+      complementarite: Math.round(100 * couverture),
+      reciprocite: Math.round(100 * moy(avecBesoins.map((m) => m.rev.length / m.p.besoins.length), 0)),
+      proximite: Math.round(100 * moy([...membres.map((m) => m.sDist), ...entrePartenaires.map((e) => e.sDist)], 0.5)),
+      creneau: communs.length ? (toutesCommunes ? 100 : 60) : 0,
+      theme: Math.round(100 * moy([...membres.map((m) => m.sTheme), ...entrePartenaires.map((e) => e.sTheme)], 0)),
+    };
+    const poids = { complementarite: 35, reciprocite: 20, proximite: 20, creneau: 10, theme: 15 };
+    const total = (Object.keys(poids) as (keyof typeof poids)[]).reduce((u, k) => u + (poids[k] * valeurs[k]) / 100, 0);
+    const score = Math.max(0, Math.min(100, Math.round(total)));
+    const detailScore = { ...valeurs, poids };
 
     const partenaires: Contribution[] = [
       {
@@ -248,10 +277,11 @@ export const proposerAu = (
     const rDist = avecDist.length ? [`À pied de vous: ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
     const rLieu: string[] = [];
     if (lieuRemplace) {
-      rLieu.push(`Personne n'offre d'espace: ${lieuRemplace.nom} (${lieuRemplace.type.replace('_', ' ')}) est à ${minTxt(distanceM(centre(pts), lieuRemplace))} à pied du groupe`);
+      rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n'offre d'espace)`);
     } else if (lieu) {
       rLieu.push(`Lieu public proposé : ${lieu.nom}, à ${minTxt(distanceM(centre(pts), lieu))}`);
     }
+    const rSecurite = securiteExt && creneau === 'semaine_soir' ? ['Animer un lieu public le soir, quand il est moins fréquenté'] : [];
     const themesCommuns = themes.filter((t) => besoin.themes.includes(t) && profs.some((p) => p.themes.includes(t)));
     const rTheme = themesCommuns.length ? [`Thèmes en commun: ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`] : [];
 
@@ -266,7 +296,7 @@ export const proposerAu = (
       ? [`À proximité dans les 14 prochains jours: ${proches.map((e) => e.titre).join(', ')}`]
       : [];
     // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
-    const raisons = [...rComp, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
+    const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
 
     const aConfirmer = [
       'Date précise du projet',
@@ -278,6 +308,8 @@ export const proposerAu = (
       ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli: l'organisme doit d'abord activer son profil`),
     ];
 
+    const idProp = `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`;
+    rang.set(idProp, valeur);
     return {
       id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
       titre: titre(type, hoteNom),
@@ -286,6 +318,7 @@ export const proposerAu = (
       lieuId: lieu?.id,
       creneau,
       score,
+      detailScore,
       raisons,
       aConfirmer,
       evenementsProches: proches.map((e) => e.id),
@@ -293,7 +326,7 @@ export const proposerAu = (
     };
   });
 
-  const tries = props.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+  const tries = props.sort((x, y) => y.score - x.score || (rang.get(y.id) ?? 0) - (rang.get(x.id) ?? 0) || x.id.localeCompare(y.id));
   return diversifier(tries, 3);
 };
 

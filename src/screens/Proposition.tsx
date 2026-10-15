@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
-import { T } from '../textes'
-import Icone, { type NomIcone } from '../components/Icones'
+import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
+import { choisirInvite, prenom } from '../lib/invitation'
+import { idProjet } from '../lib/projets'
 
 interface Props {
   propositions: PropositionType[]
@@ -16,17 +17,21 @@ interface Props {
   raisonsVisibles?: number
   /** Guided tour: presses the interest button once true. */
   interetAuto?: boolean
-  /** Reports each status change so the project can be saved. */
-  onStatut?: (prop: PropositionType, statut: Statut) => void
+  /** Status per project id and the way to change it: the state lives in App so other screens can advance it. */
+  statuts: Record<string, Statut>
+  onChangerStatut: (prop: PropositionType, statut: Statut) => void
+  index: number
+  onIndex: (index: number) => void
   onFiche?: (prop: PropositionType) => void
+  onInvitation?: (prop: PropositionType) => void
 }
 
 const LEGENDE: [NomIcone, string][] = [
-  ['commerce', T.legende.commerce],
-  ['organisme', T.legende.organisme],
-  ['citoyen', T.legende.citoyen],
-  ['lieu', T.legende.lieu],
-  ['evenement', T.legende.evenement],
+  ['commerce', fr.proposition.rolesPartenaire.commerce],
+  ['organisme', fr.proposition.rolesPartenaire.organisme],
+  ['citoyen', fr.proposition.rolesPartenaire.citoyen],
+  ['lieu', fr.carte.lieuPublic],
+  ['evenement', fr.carte.evenement],
 ]
 
 const LIBELLE_STATUT: Record<Statut, string> = fr.proposition.statuts
@@ -35,27 +40,24 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, onStatut, onFiche }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation }: Props) {
   const enVisite = delaiPinMs !== undefined
-  const [index, setIndex] = useState(0)
-  const [statuts, setStatuts] = useState<Record<string, Statut>>({})
   const departX = useRef<number | null>(null)
+  const feuilleRef = useRef<HTMLElement>(null)
+  const [detailOuvert, setDetailOuvert] = useState(false)
 
   const prop = propositions[index]
-  const statut: Statut = (prop && statuts[prop.id]) || 'proposee'
+  const statut: Statut = (prop && statuts[idProjet(prop)]) || 'proposee'
+  const invite = prop ? choisirInvite(prop, profils) : null
 
   useEffect(() => {
-    if (interetAuto && prop) setStatuts((s) => (s[prop.id] ? s : { ...s, [prop.id]: 'interet_envoye' }))
-  }, [interetAuto, prop])
-
-  useEffect(() => {
-    if (prop && statut !== 'proposee') onStatut?.(prop, statut)
-  }, [prop, statut, onStatut])
+    if (interetAuto && prop && !statuts[idProjet(prop)]) onChangerStatut(prop, 'interet_envoye')
+  }, [interetAuto, prop, statuts, onChangerStatut])
 
   // Simulated confirmation chain: 2 s then 3 s. The timer is cleared if the screen or proposal changes.
   useEffect(() => {
     if (!prop) return
-    const id = prop.id
+    const courant = prop
     let delai: number
     let suivant: Statut
     if (statut === 'interet_envoye') {
@@ -65,9 +67,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       delai = 3000
       suivant = 'confirmee'
     } else return
-    const t = window.setTimeout(() => setStatuts((s) => ({ ...s, [id]: suivant })), delai)
+    const t = window.setTimeout(() => onChangerStatut(courant, suivant), delai)
     return () => window.clearTimeout(t)
-  }, [prop, statut])
+  }, [prop, statut, onChangerStatut])
 
   const pins: Pin[] = useMemo(() => {
     if (!prop) return []
@@ -101,7 +103,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
   const lieu = lieux.find((l) => l.id === prop.lieuId)
 
   function aller(delta: number) {
-    setIndex((i) => Math.min(propositions.length - 1, Math.max(0, i + delta)))
+    onIndex(Math.min(propositions.length - 1, Math.max(0, index + delta)))
   }
 
   function surFin(x: number) {
@@ -122,14 +124,20 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       <ul className="legende" style={{ bottom: `calc(${enVisite ? 50 : 58}dvh + 8px)` }} aria-label={fr.carte.legende}>
         {LEGENDE.map(([nom, libelle]) => (
           <li key={nom}>
-            <span className={`pastille pin-${nom}`}><Icone nom={nom} taille={14} /></span>
+            <PinForme nom={nom} taille={22} />
             {libelle}
           </li>
         ))}
       </ul>
+      <button type="button" className="lien-evitement" onClick={() => feuilleRef.current?.focus()}>
+        {fr.carte.voirListe}
+      </button>
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
         className="feuille"
+        ref={feuilleRef}
+        id="liste-proposition"
+        tabIndex={-1}
         style={{ animationDelay: `${(pins.length + 1) * (delaiPinMs ?? 300)}ms` }}
         aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
@@ -137,7 +145,8 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       >
         <div className="feuille-nav">
           <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
-          <span className="points" aria-label={`Proposition ${index + 1} sur ${propositions.length}`}>
+          <span className="points">
+            <span className="sr-only" aria-live="polite">{fr.proposition.paginationN(index + 1, propositions.length)}</span>
             {propositions.map((p, i) => (
               <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
             ))}
@@ -146,6 +155,24 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
         <p className="score">{fr.proposition.score(prop.score)}</p>
+        {prop.detailScore && (
+          <div className="detail-score">
+            <button type="button" className="detail-bouton" aria-expanded={detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
+              {fr.proposition.commentScore}
+            </button>
+            {detailOuvert && (
+              <ul className="barres">
+                {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
+                  <li key={cle}>
+                    <span className="barre-nom">{fr.proposition.detailScore[cle]}</span>
+                    <span className="barre" aria-hidden="true"><span style={{ width: `${prop.detailScore?.[cle] ?? 0}%` }} /></span>
+                    <span className="barre-val">{prop.detailScore?.[cle]} %</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
         <ul className="liste-part">
@@ -187,7 +214,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <button
               type="button"
               className="btn btn-primaire"
-              onClick={() => setStatuts((s) => ({ ...s, [prop.id]: 'interet_envoye' }))}
+              onClick={() => onChangerStatut(prop, 'interet_envoye')}
             >
               {fr.proposition.interet}
             </button>
@@ -206,9 +233,14 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
               ))}
             </div>
           )}
+          {statut === 'en_attente' && onInvitation && invite && (
+            <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
+              {fr.proposition.voirInvitation(prenom(invite.partenaire))}
+            </button>
+          )}
           {statut === 'confirmee' && onFiche && (
             <button type="button" className="btn btn-lien btn-fiche" onClick={() => onFiche(prop)}>
-              {T.voirFiche}
+              {fr.fiche.voir}
             </button>
           )}
           <p className="note-simulation">{fr.proposition.noteSimulation}</p>

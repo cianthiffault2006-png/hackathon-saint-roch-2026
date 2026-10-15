@@ -1,13 +1,26 @@
 :root {
+  /* Palette: change colours here only. */
   --vert: #1f5f4a;
   --vert-fonce: #164536;
   --vert-pale: #e6f1ec;
-  --orange: #e8833a;
+  --cta: #b9460e;
+  --cta-fonce: #8f360a;
+  --accent: #e8833a; /* decorative fills only, never behind white text */
+  --orange: var(--accent);
   --orange-pale: #fdf0e4;
-  --texte: #1d2a25;
-  --gris: #5d6b65;
-  --fond: #f7f6f2;
+  --texte: #1c2b25;
+  --gris: #5b6b64;
+  --fond: #faf7f2;
+  --surface: #ffffff;
+  --bordure-champ: #758580;
+  --focus: #164536;
   --rayon: 16px;
+  --couleur-commerce: #b9460e;
+  --couleur-organisme: #0072b2;
+  --couleur-citoyen: #7b3f9e;
+  --couleur-lieu: #009e73;
+  --couleur-evenement: #e3b100;
+  --contour-evenement: #1c2b25;
 }
 
 * {
@@ -231,45 +244,6 @@ button {
   color: inherit;
 }
 
-.pin {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  background: var(--vert);
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.pin-commerce {
-  background: var(--vert);
-}
-
-.pin-organisme {
-  background: var(--orange);
-  color: #1d1208;
-}
-
-.pin-citoyen {
-  background: #5b5bd6;
-}
-
-.pin-lieu {
-  background: #3b4a45;
-  color: #fff;
-}
-
-.pin-evenement {
-  width: 28px;
-  height: 28px;
-  background: #fff;
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
 .feuille {
   position: absolute;
   left: 0;
@@ -468,10 +442,6 @@ button {
   100% { opacity: 0; transform: translateY(-120px) rotate(300deg); }
 }
 
-.pin {
-  animation: chute 0.6s ease-out both;
-}
-
 .feuille {
   animation: montee 0.5s ease-out both;
 }
@@ -662,10 +632,6 @@ button {
   background: transparent;
 }
 
-.pin-partenaire {
-  font-size: 13px;
-}
-
 .legende {
   position: absolute;
   right: 8px;
@@ -684,69 +650,7 @@ button {
   gap: 6px;
 }
 
-.pastille {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 18px;
-  border-radius: 9px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.pastille.pin-organisme {
-  color: #1d1208;
-}
-
 /* Icon pins, legend, project sheet and list. Colours come from variables so a palette swap is one edit. */
-:root {
-  --couleur-commerce: var(--vert);
-  --couleur-organisme: var(--orange);
-  --couleur-citoyen: #5b5bd6;
-  --couleur-lieu: #3b4a45;
-  --couleur-evenement: var(--orange);
-  --sur-organisme: #1d1208;
-}
-
-.pin svg {
-  display: block;
-}
-
-.pin-commerce {
-  background: var(--couleur-commerce);
-}
-
-.pin-organisme {
-  background: var(--couleur-organisme);
-  color: var(--sur-organisme);
-}
-
-.pin-citoyen {
-  background: var(--couleur-citoyen);
-}
-
-.pin-lieu {
-  background: var(--couleur-lieu);
-  color: #fff;
-}
-
-.pin-evenement {
-  background: #fff;
-  border-color: var(--couleur-evenement);
-  color: var(--couleur-evenement);
-}
-
-.pastille {
-  width: 24px;
-  height: 20px;
-  border-radius: 10px;
-}
-
-.pastille.pin-evenement {
-  border: 2px solid var(--couleur-evenement);
-}
-
 .legende {
   font-size: 11px;
   line-height: 1.55;
@@ -903,4 +807,337 @@ button {
 .statut-mini.statut-confirmee {
   background: var(--vert);
   color: #fff;
+}
+
+/* Full-screen views that bring their own styles (partner invitation, SDC dashboard) */
+.plein-ecran {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: var(--fond);
+}
+
+.retour-plein {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 8px);
+  left: 8px;
+  z-index: 15;
+}
+
+.tour-actif .plein-ecran {
+  pointer-events: none;
+  padding-top: 150px;
+}
+
+.btn-petit {
+  min-height: 44px;
+  font-size: 15px;
+}
+
+.btn-invitation {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.tour-actif .retour-plein {
+  display: none;
+}
+
+/* ===== Palette, shapes and accessibility (all colours come from :root) ===== */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ecrans {
+  display: contents;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lien-evitement {
+  position: absolute;
+  top: -100px;
+  left: 60px;
+  z-index: 40;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--vert-fonce);
+  font-weight: 600;
+}
+
+.lien-evitement:focus {
+  top: calc(env(safe-area-inset-top) + 8px);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visite-barre :focus-visible,
+.carte-fin :focus-visible {
+  outline-color: #fff;
+}
+
+/* Buttons: pill shape, white text on the dark CTA colour */
+.btn {
+  border-radius: 999px;
+}
+
+.btn-primaire,
+.btn-action {
+  background: var(--cta);
+  color: #fff;
+}
+
+.btn-primaire:active,
+.btn-action:active {
+  background: var(--cta-fonce);
+}
+
+.btn[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.progres {
+  color: var(--cta);
+}
+
+.champ {
+  border-color: var(--bordure-champ);
+}
+
+.champ:focus {
+  outline: 3px solid var(--focus);
+  border-color: var(--focus);
+}
+
+.pulse,
+.surbrillance {
+  --halo: rgba(185, 70, 14, 0.6);
+}
+
+@keyframes pulsation {
+  0%, 100% { box-shadow: 0 0 0 0 var(--halo, rgba(185, 70, 14, 0.6)); transform: scale(1); }
+  50% { box-shadow: 0 0 0 14px rgba(185, 70, 14, 0); transform: scale(1.04); }
+}
+
+.surbrillance {
+  outline-color: var(--cta);
+}
+
+.badge-demo {
+  color: var(--texte);
+}
+
+/* Pins: shape + icon + colour */
+.pin-forme {
+  width: 40px;
+  height: 40px;
+  animation: chute 0.6s ease-out both;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.pin-forme svg {
+  display: block;
+}
+
+.pin-etiquette {
+  top: 42px;
+  font-size: 12px;
+  color: var(--texte);
+}
+
+.legende {
+  font-size: 13px;
+  line-height: 1.3;
+  padding: 6px 8px;
+}
+
+.legende li {
+  gap: 6px;
+  min-height: 24px;
+}
+
+.forme {
+  display: inline-block;
+  line-height: 0;
+}
+
+.cercle-etiquette {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--vert-fonce);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Small text sizes */
+.attribution {
+  font-size: 12px;
+}
+
+.attribution a {
+  display: inline-block;
+  padding: 6px 2px;
+}
+
+.tag-prerempli {
+  font-size: 13px;
+}
+
+.simule {
+  font-size: 14px;
+}
+
+.note-simulation {
+  font-size: 14px;
+}
+
+.fiche-note,
+.action-note,
+.profil-resume,
+.carte-projet-ligne {
+  font-size: 14px;
+}
+
+/* Score breakdown */
+.detail-score {
+  margin: 4px 0 0;
+}
+
+.detail-bouton {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--vert);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.barres {
+  margin: 0 0 4px;
+  padding: 0;
+  list-style: none;
+}
+
+.barres li {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr 3rem;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.barre {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--vert-pale);
+  overflow: hidden;
+}
+
+.barre > span {
+  display: block;
+  height: 100%;
+  background: var(--vert);
+}
+
+.barre-val {
+  text-align: right;
+}
+
+/* Sheet and safe areas */
+.feuille {
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding-left: calc(env(safe-area-inset-left) + 20px);
+  padding-right: calc(env(safe-area-inset-right) + 20px);
+}
+
+.screen {
+  padding-left: calc(env(safe-area-inset-left) + 20px);
+  padding-right: calc(env(safe-area-inset-right) + 20px);
+}
+
+/* Inert screens during the tour: no pointer events either */
+.tour-actif .ecrans {
+  pointer-events: none;
+}
+
+/* Reduced motion: no confetti, no pulsing, no sliding, no progress animation */
+@media (prefers-reduced-motion: reduce) {
+  .confettis {
+    display: none;
+  }
+
+  .pin-forme,
+  .feuille,
+  .apparait,
+  .pulse,
+  .surbrillance,
+  .pin-etiquette,
+  .carte-fin {
+    animation: none !important;
+  }
+
+  .visite-progres-rempli {
+    transition: none;
+  }
+}
+
+/* During the tour the top of the map is under the tour bar: keep the licence line visible above the sheet */
+.tour-actif .attribution {
+  top: auto;
+  right: auto;
+  left: 8px;
+  bottom: calc(50dvh + 8px);
+  max-width: 55%;
+}
+
+/* Small text links on the accueil: not full-width buttons */
+.btn-texte {
+  align-self: center;
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 15px;
+}
+
+/* Compact attribution: small, semi-transparent */
+.attribution {
+  max-width: 60%;
+  padding: 1px 6px;
+  background: rgba(255, 255, 255, 0.6);
+  line-height: 1.2;
+}
+
+.attribution a {
+  padding: 3px 2px;
+}
+
+.plein-ecran {
+  padding-top: calc(env(safe-area-inset-top) + 52px);
 }

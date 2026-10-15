@@ -36,7 +36,11 @@ export function useTour() {
     return () => window.clearInterval(t)
   }, [actif, enPause])
 
-  const demarrer = useCallback(() => setEtat({ index: 0, ms: 0, pause: false }), [])
+  // Under reduced motion the tour starts paused: the viewer moves on with « Suivant ».
+  const demarrer = useCallback(() => {
+    const calme = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setEtat({ index: 0, ms: 0, pause: calme })
+  }, [])
   const quitter = useCallback(() => setEtat(null), [])
   const basculerPause = useCallback(() => setEtat((e) => (e ? { ...e, pause: !e.pause } : e)), [])
   const suivant = useCallback(

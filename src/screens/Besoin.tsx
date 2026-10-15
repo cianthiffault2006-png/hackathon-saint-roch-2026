@@ -62,6 +62,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
         <button type="button" className="retour" onClick={onRetour} aria-label={fr.besoin.boutonRetour}>←</button>
         <span className="role-tag">{LIBELLE_ROLE[role]}</span>
       </header>
+      <h1 className="sr-only">{fr.besoin.titre}</h1>
       {asker && (
         <p className="profil-ligne">
           {fr.besoin.votreProfil} <strong>{asker.nom}</strong>
@@ -87,9 +88,16 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
       <Chips options={CRENEAUX} selected={creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux((p) => bascule(p, c))} />
       <div className="pied">
-        <button type="button" className={pulse ? 'btn btn-primaire pulse' : 'btn btn-primaire'} disabled={!pret} onClick={soumettre}>
+        <button
+          type="button"
+          className={pulse ? 'btn btn-primaire pulse' : 'btn btn-primaire'}
+          aria-disabled={!pret}
+          aria-describedby={pret ? undefined : 'aide-besoin'}
+          onClick={() => { if (pret) soumettre() }}
+        >
           {fr.besoin.bouton}
         </button>
+        <p id="aide-besoin" className="sr-only">{fr.besoin.aideBouton}</p>
       </div>
     </main>
   )

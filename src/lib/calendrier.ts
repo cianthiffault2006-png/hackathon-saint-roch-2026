@@ -1,4 +1,4 @@
-import { T } from '../textes'
+import { fr } from '../i18n/fr'
 import { libelleDate } from './date'
 import type { Projet } from './projets'
 
@@ -18,7 +18,7 @@ export function lieuComplet(p: Projet): string {
 export function descriptionProjet(p: Projet): string {
   const partenaires = p.partenaires.map((x) => `- ${x.nom} : ${x.apport}`).join('\n')
   const points = p.aConfirmer.map((x, i) => `${p.coches[i] ? '[x]' : '[ ]'} ${x}`).join('\n')
-  return `${T.ics.description}\n\n${T.ics.partenaires} :\n${partenaires}\n\n${T.ics.aConfirmer} :\n${points}`
+  return `${fr.ics.description}\n\n${fr.ics.partenaires} :\n${partenaires}\n\n${fr.ics.aConfirmer} :\n${points}`
 }
 
 function echapper(texte: string): string {
@@ -71,7 +71,7 @@ export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
     `LOCATION:${echapper(lieuComplet(p))}`,
     'BEGIN:VALARM',
     'ACTION:DISPLAY',
-    `DESCRIPTION:${echapper(T.ics.rappel)}`,
+    `DESCRIPTION:${echapper(fr.ics.rappel)}`,
     'TRIGGER:-P1D',
     'END:VALARM',
     'END:VEVENT',
@@ -108,5 +108,5 @@ export function lienGoogleAgenda(p: Projet): string {
 
 export function resumePartage(p: Projet): { objet: string; texte: string } {
   const noms = p.partenaires.map((x) => x.nom).join(', ')
-  return { objet: T.partage.objet(p.titre), texte: T.partage.texte(p.titre, libelleDate(p), noms) }
+  return { objet: fr.fiche.objetPartage(p.titre), texte: fr.fiche.partageTexte(p.titre, libelleDate(p), noms) }
 }

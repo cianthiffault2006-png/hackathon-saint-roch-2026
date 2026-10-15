@@ -288,6 +288,7 @@ export default function App() {
           projets={enVisite ? undefined : projets}
           onParticiper={enVisite ? undefined : participer}
           onPlusOptions={enVisite || !dernierBesoin ? undefined : () => setEcran('plus')}
+          onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onRetour={() => setEcran('besoin')}
         />
       )}

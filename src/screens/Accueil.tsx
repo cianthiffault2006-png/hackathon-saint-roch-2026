@@ -3,6 +3,7 @@ import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
 import { MarqueBoucle, PinForme } from '../components/Icones'
+import { useBureau } from '../layout/useBureau'
 
 interface Props {
   onRole: (role: Role) => void
@@ -21,6 +22,8 @@ interface Props {
 }
 
 export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer, onDashboard, onReclamer }: Props) {
+  // From 900 px the sidebar already holds these entries: keep only what it lacks (« Réclamez votre fiche »).
+  const bureau = useBureau()
   const liens = [
     { cle: 'proposer', libelle: fr.accueil.proposer, action: onProposer },
     { cle: 'dashboard', libelle: fr.nav.dashboard, action: onDashboard },
@@ -28,7 +31,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
     { cle: 'sdc', libelle: fr.accueil.tableauSdc, action: onSdc },
     { cle: 'sources', libelle: fr.sources.titre, action: onSources },
     { cle: 'projets', libelle: fr.projets.titre, action: onProjets },
-  ].filter((l) => l.action)
+  ].filter((l) => l.action && (!bureau || l.cle === 'reclamer'))
 
   return (
     <main className="screen accueil">
@@ -62,7 +65,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         <button type="button" className="btn btn-lien" data-visite onClick={onVisite}>
           {fr.accueil.visiteGuidee}
         </button>
-        {onExplorer && (
+        {onExplorer && !bureau && (
           <button type="button" className="btn btn-lien" onClick={onExplorer}>
             {fr.accueil.explorer}
           </button>

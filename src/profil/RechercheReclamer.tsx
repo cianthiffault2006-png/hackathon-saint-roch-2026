@@ -8,6 +8,7 @@ import { useReclames } from './useReclames'
 import './Reclamer.css'
 
 const r = fr.reclamer.recherche
+const DELAI_ANNONCE_MS = 500
 
 interface Props {
   /** Profiles with local claims already applied. */
@@ -25,6 +26,13 @@ export default function RechercheReclamer({ profils, evenements, onRetour, onPro
   const titre = useRef<HTMLHeadingElement>(null)
   const resultats = useMemo(() => rechercherAReclamer(profils, requete, reclames), [profils, requete, reclames])
   const choisi = choisiId ? (profils.find((p) => p.id === choisiId) ?? null) : null
+  const nb = r.nb(resultats.length)
+  // Screen readers hear the count once typing pauses, not on every key.
+  const [annonce, setAnnonce] = useState(nb)
+  useEffect(() => {
+    const minuterie = window.setTimeout(() => setAnnonce(nb), DELAI_ANNONCE_MS)
+    return () => window.clearTimeout(minuterie)
+  }, [nb])
 
   useEffect(() => {
     if (!choisi) titre.current?.focus()
@@ -43,7 +51,8 @@ export default function RechercheReclamer({ profils, evenements, onRetour, onPro
         <span>{r.etiquette}</span>
         <input className="rc-input" type="search" value={requete} onChange={(ev) => setRequete(ev.target.value)} autoComplete="off" />
       </label>
-      <p className="rc-aide" role="status">{r.nb(resultats.length)}</p>
+      <p className="rc-aide" aria-hidden="true">{nb}</p>
+      <p className="sr-only" role="status">{annonce}</p>
       <ul className="rc-liste">
         {resultats.map((p) => (
           <li key={p.id}>

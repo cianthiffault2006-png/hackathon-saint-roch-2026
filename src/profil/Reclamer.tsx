@@ -4,15 +4,11 @@ import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 import { t } from '../explorer/textes'
-import { badgeReclamation, courrielMasque, courrielValide, verifierCode } from './reclamation'
+import { ETAPES_AVEC_LIEN, ETAPES_SANS_LIEN, badgeReclamation, courrielMasque, courrielValide, etapesInitiales, verifierCode, type EtapeReclamation as Etape } from './reclamation'
 import { annulerReclamation, enregistrerReclamation } from './useReclames'
 import './Reclamer.css'
 
 const r = fr.reclamer
-
-type Etape = 'choix' | 'code' | 'profil' | 'visibilite' | 'fait' | 'courriel' | 'envoye'
-const AVEC_LIEN: Etape[] = ['choix', 'code', 'profil', 'visibilite', 'fait']
-const SANS_LIEN: Etape[] = ['choix', 'courriel', 'envoye']
 
 interface Props {
   profil: Profil
@@ -24,8 +20,9 @@ const basculer = <T,>(liste: T[], v: T) => (liste.includes(v) ? liste.filter((x)
 
 export default function Reclamer({ profil, onFermer }: Props) {
   const badge = badgeReclamation(profil)
-  const [etape, setEtape] = useState<Etape>(badge ? 'choix' : 'courriel')
-  const [chemin, setChemin] = useState<Etape[]>(badge ? AVEC_LIEN : SANS_LIEN)
+  // Not on a list (verifie 'non'): the no-link path only, so neither the link option nor a Retour to it.
+  const [chemin, setChemin] = useState<Etape[]>(() => etapesInitiales(profil))
+  const [etape, setEtape] = useState<Etape>(chemin[0])
   const [erreur, setErreur] = useState('')
   const [code, setCode] = useState('')
   const [nom, setNom] = useState(profil.nom)
@@ -39,6 +36,7 @@ export default function Reclamer({ profil, onFermer }: Props) {
   const titre = useRef<HTMLHeadingElement>(null)
   const ids = useId()
   const idErreur = `${ids}-erreur`
+  const idDemo = `${ids}-demo`
 
   // Each step announces itself: focus goes to its heading.
   useEffect(() => {
@@ -57,7 +55,8 @@ export default function Reclamer({ profil, onFermer }: Props) {
   }
 
   function choisir(avecLien: boolean) {
-    setChemin(avecLien ? AVEC_LIEN : SANS_LIEN)
+    if (avecLien && !badge) return
+    setChemin(avecLien ? ETAPES_AVEC_LIEN : ETAPES_SANS_LIEN)
     aller(avecLien ? 'code' : 'courriel')
   }
 
@@ -136,10 +135,12 @@ export default function Reclamer({ profil, onFermer }: Props) {
         {etape === 'choix' && (
           <section className="rc-etape">
             <h2 ref={titre} tabIndex={-1}>{r.choix.titre}</h2>
-            <button type="button" className="rc-option" onClick={() => choisir(true)}>
-              <strong>{r.choix.lien}</strong>
-              <span>{r.choix.lienAide}</span>
-            </button>
+            {badge && (
+              <button type="button" className="rc-option" onClick={() => choisir(true)}>
+                <strong>{r.choix.lien}</strong>
+                <span>{r.choix.lienAide}</span>
+              </button>
+            )}
             <button type="button" className="rc-option" onClick={() => choisir(false)}>
               <strong>{r.choix.sansLien}</strong>
               <span>{r.choix.sansLienAide}</span>
@@ -162,10 +163,11 @@ export default function Reclamer({ profil, onFermer }: Props) {
                 autoComplete="one-time-code"
                 pattern="[0-9 ]*"
                 maxLength={7}
-                {...champErreur(true)}
+                aria-invalid={erreur ? true : undefined}
+                aria-describedby={erreur ? `${idDemo} ${idErreur}` : idDemo}
               />
             </label>
-            <p className="rc-demo">{r.code.demo}</p>
+            <p id={idDemo} className="rc-demo">{r.code.demo}</p>
             <button type="submit" className="rc-btn rc-btn-p">{r.code.verifier}</button>
           </form>
         )}

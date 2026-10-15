@@ -120,29 +120,42 @@ const DEBUT: Record<TypeProjet, string> = {
 /** Types qui se passent « chez » l'hôte; les autres se font « avec » lui. */
 const CHEZ: TypeProjet[] = ['exposition', 'spectacle', 'atelier', 'marche_ephemere', 'conference'];
 
-// Genre du premier mot d'un nom de lieu public (Données Québec, SIT): « au Centre… », « à la Salle… ».
+// Genre du premier mot d'un nom de lieu ou d'entreprise : « au Centre… », « à la Salle… », « au Café… ».
+// Un nom de personne n'y figure pas : il garde « chez ».
 const MASCULINS = [
   'centre', 'jardin', 'parc', 'pavillon', 'theatre', 'musee', 'complexe', 'carre', 'espace', 'studio', 'cinema',
   'stade', 'marche', 'quai', 'square', 'local', 'atelier', 'edifice', 'hotel', 'institut', 'college', 'cegep',
   'amphitheatre', 'auditorium', 'bar', 'cafe', 'club', 'chalet', 'belvedere', 'boise', 'terrain', 'sentier',
   'entrepot', 'carrefour', 'palais', 'manege', 'observatoire', 'stationnement', 'monastere', 'presbytere', 'lieu',
+  'resto', 'restaurant', 'bistro', 'bistrot', 'pub', 'comptoir', 'magasin', 'depanneur', 'salon', 'collectif', 'regroupement',
 ];
 const FEMININS = [
   'bibliotheque', 'salle', 'place', 'maison', 'eglise', 'ecole', 'galerie', 'marina', 'universite', 'patinoire',
   'piscine', 'halte', 'chapelle', 'cooperative', 'cour', 'terrasse', 'plage', 'promenade', 'gare', 'caserne',
   'mediatheque', 'colonne', 'agora', 'arena',
+  'microbrasserie', 'brasserie', 'librairie', 'boulangerie', 'patisserie', 'epicerie', 'fromagerie', 'boucherie',
+  'fruiterie', 'chocolaterie', 'creperie', 'cantine', 'taverne', 'friperie', 'boutique', 'coop', 'association', 'equipe',
 ];
 // Mots en h muet: on élide (« à l'Hôtel de ville »); les autres h sont aspirés (« à la Halte »).
 const H_MUET = ['hotel', 'hopital'];
 const sansAccent = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+// Salles connues dont le nom ne commence pas par un nom commun (SIT Québec), repérées par la partie avant la virgule.
+const PARTICULIERS = new Map<string, string>([
+  ['imperial bell', 'à l’Impérial Bell'],
+  ['meduse', 'à Méduse'],
+  ['engramme', 'à Engramme'],
+  ['vu', 'à VU'],
+]);
 
 /**
- * « à » devant un nom de lieu public, avec élision et contraction : « au Centre Materia », « à la Salle Dauphine »,
- * « à l’Université… », « aux Jardins… », « au Lieu… » (Le), « aux Ateliers… » (Les), « à La Bordée », « à L’Anti Bar ».
- * null quand le genre est inconnu (nom propre seul, sigle).
+ * « à » devant un nom de lieu ou d'entreprise, avec élision et contraction : « au Centre Materia », « à la Salle Dauphine »,
+ * « à l’Université… », « aux Jardins… », « au Lieu… » (Le), « aux Ateliers… » (Les), « à La Bordée », « à L’Anti Bar »,
+ * et les salles connues (« à l’Impérial Bell », « à Méduse »). null quand le genre est inconnu (nom de personne, sigle).
  */
 export function aLieu(nom: string): string | null {
   const n = nom.trim().replace(/'/g, '’');
+  const particulier = PARTICULIERS.get(sansAccent(n.split(',')[0].trim()));
+  if (particulier) return particulier;
   if (/^le\s/i.test(n)) return `au ${n.replace(/^le\s+/i, '')}`;
   if (/^les\s/i.test(n)) return `aux ${n.replace(/^les\s+/i, '')}`;
   if (/^(la\s|l’)/i.test(n)) return `à ${n}`;
@@ -162,13 +175,15 @@ export const AU_LIEU_PUBLIC = 'au lieu public proposé';
 /**
  * Titre d'une proposition. `lieuPublic`: l'hôte est un lieu public des données ouvertes (pas une entreprise),
  * donc jamais « chez » ni « avec » : « Soirée spectacle au Centre Materia ».
+ * Hôte privé dont le nom commence par un nom commun : « au Café Le Petit Détour », « à la Galerie L’Éclat ».
+ * « chez » reste pour une personne (« chez Camille Vézina »); un nom qui commence par « Chez » n'en reçoit pas un deuxième.
  */
 export function titre(type: TypeProjet, nomHote: string, lieuPublic = false): string {
   if (lieuPublic) return `${DEBUT[type]} ${aLieu(nomHote) ?? AU_LIEU_PUBLIC}`;
   if (!CHEZ.includes(type)) return `${DEBUT[type]} avec ${nomHote}`;
-  // « Chez Untel » est déjà un « chez »: on n'en ajoute pas un deuxième.
   const hote = nomHote.trim();
-  return /^chez\s/i.test(hote) ? `${DEBUT[type]} ${hote}` : `${DEBUT[type]} chez ${nomHote}`;
+  if (/^chez\s/i.test(hote)) return `${DEBUT[type]} ${hote}`;
+  return `${DEBUT[type]} ${aLieu(hote) ?? `chez ${hote}`}`;
 }
 
 const APPORT_TYPE: Record<TypeProjet, string> = {
@@ -283,7 +298,12 @@ export const proposerAu = (
     const securiteExt = themes.includes('securite') && besoin.besoins.includes('espace_exterieur') && !besoin.besoins.includes('contenu_artistique');
     const type: TypeProjet = corvee ? 'corvee_proprete' : choisirType(tags, themes, sansExposition, securiteExt);
 
-    const hoteProfil = profs.find((p) => inter(p.offres, ESPACES).length) ?? (inter(besoin.offres, ESPACES).length ? moi : undefined);
+    // Hôte : qui fournit l'espace. Le demandeur s'il en offre un, sinon le partenaire qui l'apporte au projet,
+    // sinon un partenaire qui en a un.
+    const offreEspace = (tags: Tag[]) => inter(tags, ESPACES).length > 0;
+    const hoteProfil = (offreEspace(besoin.offres) ? moi : undefined)
+      ?? membres.find((m) => offreEspace(m.comp.length ? m.comp : m.p.offres))?.p
+      ?? profs.find((p) => offreEspace(p.offres));
     const hoteNom = corvee ? (equipe ?? profs.find((p) => p.offres.includes('materiel')) ?? profs[0]).nom : hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
     const hotePos: Point = hoteProfil ?? lieu ?? pos ?? profs[0];
 

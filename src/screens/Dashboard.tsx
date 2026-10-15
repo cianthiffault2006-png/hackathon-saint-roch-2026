@@ -1,4 +1,3 @@
-
 import type { Projet } from '../lib/projets'
 import { fr } from '../i18n/fr'
 
@@ -36,33 +35,30 @@ export default function Dashboard({
     <main className="screen dashboard">
       <header className="dashboard-entete">
         <div>
-          <h1>Tableau de bord</h1>
-          <p>
-            Retrouvez vos initiatives et suivez
-            vos collaborations à Saint-Roch.
-          </p>
+          <h1>{fr.dashboard.titre}</h1>
+          <p>{fr.dashboard.intro}</p>
         </div>
       </header>
 
-      <section aria-label="Statistiques de mes projets">
+      <section aria-label={fr.dashboard.stats}>
         <div className="dashboard-stats">
           <div className="dashboard-stat">
-            <span>Mes projets</span>
+            <span>{fr.dashboard.total}</span>
             <strong>{total}</strong>
           </div>
 
           <div className="dashboard-stat">
-            <span>En attente</span>
+            <span>{fr.dashboard.enAttente}</span>
             <strong>{enAttente}</strong>
           </div>
 
           <div className="dashboard-stat">
-            <span>Confirmés (simulation)</span>
+            <span>{fr.dashboard.confirmes}</span>
             <strong>{confirmes}</strong>
           </div>
 
           <div className="dashboard-stat">
-            <span>Proposés</span>
+            <span>{fr.dashboard.proposes}</span>
             <strong>{proposes}</strong>
           </div>
         </div>
@@ -70,7 +66,7 @@ export default function Dashboard({
 
       <section className="dashboard-section">
         <div className="dashboard-section-entete">
-          <h2>Mes projets récents</h2>
+          <h2>{fr.dashboard.recents}</h2>
 
           {total > 0 && (
             <button
@@ -78,25 +74,22 @@ export default function Dashboard({
               className="dashboard-lien"
               onClick={onVoirProjets}
             >
-              Voir tous les projets →
+              {fr.dashboard.voirTous}
             </button>
           )}
         </div>
 
         {total === 0 ? (
           <div className="dashboard-vide">
-            <h3>Aucun projet pour le moment</h3>
-            <p>
-              Exprimez votre besoin pour découvrir
-              des partenaires potentiels.
-            </p>
+            <h3>{fr.dashboard.videTitre}</h3>
+            <p>{fr.dashboard.videTexte}</p>
 
             <button
               type="button"
               className="btn btn-primaire"
               onClick={onNouveauProjet}
             >
-              Découvrir des collaborations
+              {fr.dashboard.decouvrir}
             </button>
           </div>
         ) : (
@@ -114,20 +107,18 @@ export default function Dashboard({
                       `statut-mini statut-${projet.statut}`
                     }
                   >
-                    {fr.proposition.statuts[projet.statut]}
+                    {projet.inscrit ? fr.evenement.inscrit : fr.proposition.statuts[projet.statut]}
                   </span>
                 </div>
 
-                <p>
-                  {projet.partenaires.length} partenaire(s)
-                </p>
+                <p>{fr.dashboard.partenaires(projet.partenaires.length)}</p>
 
                 <button
                   type="button"
                   className="dashboard-lien"
                   onClick={() => onOuvrirProjet(projet.id)}
                 >
-                  Ouvrir la fiche →
+                  {fr.dashboard.ouvrir}
                 </button>
               </article>
             ))}
@@ -135,10 +126,7 @@ export default function Dashboard({
         )}
       </section>
 
-      <p className="note-simulation">
-        Les collaborations et confirmations sont
-        simulées dans ce prototype.
-      </p>
+      <p className="note-simulation">{fr.dashboard.simulation}</p>
     </main>
   )
 }

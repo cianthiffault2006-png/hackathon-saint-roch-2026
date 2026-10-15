@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Besoin } from '../types.ts';
 import { besoinCafe, evenements, lieux, MAINTENANT, profils } from './__fixtures__/index.ts';
-import { enumerer, proposer, proposerAu, titre } from './proposer.ts';
+import { aLieu, enumerer, proposer, proposerAu, titre } from './proposer.ts';
 
 const lancer = (b: Besoin, ps = profils, ls = lieux, es = evenements) => proposerAu(b, ps, ls, es, MAINTENANT);
 
@@ -178,6 +178,39 @@ describe('proposer: français des sorties', () => {
     expect(titre('exposition', 'Chez Gaston')).toBe('Exposition collaborative Chez Gaston');
     expect(titre('spectacle', 'chez Lulu')).toBe('Soirée spectacle chez Lulu');
     expect(titre('atelier', 'Café Le Pignon')).toBe('Atelier ouvert chez Café Le Pignon');
+  });
+  it('lieu public: jamais « chez », « à » contracté et élidé', () => {
+    expect(titre('spectacle', 'Centre Materia', true)).toBe('Soirée spectacle au Centre Materia');
+    expect(titre('exposition', 'Bibliothèque Gabrielle-Roy', true)).toBe('Exposition collaborative à la Bibliothèque Gabrielle-Roy');
+    expect(titre('atelier', 'Université du Québec-Télé-Université', true)).toBe('Atelier ouvert à l’Université du Québec-Télé-Université');
+    expect(titre('animation_de_rue', 'Parc-école des Berges', true)).toBe('Animation de rue au Parc-école des Berges');
+    expect(titre('conference', 'Le Lieu, centre en art actuel', true)).toBe('Conférence au Lieu, centre en art actuel');
+    expect(titre('marche_ephemere', 'Les Halles du Faubourg', true)).toBe('Marché éphémère aux Halles du Faubourg');
+    expect(titre('spectacle', 'Jardins de la Ville', true)).toBe('Soirée spectacle aux Jardins de la Ville');
+    expect(titre('spectacle', "L'Anti Bar & Spectacles", true)).toBe('Soirée spectacle à L’Anti Bar & Spectacles');
+    expect(titre('spectacle', 'La Korrigane', true)).toBe('Soirée spectacle à La Korrigane');
+    expect(titre('collecte', 'Hôtel de ville', true)).toBe('Collecte communautaire à l’Hôtel de ville');
+    expect(titre('verdissement', 'Marina Saint-Roch', true)).toBe('Projet de verdissement à la Marina Saint-Roch');
+  });
+  it('lieu public au genre inconnu: « au lieu public proposé »', () => {
+    expect(aLieu('Méduse')).toBeNull();
+    expect(aLieu('VU, centre de diffusion et production de la photographie')).toBeNull();
+    expect(titre('spectacle', 'Méduse', true)).toBe('Soirée spectacle au lieu public proposé');
+  });
+  it('hôte privé (entreprise fictive): garde « chez » et « avec »', () => {
+    expect(titre('spectacle', 'Centre Materia')).toBe('Soirée spectacle chez Centre Materia');
+    expect(titre('animation_de_rue', 'Café Le Pignon')).toBe('Animation de rue avec Café Le Pignon');
+  });
+  it('proposition hébergée par un lieu public: titre sans « chez »', () => {
+    const artiste: Besoin = {
+      auteurRole: 'citoyen', auteurId: 'story-artiste', texte: '',
+      besoins: ['espace_interieur', 'visibilite'], offres: ['contenu_artistique'],
+      creneaux: ['semaine_soir'], themes: ['art'],
+    };
+    const res = lancer(artiste, profils.filter((p) => !['story-cafe', 'bistro', 'loin'].includes(p.id)));
+    expect(res[0].lieuId).toBe('lieu-salle');
+    expect(res[0].titre).not.toMatch(/chez/);
+    expect(res[0].titre).toMatch(/ à la Salle communautaire Dauphine$/);
   });
   it('énumération « a, b et c »', () => {
     expect(enumerer(['a'])).toBe('a');

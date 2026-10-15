@@ -1,0 +1,254 @@
+[
+ {
+  "id": "ev-01",
+  "titre": "Soirée de lancement de saison",
+  "promoteurId": "story-cafe",
+  "lieuNom": "Café Le Parvis",
+  "lat": 46.816806,
+  "lng": -71.228583,
+  "debut": "2026-10-29T19:00:00",
+  "fin": "2026-10-29T21:30:00",
+  "categorie": "soirée",
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-02",
+  "titre": "Lecture publique d'automne",
+  "promoteurId": "p-librairie",
+  "lieuNom": "Librairie La Marge Douce",
+  "lat": 46.811093,
+  "lng": -71.22991,
+  "debut": "2026-10-22T19:00:00",
+  "fin": "2026-10-22T20:30:00",
+  "categorie": "lecture",
+  "themes": [
+   "culture"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-03",
+  "titre": "Dégustation de bières d'automne",
+  "promoteurId": "p-brasserie",
+  "lieuNom": "Microbrasserie Le Houblon Voisin",
+  "lat": 46.817874,
+  "lng": -71.226544,
+  "debut": "2026-10-24T16:00:00",
+  "fin": "2026-10-24T19:00:00",
+  "categorie": "dégustation",
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-04",
+  "titre": "Spectacle de quartier",
+  "promoteurId": "p-salle",
+  "lieuNom": "Salle Le Bémol",
+  "lat": 46.812708,
+  "lng": -71.230927,
+  "debut": "2026-11-06T20:00:00",
+  "fin": "2026-11-06T22:30:00",
+  "categorie": "spectacle",
+  "themes": [
+   "culture",
+   "art"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-05",
+  "titre": "Corvée de verdissement d'automne",
+  "promoteurId": "p-comitevert",
+  "lieuNom": "Local du Comité vert",
+  "lat": 46.813652,
+  "lng": -71.227551,
+  "debut": "2026-10-25T10:00:00",
+  "fin": "2026-10-25T13:00:00",
+  "categorie": "corvée",
+  "themes": [
+   "environnement",
+   "communautaire"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-06",
+  "titre": "Vernissage collectif",
+  "promoteurId": "p-obscura",
+  "lieuNom": "Centre de photographie Obscura",
+  "lat": 46.819498,
+  "lng": -71.231555,
+  "debut": "2026-11-12T18:00:00",
+  "fin": "2026-11-12T20:30:00",
+  "categorie": "exposition",
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-07",
+  "titre": "Soupe populaire de novembre",
+  "promoteurId": "p-marmite",
+  "lieuNom": "Cuisine collective La Marmite",
+  "lat": 46.811979,
+  "lng": -71.227948,
+  "debut": "2026-11-14T11:30:00",
+  "fin": "2026-11-14T13:30:00",
+  "categorie": "repas communautaire",
+  "themes": [
+   "alimentation",
+   "communautaire"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-08",
+  "titre": "Soirée de jeux étudiante",
+  "promoteurId": "p-jeux",
+  "lieuNom": "Café-jeux Le Dé Pipé",
+  "lat": 46.820909,
+  "lng": -71.231363,
+  "debut": "2026-11-18T18:30:00",
+  "fin": "2026-11-18T22:00:00",
+  "categorie": "soirée étudiante",
+  "themes": [
+   "etudiants",
+   "jeunesse"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-09",
+  "titre": "Concert de la chorale",
+  "promoteurId": "p-chorale",
+  "lieuNom": "Local de la chorale",
+  "lat": 46.812054,
+  "lng": -71.223538,
+  "debut": "2026-11-20T19:30:00",
+  "fin": "2026-11-20T21:00:00",
+  "categorie": "concert",
+  "themes": [
+   "culture",
+   "communautaire"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-10",
+  "titre": "Marché de Noël des artisans",
+  "promoteurId": "p-galerie",
+  "lieuNom": "Galerie L'Éclat",
+  "lat": 46.814606,
+  "lng": -71.22064,
+  "debut": "2026-12-05T10:00:00",
+  "fin": "2026-12-05T17:00:00",
+  "categorie": "marché",
+  "themes": [
+   "art",
+   "commerce_local"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-11",
+  "titre": "Démonstration de cirque de rue",
+  "promoteurId": "p-cirque",
+  "lieuNom": "Atelier de cirque",
+  "lat": 46.819195,
+  "lng": -71.229043,
+  "debut": "2026-11-28T14:00:00",
+  "fin": "2026-11-28T16:00:00",
+  "categorie": "animation de rue",
+  "themes": [
+   "jeunesse",
+   "culture"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-12",
+  "titre": "Course nocturne des lumières",
+  "promoteurId": "p-foulees",
+  "lieuNom": "Départ du local du club",
+  "lat": 46.82017,
+  "lng": -71.230554,
+  "debut": "2026-12-03T18:30:00",
+  "fin": "2026-12-03T20:30:00",
+  "categorie": "sport",
+  "themes": [
+   "sport",
+   "jeunesse"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-13",
+  "titre": "Café-causerie sur l'histoire du quartier",
+  "promoteurId": "p-aines",
+  "lieuNom": "Local de l'association",
+  "lat": 46.818393,
+  "lng": -71.220367,
+  "debut": "2026-10-30T14:00:00",
+  "fin": "2026-10-30T15:30:00",
+  "categorie": "conférence",
+  "themes": [
+   "communautaire"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-14",
+  "titre": "Soirée d'accueil des nouveaux résidents",
+  "lieuNom": "Salle communautaire",
+  "lat": 46.81706,
+  "lng": -71.236183,
+  "debut": "2026-11-05T18:00:00",
+  "fin": "2026-11-05T20:00:00",
+  "categorie": "accueil",
+  "themes": [
+   "communautaire"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-15",
+  "titre": "Soirée d'improvisation du jeudi",
+  "promoteurId": "p-theatre",
+  "lieuNom": "Salle Le Bémol",
+  "lat": 46.812708,
+  "lng": -71.230927,
+  "debut": "2026-12-10T20:00:00",
+  "fin": "2026-12-10T22:00:00",
+  "categorie": "spectacle",
+  "themes": [
+   "culture",
+   "art"
+  ],
+  "source": "fictif"
+ },
+ {
+  "id": "ev-16",
+  "titre": "Atelier de peinture ouvert",
+  "promoteurId": "story-artiste",
+  "lieuNom": "Atelier de Camille",
+  "lat": 46.814705,
+  "lng": -71.229775,
+  "debut": "2026-12-12T13:00:00",
+  "fin": "2026-12-12T16:00:00",
+  "categorie": "atelier",
+  "themes": [
+   "art",
+   "culture"
+  ],
+  "source": "fictif"
+ }
+]

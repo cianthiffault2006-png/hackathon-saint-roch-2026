@@ -1,0 +1,459 @@
+[
+ {
+  "id": "vque14-102353",
+  "nom": "Bibliothèque Gabrielle-Roy",
+  "type": "salle",
+  "lat": 46.814216,
+  "lng": -71.225952,
+  "offres": [
+   "espace_interieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-202863",
+  "nom": "Centre communautaire YMCA-Saint-Roch",
+  "type": "salle",
+  "lat": 46.814124,
+  "lng": -71.220193,
+  "offres": [
+   "espace_interieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-203244",
+  "nom": "Jardin communautaire Prince-Édouard",
+  "type": "parc",
+  "lat": 46.818751,
+  "lng": -71.22162,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-105751",
+  "nom": "Jardin communautaire Saint-Roch",
+  "type": "parc",
+  "lat": 46.817299,
+  "lng": -71.226214,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201317",
+  "nom": "Marina Saint-Roch",
+  "type": "place_publique",
+  "lat": 46.818623,
+  "lng": -71.225975,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-200346",
+  "nom": "Parc canin de la Pointe-aux-Lièvres",
+  "type": "parc",
+  "lat": 46.822193,
+  "lng": -71.238144,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-105753",
+  "nom": "Parc-école des Berges",
+  "type": "parc",
+  "lat": 46.817576,
+  "lng": -71.225226,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-203118",
+  "nom": "Pavillon de la Pointe-aux-Lièvres",
+  "type": "salle",
+  "lat": 46.821727,
+  "lng": -71.235541,
+  "offres": [
+   "espace_interieur"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201324",
+  "nom": "Pavillon de Tennis Victoria",
+  "type": "parc",
+  "lat": 46.817633,
+  "lng": -71.232222,
+  "offres": [
+   "espace_exterieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-100964",
+  "nom": "Stationnement Centrale de police",
+  "type": "stationnement",
+  "lat": 46.816186,
+  "lng": -71.230893,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201753",
+  "nom": "Stationnement Centre récréatif Saint-Roch",
+  "type": "stationnement",
+  "lat": 46.817535,
+  "lng": -71.223634,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-101000",
+  "nom": "Stationnement Cinéplex-Odéon (Charest )",
+  "type": "stationnement",
+  "lat": 46.814003,
+  "lng": -71.220655,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201809",
+  "nom": "Stationnement de la Chancelière",
+  "type": "stationnement",
+  "lat": 46.815481,
+  "lng": -71.22278,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201725",
+  "nom": "Stationnement Édifice F.X. Drolet",
+  "type": "stationnement",
+  "lat": 46.818496,
+  "lng": -71.222522,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-101039",
+  "nom": "Stationnement Hôtel Ramada (centre-ville)",
+  "type": "stationnement",
+  "lat": 46.814572,
+  "lng": -71.224657,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-202249",
+  "nom": "Stationnement I.N.R.S.",
+  "type": "stationnement",
+  "lat": 46.8127,
+  "lng": -71.224376,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201717",
+  "nom": "Stationnement Parc de la Pointe-aux-Lièvres",
+  "type": "stationnement",
+  "lat": 46.821258,
+  "lng": -71.234813,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-100965",
+  "nom": "Stationnement Parc Victoria",
+  "type": "stationnement",
+  "lat": 46.818469,
+  "lng": -71.232474,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-101005",
+  "nom": "Stationnement Parc-auto Palais Justice",
+  "type": "stationnement",
+  "lat": 46.817846,
+  "lng": -71.21729,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-101021",
+  "nom": "Stationnement Place Jacques-Cartier",
+  "type": "stationnement",
+  "lat": 46.814142,
+  "lng": -71.226198,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201759",
+  "nom": "Stationnement Place La Rivière",
+  "type": "stationnement",
+  "lat": 46.818531,
+  "lng": -71.217891,
+  "offres": [],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "vque14-201641",
+  "nom": "Université du Québec-Télé-Université",
+  "type": "salle",
+  "lat": 46.813335,
+  "lng": -71.222243,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux publics, licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PFX",
+  "nom": "Le Lieu, centre en art actuel",
+  "type": "lieu_culturel",
+  "lat": 46.816283,
+  "lng": -71.221302,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PJS",
+  "nom": "VU, centre de diffusion et production de la photographie",
+  "type": "lieu_culturel",
+  "lat": 46.812673,
+  "lng": -71.22134,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PJT",
+  "nom": "L'OEil de Poisson - Centre de production et de diffusion en art actuel",
+  "type": "lieu_culturel",
+  "lat": 46.812657,
+  "lng": -71.22139,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PK0",
+  "nom": "Centre Materia",
+  "type": "lieu_culturel",
+  "lat": 46.813477,
+  "lng": -71.224235,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PK7",
+  "nom": "Engramme",
+  "type": "lieu_culturel",
+  "lat": 46.812486,
+  "lng": -71.22194,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PMN",
+  "nom": "Salle Multi et studio d'Essai de Méduse",
+  "type": "lieu_culturel",
+  "lat": 46.813003,
+  "lng": -71.2206,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PQC",
+  "nom": "Théâtre La Bordée",
+  "type": "lieu_culturel",
+  "lat": 46.813626,
+  "lng": -71.226075,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500PZE",
+  "nom": "Impérial Bell",
+  "type": "lieu_culturel",
+  "lat": 46.813378,
+  "lng": -71.227639,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500R92",
+  "nom": "L'Anti Bar & Spectacles",
+  "type": "lieu_culturel",
+  "lat": 46.815599,
+  "lng": -71.228589,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "sit-CULTMTOV500RT5",
+  "nom": "Méduse",
+  "type": "lieu_culturel",
+  "lat": 46.812794,
+  "lng": -71.221283,
+  "offres": [
+   "espace_interieur",
+   "visibilite"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0"
+ },
+ {
+  "id": "morris-1",
+  "nom": "Colonne Morris fictive 1",
+  "type": "colonne_morris",
+  "lat": 46.813332,
+  "lng": -71.228968,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ },
+ {
+  "id": "morris-2",
+  "nom": "Colonne Morris fictive 2",
+  "type": "colonne_morris",
+  "lat": 46.81596,
+  "lng": -71.222069,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ },
+ {
+  "id": "morris-3",
+  "nom": "Colonne Morris fictive 3",
+  "type": "colonne_morris",
+  "lat": 46.810399,
+  "lng": -71.227536,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ },
+ {
+  "id": "morris-4",
+  "nom": "Colonne Morris fictive 4",
+  "type": "colonne_morris",
+  "lat": 46.819353,
+  "lng": -71.220897,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ },
+ {
+  "id": "morris-5",
+  "nom": "Colonne Morris fictive 5",
+  "type": "colonne_morris",
+  "lat": 46.814711,
+  "lng": -71.227562,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ },
+ {
+  "id": "morris-6",
+  "nom": "Colonne Morris fictive 6",
+  "type": "colonne_morris",
+  "lat": 46.817937,
+  "lng": -71.223381,
+  "offres": [
+   "affichage",
+   "visibilite"
+  ],
+  "source": "fictif",
+  "attribution": "Données fictives"
+ }
+]

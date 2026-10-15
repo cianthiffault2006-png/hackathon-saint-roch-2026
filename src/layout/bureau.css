@@ -13,7 +13,6 @@
 @media (min-width: 900px) {
   .coquille {
     --largeur-nav: 240px;
-    --trait: #e4e0d6;
     display: grid;
     grid-template-columns: var(--largeur-nav) minmax(0, 1fr);
     height: 100dvh;

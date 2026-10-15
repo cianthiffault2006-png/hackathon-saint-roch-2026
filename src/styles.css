@@ -2212,3 +2212,167 @@ body:has(.accueil) .badge-demo {
   color: var(--gris-fil);
   font-weight: 400;
 }
+
+/* J. Sidebar and Tableau de bord (Nana-Lexis's screens), per docs/DESIGN.md. CSS only, her markup and content unchanged. */
+.sidebar {
+  /* Lin rail with a stitched seam along the right edge, in place of the grey line */
+  border-right: 0;
+  padding-right: 20px;
+  background:
+    var(--couture-v) right 5px top 0 / 2px 100% no-repeat,
+    var(--lin);
+}
+
+.sidebar-logo {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--vert-fonce);
+}
+
+.sidebar-entete p,
+.sidebar-bas {
+  color: var(--gris-fil);
+}
+
+.sidebar nav {
+  gap: 4px;
+}
+
+.sidebar-lien {
+  min-height: 48px;
+  border-radius: var(--rayon-petit);
+  color: var(--encre);
+}
+
+.sidebar-lien:hover {
+  background: rgba(255, 253, 248, 0.6);
+}
+
+.sidebar-lien-actif,
+.sidebar-lien-actif:hover {
+  background: var(--craie);
+  box-shadow: inset 4px 0 0 var(--brique);
+  color: var(--encre);
+}
+
+.sidebar-icone {
+  color: var(--vert);
+}
+
+.sidebar-compteur {
+  background: var(--brique);
+  color: #fff;
+  font-weight: 700;
+}
+
+.sidebar-bas {
+  background: var(--couture) left 12px top 0 / calc(100% - 24px) 2px no-repeat;
+  opacity: 1;
+}
+
+/* Tableau de bord: the stat tiles as one bordered grid, like the SDC KPIs (TableauSdc.css) */
+.dashboard-stats {
+  gap: 0;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: var(--craie);
+  overflow: hidden;
+}
+
+.dashboard-stats .dashboard-stat {
+  gap: 2px;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--trait);
+  border-radius: 0;
+  background: transparent;
+}
+
+.dashboard-stats .dashboard-stat:nth-child(odd) {
+  border-right: 1px solid var(--trait);
+}
+
+/* No line under the last row */
+.dashboard-stats .dashboard-stat:last-child,
+.dashboard-stats .dashboard-stat:nth-last-child(2):nth-child(odd) {
+  border-bottom: 0;
+}
+
+/* An odd count (her 5th tile, « Inscriptions »): the last tile takes the full row, label and number on one line */
+.dashboard-stats .dashboard-stat:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-right: 0;
+  border-top: 2px solid transparent;
+  background: var(--couture) left 16px top 0 / calc(100% - 32px) 2px no-repeat, var(--lin);
+}
+
+.dashboard-stat span {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris-fil);
+}
+
+.dashboard-stat strong {
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--vert-fonce);
+}
+
+.dashboard-section-entete h2 {
+  font-family: var(--police-titre);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--vert-fonce);
+  letter-spacing: -0.01em;
+}
+
+/* Recent projects: craie, a linen line and a 4px green thread on the left */
+.dashboard-carte-projet {
+  padding-left: 22px;
+  background: var(--craie);
+  border: 1px solid var(--trait);
+  box-shadow: inset 4px 0 0 var(--vert);
+}
+
+.dashboard-carte-haut h3 {
+  color: var(--vert-fonce);
+}
+
+.dashboard-carte-projet p,
+.dashboard-vide p {
+  color: var(--gris-fil);
+}
+
+.dashboard-lien {
+  color: var(--vert-fonce);
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.dashboard-lien:hover {
+  text-decoration-style: solid;
+}
+
+/* Accueil on a phone: the fixed « Démo simulée » stamp sat on the tagline once scrolled.
+   The scrolling Accueil fades its content out under the stamp's strip; at rest nothing is hidden (the strip is padding). */
+.accueil {
+  -webkit-mask-image: linear-gradient(to bottom, transparent calc(env(safe-area-inset-top) + 44px), #000 calc(env(safe-area-inset-top) + 58px));
+  mask-image: linear-gradient(to bottom, transparent calc(env(safe-area-inset-top) + 44px), #000 calc(env(safe-area-inset-top) + 58px));
+}

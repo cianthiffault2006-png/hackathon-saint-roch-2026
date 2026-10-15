@@ -44,3 +44,15 @@ Les 19 fichiers fournis sont confidentiels : aucune valeur n'est dans le dépôt
 | PAE-Hackathon_StRoch.gdb.zip | Parcs et espaces verts (lieux extérieurs), lieux d'emploi (public du midi), intensité urbaine, score de mobilité, portrait socio-démographique (cibler les quartiers). | Parcs et lieux publics ouverts (vque_14); contour du quartier ouvert (vque_9). |
 
 Position des profils et des événements fictifs : points d'adresse de la Ville de Québec (Adresses de la Ville de Québec, https://www.donneesquebec.ca/recherche/dataset/adresses-de-la-ville-de-quebec, CC BY 4.0) à l'intérieur du contour de Saint-Roch, pour qu'ils tombent sur de vraies rues; seules les coordonnées sont conservées. Script : `scripts/build_data.py`; validation : `scripts/check_data.py`.
+
+## Fichiers servis par l'app (`public/data/`)
+
+| Fichier | Source | Licence | Ligne d'attribution exacte |
+|---|---|---|---|
+| `profils.json` | Fictif : lignes inventées qui reprennent les colonnes des fichiers de la Ville (aucune valeur des fichiers fournis); positions sur des points d'adresse de la Ville de Québec (Adresses, vque, données ouvertes) | CC BY 4.0 pour les points d'adresse; profils fictifs sans licence tierce | « Données fictives » (positions : Source : Ville de Québec, données ouvertes, licence CC BY 4.0) |
+| `lieux.json` (32 lieux ouverts) | Ouvert : Lieux publics (vque_14, Ville de Québec, via Données Québec) et Culture, arts et patrimoine (SIT Québec, ministère du Tourisme), filtrés dans Saint-Roch | CC BY 4.0 | Lieux publics : « Source : Ville de Québec, Lieux publics, licence CC BY 4.0 »; sites culturels : « Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0 » (champ `attribution` de chaque lieu) |
+| `lieux.json` (6 colonnes Morris) | Fictif | Sans objet | « Données fictives » |
+| `evenements.json` | Fictif : 16 événements inventés (colonnes de Événements à venir), certains promus par des profils fictifs | Sans objet | `source: fictif` |
+| `quartier.geojson` | Ouvert : Quartiers (vque_9, Ville de Québec, via Données Québec), polygone Saint-Roch | CC BY 4.0 | « Source : Ville de Québec, Quartiers, licence CC BY 4.0 » (champ `properties.source`) |
+
+Les lignes d'attribution sont notre formulation : le portail n'impose pas de phrase, seulement de créditer le producteur. Le polygone est publié tel quel; les lieux et points sont des extraits filtrés (« adapté de »).

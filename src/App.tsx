@@ -225,7 +225,7 @@ export default function App() {
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
 
   const profilPublic = donnees.profils.find((p) => p.id === profilId) ?? null
-  const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ?? null)
+  const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ? { ...projetAffiche.proposition, statut: projetAffiche.statut } : null)
   const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
 
   function creerProjet(p: PropositionType) {
@@ -236,10 +236,7 @@ export default function App() {
 
   // Desktop (900 px and up), outside the tour: Mes projets and the Fiche share one space with the project thread.
   const espaceBureau = bureau && !enVisite && (ecranActif === 'projets' || (ecranActif === 'fiche' && projetAffiche !== null))
-  // The thread shows the project's current status (a confirmed project lists every partner as accepted).
-  const filBureau = espaceBureau && ecranActif === 'fiche' && projetAffiche && filProposition && filMoi
-    ? { proposition: { ...filProposition, statut: projetAffiche.statut }, moi: filMoi }
-    : null
+  const filBureau = espaceBureau && ecranActif === 'fiche' && filProposition && filMoi ? { proposition: filProposition, moi: filMoi } : null
 
   const propInvitation = enVisite ? (propositionsVisite[0] ?? null) : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
@@ -258,6 +255,7 @@ export default function App() {
           onSources={enVisite ? undefined : () => setEcran('sources')}
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
           onProposer={enVisite ? undefined : () => setEcran('nouveau')}
+          onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -330,6 +328,7 @@ export default function App() {
           onVoirProjets={() => setEcran('projets')}
           onOuvrirProjet={(id) => ouvrirFiche(id, 'dashboard')}
           onNouveauProjet={() => setEcran('accueil')}
+          onRetour={bureau ? undefined : () => setEcran('accueil')}
         />
       )}
       {espaceBureau && (

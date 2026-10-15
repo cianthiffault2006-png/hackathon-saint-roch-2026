@@ -6,6 +6,8 @@ interface Props {
   onVoirProjets: () => void
   onOuvrirProjet: (id: string) => void
   onNouveauProjet: () => void
+  /** Phone only: back to Accueil (the desktop has the sidebar). */
+  onRetour?: () => void
 }
 
 export default function Dashboard({
@@ -13,6 +15,7 @@ export default function Dashboard({
   onVoirProjets,
   onOuvrirProjet,
   onNouveauProjet,
+  onRetour,
 }: Props) {
   const total = projets.length
 
@@ -33,6 +36,11 @@ export default function Dashboard({
 
   return (
     <main className="screen dashboard">
+      {onRetour && (
+        <header className="entete">
+          <button type="button" className="retour" onClick={onRetour} aria-label={fr.general.retour}>←</button>
+        </header>
+      )}
       <header className="dashboard-entete">
         <div>
           <h1>{fr.dashboard.titre}</h1>

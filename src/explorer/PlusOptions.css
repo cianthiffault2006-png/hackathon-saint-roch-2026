@@ -10,3 +10,10 @@
 .po-btn { align-self: flex-start; min-height: 44px; min-width: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--cta); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
 .po-btn:focus-visible, .po-curseur input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 .po-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 390 px: rien ne doit déborder. */
+.po-racine, .po-racine * { box-sizing: border-box; min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.po-racine { width: 100%; overflow-x: hidden; }
+.po-curseur input { width: 100%; margin: 0; }
+.po-paliers { flex-wrap: wrap; gap: 4px; }
+.po-btn { min-width: 44px; max-width: 100%; white-space: normal; }

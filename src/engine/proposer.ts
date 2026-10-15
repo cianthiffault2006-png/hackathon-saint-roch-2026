@@ -13,9 +13,9 @@ const POIDS = { comp: 35, rev: 20, dist: 20, theme: 15, creneau: 10 };
 
 const LIBELLE: Record<Tag, string> = {
   espace_interieur: 'un espace intérieur', espace_exterieur: 'un espace extérieur',
-  visibilite: 'de la visibilité', affichage: "de l'affichage", benevoles: 'des bénévoles',
-  public: 'du public', contenu_artistique: 'du contenu artistique', animation: "de l'animation",
-  materiel: 'du matériel', expertise: "de l'expertise", financement: 'du financement',
+  visibilite: 'de la visibilité', affichage: "de l’affichage", benevoles: 'des bénévoles',
+  public: 'du public', contenu_artistique: 'du contenu artistique', animation: "de l’animation",
+  materiel: 'du matériel', expertise: "de l’expertise", financement: 'du financement',
   nourriture: 'de la nourriture',
 };
 const NU: Record<Tag, string> = {
@@ -119,8 +119,8 @@ function titre(type: TypeProjet, hote: string): string {
 }
 
 const APPORT_TYPE: Record<TypeProjet, string> = {
-  exposition: "l'exposition", spectacle: 'le spectacle', atelier: "l'atelier", marche_ephemere: 'le marché',
-  animation_de_rue: "l'animation", verdissement: 'le verdissement', conference: 'la conférence', collecte: 'la collecte',
+  exposition: "l’exposition", spectacle: 'le spectacle', atelier: "l’atelier", marche_ephemere: 'le marché',
+  animation_de_rue: "l’animation", verdissement: 'le verdissement', conference: 'la conférence', collecte: 'la collecte',
 };
 
 function lieuLePlusProche(lieux: Lieu[], c: Point, besoins: Tag[]): Lieu | undefined {
@@ -274,16 +274,16 @@ export const proposerAu = (
       ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond aux besoins de ${rev.map((m) => m.p.nom).join(' et ')}`]
       : [];
     const avecDist = membres.filter((m) => m.dist !== undefined);
-    const rDist = avecDist.length ? [`À pied de vous: ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
+    const rDist = avecDist.length ? [`À pied de vous : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
     const rLieu: string[] = [];
     if (lieuRemplace) {
-      rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n'offre d'espace)`);
+      rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n’offre d’espace)`);
     } else if (lieu) {
       rLieu.push(`Lieu public proposé : ${lieu.nom}, à ${minTxt(distanceM(centre(pts), lieu))}`);
     }
     const rSecurite = securiteExt && creneau === 'semaine_soir' ? ['Animer un lieu public le soir, quand il est moins fréquenté'] : [];
     const themesCommuns = themes.filter((t) => besoin.themes.includes(t) && profs.some((p) => p.themes.includes(t)));
-    const rTheme = themesCommuns.length ? [`Thèmes en commun: ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`] : [];
+    const rTheme = themesCommuns.length ? [`Thèmes en commun : ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`] : [];
 
     const proches = evenements
       .filter((e) => {
@@ -293,19 +293,19 @@ export const proposerAu = (
       .sort((x, y) => x.debut.localeCompare(y.debut) || x.id.localeCompare(y.id))
       .slice(0, 3);
     const rEvents = proches.length
-      ? [`À proximité dans les 14 prochains jours: ${proches.map((e) => e.titre).join(', ')}`]
+      ? [`À proximité dans les 14 prochains jours : ${proches.map((e) => e.titre).join(', ')}`]
       : [];
     // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
     const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
 
     const aConfirmer = [
       'Date précise du projet',
-      `Capacité d'accueil de ${hoteNom}`,
+      `Capacité d’accueil de ${hoteNom}`,
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
-      ...(proches.length ? [`Éviter le chevauchement avec: ${proches.map((e) => e.titre).join(', ')}`] : []),
-      ...manquants.map((t) => `Besoin non comblé: ${NU[t]}`),
-      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli: l'organisme doit d'abord activer son profil`),
+      ...(proches.length ? [`Éviter le chevauchement avec : ${proches.map((e) => e.titre).join(', ')}`] : []),
+      ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
+      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : l’organisme doit d’abord activer son profil`),
     ];
 
     const idProp = `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`;

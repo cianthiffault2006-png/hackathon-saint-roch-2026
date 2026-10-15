@@ -63,6 +63,19 @@ describe('lireBesoin: intention', () => {
   });
 });
 
+describe('lireBesoin: propreté', () => {
+  it.each([
+    'Il y a des graffitis sur ma rue',
+    'On aimerait organiser un nettoyage du trottoir',
+    'Des déchets partout, il faut ramasser',
+    'Les vitrines sales nuisent au commerce',
+  ])('%s', (t) => {
+    const r = lireBesoin(t);
+    expect(r.besoins).toEqual(expect.arrayContaining(['expertise', 'materiel', 'benevoles']));
+    expect(r.themes).toEqual(expect.arrayContaining(['environnement', 'securite']));
+  });
+});
+
 describe('lireBesoin: créneaux et thèmes', () => {
   it.each([
     ['jeudi soir', ['semaine_soir']],

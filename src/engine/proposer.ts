@@ -76,7 +76,9 @@ function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null 
   const sTheme = b.themes.length ? Math.min(1, communs.length / Math.min(b.themes.length, Math.max(1, p.themes.length))) : 0;
   const sComp = b.besoins.length ? comp.length / b.besoins.length : 0;
   const sRev = p.besoins.length ? rev.length / p.besoins.length : 0;
-  const score = POIDS.comp * sComp + POIDS.rev * sRev + POIDS.dist * sDist + POIDS.theme * sTheme + POIDS.creneau;
+  // Spécialiste: couvre seul tous les besoins et tous les thèmes du demandeur.
+  const specialiste = b.besoins.length > 1 && comp.length === b.besoins.length && b.themes.length > 0 && b.themes.every((t) => p.themes.includes(t));
+  const score = (specialiste ? 10 : 0) + POIDS.comp * sComp + POIDS.rev * sRev + POIDS.dist * sDist + POIDS.theme * sTheme + POIDS.creneau;
   return { p, comp, rev, dist, creneaux, sDist, sTheme, score };
 }
 
@@ -155,7 +157,9 @@ function diversifier(tries: Proposition[], n: number): Proposition[] {
       if (!out.includes(p) && ok(p)) out.push(p);
     }
   }
-  return out.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+  if (!out.length) return out;
+  const [premier, ...reste] = out; // la première garde sa place (priorité éventuelle), les autres par score
+  return [premier, ...reste.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id))];
 }
 
 /** `maintenant` sert à filtrer les événements; par défaut l'heure courante. */
@@ -197,6 +201,7 @@ export const proposerAu = (
   const trios = [...combos.values()].filter((x) => x.b);
   const choix = trios.length ? trios : [...combos.values()];
 
+  const equipeVerifiee = new Map<string, number>(); // corvée avec une équipe de propreté reconnue: passe en premier (2 si elle couvre tous les thèmes du demandeur)
   const rang = new Map<string, number>(); // qualité des paires, pour départager les scores égaux
   const props = choix.map(({ a, b, valeur }): Proposition => {
     const membres = b && b.score > a.score ? [b, a] : b ? [a, b] : [a];
@@ -211,7 +216,12 @@ export const proposerAu = (
     const espaceOffert = inter(offresGroupe, ESPACES).length > 0;
     const veutEspace = inter(besoin.besoins, ESPACES).length > 0;
     // Lieu retenu: nécessaire si personne n'offre d'espace; sinon proposé en solution de rechange si le demandeur cherche un espace.
-    const lieu = !espaceOffert || veutEspace ? lieuLePlusProche(lieux, centre(pts), besoin.besoins) : undefined;
+    // Corvée de propreté: le demandeur cherche expertise ou matériel (propreté, graffitis…), ou un partenaire est l'équipe de nettoyage.
+    const parlePropre = /proprete|graffiti|nettoy|dechet|ramass|ordure/.test(normaliser(`${besoin.texte} ${moi?.description ?? ''}`));
+    const equipe = profs.find((p) => p.offres.includes('expertise') && p.offres.includes('materiel') && p.themes.includes('environnement'));
+    const corvee = !besoin.offres.includes('contenu_artistique') && !(besoin.besoins.includes('contenu_artistique') && !parlePropre) && !!(
+      (parlePropre && inter(besoin.besoins, ['expertise', 'materiel']).length && (besoin.themes.includes('environnement') || besoin.themes.includes('securite'))) || equipe);
+    const lieu = corvee ? undefined : !espaceOffert || veutEspace ? lieuLePlusProche(lieux, centre(pts), besoin.besoins) : undefined;
     const lieuRemplace = !espaceOffert ? lieu : undefined;
     const tags = uniq([...offresGroupe, ...(lieuRemplace ? lieuRemplace.offres : [])]);
     const themes = uniq([...besoin.themes, ...profs.flatMap((p) => p.themes)]);
@@ -221,10 +231,10 @@ export const proposerAu = (
       (themes.includes('culture') || themes.includes('communautaire')) &&
       (besoin.offres.includes('animation') || besoin.offres.includes('benevoles'));
     const securiteExt = themes.includes('securite') && besoin.besoins.includes('espace_exterieur') && !besoin.besoins.includes('contenu_artistique');
-    const type = choisirType(tags, themes, sansExposition, securiteExt);
+    const type: TypeProjet = corvee ? 'corvee_proprete' : choisirType(tags, themes, sansExposition, securiteExt);
 
     const hoteProfil = profs.find((p) => inter(p.offres, ESPACES).length) ?? (inter(besoin.offres, ESPACES).length ? moi : undefined);
-    const hoteNom = hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
+    const hoteNom = corvee ? (equipe ?? profs.find((p) => p.offres.includes('materiel')) ?? profs[0]).nom : hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
     const hotePos: Point = hoteProfil ?? lieu ?? pos ?? profs[0];
 
     const couverts = uniq([...profs.flatMap((p) => p.offres), ...(lieuRemplace ? lieuRemplace.offres : [])]);
@@ -311,6 +321,7 @@ export const proposerAu = (
 
     const idProp = `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`;
     rang.set(idProp, valeur);
+    if (corvee && equipe && equipe.verifie === 'ville') equipeVerifiee.set(idProp, besoin.themes.every((t) => equipe.themes.includes(t)) ? 2 : 1);
     return {
       id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
       titre: titre(type, hoteNom),
@@ -327,7 +338,7 @@ export const proposerAu = (
     };
   });
 
-  const tries = props.sort((x, y) => y.score - x.score || (rang.get(y.id) ?? 0) - (rang.get(x.id) ?? 0) || x.id.localeCompare(y.id));
+  const tries = props.sort((x, y) => (equipeVerifiee.get(y.id) ?? 0) - (equipeVerifiee.get(x.id) ?? 0) || y.score - x.score || (rang.get(y.id) ?? 0) - (rang.get(x.id) ?? 0) || x.id.localeCompare(y.id));
   return diversifier(tries, 3);
 };
 

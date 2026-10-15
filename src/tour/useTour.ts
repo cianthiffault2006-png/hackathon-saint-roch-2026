@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ETAPES } from './script'
-import { arrivee, etapeA } from './etat'
+import { DEBUT_SUITE, ETAPES } from './script'
+import { arrivee, bornes, etapeA } from './etat'
 
 export interface EtatVisite {
   index: number
@@ -44,11 +44,13 @@ export function useTour() {
       let index = h.index
       let ms = lireMs()
       // Real time: a throttled background tab skips steps instead of slowing the tour.
-      while (ms >= ETAPES[index].dureeMs && index < ETAPES.length - 1) {
+      // Each tour stops on its own last step (the main tour's end card offers the suite).
+      const { dernier } = bornes(ETAPES[h.index].parcours)
+      while (ms >= ETAPES[index].dureeMs && index < dernier) {
         ms -= ETAPES[index].dureeMs
         index++
       }
-      // The last step stays on screen until the viewer quits.
+      // The last step stays on screen until the viewer quits or continues.
       if (ms >= ETAPES[index].dureeMs) {
         poser(index, ETAPES[index].dureeMs, true)
         return
@@ -62,7 +64,7 @@ export function useTour() {
   const allerA = useCallback(
     (index: number) => {
       const i = Math.max(0, Math.min(ETAPES.length - 1, index))
-      if (ETAPES[i].id === 'carte') setSaut((s) => s + 1)
+      if (ETAPES[i].rejoue) setSaut((s) => s + 1)
       poser(i, arrivee(i, mouvementReduit()), horloge.current.pause)
     },
     [poser],
@@ -79,10 +81,23 @@ export function useTour() {
     const h = horloge.current
     poser(h.index, lireMs(), !h.pause)
   }, [lireMs, poser])
-  const suivant = useCallback(() => allerA(horloge.current.index + 1), [allerA])
-  const precedent = useCallback(() => allerA(horloge.current.index - 1), [allerA])
-  /** Jumps to the start of the step playing at time t (ms from the start of the tour). */
-  const allerAuTemps = useCallback((t: number) => allerA(etapeA(t).index), [allerA])
+  // Suivant and Précédent stay inside the current tour.
+  const suivant = useCallback(() => {
+    const i = horloge.current.index
+    if (i < bornes(ETAPES[i].parcours).dernier) allerA(i + 1)
+  }, [allerA])
+  const precedent = useCallback(() => {
+    const i = horloge.current.index
+    if (i > bornes(ETAPES[i].parcours).premier) allerA(i - 1)
+  }, [allerA])
+  /** Jumps to the start of the step playing at time t (ms from the start of the current tour). */
+  const allerAuTemps = useCallback((t: number) => allerA(etapeA(t, ETAPES[horloge.current.index].parcours).index), [allerA])
+  /** From the main tour's end card: plays the « Suite de la visite ». */
+  const continuer = useCallback(() => {
+    const calme = mouvementReduit()
+    setSaut((s) => s + 1)
+    poser(DEBUT_SUITE, arrivee(DEBUT_SUITE, calme), calme)
+  }, [poser])
 
-  return { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps }
+  return { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps, continuer }
 }

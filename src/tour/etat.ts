@@ -1,22 +1,42 @@
 import type { Statut } from '../types'
-import { ETAPES, PUCES_VISITE, T, indexDe, type EtapeId } from './script'
+import { ETAPES, PUCES_VISITE, T, indexDe, type EtapeId, type Parcours } from './script'
 
 // Pure functions of the tour clock: the step at a time, and the state of every screen at (step, ms).
 // Nothing here reads the DOM or a timer, so pausing, resuming and jumping are exact.
+// The main tour and the « Suite de la visite » each have their own timeline (and progress bar).
 
-/** Start of each step, in ms from the start of the tour. */
-export const DEBUTS: number[] = ETAPES.reduce<number[]>((acc, _e, i) => [...acc, i === 0 ? 0 : acc[i - 1] + ETAPES[i - 1].dureeMs], [])
+/** First and last step of a tour. */
+export function bornes(parcours: Parcours): { premier: number; dernier: number } {
+  const premier = ETAPES.findIndex((e) => e.parcours === parcours)
+  let dernier = premier
+  while (dernier + 1 < ETAPES.length && ETAPES[dernier + 1].parcours === parcours) dernier++
+  return { premier, dernier }
+}
 
-export const DUREE_TOTALE = DEBUTS[ETAPES.length - 1] + ETAPES[ETAPES.length - 1].dureeMs
+/** Start of each step, in ms from the start of its own tour. */
+export const DEBUTS: number[] = ETAPES.reduce<number[]>(
+  (acc, e, i) => [...acc, i === 0 || ETAPES[i - 1].parcours !== e.parcours ? 0 : acc[i - 1] + ETAPES[i - 1].dureeMs],
+  [],
+)
 
-/** The step playing at time t (ms from the start), and the time elapsed in it. */
-export function etapeA(t: number): { index: number; ms: number } {
-  const temps = Math.max(0, Math.min(t, DUREE_TOTALE))
-  let index = 0
-  while (index < ETAPES.length - 1 && DEBUTS[index + 1] <= temps) index++
+export function dureeParcours(parcours: Parcours): number {
+  const { dernier } = bornes(parcours)
+  return DEBUTS[dernier] + ETAPES[dernier].dureeMs
+}
+
+/** Length of the main tour. */
+export const DUREE_TOTALE = dureeParcours('principal')
+
+/** The step playing at time t (ms from the start of that tour), and the time elapsed in it. */
+export function etapeA(t: number, parcours: Parcours = 'principal'): { index: number; ms: number } {
+  const { premier, dernier } = bornes(parcours)
+  const temps = Math.max(0, Math.min(t, dureeParcours(parcours)))
+  let index = premier
+  while (index < dernier && DEBUTS[index + 1] <= temps) index++
   return { index, ms: temps - DEBUTS[index] }
 }
 
+/** Time from the start of the step's own tour. */
 export function tempsGlobal(index: number, ms: number): number {
   return DEBUTS[index] + ms
 }
@@ -78,6 +98,10 @@ export interface EtatEcrans {
   coches: number
   onglet: OngletVisite
   fil: EtatFil
+  /** Suite: the explorer's filters, search (share typed) and list view. */
+  explorer: { citoyens: boolean; frappe: number; liste: boolean }
+  /** Suite: « Proposer un projet ouvert » shows the Exemple. */
+  exemple: boolean
 }
 
 const avant = (i: number, id: EtapeId) => i < indexDe(id)
@@ -120,19 +144,30 @@ export function etatEcrans(index: number, ms: number): EtatEcrans {
       }
     : { recus: 0, ecrit: null, frappe: 0, envoyeDepuis: null, reponseEcrit: false, reponse: false }
 
+  const S = T.suite
+  const suite = ETAPES[index].parcours === 'suite'
+  const explorer = {
+    citoyens: apres(index, 'filtres') || (ici('filtres') && ms >= S.citoyens),
+    frappe: avant(index, 'recherche') ? 0 : ici('recherche') ? borne((ms - S.frappe[0]) / (S.frappe[1] - S.frappe[0])) : 1,
+    liste: apres(index, 'liste') || (ici('liste') && ms >= S.liste),
+  }
+
   return {
     texte,
     puces,
     pulse: ici('bouton') || ici('actions'),
     statut,
-    chute: ici('carte'),
-    anneau: apres(index, 'carte') || (ici('carte') && ms >= T.anneau),
-    detail: apres(index, 'score') || (ici('score') && ms >= T.score),
+    chute: ici('carte') || ici('sofiaCarte'),
+    anneau: ici('carte') ? ms >= T.anneau : ici('sofiaCarte') ? ms >= S.anneau : true,
+    // The score detail belongs to the café's proposal; Sofia's shows closed.
+    detail: !suite && (apres(index, 'score') || (ici('score') && ms >= T.score)),
     raisons,
     accepte: apres(index, 'accepte') || (ici('accepte') && ms >= T.accepter),
     coches,
     onglet,
     fil,
+    explorer,
+    exemple: apres(index, 'nouveau') || (ici('nouveau') && ms >= S.exemple),
   }
 }
 
@@ -195,8 +230,8 @@ export function poseDefile(index: number, ms: number): PoseDefile {
   return { de: prec.cible, deBloc: prec.bloc, vers: g.cible, bloc: g.bloc ?? 'center', progres: borne((ms - g.a) / (g.duree ?? 600)) }
 }
 
-/** Chapter list in order, with the first step of each. */
-export const CHAPITRES = ETAPES.reduce<{ id: (typeof ETAPES)[number]['chapitre']; premier: number }[]>((acc, e, i) => {
-  if (!acc.some((c) => c.id === e.chapitre)) acc.push({ id: e.chapitre, premier: i })
+/** Chapter list in order, with the first step of each and its tour. */
+export const CHAPITRES = ETAPES.reduce<{ id: (typeof ETAPES)[number]['chapitre']; premier: number; parcours: Parcours }[]>((acc, e, i) => {
+  if (!acc.some((c) => c.id === e.chapitre)) acc.push({ id: e.chapitre, premier: i, parcours: e.parcours })
   return acc
 }, [])

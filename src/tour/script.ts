@@ -5,8 +5,10 @@ import { fr } from '../i18n/fr'
 // Everything the tour shows is a function of (step index, ms elapsed in the step): see etat.ts.
 
 export type ChapitreId = keyof typeof fr.visite.chapitres
-export type EtapeId = keyof typeof fr.visite.legendes | 'fin'
-export type EcranVisite = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'fil' | 'projets'
+export type EtapeId = keyof typeof fr.visite.legendes | 'fin' | 'finSuite'
+export type EcranVisite = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'fil' | 'projets' | 'explorer' | 'profil' | 'nouveau' | 'sdc'
+/** The main tour (about 2 min), then the « Suite de la visite » offered on its end card. */
+export type Parcours = 'principal' | 'suite'
 
 /** A scripted gesture: the fake cursor moves to a target, presses it, or the screen scrolls to it. */
 export interface Geste {
@@ -27,6 +29,9 @@ export interface Etape {
   ecran: EcranVisite
   dureeMs: number
   gestes: Geste[]
+  parcours: Parcours
+  /** A jump to this step replays the map (pins drop again). */
+  rejoue?: boolean
 }
 
 export const ROLE_VISITE: Role = 'commerce'
@@ -69,7 +74,26 @@ export const T = {
     /** The partner's reply: typing indicator, then the message. */
     reponse: [6500, 8000] as [number, number],
   },
+  /** « Suite de la visite ». */
+  suite: {
+    /** « sofiaCarte »: the ring shows once the pins have dropped. */
+    anneau: 2400,
+    /** « filtres »: press on « Citoyens ». */
+    citoyens: 1300,
+    /** « recherche »: the search is typed between these times. */
+    frappe: [1100, 2300] as [number, number],
+    /** « liste »: press on « Liste », then on the profile's « Voir le profil ». */
+    liste: 1000,
+    profil: 4600,
+    /** « nouveau »: press on « Exemple ». */
+    exemple: 1700,
+  },
 } as const
+
+/** The public profile the suite opens (an organisation recognised by the City). */
+export const PROFIL_VISITE = 'p-proprete'
+/** The asker of the suite's second story. */
+export const SOFIA = 'p-sofia'
 
 // Selectors (data attributes are set by the screens for the tour; classes are the screens' own).
 const S = {
@@ -95,6 +119,16 @@ const S = {
   filFin: '[data-visite="fil-fin"]',
   champFil: '[data-visite="fil-champ"]',
   envoyer: '[data-visite="fil-envoyer"]',
+  partenaires: '[data-visite="partenaires"]',
+  exCitoyens: '[data-genre="citoyen"]',
+  exRecherche: '.ex-recherche input',
+  exListe: '[data-visite="ex-liste"]',
+  exProfil: `[data-visite="profil-${PROFIL_VISITE}"]`,
+  ppOffre: '#pp-offre',
+  exemple: '[data-visite="exemple"]',
+  avant: '#pj-avant',
+  sdcTypes: '#p2-types',
+  sdcImpact: '.p2-sdc-impact',
 }
 
 /** The chips the cursor presses, in order: they match what the engine reads in the café's text. */
@@ -108,7 +142,7 @@ const GROUPE = { offre: fr.besoin.jOffre, cherche: fr.besoin.jeCherche, creneaux
 
 const puceSel = (i: number) => S.puce(GROUPE[PUCES_VISITE[i].groupe], PUCES_VISITE[i].valeur)
 
-export const ETAPES: Etape[] = [
+const PRINCIPAL: Omit<Etape, 'parcours'>[] = [
   // Step 1 is kept exactly as it was (3 s): Cian's call.
   { id: 'role', chapitre: 'ouverture', ecran: 'accueil', dureeMs: 3000, gestes: [] },
 
@@ -130,7 +164,7 @@ export const ETAPES: Etape[] = [
     ],
   },
 
-  { id: 'carte', chapitre: 'proposition', ecran: 'proposition', dureeMs: 6000, gestes: [] },
+  { id: 'carte', chapitre: 'proposition', ecran: 'proposition', dureeMs: 6000, gestes: [], rejoue: true },
   {
     id: 'score', chapitre: 'proposition', ecran: 'proposition', dureeMs: 6000,
     gestes: [
@@ -223,16 +257,95 @@ export const ETAPES: Etape[] = [
   { id: 'fin', chapitre: 'projets', ecran: 'projets', dureeMs: 5000, gestes: [] },
 ]
 
+/**
+ * Hook for the « Réclamer ce profil » step (branch feat/reclamer): one step on the 'profil' screen,
+ * chapter 'profil', right after « profil ». Add its caption to fr.visite.legendes and its state to etat.ts.
+ */
+const RECLAMER: Omit<Etape, 'parcours'>[] = []
+
+const SUITE: Omit<Etape, 'parcours'>[] = [
+  { id: 'sofiaCarte', chapitre: 'sofia', ecran: 'proposition', dureeMs: 6500, gestes: [], rejoue: true },
+  {
+    id: 'sofiaPartenaires', chapitre: 'sofia', ecran: 'proposition', dureeMs: 7000,
+    gestes: [{ type: 'defile', a: 300, cible: S.partenaires, duree: 800, bloc: 'start' }],
+  },
+
+  { id: 'explorer', chapitre: 'explorer', ecran: 'explorer', dureeMs: 5000, gestes: [] },
+  {
+    id: 'filtres', chapitre: 'explorer', ecran: 'explorer', dureeMs: 6000,
+    gestes: [
+      { type: 'curseur', a: 400, cible: S.exCitoyens, duree: 700 },
+      { type: 'clic', a: T.suite.citoyens, cible: S.exCitoyens },
+    ],
+  },
+  {
+    id: 'recherche', chapitre: 'explorer', ecran: 'explorer', dureeMs: 4600,
+    gestes: [
+      { type: 'curseur', a: 100, cible: S.exRecherche, duree: 600 },
+      { type: 'clic', a: 800, cible: S.exRecherche },
+    ],
+  },
+  {
+    id: 'liste', chapitre: 'explorer', ecran: 'explorer', dureeMs: 5300,
+    gestes: [
+      { type: 'curseur', a: 100, cible: S.exListe, duree: 600 },
+      { type: 'clic', a: T.suite.liste, cible: S.exListe },
+      { type: 'curseur', a: T.suite.profil - 900, cible: S.exProfil, duree: 700 },
+      { type: 'clic', a: T.suite.profil, cible: S.exProfil },
+    ],
+  },
+
+  {
+    id: 'profil', chapitre: 'profil', ecran: 'profil', dureeMs: 6500,
+    gestes: [{ type: 'defile', a: 3200, cible: S.ppOffre, duree: 800, bloc: 'start' }],
+  },
+  ...RECLAMER,
+
+  {
+    id: 'nouveau', chapitre: 'projetOuvert', ecran: 'nouveau', dureeMs: 5000,
+    gestes: [
+      { type: 'curseur', a: 700, cible: S.exemple, duree: 700 },
+      { type: 'clic', a: T.suite.exemple, cible: S.exemple },
+    ],
+  },
+  {
+    id: 'avant', chapitre: 'projetOuvert', ecran: 'nouveau', dureeMs: 7000,
+    gestes: [{ type: 'defile', a: 0, cible: S.avant, duree: 900, bloc: 'center' }],
+  },
+
+  {
+    id: 'sdc', chapitre: 'sdc', ecran: 'sdc', dureeMs: 6000,
+    gestes: [{ type: 'defile', a: 3200, cible: S.sdcTypes, duree: 800, bloc: 'center' }],
+  },
+  {
+    id: 'sdcImpact', chapitre: 'sdc', ecran: 'sdc', dureeMs: 5000,
+    gestes: [{ type: 'defile', a: 0, cible: S.sdcImpact, duree: 800, bloc: 'end' }],
+  },
+  { id: 'finSuite', chapitre: 'sdc', ecran: 'sdc', dureeMs: 5000, gestes: [] },
+]
+
+export const ETAPES: Etape[] = [
+  ...PRINCIPAL.map((e): Etape => ({ ...e, parcours: 'principal' })),
+  ...SUITE.map((e): Etape => ({ ...e, parcours: 'suite' })),
+]
+
+/** First step of the « Suite de la visite ». */
+export const DEBUT_SUITE = ETAPES.findIndex((e) => e.parcours === 'suite')
+
+/** Last step of each tour: its end card. */
+export const estFin = (e: Etape) => e.id === 'fin' || e.id === 'finSuite'
+
 export function indexDe(id: EtapeId): number {
   return ETAPES.findIndex((e) => e.id === id)
 }
 
-/** The caption of a step, with the live values it names (the score, the partner's first name). */
-export function legendeDe(etape: Etape, valeurs: { score: number; prenom: string }): string {
+/** The caption of a step, with the live values it names (the scores, the partner's first name). */
+export function legendeDe(etape: Etape, valeurs: { score: number; prenom: string; scoreSofia: number }): string {
   if (etape.id === 'fin') return fr.visite.titre
+  if (etape.id === 'finSuite') return fr.visite.suite
   const l: string | ((v: never) => string) = fr.visite.legendes[etape.id]
   if (typeof l === 'string') return l
-  return etape.id === 'score'
-    ? (l as (n: number) => string)(valeurs.score)
-    : (l as (p: string) => string)(valeurs.prenom)
+  if (etape.id === 'score') return (l as (n: number) => string)(valeurs.score)
+  if (etape.id === 'sofiaPartenaires') return (l as (n: number) => string)(valeurs.scoreSofia)
+  return (l as (p: string) => string)(valeurs.prenom)
 }

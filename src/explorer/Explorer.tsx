@@ -31,6 +31,8 @@ interface Props {
   evenements: Evenement[]
   onRetour(): void
   onOuvrirProfil(id: string): void
+  /** Guided tour: filters, search and list view come from the tour clock. */
+  visite?: { actifs: Record<NomIcone, boolean>; requete: string; liste: boolean }
 }
 
 const sans = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -78,20 +80,27 @@ function Etiquettes({ el }: { el: Entree }) {
 
 const GENRES: Genre[] = ['commerce', 'organisme', 'citoyen', 'lieu', 'evenement']
 
-export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil }: Props) {
+export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
-  const [actifs, setActifs] = useState<Record<Genre, boolean>>({ commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true })
-  const [requete, setRequete] = useState('')
-  const [liste, setListe] = useState(false)
+  const [actifsMoi, setActifs] = useState<Record<Genre, boolean>>({ commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true })
+  const [requeteMoi, setRequete] = useState('')
+  const [listeMoi, setListe] = useState(false)
   const [choisi, setChoisi] = useState<string | null>(null)
+  // During the tour the screen shows what the tour sets; its own state stays untouched.
+  const actifs = visite?.actifs ?? actifsMoi
+  const requete = visite?.requete ?? requeteMoi
+  const liste = visite?.liste ?? listeMoi
+  // A key, so a new filter object with the same values does not rebuild the markers.
+  const cleActifs = GENRES.filter((g) => actifs[g]).join('|')
 
   const tous = useMemo(() => construire(profils, lieux, evenements), [profils, lieux, evenements])
   const visibles = useMemo(() => {
     const q = sans(requete.trim())
-    return tous.filter((e) => actifs[e.genre] && (!q || e.recherche.includes(q)))
-  }, [tous, actifs, requete])
+    const on = cleActifs.split('|')
+    return tous.filter((e) => on.includes(e.genre) && (!q || e.recherche.includes(q)))
+  }, [tous, cleActifs, requete])
   const parDistance = useMemo(
     () => visibles.map((e) => ({ e, d: distanceM(CENTRE_SAINT_ROCH, e) })).sort((a, b) => a.d - b.d),
     [visibles],
@@ -137,13 +146,13 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
             <span className="ex-sr">{t.rechercheEtiquette}</span>
             <input type="search" value={requete} placeholder={t.recherche} onChange={(ev) => setRequete(ev.target.value)} />
           </label>
-          <button type="button" className="ex-btn" aria-pressed={liste} onClick={() => setListe((v) => !v)}>
+          <button type="button" className="ex-btn" data-visite="ex-liste" aria-pressed={liste} onClick={() => setListe((v) => !v)}>
             {t.vueListe}
           </button>
         </div>
         <div className="ex-chips" role="group" aria-label={t.filtres}>
           {GENRES.map((g) => (
-            <button key={g} type="button" className={`ex-chip${actifs[g] ? ' ex-chip-on' : ''}`} aria-pressed={actifs[g]} onClick={() => setActifs({ ...actifs, [g]: !actifs[g] })}>
+            <button key={g} type="button" data-genre={g} className={`ex-chip${actifs[g] ? ' ex-chip-on' : ''}`} aria-pressed={actifs[g]} onClick={() => setActifs({ ...actifs, [g]: !actifs[g] })}>
               <PinForme nom={g} taille={22} /> {t.chips[g]}
             </button>
           ))}
@@ -164,7 +173,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
                     <Etiquettes el={e} />
                   </div>
                   {e.profil && (
-                    <button type="button" className="ex-btn ex-btn-p" onClick={() => onOuvrirProfil(e.id)}>
+                    <button type="button" className="ex-btn ex-btn-p" data-visite={`profil-${e.id}`} onClick={() => onOuvrirProfil(e.id)}>
                       {t.voirProfil}<span className="ex-sr"> : {e.nom}</span>
                     </button>
                   )}

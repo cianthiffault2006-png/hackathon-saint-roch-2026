@@ -191,7 +191,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             </div>
           )}
 
-          <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
+          <h2 className="sous-titre" data-visite="partenaires">{fr.proposition.partenaires}</h2>
           <ul className="liste-part">
             {prop.partenaires.map((c) => {
               const p = profils.find((x) => x.id === c.profilId)

@@ -20,8 +20,8 @@ describe('proposer: histoire', () => {
   it('raisons concrètes en français avec distances', () => {
     const r = res[0].raisons.join('\n');
     expect(r).toMatch(/Collectif Les Passeurs offre du public le soir en semaine, ce que vous cherchez/);
-    expect(r).toMatch(/À pied de vous: .* à \d+ minutes?/);
-    expect(r).toMatch(/Thèmes en commun: culture/);
+    expect(r).toMatch(/À pied de vous : .* à \d+ minutes?/);
+    expect(r).toMatch(/Thèmes en commun : culture/);
   });
   it('à confirmer: date, capacité, assurances, accessibilité', () => {
     const a = res[0].aConfirmer.join('\n');
@@ -131,13 +131,13 @@ describe('proposer: règles', () => {
     };
     const res = lancer(b);
     expect(res[0].partenaires.map((x) => x.profilId)).toContain('ruelle');
-    expect(res[0].aConfirmer.join('\n')).toContain("Profil pré-rempli: l'organisme doit d'abord activer son profil");
+    expect(res[0].aConfirmer.join('\n')).toContain("Profil pré-rempli : l’organisme doit d’abord activer son profil");
     expect(res[0].type).toBe('verdissement');
   });
   it('besoin non comblé signalé', () => {
     const b: Besoin = { ...besoinCafe, besoins: ['public', 'financement'] };
     const res = lancer(b);
-    expect(res[0].aConfirmer.join('\n')).toContain('Besoin non comblé: financement');
+    expect(res[0].aConfirmer.join('\n')).toContain('Besoin non comblé : financement');
   });
   it('type marché éphémère: nourriture + commerce local', () => {
     const b: Besoin = {

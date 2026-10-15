@@ -1803,3 +1803,166 @@ body:has(.accueil) .badge-demo {
 .liens-accueil .btn-texte {
   padding: 0 2px;
 }
+
+/* C. Proposition sheet. .feuille stays an opaque, non-scrolling card; .feuille-defile stays a transparent scroller
+   (no overflow, background, opacity or backdrop-filter added to it); .pied-feuille stays outside it. */
+.feuille {
+  border-radius: var(--rayon-feuille) var(--rayon-feuille) 0 0;
+  border: 1px solid var(--trait);
+  border-bottom: 0;
+  background: var(--craie);
+  box-shadow: var(--ombre-flottante);
+}
+
+/* Stitch handle: a flex child of the card, outside the scroller */
+.feuille::before {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 48px;
+  height: 3px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--trait) 0 7px, transparent 7px 11px);
+}
+
+.nav-btn {
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.points {
+  gap: 5px;
+}
+
+.feuille-titre {
+  margin: 6px 0 4px;
+  font-size: 24px;
+}
+
+.etiquette-collab {
+  color: var(--gris-fil);
+  font-size: 14px;
+}
+
+.score {
+  margin: 2px 0 0;
+  font-family: var(--police-titre);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--vert);
+}
+
+.detail-bouton {
+  color: var(--vert-fonce);
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.barres li {
+  grid-template-columns: 7.5rem 1fr 3rem;
+}
+
+.liste li::before {
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+.liste-orange li::before {
+  background: var(--brique);
+}
+
+.statut {
+  border-left: 4px solid var(--brique);
+  border-radius: var(--rayon);
+  background: var(--lin);
+  color: var(--brique-fonce);
+}
+
+.statut-confirmee {
+  border-left-color: var(--vert-fonce);
+  background: var(--vert);
+  color: #fff;
+}
+
+.statut-mini {
+  border-radius: 4px;
+  background: transparent;
+  border: 2px solid var(--brique);
+  color: var(--brique-fonce);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statut-mini.statut-confirmee {
+  border-color: var(--vert);
+  background: transparent;
+  color: var(--vert-fonce);
+}
+
+.legende,
+.pin-etiquette,
+.cercle-etiquette {
+  border-radius: var(--rayon-petit);
+  background: var(--craie);
+}
+
+.legende {
+  border: 1px solid var(--trait);
+}
+
+.pin-etiquette {
+  color: var(--encre);
+  box-shadow: 0 0 0 1px var(--trait);
+}
+
+.evenement-bloc {
+  border-radius: var(--rayon);
+  background: var(--craie);
+}
+
+.tag-ouvert {
+  color: var(--couleur-lieu-texte);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.btn-participe,
+.popup-participe {
+  background: var(--couleur-lieu-texte);
+  border-radius: var(--rayon);
+}
+
+/* Floating buttons over the map keep their shadow */
+.retour-carte {
+  box-shadow: 0 1px 4px rgba(21, 32, 27, 0.25);
+}
+
+/* Phone, map screen: the licence line moves from the top right (where it wrapped beside the stamp) to the bottom left,
+   just above the sheet's highest point and beside the legend, like the tour rule. Links get 24px+ targets. */
+@media (max-width: 899px) {
+  .racine:not(.tour-actif) .screen-carte .attribution {
+    top: auto;
+    right: auto;
+    left: calc(env(safe-area-inset-left) + 8px);
+    bottom: calc(58dvh + 8px);
+    max-width: calc(100% - 150px);
+    border-radius: var(--rayon-petit);
+    background: rgba(255, 253, 248, 0.92);
+  }
+
+  .screen-carte .attribution a {
+    padding: 5px 2px;
+    line-height: 1.2;
+  }
+}

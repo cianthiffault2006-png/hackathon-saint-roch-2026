@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maillage : IA sur l'appareil</title>
+<style>
+  :root { --bg:#faf7f2; --fg:#1d1b19; --mut:#6b655e; --acc:#b4410f; --card:#fff; --line:#e3ddd3; --ok:#2f7d4f; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16140f; --fg:#f1ece4; --mut:#a59d92; --acc:#f08a52; --card:#201d17; --line:#38332a; --ok:#6cc48d; } }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:16px; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width:640px; margin:0 auto; }
+  a { color:var(--acc); }
+  h1 { font-size:1.4rem; margin:.4rem 0 .6rem; }
+  .intro { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:12px; }
+  progress { width:100%; height:12px; }
+  dl { display:grid; grid-template-columns:auto 1fr; gap:2px 12px; margin:8px 0 0; }
+  dt { color:var(--mut); } dd { margin:0; font-variant-numeric:tabular-nums; }
+  textarea { width:100%; min-height:90px; padding:10px; font:inherit; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:8px; }
+  button { margin-top:8px; padding:12px 18px; font:inherit; font-weight:600; color:#fff; background:var(--acc); border:0; border-radius:8px; min-height:44px; }
+  button:disabled { opacity:.5; }
+  ol { padding-left:1.2rem; } li { margin:.5rem 0; }
+  .score { color:var(--ok); font-weight:600; } .meta { color:var(--mut); font-size:.9rem; }
+  .err { color:#c0392b; }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="/">&larr; Retour à l'application</a></p>
+  <h1>IA sur l'appareil</h1>
+  <p class="intro"><strong>Expérience :</strong> IA qui tourne sur votre téléphone. Gratuit, votre texte ne quitte pas l'appareil. Premier chargement environ 130&nbsp;Mo.</p>
+
+  <section class="box" aria-live="polite">
+    <div id="statut">Démarrage…</div>
+    <progress id="barre" max="100" value="0"></progress>
+    <dl>
+      <dt>Téléchargement et initialisation du modèle</dt><dd id="t-modele">…</dd>
+      <dt>Temps par phrase</dt><dd id="t-phrase">…</dd>
+      <dt>Profils indexés</dt><dd id="n-profils">…</dd>
+    </dl>
+  </section>
+
+  <section class="box">
+    <label for="texte"><strong>Votre phrase</strong></label>
+    <textarea id="texte">On a un espace libre le jeudi soir et on aimerait attirer du monde</textarea>
+    <button id="go" disabled>Trouver les profils proches</button>
+    <p id="t-requete" class="meta"></p>
+    <ol id="resultats"></ol>
+  </section>
+  <p class="meta">Modèle : Xenova/paraphrase-multilingual-MiniLM-L12-v2 (quantifié), via transformers.js. Les profils sont fictifs.</p>
+</main>
+
+<script type="module">
+import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.0/dist/transformers.min.js";
+
+const $ = (id) => document.getElementById(id);
+const fmt = (ms) => ms >= 1000 ? (ms / 1000).toFixed(1) + " s" : Math.round(ms) + " ms";
+const statut = (t) => { $("statut").textContent = t; };
+env.allowLocalModels = false;
+
+let extracteur, profils = [], vecteurs = [];
+const fichiers = {};
+
+try {
+  statut("Téléchargement du modèle…");
+  const t0 = performance.now();
+  extracteur = await pipeline("feature-extraction", "Xenova/paraphrase-multilingual-MiniLM-L12-v2", {
+    dtype: "q8",
+    progress_callback: (p) => {
+      if (p.status === "progress" && p.file) {
+        fichiers[p.file] = { loaded: p.loaded, total: p.total };
+        const tot = Object.values(fichiers).reduce((s, f) => s + (f.total || 0), 0);
+        const lu = Object.values(fichiers).reduce((s, f) => s + (f.loaded || 0), 0);
+        if (tot) {
+          $("barre").value = Math.min(80, (lu / tot) * 80);
+          statut(`Téléchargement du modèle… ${(lu / 1048576).toFixed(0)} Mo sur ${(tot / 1048576).toFixed(0)} Mo`);
+        }
+      } else if (p.status === "ready") { statut("Initialisation…"); }
+    },
+  });
+  $("t-modele").textContent = fmt(performance.now() - t0);
+
+  // Embed the descriptions once.
+  statut("Chargement des profils…");
+  profils = await (await fetch("../data/profils.json")).json();
+  const emb = async (txt) => (await extracteur(txt, { pooling: "mean", normalize: true })).data;
+  await emb("échauffement");
+  const tp = performance.now();
+  for (let i = 0; i < profils.length; i++) {
+    vecteurs.push(await emb(profils[i].description));
+    $("barre").value = 80 + ((i + 1) / profils.length) * 20;
+    statut(`Indexation des profils… ${i + 1} sur ${profils.length}`);
+  }
+  $("t-phrase").textContent = fmt((performance.now() - tp) / profils.length) + " en moyenne";
+  $("n-profils").textContent = String(profils.length);
+  $("barre").value = 100;
+  statut("Prêt. Le modèle tourne sur votre appareil.");
+
+  const chercher = async () => {
+    const txt = $("texte").value.trim();
+    if (!txt) return;
+    $("go").disabled = true;
+    const t1 = performance.now();
+    const v = await emb(txt);
+    const dt = performance.now() - t1;
+    const scores = vecteurs.map((w, i) => {
+      let s = 0; for (let k = 0; k < v.length; k++) s += v[k] * w[k];
+      return [s, i];
+    }).sort((a, b) => b[0] - a[0]).slice(0, 5);
+    $("t-requete").textContent = `Phrase analysée en ${fmt(dt)}.`;
+    $("resultats").replaceChildren(...scores.map(([s, i]) => {
+      const li = document.createElement("li");
+      const p = profils[i];
+      const sc = document.createElement("span"); sc.className = "score"; sc.textContent = (s * 100).toFixed(0) + " %";
+      const nom = document.createElement("strong"); nom.textContent = " " + p.nom;
+      const m = document.createElement("div"); m.className = "meta"; m.textContent = `${p.sousType} : ${p.description}`;
+      li.append(sc, nom, m);
+      return li;
+    }));
+    $("go").disabled = false;
+  };
+  $("go").addEventListener("click", chercher);
+  $("go").disabled = false;
+} catch (e) {
+  statut("Erreur : " + (e && e.message ? e.message : e));
+  $("statut").className = "err";
+}
+</script>
+</body>
+</html>

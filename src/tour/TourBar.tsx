@@ -44,6 +44,8 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
 
   function surPiste(e: React.MouseEvent<HTMLDivElement>) {
     const r = e.currentTarget.getBoundingClientRect()
+    // A bar with no width (hidden, mid-layout) cannot say where the click was: ignore it rather than jump to the start.
+    if (!(r.width > 0) || !Number.isFinite(e.clientX)) return
     const part = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width))
     onAllerAuTemps(part * total)
   }
@@ -138,16 +140,16 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
           </div>
         </div>
         <div className="visite-actions">
-          <button type="button" className="visite-btn" onClick={onPrecedent} disabled={premiere}>
+          <button type="button" className="visite-btn" data-action="precedent" onClick={onPrecedent} disabled={premiere}>
             {fr.visite.precedent}
           </button>
-          <button type="button" className="visite-btn" onClick={onPause}>
+          <button type="button" className="visite-btn" data-action="pause" onClick={onPause}>
             {etat.pause ? fr.visite.reprendre : fr.visite.pause}
           </button>
-          <button type="button" className="visite-btn" onClick={onSuivant} disabled={fin}>
+          <button type="button" className="visite-btn" data-action="suivant" onClick={onSuivant} disabled={fin}>
             {fr.visite.suivant}
           </button>
-          <button type="button" className="visite-btn visite-quitter" onClick={onQuitter}>
+          <button type="button" className="visite-btn visite-quitter" data-action="quitter" onClick={onQuitter}>
             {fr.visite.quitter}
           </button>
         </div>

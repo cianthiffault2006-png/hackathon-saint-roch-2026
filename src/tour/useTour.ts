@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { DEBUT_SUITE, ETAPES } from './script'
-import { arrivee, bornes, etapeA } from './etat'
+import { arrivee, basculer, bornes, etapeA, lire, tic, type Horloge } from './etat'
 
 export interface EtatVisite {
   index: number
@@ -21,15 +21,12 @@ export function useTour() {
   const [etat, setEtat] = useState<EtatVisite | null>(null)
   /** Changes on each jump to the map's first step, so the pins drop again. */
   const [saut, setSaut] = useState(0)
-  const horloge = useRef({ index: 0, base: 0, depuis: 0, pause: true })
+  const horloge = useRef<Horloge>({ index: 0, base: 0, depuis: 0, pause: true })
 
   const actif = etat !== null
   const enPause = etat?.pause ?? false
 
-  const lireMs = useCallback(() => {
-    const h = horloge.current
-    return h.pause ? h.base : h.base + (performance.now() - h.depuis)
-  }, [])
+  const lireMs = useCallback(() => lire(horloge.current, performance.now()), [])
 
   const poser = useCallback((index: number, ms: number, pause: boolean) => {
     horloge.current = { index, base: ms, depuis: performance.now(), pause }
@@ -39,24 +36,12 @@ export function useTour() {
   useEffect(() => {
     if (!actif || enPause) return
     const t = window.setInterval(() => {
-      const h = horloge.current
-      if (h.pause) return
-      let index = h.index
-      let ms = lireMs()
-      // Real time: a throttled background tab skips steps instead of slowing the tour.
-      // Each tour stops on its own last step (the main tour's end card offers the suite).
-      const { dernier } = bornes(ETAPES[h.index].parcours)
-      while (ms >= ETAPES[index].dureeMs && index < dernier) {
-        ms -= ETAPES[index].dureeMs
-        index++
-      }
-      // The last step stays on screen until the viewer quits or continues.
-      if (ms >= ETAPES[index].dureeMs) {
-        poser(index, ETAPES[index].dureeMs, true)
-        return
-      }
-      if (index !== h.index) horloge.current = { index, base: ms, depuis: performance.now(), pause: false }
-      setEtat({ index, ms, pause: false })
+      // Real time: a throttled background tab skips steps instead of slowing the tour. Each tour
+      // stops, paused, on its own last step (the main tour's end card offers the suite).
+      const suite = tic(horloge.current, performance.now())
+      if (!suite) return
+      horloge.current = suite
+      setEtat({ index: suite.index, ms: suite.base, pause: suite.pause })
     }, PAS_MS)
     return () => window.clearInterval(t)
   }, [actif, enPause, lireMs, poser])
@@ -78,9 +63,10 @@ export function useTour() {
   }, [poser])
   const quitter = useCallback(() => setEtat(null), [])
   const basculerPause = useCallback(() => {
-    const h = horloge.current
-    poser(h.index, lireMs(), !h.pause)
-  }, [lireMs, poser])
+    const h = basculer(horloge.current, performance.now())
+    horloge.current = h
+    setEtat({ index: h.index, ms: h.base, pause: h.pause })
+  }, [])
   // Suivant and Précédent stay inside the current tour.
   const suivant = useCallback(() => {
     const i = horloge.current.index
@@ -91,7 +77,12 @@ export function useTour() {
     if (i > bornes(ETAPES[i].parcours).premier) allerA(i - 1)
   }, [allerA])
   /** Jumps to the start of the step playing at time t (ms from the start of the current tour). */
-  const allerAuTemps = useCallback((t: number) => allerA(etapeA(t, ETAPES[horloge.current.index].parcours).index), [allerA])
+  const allerAuTemps = useCallback(
+    (t: number) => {
+      if (Number.isFinite(t)) allerA(etapeA(t, ETAPES[horloge.current.index].parcours).index)
+    },
+    [allerA],
+  )
   /** From the main tour's end card: plays the « Suite de la visite ». */
   const continuer = useCallback(() => {
     const calme = mouvementReduit()

@@ -55,3 +55,15 @@ export function choixDepuisTexte(
     creneaux: lu.creneaux,
   }
 }
+
+export type Choix = { cherche: Tag[]; offre: Tag[]; creneaux: Creneau[] }
+
+/**
+ * One keystroke: chips read from the previous text and no longer read are taken off, chips read now are added,
+ * chips the user set by hand stay. Without this, « le jeudi » lit « Semaine, jour » mid-typing and it stayed
+ * after « soir » arrived.
+ */
+export function suivreSaisie<T>(actuels: T[], luAvant: T[], luMaintenant: T[]): T[] {
+  const gardes = actuels.filter((x) => !luAvant.includes(x) || luMaintenant.includes(x))
+  return [...gardes, ...luMaintenant.filter((x) => !gardes.includes(x))]
+}

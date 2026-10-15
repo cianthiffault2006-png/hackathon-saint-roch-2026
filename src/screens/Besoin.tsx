@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
-import { choixDepuisTexte, construireBesoin, trouverAsker } from '../lib/besoin'
+import { choixDepuisTexte, construireBesoin, suivreSaisie, trouverAsker, type Choix } from '../lib/besoin'
 import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
@@ -37,6 +37,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
   const [offre, setOffre] = useState<Tag[]>([])
   const [creneaux, setCreneaux] = useState<Creneau[]>([])
   const asker = trouverAsker(role, profils)
+  // What the text gave at the previous keystroke, so chips it no longer gives can be taken off.
+  const luAvant = useRef<Choix>({ cherche: [], offre: [], creneaux: [] })
 
   useEffect(() => {
     if (partenaireVoulu) setCherche((prev) => ajouter(prev, partenaireVoulu.offres.filter((t) => !asker?.offres.includes(t))))
@@ -47,9 +49,11 @@ export default function Besoin({ role, profils, onRetour, onTrouver, texteGuide,
   function surSaisie(valeur: string) {
     setTexte(valeur)
     const lu = choixDepuisTexte(role, valeur, profils)
-    setCherche((prev) => ajouter(prev, lu.cherche))
-    setOffre((prev) => ajouter(prev, lu.offre))
-    setCreneaux((prev) => ajouter(prev, lu.creneaux))
+    const avant = luAvant.current
+    luAvant.current = lu
+    setCherche((prev) => suivreSaisie(prev, avant.cherche, lu.cherche))
+    setOffre((prev) => suivreSaisie(prev, avant.offre, lu.offre))
+    setCreneaux((prev) => suivreSaisie(prev, avant.creneaux, lu.creneaux))
   }
 
   useEffect(() => {

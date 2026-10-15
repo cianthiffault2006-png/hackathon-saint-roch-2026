@@ -247,6 +247,7 @@ export const fr = {
     partenaires: 'Partenaires',
     aConfirmer: 'À confirmer',
     rappel: 'Rappel : projet Maillage demain',
+    dansMaillage: 'Partenaires et liste à cocher dans Maillage.',
   },
 
   retirer: {

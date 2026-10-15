@@ -26,9 +26,8 @@ DTSTART;TZID=America/Toronto:20261128T140000
 DTEND;TZID=America/Toronto:20261128T160000
 SUMMARY:Démonstration de cirque de rue
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Atelie
- r de cirque Les Saltimbanques : Organise l’événement\n\nÀ co
- nfirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Atelier de cirque\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

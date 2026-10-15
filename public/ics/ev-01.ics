@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261029T190000
 DTEND;TZID=America/Toronto:20261029T213000
 SUMMARY:Soirée de lancement de saison
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Café L
- e Petit Détour : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Café Le Petit Détour\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

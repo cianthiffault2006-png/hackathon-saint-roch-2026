@@ -26,9 +26,8 @@ DTSTART;TZID=America/Toronto:20261112T180000
 DTEND;TZID=America/Toronto:20261112T203000
 SUMMARY:Vernissage collectif
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Centre
-  de photographie Obscura : Organise l’événement\n\nÀ confirm
- er :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Centre de photographie Obscura\, Saint-Roch\, Québe
  c
 BEGIN:VALARM

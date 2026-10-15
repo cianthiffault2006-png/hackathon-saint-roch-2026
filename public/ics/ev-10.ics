@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261205T100000
 DTEND;TZID=America/Toronto:20261205T170000
 SUMMARY:Marché de Noël des artisans
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Galeri
- e L'Éclat : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Galerie L'Éclat\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

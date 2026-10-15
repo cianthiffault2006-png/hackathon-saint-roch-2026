@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261106T200000
 DTEND;TZID=America/Toronto:20261106T223000
 SUMMARY:Spectacle de quartier
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Salle 
- Le Bémol : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Salle Le Bémol\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

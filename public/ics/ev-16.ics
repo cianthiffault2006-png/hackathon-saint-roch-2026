@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261212T130000
 DTEND;TZID=America/Toronto:20261212T160000
 SUMMARY:Atelier de peinture ouvert
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Camill
- e Vézina : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Atelier de Camille\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

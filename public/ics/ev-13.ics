@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261030T140000
 DTEND;TZID=America/Toronto:20261030T153000
 SUMMARY:Café-causerie sur l'histoire du quartier
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Associ
- ation Mémoire Vive : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Local de l'association\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

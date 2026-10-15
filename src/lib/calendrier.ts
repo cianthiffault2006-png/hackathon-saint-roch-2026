@@ -1,6 +1,6 @@
 import { fr } from '../i18n/fr'
 import { libelleDate } from './date'
-import type { Projet } from './projets'
+import { DEMOS, type Projet } from './projets'
 
 function heure(h: number): string {
   const hh = Math.floor(h)
@@ -17,7 +17,11 @@ export function lieuComplet(p: Projet): string {
   return p.lieuNom ? `${p.lieuNom}, Saint-Roch, Québec` : 'Saint-Roch, Québec'
 }
 
-export function descriptionProjet(p: Projet): string {
+/** The prebuilt (statique) files cannot follow the live checklist, so they point back to the app. */
+export function descriptionProjet(p: Projet, statique = false): string {
+  if (statique) return `${fr.ics.description}
+
+${fr.ics.dansMaillage}`
   const partenaires = p.partenaires.map((x) => `- ${x.nom} : ${x.apport}`).join('\n')
   const points = p.aConfirmer.map((x, i) => `${p.coches[i] ? '[x]' : '[ ]'} ${x}`).join('\n')
   return `${fr.ics.description}\n\n${fr.ics.partenaires} :\n${partenaires}\n\n${fr.ics.aConfirmer} :\n${points}`
@@ -54,7 +58,7 @@ const FUSEAU = [
   'END:VTIMEZONE',
 ]
 
-export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
+export function contenuIcs(p: Projet, maintenant: Date = new Date(), statique = false): string {
   const { debut, fin } = debutFin(p)
   const stamp = maintenant.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
   const lignes = [
@@ -69,7 +73,7 @@ export function contenuIcs(p: Projet, maintenant: Date = new Date()): string {
     `DTSTART;TZID=America/Toronto:${debut}`,
     `DTEND;TZID=America/Toronto:${fin}`,
     `SUMMARY:${echapper(p.titre)}`,
-    `DESCRIPTION:${echapper(descriptionProjet(p))}`,
+    `DESCRIPTION:${echapper(descriptionProjet(p, statique))}`,
     `LOCATION:${echapper(lieuComplet(p))}`,
     'BEGIN:VALARM',
     'ACTION:DISPLAY',
@@ -90,12 +94,16 @@ export function estIos(nav: Pick<Navigator, 'userAgent' | 'platform' | 'maxTouch
 /** Date stamp of the prebuilt files in public/ics, so regenerating them gives the same bytes. */
 export const STAMP_STATIQUE = new Date('2026-10-15T00:00:00Z')
 
+type Cle = Partial<Pick<Projet, 'evenementId'>> & { proposition?: { id: string } }
+
 /**
- * Public events have fixed dates, so their .ics is prebuilt in public/ics and served over https as
- * text/calendar: iOS (Safari and Chrome) opens its native « Ajouter au calendrier » sheet for that.
+ * Public events and the scripted demo projects have fixed dates, so their .ics is prebuilt in public/ics and
+ * served over https as text/calendar: iOS (Safari and Chrome) opens its native « Ajouter au calendrier » sheet.
  */
-export function cheminIcsStatique(p: Pick<Projet, 'evenementId'>): string | null {
-  return p.evenementId ? `ics/${p.evenementId.replace(/[^A-Za-z0-9-]/g, '')}.ics` : null
+export function cheminIcsStatique(p: Cle): string | null {
+  if (p.evenementId) return `ics/${p.evenementId.replace(/[^A-Za-z0-9-]/g, '')}.ics`
+  const demo = p.proposition && DEMOS[p.proposition.id]
+  return demo ? `ics/${demo.fichier}.ics` : null
 }
 
 export type ModeCalendrier = 'fichier' | 'partage' | 'google' | 'telechargement'
@@ -104,7 +112,7 @@ export type ModeCalendrier = 'fichier' | 'partage' | 'google' | 'telechargement'
  * iOS does not open a data: or Blob .ics (the load stalls), so on iOS: the prebuilt https file, else the
  * share sheet with the file, else Google Agenda. Desktop and Android download a Blob.
  */
-export function modeCalendrier(p: Pick<Projet, 'evenementId'>, ios: boolean, partageFichiers: boolean): ModeCalendrier {
+export function modeCalendrier(p: Cle, ios: boolean, partageFichiers: boolean): ModeCalendrier {
   if (!ios) return 'telechargement'
   if (cheminIcsStatique(p)) return 'fichier'
   return partageFichiers ? 'partage' : 'google'

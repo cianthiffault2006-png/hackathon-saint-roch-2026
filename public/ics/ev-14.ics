@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261105T180000
 DTEND;TZID=America/Toronto:20261105T200000
 SUMMARY:Soirée d'accueil des nouveaux résidents
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n\n\nÀ co
- nfirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Salle communautaire\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

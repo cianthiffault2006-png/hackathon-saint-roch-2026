@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261118T183000
 DTEND;TZID=America/Toronto:20261118T220000
 SUMMARY:Soirée de jeux étudiante
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Café-j
- eux Le Dé Pipé : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Café-jeux Le Dé Pipé\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

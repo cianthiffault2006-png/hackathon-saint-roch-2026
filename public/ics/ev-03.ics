@@ -26,9 +26,8 @@ DTSTART;TZID=America/Toronto:20261024T160000
 DTEND;TZID=America/Toronto:20261024T190000
 SUMMARY:Dégustation de bières d'automne
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Microb
- rasserie Le Houblon Voisin : Organise l’événement\n\nÀ confi
- rmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Microbrasserie Le Houblon Voisin\, Saint-Roch\, Qué
  bec
 BEGIN:VALARM

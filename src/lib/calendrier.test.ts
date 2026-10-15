@@ -81,6 +81,18 @@ describe('modeCalendrier (never a data: URL on iOS)', () => {
     expect(modeCalendrier(evenement, true, true)).toBe('fichier')
     expect(cheminIcsStatique(evenement)).toBe('ics/ev-01.ics')
   })
+  it('opens the prebuilt file on iOS for the scripted demo projects', () => {
+    const cafe = { proposition: { id: 'prop-story-cafe-story-artiste+story-organisme' } }
+    expect(modeCalendrier(cafe, true, true)).toBe('fichier')
+    expect(cheminIcsStatique(cafe)).toBe('ics/demo-cafe.ics')
+    expect(cheminIcsStatique({ proposition: { id: 'ouvert-demo-sofia' } })).toBe('ics/demo-corvee.ics')
+    expect(cheminIcsStatique({ proposition: { id: 'ouvert-1760000000000' } })).toBeNull()
+  })
+  it('the static description points to the app instead of the live checklist', () => {
+    const ics = contenuIcs(projet, new Date('2026-10-15T12:00:00Z'), true)
+    expect(ics.replace(/\r\n /g, '')).toContain('Partenaires et liste à cocher dans Maillage.')
+    expect(ics).not.toContain('[x]')
+  })
   it('uses the share sheet on iOS for a project with a computed date, else Google Agenda', () => {
     expect(modeCalendrier(projet, true, true)).toBe('partage')
     expect(modeCalendrier(projet, true, false)).toBe('google')

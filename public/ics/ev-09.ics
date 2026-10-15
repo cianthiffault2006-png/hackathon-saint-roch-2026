@@ -26,8 +26,8 @@ DTSTART;TZID=America/Toronto:20261120T193000
 DTEND;TZID=America/Toronto:20261120T210000
 SUMMARY:Concert de la chorale
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Choral
- e Voix du Faubourg : Organise l’événement\n\nÀ confirmer :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Local de la chorale\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

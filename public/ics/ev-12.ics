@@ -26,9 +26,8 @@ DTSTART;TZID=America/Toronto:20261203T183000
 DTEND;TZID=America/Toronto:20261203T203000
 SUMMARY:Course nocturne des lumières
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
- à confirmer avec les partenaires.\n\nPartenaires :\n- Club L
- es Foulées du Faubourg : Organise l’événement\n\nÀ confirmer
-  :\n
+ à confirmer avec les partenaires.\n\nPartenaires et liste à 
+ cocher dans Maillage.
 LOCATION:Départ du local du club\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY

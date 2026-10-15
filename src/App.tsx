@@ -14,11 +14,12 @@ import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
 import Proposition from './screens/Proposition'
 import Sdc from './screens/Sdc'
+import Sources from './screens/Sources'
 import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
 import { ETAPES, ROLE_VISITE, SAISIE_MS, TEXTE_VISITE, indexDe } from './tour/script'
 
-type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc'
+type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 const DELAI_PIN_VISITE_MS = 700
@@ -64,7 +65,7 @@ export default function App() {
 
   // One permanent polite live region: its text changes when the screen or the result changes.
   useEffect(() => {
-    if (!enVisite) setAnnonce(fr.a11y.ecrans[ecranActif])
+    if (!enVisite) setAnnonce(ecranActif === 'sources' ? 'Sources des données' : fr.a11y.ecrans[ecranActif])
   }, [ecranActif, enVisite])
 
   // One place for every status change: the screen state and, outside the tour, the saved project.
@@ -176,6 +177,7 @@ export default function App() {
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
+          onSources={enVisite ? undefined : () => setEcran('sources')}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -235,6 +237,7 @@ export default function App() {
           onOuvrir={(id) => ouvrirFiche(id, 'projets')}
         />
       )}
+      {ecranActif === 'sources' && <Sources lieux={donnees.lieux} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>

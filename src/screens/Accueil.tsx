@@ -11,9 +11,10 @@ interface Props {
   /** Opens the project list; the link only shows once a project exists. */
   onProjets?: () => void
   onSdc?: () => void
+  onSources?: () => void
 }
 
-export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
@@ -36,6 +37,11 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         {onSdc && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onSdc}>
             {fr.accueil.tableauSdc}
+          </button>
+        )}
+        {onSources && (
+          <button type="button" className="btn btn-texte btn-petit" onClick={onSources}>
+            Sources des données
           </button>
         )}
         {onProjets && (

@@ -49,7 +49,7 @@ Diapo 3, puis l’écran de l’app. Cian clique et parle en même temps.
 5. 1:55 : toucher « Ça m’intéresse ». Statut « En attente ». Ne pas attendre : toucher « Voir ce que Camille reçoit ». « Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » Toucher « Accepter ». « Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation. »
 6. 2:25 [SI LE TEMPS LE PERMET, seulement si on est sous 2:20 à ce moment] : Accueil, « Proposer un projet », « Exemple », écran « Avant de commencer ». « Deuxième histoire : Sofia, résidente, organise une corvée de propreté le samedi 24 octobre, de 13 h à 17 h. Avant de commencer, Maillage lui rappelle que le 311 s’occupe de ce qui relève de la Ville. » Sinon, passer directement à la partie 4.
 
-Plan B si l’app plante : Cian lance la Visite guidée (environ 57 s, elle rejoue la même histoire toute seule), sans commentaire d’excuse; continuer le texte. La vidéo de secours reste le dernier recours (Q la lance).
+Plan B si l’app plante : Cian lance la Visite guidée (2 min en 7 chapitres; jouer les chapitres 1 à 4, environ 70 s, puis « Quitter la visite »), sans commentaire d’excuse; continuer le texte. La vidéo de secours reste le dernier recours (Q la lance).
 
 ## 4. Les données (2:40 à 3:18) [CIAN]
 Diapo 4 (Technologies, outils et données).

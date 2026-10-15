@@ -244,9 +244,22 @@ button {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-.pin-lieu {
+.pin-commerce {
+  background: var(--vert);
+}
+
+.pin-organisme {
   background: var(--orange);
   color: #1d1208;
+}
+
+.pin-citoyen {
+  background: #5b5bd6;
+}
+
+.pin-lieu {
+  background: #3b4a45;
+  color: #fff;
 }
 
 .pin-evenement {
@@ -647,4 +660,41 @@ button {
 .chip-plus {
   border-style: dashed;
   background: transparent;
+}
+
+.pin-partenaire {
+  font-size: 13px;
+}
+
+.legende {
+  position: absolute;
+  right: 8px;
+  margin: 0;
+  padding: 6px 10px;
+  list-style: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.legende li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pastille {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 18px;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.pastille.pin-organisme {
+  color: #1d1208;
 }

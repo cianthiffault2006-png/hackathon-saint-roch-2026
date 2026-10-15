@@ -9,11 +9,11 @@ Démo en direct : environ 2 minutes (de 2:00 à 4:00). Les répliques ci-dessous
 |---|---|---|---|
 | 0:00 à 0:40 | Voix 1 | Rien (diapo 1 ou accueil de l'app) | Problème : à Saint-Roch, commerces, organismes et citoyens ont des ressources et des idées, mais ne se connaissent pas. |
 | 0:40 à 1:10 | Voix 2 | Rien | Solution en une phrase : Maillage propose des projets communs à trois partenaires sur la carte, avec les raisons. Données : répertoires de la Ville. |
-| 1:10 à 2:00 | Voix 1 | Passer à l'app, onglet pré-chargé sur l'accueil | « Voici Mathieu, qui tient un café. » Montrer l'accueil : 3 rôles. |
-| 2:00 | Voix 1 | Toucher **Commerçant** | « Il choisit son rôle. » |
-| 2:15 | Voix 2 | Toucher la zone de texte, coller ou taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Lire la phrase à voix haute. Les puces apparaissent : espace intérieur, public, semaine soir. |
+| 1:10 à 2:00 | Voix 1 | Passer à l'app, onglet pré-chargé sur l'accueil | « Voici le Café Le Petit Détour. » Montrer l'accueil : 3 rôles. |
+| 2:00 | Voix 1 | Toucher **Commerçant** | « Il choisit son rôle. » L'écran affiche « Votre profil : Café Le Petit Détour ». |
+| 2:15 | Voix 2 | Toucher la zone de texte, coller ou taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Lire la phrase à voix haute. Les puces s'allument : J'offre : Espace intérieur ; Je cherche : Public ; Quand : Semaine, soir. |
 | 2:40 | Voix 1 | Toucher **Trouver des partenaires** | « Règles transparentes, pas d'IA dans la démo. » |
-| 2:55 | Voix 2 | Laisser la carte se charger, ne rien toucher | Exposition avec l'artiste et l'organisme, 3 épingles. Pointer « Pourquoi cette suggestion » et « À confirmer ». |
+| 2:55 | Voix 2 | Laisser la carte se charger, ne rien toucher | « Exposition collaborative chez Café Le Petit Détour », Compatibilité 86 %, avec Camille Vézina et Collectif Les Voisins en Scène, 3 épingles. Pointer « Pourquoi cette suggestion » et « À confirmer ». |
 | 3:30 | Voix 1 | Toucher **Ça m'intéresse** | « Démo simulée : le statut passe en attente. » |
 | 3:45 | Voix 2 | Attendre | Statut : Projet confirmé (simulé). |
 | 4:00 à 4:40 | Voix 1 | Revenir aux diapos | Feuille de route : vrai modèle de langage pour lire le besoin, vrais profils réclamés (Loi 25), autres quartiers. |
@@ -25,8 +25,8 @@ Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 4:00 et 2 
 
 Déclencheur : l'app est lente, plante ou la carte ne charge pas à 2:55 au plus tard.
 1. Cian revient à l'accueil (logo Maillage ou bouton retour).
-2. Toucher **Visite guidée** : l'histoire se joue seule (même parcours que ci-dessus).
-3. Voix 2 commente pendant la lecture, sans refaire les clics. Durée environ 60 secondes.
+2. Toucher **Visite guidée** : l'histoire se joue seule (même histoire que ci-dessus).
+3. Voix 2 commente pendant la lecture, sans refaire les clics. Durée environ 47 secondes ; elle se termine sur « Maillage : les ressources du quartier, enfin connectées ». Pas de clic requis.
 4. Si la carte reste grise : continuer, la visite montre les raisons et le statut.
 
 ## Plan C : vidéo de secours

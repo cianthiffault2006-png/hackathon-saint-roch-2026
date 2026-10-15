@@ -8,13 +8,13 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 | # | Étape | Résultat attendu |
 |---|---|---|
 | 1 | Ouvrir l'accueil | Titre « Maillage », 3 rôles (Commerçant, Organisme, Citoyen), bouton « Visite guidée », mention « Démo simulée » visible |
-| 2 | Choisir « Commerçant » | Écran « décrire le besoin » avec zone de texte |
-| 3 | Taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Puces : espace intérieur (offre), public (besoin), semaine soir |
-| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : une exposition avec l'artiste et l'organisme (3 partenaires) |
-| 5 | Lire la proposition | 3 épingles sur la carte, section « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
+| 2 | Choisir « Commerçant » | Écran Besoin : « Votre profil : Café Le Petit Détour », zone de texte, deux rangées de puces « J'offre » et « Je cherche », puis « Quand » |
+| 3 | Taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Allumés : J'offre : Espace intérieur ; Je cherche : Public ; Quand : Semaine, soir |
+| 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 86 %, avec Camille Vézina et Collectif Les Voisins en Scène |
+| 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
 | 6 | Appuyer sur « Ça m'intéresse » | Statut : en attente, mention « Démo simulée » |
 | 7 | Attendre le 2e changement | Statut : « Projet confirmé (simulé) » (deux changements en tout) |
-| 8 | Retour accueil, « Visite guidée » | Lecture automatique de la même histoire, sans clic, jusqu'au projet confirmé |
+| 8 | Retour accueil, « Visite guidée » | Lecture automatique d'environ 47 s, sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 
 ## B. Contrôles transversaux
 
@@ -29,6 +29,7 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 | 15 | Hors ligne approximatif : charger, puis couper le Wi-Fi | La visite guidée fonctionne jusqu'au bout (données locales, tuiles déjà vues) |
 | 16 | Temps de chargement, Wi-Fi | Accueil interactif en moins de 3 s |
 | 17 | Aucune donnée personnelle ni clé dans le JS déployé | Aucune clé, aucun nom réel, profils non réclamés cachés |
+| 18 | Page labo : ouvrir /labo/ | Le modèle se charge (environ 130 Mo au premier chargement, barre de progression), puis le statut affiche « Prêt. Le modèle tourne sur votre appareil. » |
 
 ## C. Contrôles qa (curl et lecture du code déployé)
 
@@ -45,6 +46,6 @@ Responsable : qa (Q). Clics Chrome : team-lead. Contrôles curl et lecture du JS
 
 Remplir une ligne par passage. P = réussi, F = échec, - = non testé.
 
-| Heure | Commit | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | C1-C6 | Notes |
+| Heure | Commit | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | C1-C6 | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 2026-10-15 (départ) | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | Gabarit |
+| 2026-10-15, qa (curl), eba2680 | eba2680 | - | - | - | - | - | - | - | - | - | - | - | - | - | P | - | - | P | - | P | 16 non validé: accueil 200 (0,21 s puis 0,08 s; première requête à froid 3,7 s), bundle 1,3 Mo. Chaînes présentes dans le JS : Maillage, Visite guidée, Démo simulée, Trouver des partenaires, Ça m'intéresse, Projet confirmé, Votre profil, J'offre, Je cherche, Quand, Exposition collaborative, Compatibilité, « enfin connectées ». /data : profils 47, lieux 38, evenements 16, quartier.geojson 200 et valides. Attribution OpenFreeMap/OpenStreetMap dans le JS (14 vu en code seulement). Aucune clé. /labo/ 200, contient « Prêt » (18 vu en code seulement, modèle non chargé). Étapes cliquées (1 à 8, 9 à 13, 15) : à faire par team-lead. |

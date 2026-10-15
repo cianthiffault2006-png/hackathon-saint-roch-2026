@@ -14,9 +14,11 @@ interface Props {
   onSources?: () => void
   onExplorer?: () => void
   onProposer?: () => void
+  /** Opens the search for a pre-filled business or organisation to claim (simulated). */
+  onReclamer?: () => void
 }
 
-export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer, onReclamer }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
@@ -44,6 +46,11 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         {onProposer && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onProposer}>
             {fr.accueil.proposer}
+          </button>
+        )}
+        {onReclamer && (
+          <button type="button" className="btn btn-texte btn-petit" onClick={onReclamer}>
+            {fr.reclamer.recherche.lienAccueil}
           </button>
         )}
         {onSdc && (

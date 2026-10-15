@@ -11,6 +11,38 @@ export const CHEMINS: Record<NomIcone, string> = {
   evenement: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
 }
 
+function etoile(): string {
+  const pts: string[] = []
+  for (let k = 0; k < 10; k++) {
+    const r = k % 2 === 0 ? 19 : 8.8
+    const a = (-90 + k * 36) * (Math.PI / 180)
+    pts.push(`${(20 + r * Math.cos(a)).toFixed(1)},${(21 + r * Math.sin(a)).toFixed(1)}`)
+  }
+  return pts.join(' ')
+}
+
+// Shape + icon + colour: a pin is never told apart by colour alone.
+const FORMES: Record<NomIcone, string> = {
+  commerce: '<circle cx="20" cy="20" r="17"/>',
+  organisme: '<rect x="3" y="3" width="34" height="34" rx="5"/>',
+  citoyen: '<polygon points="20,1.5 38.5,20 20,38.5 1.5,20"/>',
+  lieu: '<polygon points="20,2 36,11 36,29 20,38 4,29 4,11"/>',
+  evenement: `<polygon points="${etoile()}"/>`,
+}
+
+export function svgPin(nom: NomIcone, taille = 40): string {
+  const evenement = nom === 'evenement'
+  const remplissage = `var(--couleur-${nom})`
+  const contour = evenement ? 'var(--contour-evenement)' : '#fff'
+  const traitIcone = evenement ? 'var(--contour-evenement)' : '#fff'
+  const echelle = evenement ? 'translate(13.5 14.5) scale(0.55)' : 'translate(11 11) scale(0.75)'
+  return `<svg width="${taille}" height="${taille}" viewBox="0 0 40 40" aria-hidden="true"><g style="fill:${remplissage};stroke:${contour};stroke-width:2;stroke-linejoin:round">${FORMES[nom]}</g><g transform="${echelle}" fill="none" stroke="${traitIcone}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${CHEMINS[nom]}</g></svg>`
+}
+
+export function PinForme({ nom, taille = 24 }: { nom: NomIcone; taille?: number }) {
+  return <span className="forme" aria-hidden="true" dangerouslySetInnerHTML={{ __html: svgPin(nom, taille) }} />
+}
+
 export function svgIcone(nom: NomIcone, taille = 20): string {
   return `<svg width="${taille}" height="${taille}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CHEMINS[nom]}</svg>`
 }

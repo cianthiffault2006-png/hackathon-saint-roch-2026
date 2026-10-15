@@ -38,6 +38,11 @@ export const T = {
     aConfirmer: 'À confirmer',
     rappel: 'Rappel : projet Maillage demain',
   },
+  carte: {
+    resume: 'Carte, résumé dans la liste ci-dessous',
+    minutesAPied: '10 min à pied',
+    voirListe: 'Voir la liste',
+  },
   legende: {
     titre: 'Légende',
     commerce: 'Commerce',
@@ -45,6 +50,26 @@ export const T = {
     citoyen: 'Citoyen',
     lieu: 'Lieu public',
     evenement: 'Événement',
+  },
+  a11y: {
+    ecrans: {
+      accueil: 'Accueil',
+      besoin: 'Décrivez votre besoin',
+      proposition: 'Propositions',
+      invitation: 'Invitation du partenaire',
+      fiche: 'Fiche projet',
+      projets: 'Mes projets',
+      sdc: 'Tableau de bord du quartier',
+    },
+    aideBesoin: 'Écrivez un besoin ou choisissez une puce',
+    pagination: (i: number, n: number) => `Proposition ${i} sur ${n}`,
+    detail: {
+      complementarite: 'Complémentarité',
+      reciprocite: 'Réciprocité',
+      proximite: 'Proximité',
+      creneau: 'Créneau',
+      theme: 'Thème',
+    },
   },
   visite: {
     invitation: 'Le partenaire reçoit une invitation claire et l’accepte.',

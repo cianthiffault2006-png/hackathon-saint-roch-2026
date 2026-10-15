@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } from '../types'
 import { fr } from '../i18n/fr'
 import { T } from '../textes'
-import Icone, { type NomIcone } from '../components/Icones'
+import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
 import { choisirInvite, prenom } from '../lib/invitation'
 import { idProjet } from '../lib/projets'
@@ -44,6 +44,8 @@ function formaterDate(iso: string): string {
 export default function Proposition({ propositions, profils, lieux, evenements, onRetour, delaiPinMs, raisonsVisibles, interetAuto, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation }: Props) {
   const enVisite = delaiPinMs !== undefined
   const departX = useRef<number | null>(null)
+  const feuilleRef = useRef<HTMLElement>(null)
+  const [detailOuvert, setDetailOuvert] = useState(false)
 
   const prop = propositions[index]
   const statut: Statut = (prop && statuts[idProjet(prop)]) || 'proposee'
@@ -123,14 +125,20 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       <ul className="legende" style={{ bottom: `calc(${enVisite ? 50 : 58}dvh + 8px)` }} aria-label={fr.carte.legende}>
         {LEGENDE.map(([nom, libelle]) => (
           <li key={nom}>
-            <span className={`pastille pin-${nom}`}><Icone nom={nom} taille={14} /></span>
+            <PinForme nom={nom} taille={22} />
             {libelle}
           </li>
         ))}
       </ul>
+      <button type="button" className="lien-evitement" onClick={() => feuilleRef.current?.focus()}>
+        {T.carte.voirListe}
+      </button>
       <button type="button" className="retour retour-carte" onClick={onRetour} aria-label={fr.general.retour}>←</button>
       <section
         className="feuille"
+        ref={feuilleRef}
+        id="liste-proposition"
+        tabIndex={-1}
         style={{ animationDelay: `${(pins.length + 1) * (delaiPinMs ?? 300)}ms` }}
         aria-label={fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
@@ -138,7 +146,8 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       >
         <div className="feuille-nav">
           <button type="button" className="nav-btn" onClick={() => aller(-1)} disabled={index === 0} aria-label={fr.proposition.precedente}>‹</button>
-          <span className="points" aria-label={`Proposition ${index + 1} sur ${propositions.length}`}>
+          <span className="points">
+            <span className="sr-only" aria-live="polite">{T.a11y.pagination(index + 1, propositions.length)}</span>
             {propositions.map((p, i) => (
               <span key={p.id} className={i === index ? 'point point-on' : 'point'} />
             ))}
@@ -147,6 +156,24 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         </div>
         <h1 className="feuille-titre">{prop.titre}</h1>
         <p className="score">{fr.proposition.score(prop.score)}</p>
+        {prop.detailScore && (
+          <div className="detail-score">
+            <button type="button" className="detail-bouton" aria-expanded={detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
+              {fr.proposition.commentScore}
+            </button>
+            {detailOuvert && (
+              <ul className="barres">
+                {(['complementarite', 'reciprocite', 'proximite', 'creneau', 'theme'] as const).map((cle) => (
+                  <li key={cle}>
+                    <span className="barre-nom">{T.a11y.detail[cle]}</span>
+                    <span className="barre" aria-hidden="true"><span style={{ width: `${prop.detailScore?.[cle] ?? 0}%` }} /></span>
+                    <span className="barre-val">{prop.detailScore?.[cle]} %</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         <h2 className="sous-titre">{fr.proposition.partenaires}</h2>
         <ul className="liste-part">

@@ -4,6 +4,8 @@ import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite } from './lib/invitation'
+import { T } from './textes'
+import { fr } from './i18n/fr'
 import { chargerProjets, idProjet, projetDepuis, sauverProjets, type Projet } from './lib/projets'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
@@ -34,6 +36,7 @@ export default function App() {
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
+  const [annonce, setAnnonce] = useState('')
   const { etat, demarrer, quitter, basculerPause, suivant } = useTour()
 
   useEffect(() => {
@@ -60,6 +63,11 @@ export default function App() {
   const enVisite = etat !== null && etape !== null
   const ecranActif: Ecran = etape ? etape.ecran : ecran
 
+  // One permanent polite live region: its text changes when the screen or the result changes.
+  useEffect(() => {
+    if (!enVisite) setAnnonce(T.a11y.ecrans[ecranActif])
+  }, [ecranActif, enVisite])
+
   // One place for every status change: the screen state and, outside the tour, the saved project.
   const changerStatut = useCallback(
     (prop: PropositionType, statut: Statut) => {
@@ -69,6 +77,7 @@ export default function App() {
         return
       }
       setStatuts((s) => ({ ...s, [cle]: statut }))
+      setAnnonce(fr.proposition.statuts[statut])
       setProjets((prev) => {
         const existant = prev.find((p) => p.id === cle)
         if (!existant) return [...prev, projetDepuis(prop, donnees.profils, donnees.lieux, statut)]
@@ -80,7 +89,9 @@ export default function App() {
   )
 
   function trouver(besoin: BesoinType) {
-    setPropositions(proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements))
+    const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
+    setPropositions(trouvees)
+    setAnnonce(fr.proposition.nombreTrouvees(trouvees.length))
     setIndexProp(0)
     setEcran('proposition')
   }
@@ -107,6 +118,7 @@ export default function App() {
   function quitterVisite() {
     quitter()
     setEcran('accueil')
+    window.setTimeout(() => document.querySelector<HTMLElement>('[data-visite]')?.focus(), 50)
   }
 
   function accepterInvitation(prop: PropositionType) {
@@ -157,6 +169,7 @@ export default function App() {
 
   return (
     <div className={enVisite ? 'racine tour-actif' : 'racine'}>
+      <div className="ecrans" inert={enVisite}>
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
@@ -223,6 +236,8 @@ export default function App() {
         />
       )}
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
+      </div>
+      <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
       <Badge />
       {etat && <TourBar etat={etat} onPause={basculerPause} onSuivant={suivant} onQuitter={quitterVisite} />}
     </div>

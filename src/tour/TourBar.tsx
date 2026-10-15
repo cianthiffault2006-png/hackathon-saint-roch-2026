@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { fr } from '../i18n/fr'
 import { T } from '../textes'
 import { ETAPES, FIN_VISITE } from './script'
@@ -15,18 +16,28 @@ export default function TourBar({ etat, onPause, onSuivant, onQuitter }: Props) 
   const cle = etape.legende
   const progres = ((etat.index + etat.ms / etape.dureeMs) / ETAPES.length) * 100
   const fin = etape.id === 'fin'
+  const barre = useRef<HTMLDivElement>(null)
+  const boutonFin = useRef<HTMLButtonElement>(null)
+
+  // The screens are inert during the tour, so focus moves to the bar, then to the end card.
+  useEffect(() => {
+    barre.current?.focus()
+  }, [])
+  useEffect(() => {
+    if (fin) boutonFin.current?.focus()
+  }, [fin])
 
   return (
     <>
       {fin && (
-        <div className="carte-fin" role="dialog" aria-label={fr.visite.titre}>
+        <div className="carte-fin" role="dialog" aria-modal="true" aria-label={fr.visite.titre}>
           <p>{FIN_VISITE}</p>
-          <button type="button" className="btn btn-primaire" onClick={onQuitter}>
+          <button type="button" className="btn btn-primaire" ref={boutonFin} onClick={onQuitter}>
             {fr.visite.quitter}
           </button>
         </div>
       )}
-      <div className="visite-barre" role="region" aria-label={fr.visite.titre}>
+      <div className="visite-barre" role="region" aria-label={fr.visite.titre} ref={barre} tabIndex={-1}>
         <p className="visite-legende" aria-live="polite">
           {cle === null ? fr.visite.titre : cle === 'fiche' || cle === 'coches' || cle === 'projets' || cle === 'invitation' ? T.visite[cle] : fr.visite.etapes[cle]}
         </p>

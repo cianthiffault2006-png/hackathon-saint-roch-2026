@@ -31,7 +31,7 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
             {LIBELLE_ROLE[r]}
           </button>
         ))}
-        <button type="button" className="btn btn-lien" onClick={onVisite}>
+        <button type="button" className="btn btn-lien" data-visite onClick={onVisite}>
           {fr.accueil.visiteGuidee}
         </button>
         {onSdc && (

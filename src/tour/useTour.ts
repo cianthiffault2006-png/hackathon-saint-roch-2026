@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ETAPES } from './script'
-import { etapeA } from './etat'
+import { arrivee, etapeA } from './etat'
 
 export interface EtatVisite {
   index: number
@@ -10,6 +10,8 @@ export interface EtatVisite {
 }
 
 const PAS_MS = 100
+
+const mouvementReduit = () => typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * The tour clock. React state moves every 100 ms (enough for the screens); `lireMs` gives the exact
@@ -61,16 +63,16 @@ export function useTour() {
     (index: number) => {
       const i = Math.max(0, Math.min(ETAPES.length - 1, index))
       if (ETAPES[i].id === 'carte') setSaut((s) => s + 1)
-      poser(i, 0, horloge.current.pause)
+      poser(i, arrivee(i, mouvementReduit()), horloge.current.pause)
     },
     [poser],
   )
 
-  // Under reduced motion the tour starts paused: the viewer moves on with « Suivant ».
+  // Under reduced motion the tour starts paused, each step shown settled: the viewer moves on with « Suivant ».
   const demarrer = useCallback(() => {
-    const calme = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const calme = mouvementReduit()
     setSaut((s) => s + 1)
-    poser(0, 0, calme)
+    poser(0, arrivee(0, calme), calme)
   }, [poser])
   const quitter = useCallback(() => setEtat(null), [])
   const basculerPause = useCallback(() => {

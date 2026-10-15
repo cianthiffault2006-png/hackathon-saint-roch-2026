@@ -21,6 +21,20 @@ export function tempsGlobal(index: number, ms: number): number {
   return DEBUTS[index] + ms
 }
 
+/**
+ * Where a jump lands in a step. Normally at its start, so the step plays. Under reduced motion the
+ * tour stays paused, so a jump lands on the step's settled end: the screen then matches its caption.
+ */
+export function arrivee(index: number, calme: boolean): number {
+  return calme ? Math.max(0, ETAPES[index].dureeMs - 1) : 0
+}
+
+/** « 1:05 » for the progress slider's spoken value. */
+export function minutes(ms: number): string {
+  const s = Math.floor(ms / 1000)
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
+}
+
 /** Words in a caption: tokens that hold a letter or a digit (« : » and « » » do not count). */
 export function motsDe(texte: string): number {
   return texte.split(/\s+/).filter((m) => /[\p{L}\p{N}]/u.test(m)).length

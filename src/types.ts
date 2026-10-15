@@ -36,6 +36,8 @@ export interface Profil {
   source: Source;
   origine: string;           // City file whose columns it mimics, e.g. 'Liste organismes reconnus LSVC'
   reclame: boolean;          // false = pre-filled, hidden until the owner claims it
+  verifie?: 'sdc' | 'ville' | 'non';  // who vouches: SDC member, organism recognized by the City, or self-registered (added 12:55)
+  contactPublic?: boolean;   // opt-in: contact buttons shown to others only when true (Loi 25)
 }
 
 export interface Lieu {
@@ -61,6 +63,8 @@ export interface Evenement {
   categorie: string;
   themes: Theme[];
   source: Source;
+  ouvertAuPublic?: boolean;  // true = anyone can say « Je participe » without approval (added 12:55)
+  inscrits?: number;         // fictional RSVP count shown on public events
 }
 
 /** A need typed by a user, after lireBesoin() and the chips. */

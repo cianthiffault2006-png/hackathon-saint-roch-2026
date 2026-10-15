@@ -15,6 +15,8 @@ export const fr = {
     badgeDemo: 'Démo simulée',
     pasDeCompte: 'Aucune inscription pour essayer.',
     tableauSdc: 'Tableau de bord du quartier (SDC)',
+    explorer: 'Explorer le quartier',
+    proposer: 'Proposer un projet',
   },
 
   besoin: {
@@ -159,6 +161,7 @@ export const fr = {
     calendrierFait: 'Fichier de calendrier téléchargé (rappel la veille).',
     rien: 'Rien n’est envoyé automatiquement : vous choisissez à qui partager.',
     objetPartage: (titre: string) => `Projet Maillage : ${titre}`,
+    ouvrirFil: 'Ouvrir le fil du projet',
     rappel: 'Rappel la veille',
     courriel: 'Envoyer par courriel',
     texto: 'Envoyer par texto',
@@ -179,6 +182,7 @@ export const fr = {
     resume: 'Carte, résumé dans la liste ci-dessous',
     minutesAPied: '10 min à pied',
     voirListe: 'Voir la liste',
+    cinqMinutes: '5 min à pied',
     lieuPublic: 'Lieu public',
     evenement: 'Événement',
   },
@@ -200,6 +204,7 @@ export const fr = {
 
   visite: {
     titre: 'Visite guidée',
+    fil: 'Le fil du projet : participants, mises à jour et discussion.',
     finTitre: 'Maillage : les ressources du quartier, enfin connectées',
     texteCafe: 'Je suis un café de Saint-Roch. Je cherche un artiste pour exposer sur mon mur le jeudi soir.',
     suivant: 'Suivant',
@@ -239,6 +244,40 @@ export const fr = {
     partenaires: 'Partenaires',
     aConfirmer: 'À confirmer',
     rappel: 'Rappel : projet Maillage demain',
+  },
+
+  retirer: {
+    bouton: 'Me retirer du projet',
+    boutonEvenement: 'Me désinscrire de l’événement',
+    confirmer: 'Oui, me retirer',
+    annuler: 'Annuler',
+    question: 'Vous retirer de ce projet ? Il disparaîtra de votre liste.',
+    questionEvenement: 'Vous désinscrire de cet événement ? Il disparaîtra de votre liste.',
+    fait: 'Projet retiré de votre liste.',
+  },
+
+  evenement: {
+    ouvert: 'Événement ouvert à tous : aucune approbation nécessaire',
+    participe: 'Je participe',
+    inscrit: 'Inscrit',
+    inscritMoi: 'Inscrit : voir ma fiche',
+    nbPersonnes: (n: number) => (n === 1 ? '1 personne y va' : `${n} personnes y vont`),
+    organisateur: 'Organisateur',
+    collab: 'Proposition de collaboration : les partenaires doivent accepter',
+    proches: 'Événements proches',
+  },
+
+  options: {
+    plus: 'Plus d’options',
+    voulu: 'Vous souhaitez travailler avec :',
+  },
+
+  sources: {
+    titre: 'Sources des données',
+    carte: 'Fond de carte : OpenFreeMap © OpenMapTiles, données © contributeurs OpenStreetMap.',
+    lieux: 'Lieux publics et quartiers : Ville de Québec, Données Québec, licence CC BY 4.0.',
+    culture: 'Culture :',
+    profils: 'Profils et événements : fictifs, construits sur la structure des répertoires de la Ville (données réelles confidentielles non utilisées).',
   },
 
   general: {

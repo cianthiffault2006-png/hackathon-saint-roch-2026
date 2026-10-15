@@ -71,7 +71,7 @@ Diapo 6 (Feuille de route).
 
 « L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
 Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement.
-Le fil est local aujourd’hui; en pilote, une table gratuite derrière le même écran, modérée par la SDC. Le pilote coûte un hébergement gratuit et une personne à temps partiel à la SDC. Prochaines étapes : le pilote avec la SDC, les profils activés, puis l’IA. »
+Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada, et la SDC le modère en pilote. Le pilote coûte un hébergement gratuit et une personne à temps partiel à la SDC. Prochaines étapes : le pilote avec la SDC, les profils activés, puis l’IA. »
 
 ## 7. Conclusion (4:33 à 4:48) [COÉQUIPIÈRE]
 Diapo 7.

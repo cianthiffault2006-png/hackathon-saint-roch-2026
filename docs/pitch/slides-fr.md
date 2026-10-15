@@ -36,7 +36,7 @@ Signal [COÉQUIPIÈRE] : verdict d’abord : on l’a testée, on a choisi des r
 
 ## 6. Impact et feuille de route
 Ligne : « Un pilote avec la SDC, puis tout Saint-Roch. »
-Diapo : Maintenant : démo simulée, fil local ; Pilote : vraie invitation, fil partagé modéré par la SDC ; Plus tard : IA, autres quartiers
+Diapo : Maintenant : démo simulée, fil en direct en option (Canada) ; Pilote : vraie invitation, fil partagé modéré par la SDC ; Plus tard : IA, autres quartiers
 Feuille de route en trois temps :
 - Maintenant : démo avec profils fictifs et données ouvertes.
 - Ensuite : pilote avec la SDC, profils activés par leurs propriétaires, vraies notifications, fil de projet sur une table gratuite derrière le même écran, modérée par la SDC.

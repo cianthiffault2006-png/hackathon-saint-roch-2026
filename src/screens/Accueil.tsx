@@ -1,6 +1,7 @@
 import type { Role } from '../types'
 import { LIBELLE_ROLE } from '../labels'
 import { fr } from '../i18n/fr'
+import { T } from '../textes'
 import Icone from '../components/Icones'
 
 interface Props {
@@ -12,9 +13,11 @@ interface Props {
   onProjets?: () => void
   onSdc?: () => void
   onSources?: () => void
+  onExplorer?: () => void
+  onProposer?: () => void
 }
 
-export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources }: Props) {
+export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onSdc, onSources, onExplorer, onProposer }: Props) {
   return (
     <main className="screen accueil">
       <div className="accueil-haut">
@@ -34,6 +37,16 @@ export default function Accueil({ onRole, onVisite, surbrillance, onProjets, onS
         <button type="button" className="btn btn-lien" data-visite onClick={onVisite}>
           {fr.accueil.visiteGuidee}
         </button>
+        {onExplorer && (
+          <button type="button" className="btn btn-lien" onClick={onExplorer}>
+            {T.accueil.explorer}
+          </button>
+        )}
+        {onProposer && (
+          <button type="button" className="btn btn-texte btn-petit" onClick={onProposer}>
+            {T.accueil.proposer}
+          </button>
+        )}
         {onSdc && (
           <button type="button" className="btn btn-texte btn-petit" onClick={onSdc}>
             {fr.accueil.tableauSdc}

@@ -33,12 +33,19 @@ export function prochaineDate(creneau: Creneau, maintenant: Date = new Date()): 
   return { jour, heureDebut: regle.debut, heureFin: regle.fin }
 }
 
+/** 19 -> « 19 h », 16.5 -> « 16 h 30 ». */
+export function formaterHeure(h: number): string {
+  const hh = Math.floor(h)
+  const mm = Math.round((h - hh) * 60)
+  return mm ? `${hh} h ${String(mm).padStart(2, '0')}` : `${hh} h`
+}
+
 export function libelleDate(o: Occurrence): string {
   const [y, m, d] = o.jour.split('-').map(Number)
   const texte = new Intl.DateTimeFormat('fr-CA', {
     weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC',
   }).format(new Date(Date.UTC(y, m - 1, d, 12)))
-  return `${texte}, ${o.heureDebut} h à ${o.heureFin} h`
+  return `${texte}, ${formaterHeure(o.heureDebut)} à ${formaterHeure(o.heureFin)}`
 }
 
 export function libelleDateMaj(o: Occurrence): string {

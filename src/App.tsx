@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Besoin as BesoinType, Proposition as PropositionType, Role, Statut } from './types'
+import type { Besoin as BesoinType, Evenement, Proposition as PropositionType, Role, Statut } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite } from './lib/invitation'
 import { fr } from './i18n/fr'
-import { chargerProjets, idProjet, projetDepuis, sauverProjets, type Projet } from './lib/projets'
+import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
+import { T } from './textes'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
 import Besoin from './screens/Besoin'
+import Bientot from './screens/Bientot'
 import Fiche from './screens/Fiche'
 import Invitation from './screens/Invitation'
 import Projets from './screens/Projets'
@@ -19,7 +21,7 @@ import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
 import { ETAPES, ROLE_VISITE, SAISIE_MS, TEXTE_VISITE, indexDe } from './tour/script'
 
-type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources'
+type Ecran = 'accueil' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'fil' | 'nouveau'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 const DELAI_PIN_VISITE_MS = 700
@@ -65,7 +67,13 @@ export default function App() {
 
   // One permanent polite live region: its text changes when the screen or the result changes.
   useEffect(() => {
-    if (!enVisite) setAnnonce(ecranActif === 'sources' ? 'Sources des données' : fr.a11y.ecrans[ecranActif])
+    if (!enVisite) setAnnonce(
+        ecranActif === 'sources' ? 'Sources des données'
+          : ecranActif === 'explorer' ? T.accueil.explorer
+          : ecranActif === 'fil' ? T.fiche.ouvrirFil
+          : ecranActif === 'nouveau' ? T.accueil.proposer
+          : fr.a11y.ecrans[ecranActif],
+      )
   }, [ecranActif, enVisite])
 
   // One place for every status change: the screen state and, outside the tour, the saved project.
@@ -100,6 +108,26 @@ export default function App() {
     setOuvertId(id)
     setRetourFiche(depuis)
     setEcran('fiche')
+  }
+
+  // « Je participe »: a public event joins the list at once, with no acceptance flow.
+  function participer(e: Evenement) {
+    const cle = idEvenement(e)
+    setProjets((prev) => (prev.some((p) => p.id === cle) ? prev : [...prev, projetDepuisEvenement(e, donnees.profils)]))
+    setAnnonce(T.evenement.inscrit)
+    ouvrirFiche(cle, 'proposition')
+  }
+
+  function retirer(id: string) {
+    setProjets((prev) => prev.filter((p) => p.id !== id))
+    setStatuts((s) => {
+      const suite = { ...s }
+      delete suite[id]
+      return suite
+    })
+    // After the screen change, which announces the new screen first.
+    window.setTimeout(() => setAnnonce(T.retirer.fait), 200)
+    if (id === ouvertId) setEcran('projets')
   }
 
   function cocher(index: number) {
@@ -178,6 +206,8 @@ export default function App() {
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
           onSources={enVisite ? undefined : () => setEcran('sources')}
+          onExplorer={enVisite ? undefined : () => setEcran('explorer')}
+          onProposer={enVisite ? undefined : () => setEcran('nouveau')}
         />
       )}
       {ecranActif === 'besoin' && (
@@ -205,6 +235,8 @@ export default function App() {
           onIndex={setIndexProp}
           onFiche={(prop) => ouvrirFiche(idProjet(prop), 'proposition')}
           onInvitation={(prop) => { setInvitationProp(prop); setEcran('invitation') }}
+          projets={enVisite ? undefined : projets}
+          onParticiper={enVisite ? undefined : participer}
           onRetour={() => setEcran('besoin')}
         />
       )}
@@ -226,6 +258,8 @@ export default function App() {
           pulse={pulse}
           defilement={defilement}
           onCocher={cocher}
+          onRetirer={enVisite ? undefined : () => retirer(projetAffiche.id)}
+          onFil={enVisite ? undefined : () => setEcran('fil')}
           onRetour={() => setEcran(retourFiche)}
           onProjets={() => setEcran('projets')}
         />
@@ -235,8 +269,12 @@ export default function App() {
           projets={projetsAffiches}
           onRetour={() => setEcran('accueil')}
           onOuvrir={(id) => ouvrirFiche(id, 'projets')}
+          onRetirer={enVisite ? undefined : retirer}
         />
       )}
+      {ecranActif === 'explorer' && <Bientot titre={T.accueil.explorer} onRetour={() => setEcran('accueil')} />}
+      {ecranActif === 'fil' && <Bientot titre={T.fiche.ouvrirFil} onRetour={() => setEcran('fiche')} />}
+      {ecranActif === 'nouveau' && <Bientot titre={T.accueil.proposer} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sources' && <Sources lieux={donnees.lieux} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sdc' && <Sdc profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>

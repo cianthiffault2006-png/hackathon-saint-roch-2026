@@ -74,3 +74,20 @@ describe('detailScore sur public/data', () => {
     }
   });
 });
+
+describe('proposer sur public/data: corvée de propreté', () => {
+  const profils = lire<Profil[]>('profils.json');
+  const texte = "Il y a des graffitis et des déchets sur la rue Saint-Joseph, j'aimerais organiser un nettoyage avec des voisins";
+  const besoin = construireBesoin('citoyen', texte, profils, choixDepuisTexte('citoyen', texte, profils));
+  // Le rôle citoyen joue story-artiste dans l'app; ici Sofia est le demandeur.
+  const sofia = profils.find((p) => p.id === 'p-sofia')!;
+  const b: Besoin = { ...besoin, auteurId: sofia.id, besoins: sofia.besoins, offres: sofia.offres, creneaux: sofia.creneaux, themes: sofia.themes, lat: sofia.lat, lng: sofia.lng };
+  const res = proposerAu(b, profils, lire<Lieu[]>('lieux.json'), lire<Evenement[]>('evenements.json'), new Date('2026-10-15T12:00:00'));
+  it('première: Corvée de propreté avec l’équipe de propreté, raison de proximité', () => {
+    console.log('CORVEE TOP: ' + res[0].titre + ' | ' + res[0].score + ' | ' + res[0].raisons.join(' / '));
+    expect(res[0].titre).toBe('Corvée de propreté avec Équipe Propreté du Faubourg');
+    expect(res[0].type).toBe('corvee_proprete');
+    expect(res[0].partenaires.map((x) => x.profilId)).toContain('p-proprete');
+    expect(res[0].raisons.join(' | ')).toMatch(/À pied de vous : .*Équipe Propreté du Faubourg à \d+ minutes?/);
+  });
+});

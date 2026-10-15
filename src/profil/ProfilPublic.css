@@ -1,0 +1,17 @@
+.pp-racine { max-width: 640px; margin: 0 auto; padding: calc(env(safe-area-inset-top) + 12px) 16px 32px; display: flex; flex-direction: column; gap: 12px; color: var(--texte); }
+.pp-titre { margin: 0; font-size: 26px; color: var(--vert-fonce); }
+.pp-sous { margin: 0; color: var(--gris); }
+.pp-racine h2 { margin: 8px 0 0; font-size: 17px; color: var(--vert); }
+.pp-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.pp-badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 13px; background: var(--orange-pale); border: 1px solid var(--bordure-champ); color: var(--texte); }
+.pp-badge-ok { background: var(--vert-pale); color: var(--vert-fonce); }
+.pp-chips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pp-chip { padding: 8px 14px; border-radius: 999px; background: var(--vert-pale); color: var(--vert-fonce); font-size: 15px; }
+.pp-liste { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pp-carte { display: flex; flex-direction: column; gap: 4px; padding: 12px; background: #fff; border: 1px solid #d9d4c9; border-radius: 12px; }
+.pp-carte span { color: var(--gris); font-size: 14px; }
+.pp-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.pp-note { margin: 6px 0 0; color: var(--gris); font-size: 14px; }
+.pp-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border: 2px solid var(--vert); border-radius: 12px; background: #fff; color: var(--vert); font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer; align-self: flex-start; }
+.pp-btn-p { background: var(--cta); border-color: var(--cta); color: #fff; align-self: stretch; margin-top: 8px; }
+.pp-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }

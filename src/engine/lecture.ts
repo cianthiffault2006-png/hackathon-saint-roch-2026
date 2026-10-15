@@ -32,6 +32,7 @@ const DICO: Entree[] = [
   { re: /\b(financement|subventions?|commandites?|commanditaires?|fonds|argent)\b/, besoin: ['financement'], offre: ['financement'] },
   { re: /\b(bouffe|cafe|cafes|nourriture|traiteur|repas|collations?|manger|boissons?|nourrir)\b/, besoin: ['nourriture'], offre: ['nourriture'], themes: ['alimentation'] },
   { re: /\b(expertise|experts?|conseils?|formation|savoir-faire|mentor)/, besoin: ['expertise'], offre: ['expertise'] },
+  { re: /\b(graffitis?|tags?|nettoy\w*|proprete|dechets?|ramass\w*|ordures?|vitrines? sales?|trottoirs?|salete)/, besoin: ['expertise', 'materiel', 'benevoles'], offre: ['expertise', 'materiel', 'benevoles'], themes: ['environnement', 'securite'] },
   { re: /\b(culture|culturel|culturelle|culturels|culturelles)\b/, themes: ['culture'] },
   { re: /\b(jeunes?|jeunesse|ados?|adolescents?|enfants?)\b/, themes: ['jeunesse'] },
   { re: /\b(etudiants?|etudiantes?|cegep|universit\w*)\b/, themes: ['etudiants'] },

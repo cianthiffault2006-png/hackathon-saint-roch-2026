@@ -1,0 +1,12 @@
+.po-racine { display: flex; flex-direction: column; gap: 12px; color: var(--texte); }
+.po-titre { margin: 0; font-size: 20px; color: var(--vert-fonce); }
+.po-racine h3 { margin: 8px 0 0; font-size: 16px; color: var(--vert); }
+.po-curseur { display: flex; flex-direction: column; gap: 6px; }
+.po-curseur input { width: 100%; min-height: 44px; accent-color: var(--vert); }
+.po-paliers { display: flex; justify-content: space-between; color: var(--gris); font-size: 13px; }
+.po-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.po-carte { display: flex; flex-direction: column; gap: 4px; padding: 12px; background: #fff; border: 1px solid #d9d4c9; border-radius: 12px; }
+.po-carte span { color: var(--gris); font-size: 14px; }
+.po-btn { align-self: flex-start; min-height: 44px; min-width: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--cta); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+.po-btn:focus-visible, .po-curseur input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.po-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

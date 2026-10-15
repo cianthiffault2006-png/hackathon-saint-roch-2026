@@ -16,7 +16,7 @@ export type Theme =
 
 export type TypeProjet =
   | 'exposition' | 'spectacle' | 'atelier' | 'marche_ephemere'
-  | 'animation_de_rue' | 'verdissement' | 'conference' | 'collecte';
+  | 'animation_de_rue' | 'verdissement' | 'conference' | 'collecte' | 'corvee_proprete';
 
 /** fictif = fake row using the columns of a City file; ouvert = open data; utilisateur = typed in the app */
 export type Source = 'fictif' | 'ouvert' | 'utilisateur';

@@ -26,7 +26,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "story-artiste",
@@ -56,7 +58,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "story-organisme",
@@ -85,7 +89,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
  },
  {
   "id": "p-resto",
@@ -114,7 +120,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": false
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-librairie",
@@ -143,7 +151,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-brasserie",
@@ -174,7 +184,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
  },
  {
   "id": "p-salle",
@@ -204,7 +216,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": false
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-boutique",
@@ -234,7 +248,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-boulangerie",
@@ -262,7 +278,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-disquaire",
@@ -290,7 +308,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": false
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-epicerie",
@@ -320,7 +340,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-plantes",
@@ -348,7 +370,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
  },
  {
   "id": "p-galerie",
@@ -378,7 +402,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": false
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-jeux",
@@ -409,7 +435,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-friperie",
@@ -438,7 +466,9 @@
   ],
   "source": "fictif",
   "origine": "Membres SDC Centre-Ville",
-  "reclame": true
+  "reclame": true,
+  "verifie": "sdc",
+  "contactPublic": true
  },
  {
   "id": "p-yoga",
@@ -466,7 +496,9 @@
   ],
   "source": "fictif",
   "origine": "Entreprises St-Roch",
-  "reclame": false
+  "reclame": false,
+  "verifie": "sdc",
+  "contactPublic": false
  },
  {
   "id": "p-mdj",
@@ -496,7 +528,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-jardins",
@@ -528,7 +562,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
  },
  {
   "id": "p-table",
@@ -558,7 +594,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": false
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-theatre",
@@ -587,7 +625,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-aeav",
@@ -617,7 +657,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-mediation",
@@ -645,7 +687,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": false
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-comitevert",
@@ -674,7 +718,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-cirque",
@@ -706,7 +752,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-chorale",
@@ -734,7 +782,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": false
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-marmite",
@@ -765,7 +815,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-foulees",
@@ -795,7 +847,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-obscura",
@@ -826,7 +880,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": false
+  "reclame": false,
+  "verifie": "ville",
+  "contactPublic": false
  },
  {
   "id": "p-radio",
@@ -855,7 +911,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-aines",
@@ -882,7 +940,9 @@
   ],
   "source": "fictif",
   "origine": "Liste organismes reconnus LSVC",
-  "reclame": true
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
  },
  {
   "id": "p-sculptrice",
@@ -910,7 +970,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-photographe",
@@ -939,7 +1001,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-illustratrice",
@@ -968,7 +1032,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-musicien",
@@ -997,7 +1063,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-danseuse",
@@ -1025,7 +1093,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-etu-design",
@@ -1054,7 +1124,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-etu-social",
@@ -1082,7 +1154,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-etu-genie",
@@ -1110,7 +1184,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-benevoles-cegep",
@@ -1137,7 +1213,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-resident-1",
@@ -1165,7 +1243,9 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-resident-2",
@@ -1193,7 +1273,9 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-resident-3",
@@ -1221,7 +1303,9 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-retraite",
@@ -1250,7 +1334,9 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-cuisinier",
@@ -1278,7 +1364,9 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-peintre-2",
@@ -1306,7 +1394,9 @@
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": true
  },
  {
   "id": "p-etu-musique",
@@ -1334,7 +1424,9 @@
   ],
   "source": "fictif",
   "origine": "Nombre_étudiants_Québec",
-  "reclame": false
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  },
  {
   "id": "p-resident-4",
@@ -1361,6 +1453,72 @@
   ],
   "source": "fictif",
   "origine": "Projets ÉTÉ 2026",
-  "reclame": true
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "p-proprete",
+  "role": "organisme",
+  "sousType": "entreprise d'économie sociale",
+  "nom": "Équipe Propreté du Faubourg",
+  "description": "Entreprise d'économie sociale qui nettoie et verdit les rues et les ruelles avec des équipes d'insertion.",
+  "lat": 46.813332,
+  "lng": -71.228968,
+  "offres": [
+   "materiel",
+   "expertise",
+   "benevoles"
+  ],
+  "besoins": [
+   "visibilite",
+   "financement",
+   "public"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "securite",
+   "commerce_local"
+  ],
+  "source": "fictif",
+  "origine": "Liste organismes reconnus LSVC",
+  "reclame": true,
+  "verifie": "ville",
+  "contactPublic": true
+ },
+ {
+  "id": "p-sofia",
+  "role": "citoyen",
+  "sousType": "citoyen engagé",
+  "nom": "Sofia, résidente de la rue Saint-Joseph",
+  "description": "Résidente qui voit les déchets s'accumuler dans sa rue et veut agir avec ses voisins.",
+  "lat": 46.81596,
+  "lng": -71.222069,
+  "offres": [
+   "benevoles",
+   "visibilite"
+  ],
+  "besoins": [
+   "benevoles",
+   "materiel",
+   "expertise"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "environnement",
+   "securite"
+  ],
+  "source": "fictif",
+  "origine": "Projets ÉTÉ 2026",
+  "reclame": true,
+  "verifie": "non",
+  "contactPublic": false
  }
 ]

@@ -13,7 +13,7 @@ Démo en direct : environ 2 minutes (de 2:00 à 4:00). Les répliques ci-dessous
 | 2:00 | Voix 1 | Toucher **Commerçant** | « Il choisit son rôle. » L'écran affiche « Votre profil : Café Le Petit Détour ». |
 | 2:15 | Voix 2 | Toucher la zone de texte, coller ou taper : « On a un espace libre le jeudi soir et on aimerait attirer du monde » | Lire la phrase à voix haute. Les puces s'allument : J'offre : Espace intérieur ; Je cherche : Public ; Quand : Semaine, soir. |
 | 2:40 | Voix 1 | Toucher **Trouver des partenaires** | « Règles transparentes, pas d'IA dans la démo. » |
-| 2:55 | Voix 2 | Laisser la carte se charger, ne rien toucher | « Exposition collaborative chez Café Le Petit Détour », Compatibilité 86 %, avec Camille Vézina et Collectif Les Voisins en Scène, 3 épingles. Pointer « Pourquoi cette suggestion » et « À confirmer ». |
+| 2:55 | Voix 2 | Laisser la carte se charger, ne rien toucher | « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène, 3 épingles. Pointer « Pourquoi cette suggestion » et « À confirmer ». |
 | 3:30 | Voix 1 | Toucher **Ça m'intéresse** | « Démo simulée : le statut passe en attente. » |
 | 3:45 | Voix 2 | Attendre | Statut : Projet confirmé (simulé). |
 | 4:00 à 4:40 | Voix 1 | Revenir aux diapos | Feuille de route : vrai modèle de langage pour lire le besoin, vrais profils réclamés (Loi 25), autres quartiers. |

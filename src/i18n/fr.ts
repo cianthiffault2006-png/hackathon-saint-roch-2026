@@ -100,6 +100,7 @@ export const fr = {
     },
     precedente: 'Proposition précédente',
     suivante: 'Proposition suivante',
+    commentScore: 'Comment ce score',
     interet: 'Ça m’intéresse',
     statuts: {
       proposee: 'Proposition',
@@ -132,10 +133,33 @@ export const fr = {
     fictif: 'Profils et événements fictifs pour la démo',
   },
 
+  fiche: {
+    voir: 'Voir la fiche projet',
+    titre: 'Fiche projet',
+    ajouterCalendrier: 'Ajouter au calendrier',
+    googleAgenda: 'Google Agenda',
+    partager: 'Partager',
+    prochaineDate: 'Prochaine date proposée',
+    dateProposee: 'Date proposée, à confirmer avec les partenaires',
+    aConfirmerAvant: 'À confirmer avant la date',
+    rappel: 'Rappel la veille',
+    courriel: 'Envoyer par courriel',
+    texto: 'Envoyer par texto',
+    partageTexte: (titre: string, date: string, partenaires: string) =>
+      `Projet Maillage : ${titre}, ${date}, avec ${partenaires}.`,
+  },
+
+  projets: {
+    titre: 'Mes projets',
+    aucun: 'Aucun projet pour l’instant',
+  },
+
   carte: {
     titre: 'Carte de Saint-Roch',
     legende: 'Partenaires et lieux',
     chargement: 'Chargement de la carte…',
+    lieuPublic: 'Lieu public',
+    evenement: 'Événement',
   },
 
   etats: {

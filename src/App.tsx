@@ -26,7 +26,8 @@ import Sdc from './screens/Sdc'
 import Sources from './screens/Sources'
 import TourBar from './tour/TourBar'
 import { useTour } from './tour/useTour'
-import { ETAPES, PUCES_VISITE, ROLE_VISITE, TEXTE_VISITE, legendeDe } from './tour/script'
+import { ETAPES, PROFIL_VISITE, PUCES_VISITE, ROLE_VISITE, TEXTE_VISITE, legendeDe } from './tour/script'
+import { besoinSofia } from './tour/histoires'
 import Coquille from './layout/Coquille'
 import { rubriqueDe } from './layout/rubriques'
 import EspaceProjets from './layout/EspaceProjets'
@@ -52,7 +53,7 @@ export default function App() {
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
   const [annonce, setAnnonce] = useState('')
-  const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps } = useTour()
+  const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps, continuer } = useTour()
   const bureau = useBureau()
 
   useEffect(() => {
@@ -67,6 +68,12 @@ export default function App() {
   const propositionsVisite = useMemo(() => {
     const besoin = construireBesoin(ROLE_VISITE, TEXTE_VISITE, donnees.profils, choixDepuisTexte(ROLE_VISITE, TEXTE_VISITE, donnees.profils))
     return proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
+  }, [donnees])
+
+  // The suite's second story: Sofia's corvée, through the same engine.
+  const propositionsSofia = useMemo(() => {
+    const besoin = besoinSofia(donnees.profils)
+    return besoin ? proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements).slice(0, 1) : []
   }, [donnees])
 
   // A throwaway project for the tour: never saved, never mixed with the viewer's own projects.
@@ -199,7 +206,8 @@ export default function App() {
     : (projets.find((p) => p.id === ouvertId) ?? null)
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
 
-  const profilPublic = donnees.profils.find((p) => p.id === profilId) ?? null
+  const profilPublic = donnees.profils.find((p) => p.id === (enVisite ? PROFIL_VISITE : profilId)) ?? null
+  const suiteVisite = etape?.parcours === 'suite'
   const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ? { ...projetAffiche.proposition, statut: projetAffiche.statut } : null)
   const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
 
@@ -215,7 +223,9 @@ export default function App() {
 
   const propInvitation = enVisite ? propVisite : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
-  const legende = etape ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '' }) : ''
+  const legende = etape
+    ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '', scoreSofia: propositionsSofia[0]?.score ?? 0 })
+    : ''
 
   return (
     <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={projets.length} inerte={enVisite} onAller={setEcran}>
@@ -248,12 +258,12 @@ export default function App() {
       {(ecranActif === 'proposition' || (enVisite && ecranActif === 'invitation')) && (
         <Proposition
           key={enVisite ? `visite-${saut}` : 'app'}
-          propositions={enVisite ? propositionsVisite : propositions}
+          propositions={enVisite ? (suiteVisite ? propositionsSofia : propositionsVisite) : propositions}
           profils={donnees.profils}
           lieux={donnees.lieux}
           evenements={donnees.evenements}
           visite={ee ? { animer: ee.chute, anneau: ee.anneau, detail: ee.detail, raisons: ee.raisons } : undefined}
-          statuts={enVisite ? statutsVisite : statuts}
+          statuts={enVisite ? (suiteVisite ? {} : statutsVisite) : statuts}
           onChangerStatut={changerStatut}
           index={enVisite ? 0 : indexProp}
           onIndex={setIndexProp}
@@ -340,6 +350,11 @@ export default function App() {
           evenements={donnees.evenements}
           onRetour={() => setEcran('accueil')}
           onOuvrirProfil={(id) => { setProfilId(id); setEcran('profil') }}
+          visite={ee ? {
+            actifs: { commerce: true, organisme: true, citoyen: ee.explorer.citoyens, lieu: true, evenement: true },
+            requete: fr.visite.rechercheVisite.slice(0, Math.ceil(fr.visite.rechercheVisite.length * ee.explorer.frappe)),
+            liste: ee.explorer.liste,
+          } : undefined}
         />
       )}
       {ecranActif === 'profil' && profilPublic && (
@@ -380,12 +395,14 @@ export default function App() {
       {ecranActif === 'nouveau' && (
         <div className="plein-ecran">
           <NouveauProjet
+            key={ee ? `visite-${ee.exemple}` : 'app'}
+            exemple={ee?.exemple}
             profils={donnees.profils}
             lieux={donnees.lieux}
             evenements={donnees.evenements}
             moi={trouverAsker(role, donnees.profils)}
             onRetour={() => setEcran('accueil')}
-            onCree={creerProjet}
+            onCree={enVisite ? () => undefined : creerProjet}
           />
         </div>
       )}
@@ -404,6 +421,7 @@ export default function App() {
           onPrecedent={precedent}
           onAller={allerA}
           onAllerAuTemps={allerAuTemps}
+          onContinuer={continuer}
           onQuitter={quitterVisite}
         />
       )}

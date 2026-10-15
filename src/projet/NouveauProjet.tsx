@@ -14,6 +14,8 @@ interface Props {
   moi?: Profil
   onRetour(): void
   onCree(p: Proposition): void
+  /** Guided tour: the form starts filled with the Exemple (the tour remounts it to switch). */
+  exemple?: boolean
 }
 
 const TYPES = Object.keys(fr.proposition.typesProjet) as TypeProjet[]
@@ -46,17 +48,17 @@ function pertinence(p: Profil, type: TypeProjet): number {
   return pts
 }
 
-export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }: Props) {
-  const [titre, setTitre] = useState('')
-  const [description, setDescription] = useState('')
-  const [type, setType] = useState<TypeProjet>('atelier')
+export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, exemple: avecExemple }: Props) {
+  const [titre, setTitre] = useState(avecExemple ? t.exemple.titre : '')
+  const [description, setDescription] = useState(avecExemple ? t.exemple.description : '')
+  const [type, setType] = useState<TypeProjet>(avecExemple ? 'corvee_proprete' : 'atelier')
   const [creneau, setCreneau] = useState<Creneau>('fin_de_semaine')
   const [lieuId, setLieuId] = useState('')
-  const [roles, setRoles] = useState<Tag[]>([])
+  const [roles, setRoles] = useState<Tag[]>(avecExemple ? ['benevoles', 'materiel', 'expertise', 'visibilite'] : [])
   const [cherche, setCherche] = useState(false)
   const [invites, setInvites] = useState<Record<string, Tag[]>>({})
   const [erreur, setErreur] = useState('')
-  const [proposeurId, setProposeurId] = useState('')
+  const [proposeurId, setProposeurId] = useState(avecExemple ? 'p-sofia' : '')
 
   const lieuxUtiles = useMemo(() => lieux.filter((l) => l.offres.length > 0), [lieux])
   const lieu = lieux.find((l) => l.id === lieuId)
@@ -139,7 +141,7 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }:
       <h1 className="pj-titre">{t.nouveau.titre}</h1>
       <p className="pj-texte">{t.nouveau.intro} <span className="pj-badge">{t.demo}</span></p>
 
-      <button type="button" className="pj-btn" onClick={exemple}>{t.nouveau.exemple}</button>
+      <button type="button" className="pj-btn" data-visite="exemple" onClick={exemple}>{t.nouveau.exemple}</button>
 
       <form className="pj-carte" style={{ marginTop: 12 }} onSubmit={(e) => { e.preventDefault(); setCherche(true) }}>
         <label className="pj-champ">{t.nouveau.champTitre}

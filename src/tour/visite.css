@@ -220,3 +220,23 @@
   height: 0;
   pointer-events: none;
 }
+
+/* End card of the main tour: « Continuer la visite » first, « Quitter » as an outline button. */
+.carte-fin .visite-quitter-fin {
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  color: #fff;
+}
+
+/* Suite: the explorer's header, its list and the public profile start below the tour bar. */
+.tour-actif .ex-haut {
+  padding-top: 212px;
+}
+
+.tour-actif .ex-liste {
+  padding-top: 330px;
+}
+
+.tour-actif .pp-racine {
+  padding-top: 212px;
+}

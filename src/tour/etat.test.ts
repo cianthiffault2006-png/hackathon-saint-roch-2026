@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fr } from '../i18n/fr'
-import { ETAPES, T, indexDe, legendeDe } from './script'
-import { CHAPITRES, DEBUTS, DUREE_TOTALE, etapeA, etatEcrans, lectureMs, motsDe, poseCurseur, poseDefile, tempsGlobal } from './etat'
+import { DEBUT_SUITE, ETAPES, T, estFin, indexDe, legendeDe } from './script'
+import { CHAPITRES, DEBUTS, DUREE_TOTALE, bornes, dureeParcours, etapeA, etatEcrans, lectureMs, motsDe, poseCurseur, poseDefile, tempsGlobal } from './etat'
 
 const i = indexDe
 
@@ -9,19 +9,38 @@ describe('tour clock: step at a time', () => {
   it('starts at step 0 and ends on the last step', () => {
     expect(etapeA(0)).toEqual({ index: 0, ms: 0 })
     expect(etapeA(-50)).toEqual({ index: 0, ms: 0 })
-    expect(etapeA(DUREE_TOTALE + 9999).index).toBe(ETAPES.length - 1)
+    expect(etapeA(DUREE_TOTALE + 9999).index).toBe(bornes('principal').dernier)
+    expect(etapeA(999_999, 'suite').index).toBe(ETAPES.length - 1)
   })
 
-  it('maps every step start and the time inside it, both ways', () => {
+  it('maps every step start and the time inside it, both ways, on its own tour', () => {
     ETAPES.forEach((e, k) => {
-      expect(etapeA(DEBUTS[k])).toEqual({ index: k, ms: 0 })
-      expect(etapeA(DEBUTS[k] + e.dureeMs - 1)).toEqual({ index: k, ms: e.dureeMs - 1 })
+      expect(etapeA(DEBUTS[k], e.parcours)).toEqual({ index: k, ms: 0 })
+      expect(etapeA(DEBUTS[k] + e.dureeMs - 1, e.parcours)).toEqual({ index: k, ms: e.dureeMs - 1 })
       expect(tempsGlobal(k, 250)).toBe(DEBUTS[k] + 250)
     })
   })
 
-  it('totals the step durations', () => {
-    expect(DUREE_TOTALE).toBe(ETAPES.reduce((s, e) => s + e.dureeMs, 0))
+  it('totals the step durations of each tour', () => {
+    const somme = (p: 'principal' | 'suite') => ETAPES.filter((e) => e.parcours === p).reduce((s, e) => s + e.dureeMs, 0)
+    expect(DUREE_TOTALE).toBe(somme('principal'))
+    expect(dureeParcours('suite')).toBe(somme('suite'))
+  })
+
+  it('keeps the main tour about 2:00 and the suite between 60 and 75 s', () => {
+    expect(DUREE_TOTALE).toBeGreaterThanOrEqual(110_000)
+    expect(DUREE_TOTALE).toBeLessThanOrEqual(125_000)
+    expect(dureeParcours('suite')).toBeGreaterThanOrEqual(60_000)
+    expect(dureeParcours('suite')).toBeLessThanOrEqual(75_000)
+  })
+
+  it('ends each tour on its end card, the suite right after the main one', () => {
+    expect(ETAPES[bornes('principal').dernier].id).toBe('fin')
+    expect(ETAPES[bornes('suite').dernier].id).toBe('finSuite')
+    expect(DEBUT_SUITE).toBe(bornes('principal').dernier + 1)
+    expect(DEBUTS[DEBUT_SUITE]).toBe(0)
+    expect(ETAPES.filter(estFin).length).toBe(2)
+    expect(etapeA(0, 'suite').index).toBe(DEBUT_SUITE)
   })
 })
 
@@ -32,17 +51,19 @@ describe('reading time', () => {
   })
 
   it('gives every caption at least words / 3 + 1.5 s (step 1 kept at 3 s by request)', () => {
-    const valeurs = { score: 87, prenom: 'Camille' }
+    const valeurs = { score: 87, prenom: 'Camille', scoreSofia: 74 }
     for (const e of ETAPES) {
-      if (e.id === 'role' || e.id === 'fin') continue
+      if (e.id === 'role' || estFin(e)) continue
       expect(e.dureeMs, e.id).toBeGreaterThanOrEqual(lectureMs(legendeDe(e, valeurs)))
     }
     expect(ETAPES[0].dureeMs).toBe(3000)
   })
 
   it('names the score and the partner in the captions', () => {
-    const valeurs = { score: 87, prenom: 'Camille' }
+    const valeurs = { score: 87, prenom: 'Camille', scoreSofia: 74 }
     expect(legendeDe(ETAPES[i('score')], valeurs)).toContain('87 %')
+    expect(legendeDe(ETAPES[i('sofiaPartenaires')], valeurs)).toContain('74 %')
+    expect(legendeDe(ETAPES[i('sofiaPartenaires')], valeurs)).toContain('Malik A.')
     expect(legendeDe(ETAPES[i('invitation')], valeurs)).toContain('Camille reçoit')
   })
 })
@@ -57,6 +78,7 @@ describe('chapters', () => {
       vus.add(e.chapitre)
     })
     expect(CHAPITRES.map((c) => c.premier)).toEqual(CHAPITRES.map((c) => ETAPES.findIndex((e) => e.chapitre === c.id)))
+    expect(CHAPITRES.filter((c) => c.parcours === 'suite').map((c) => c.id)).toEqual(['sofia', 'explorer', 'profil', 'projetOuvert', 'sdc'])
   })
 })
 
@@ -133,6 +155,32 @@ describe('screen state from (index, ms) alone', () => {
     expect(etatEcrans(i('fiche'), 4000).coches).toBe(0)
     expect(etatEcrans(i('coches'), T.coches.debut).coches).toBe(1)
     expect(etatEcrans(i('projets'), 0).coches).toBeGreaterThanOrEqual(3)
+  })
+})
+
+describe('suite state from (index, ms) alone', () => {
+  it("drops Sofia’s pins on her first step only, with the score detail closed", () => {
+    expect(etatEcrans(i('sofiaCarte'), 0)).toMatchObject({ chute: true, anneau: false, detail: false })
+    expect(etatEcrans(i('sofiaCarte'), T.suite.anneau)).toMatchObject({ anneau: true })
+    expect(etatEcrans(i('sofiaPartenaires'), 0)).toMatchObject({ chute: false, anneau: true, detail: false })
+  })
+
+  it('turns the citizens filter on, types the search, then opens the list', () => {
+    expect(etatEcrans(i('explorer'), 4000).explorer).toEqual({ citoyens: false, frappe: 0, liste: false })
+    expect(etatEcrans(i('filtres'), T.suite.citoyens - 1).explorer.citoyens).toBe(false)
+    expect(etatEcrans(i('filtres'), T.suite.citoyens).explorer.citoyens).toBe(true)
+    const [a, b] = T.suite.frappe
+    expect(etatEcrans(i('recherche'), (a + b) / 2).explorer.frappe).toBeCloseTo(0.5)
+    expect(etatEcrans(i('liste'), T.suite.liste - 1).explorer).toEqual({ citoyens: true, frappe: 1, liste: false })
+    expect(etatEcrans(i('liste'), T.suite.liste).explorer.liste).toBe(true)
+    // Jumping back to the start of the chapter clears it all.
+    expect(etatEcrans(i('explorer'), 0).explorer).toEqual({ citoyens: false, frappe: 0, liste: false })
+  })
+
+  it('fills the open project with the Exemple when the cursor presses it', () => {
+    expect(etatEcrans(i('nouveau'), T.suite.exemple - 1).exemple).toBe(false)
+    expect(etatEcrans(i('nouveau'), T.suite.exemple).exemple).toBe(true)
+    expect(etatEcrans(i('avant'), 0).exemple).toBe(true)
   })
 })
 

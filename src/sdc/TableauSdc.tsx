@@ -29,8 +29,8 @@ export default function TableauSdc({ profils }: Props) {
 
   return (
     <main className="p2-sdc">
+      <p className="p2-sdc-fictif" role="note">Exemple de tableau : données fictives de pilote</p>
       <h1 className="p2-sdc-titre">Tableau de bord du quartier (pilote SDC)</h1>
-      <p className="p2-sdc-fictif">Données fictives de pilote</p>
 
       <section aria-labelledby="p2-kpi">
         <h2 id="p2-kpi" className="p2-sdc-h2">Indicateurs</h2>

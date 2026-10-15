@@ -14,7 +14,7 @@ export default function FilAuto({ ms }: { ms: number }) {
       const valeur = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set
       if (champ && valeur) {
         etape.current = 2
-        valeur.call(champ, 'Super idée, je prépare le mur jeudi !')
+        valeur.call(champ, 'Super idée, je prépare le mur jeudi!')
         champ.dispatchEvent(new Event('input', { bubbles: true }))
       }
     }

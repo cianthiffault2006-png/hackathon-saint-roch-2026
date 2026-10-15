@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Besoin } from '../types.ts';
 import { besoinCafe, evenements, lieux, MAINTENANT, profils } from './__fixtures__/index.ts';
-import { proposer, proposerAu } from './proposer.ts';
+import { enumerer, proposer, proposerAu, titre } from './proposer.ts';
 
 const lancer = (b: Besoin, ps = profils, ls = lieux, es = evenements) => proposerAu(b, ps, ls, es, MAINTENANT);
 
@@ -20,7 +20,7 @@ describe('proposer: histoire', () => {
   it('raisons concrètes en français avec distances', () => {
     const r = res[0].raisons.join('\n');
     expect(r).toMatch(/Collectif Les Passeurs offre du public le soir en semaine, ce que vous cherchez/);
-    expect(r).toMatch(/À pied de vous : .* à \d+ minutes?/);
+    expect(r).toMatch(/Depuis chez vous, à pied : .* à \d+ minutes?/);
     expect(r).toMatch(/Thèmes en commun : culture/);
   });
   it('à confirmer: date, capacité, assurances, accessibilité', () => {
@@ -170,5 +170,28 @@ describe('proposer: règles', () => {
     const b: Besoin = { ...besoinCafe, auteurId: undefined, lat: 46.815, lng: -71.222 };
     const res = lancer(b);
     expect(res[0].id.startsWith('prop-anon-')).toBe(true);
+  });
+});
+
+describe('proposer: français des sorties', () => {
+  it('pas de « chez Chez »', () => {
+    expect(titre('exposition', 'Chez Gaston')).toBe('Exposition collaborative Chez Gaston');
+    expect(titre('spectacle', 'chez Lulu')).toBe('Soirée spectacle chez Lulu');
+    expect(titre('atelier', 'Café Le Pignon')).toBe('Atelier ouvert chez Café Le Pignon');
+  });
+  it('énumération « a, b et c »', () => {
+    expect(enumerer(['a'])).toBe('a');
+    expect(enumerer(['a', 'b'])).toBe('a et b');
+    expect(enumerer(['a', 'b', 'c'])).toBe('a, b et c');
+  });
+  it('profil pré-rempli d’un citoyen: « la personne »', () => {
+    const ps = profils.map((p) => (p.id === 'etudiant' ? { ...p, reclame: false } : p));
+    const b: Besoin = {
+      auteurRole: 'commerce', auteurId: 'story-cafe', texte: '', besoins: ['animation'], offres: ['espace_interieur'],
+      creneaux: ['semaine_soir'], themes: ['culture'],
+    };
+    const lignes = lancer(b, ps).flatMap((p) => p.aConfirmer).filter((l) => l.startsWith('Samuel Roy'));
+    expect(lignes.length).toBeGreaterThan(0);
+    for (const l of lignes) expect(l).toContain('la personne doit d’abord activer son profil');
   });
 });

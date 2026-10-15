@@ -60,7 +60,8 @@ claimed = [p for p in profils if p["reclame"]]
 assert 0.35 <= sum(p["contactPublic"] for p in claimed) / len(claimed) <= 0.65
 assert sum(p["verifie"] == "sdc" for p in profils if p["role"] == "commerce") >= 10
 frac = sum(not p["reclame"] for p in profils) / len(profils)
-assert 0.2 <= frac <= 0.45, frac
+# Citizens are never pre-filled: they only exist if they signed up, so only businesses and organisms count here.
+assert 0.15 <= frac <= 0.45, frac
 by = {p["id"]: p for p in profils}
 import math
 def wd(a, b):

@@ -68,7 +68,7 @@ D = [
  ("story-cafe", "commerce", "café", "Café Le Parvis", "Café de quartier avec une grande salle et une clientèle fidèle, qui cherche à faire vivre ses soirées.", [EI, N, P], [AN, CA, V], [S], ["culture", "commerce_local"], ENT),
  ("story-artiste", "citoyen", "artiste", "Camille P., peintre", "Peintre du quartier qui cherche un mur et un public pour montrer ses toiles.", [CA, AN], [EI, V, P], [S, W], ["art", "culture", "commerce_local"], ART),
  ("story-organisme", "organisme", "organisme culturel", "Collectif Les Fenêtres Ouvertes", "Collectif culturel qui mobilise des bénévoles et diffuse la création locale, mais sans salle.", [B, V, A, AN], [EI, CA], [S], ["culture", "communautaire"], LSVC),
- ("p-resto", "commerce", "restaurant", "Chez Marguerite", "Bistro de cuisine du marché, ouvert le soir et la fin de semaine.", [EI, N, P], [V, AN], [S, W], ["alimentation", "commerce_local"], SDC),
+ ("p-resto", "commerce", "restaurant", "Resto La Tablée du Coin", "Bistro de cuisine du marché, ouvert le soir et la fin de semaine.", [EI, N, P], [V, AN], [S, W], ["alimentation", "commerce_local"], SDC),
  ("p-librairie", "commerce", "librairie", "Librairie La Marge Douce", "Librairie indépendante avec un coin lecture et des vitrines à partager.", [EI, V, A, P], [AN, CA], [S], ["culture", "commerce_local"], ENT),
  ("p-brasserie", "commerce", "microbrasserie", "Microbrasserie Le Houblon Voisin", "Microbrasserie avec une terrasse et une salle de dégustation.", [EI, EE, N, P], [AN, V, CA], [S, W], ["commerce_local", "alimentation"], SDC),
  ("p-salle", "commerce", "salle de spectacle privée", "Salle Le Bémol", "Petite salle de spectacle privée de cent places, libre certains soirs.", [EI, P, A], [CA, V, M], [S, W], ["culture", "art"], SDC),
@@ -81,7 +81,7 @@ D = [
  ("p-jeux", "commerce", "café-jeux", "Café-jeux Le Dé Pipé", "Café de jeux de société très fréquenté par les étudiants.", [EI, P, N], [AN, B, V], [S, W], ["jeunesse", "etudiants", "commerce_local"], ENT),
  ("p-friperie", "commerce", "friperie", "Friperie solidaire Deuxième Vie", "Friperie à vocation sociale avec un grand local au rez-de-chaussée.", [EI, M, V], [B, P], [J], ["environnement", "communautaire", "commerce_local"], SDC),
  ("p-yoga", "commerce", "studio de yoga", "Studio Souffle", "Studio de yoga et de mouvement avec une salle lumineuse.", [EI, EX], [P, V], [J, S], ["sport", "commerce_local"], ENT),
- ("p-mdj", "organisme", "organisme jeunesse", "Maison des jeunes Saint-Roch Ouvert", "Maison des jeunes de douze à dix-sept ans, avec un local d'activités.", [EI, AN, P], [F, EX, M], [S, W], ["jeunesse", "communautaire"], LSVC),
+ ("p-mdj", "organisme", "organisme jeunesse", "Maison des jeunes La Cabane Mauve", "Maison des jeunes de douze à dix-sept ans, avec un local d'activités.", [EI, AN, P], [F, EX, M], [S, W], ["jeunesse", "communautaire"], LSVC),
  ("p-jardins", "organisme", "organisme environnemental", "Jardins collectifs du Faubourg", "Jardins communautaires en bacs avec des jardiniers bénévoles.", [EE, B, M, EX], [F, V, A], [J, W], ["environnement", "communautaire", "alimentation"], LSVC),
  ("p-table", "organisme", "organisme communautaire", "Table de concertation Saint-Roch Solidaire", "Table de concertation des groupes communautaires, avec un babillard et des communications.", [A, V, P, B], [EI, N, AN], [J, S], ["communautaire"], LSVC),
  ("p-theatre", "organisme", "organisme culturel", "Troupe Les Intempestifs", "Troupe de théâtre amateur qui cherche des lieux de répétition et de représentation.", [CA, AN], [EI, M, V], [S, W], ["culture", "art"], ORG),
@@ -124,7 +124,9 @@ for i, d in enumerate(D):
     if pt is None:
         pt = rest[used]
         used += 1
-    reclame = True if (id_.startswith("story") or id_ in ("p-proprete", "p-sofia")) else (i % 3 != 0)
+    deja_reclame = True if (id_.startswith("story") or id_ in ("p-proprete", "p-sofia")) else (i % 3 != 0)
+    # A citizen is in Maillage only if they signed up themselves: never pre-filled.
+    reclame = deja_reclame or role == "citoyen"
     if role == "commerce":
         verifie = "non" if (org == ENT and i % 4 == 0) else "sdc"
     elif role == "organisme":
@@ -132,7 +134,7 @@ for i, d in enumerate(D):
     else:
         verifie = "non"
     contact = False
-    if reclame:
+    if deja_reclame:  # contact opt-in sequence unchanged; newly claimed citizens keep contactPublic False
         n_claimed += 1
         contact = n_claimed % 2 == 1
     profils.append(dict(id=id_, role=role, sousType=st, nom=nom, description=desc, lat=round(pt[1], 6), lng=round(pt[0], 6),

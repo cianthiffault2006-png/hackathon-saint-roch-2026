@@ -134,7 +134,7 @@ export const fr = {
 
   profil: {
     tagNonReclame: 'Profil pré-rempli',
-    nonReclame: 'Ce profil a été pré-rempli à partir de répertoires de la Ville. Il reste caché tant que son propriétaire ne l’a pas réclamé.',
+    nonReclame: 'Ce profil a été pré-rempli à partir de répertoires publics de la Ville. Seul son nom public est affiché, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer ce profil',
     pasAffiche: 'Profil non réclamé : non affiché.',
     fictif: 'Données fictives créées pour la démo.',
@@ -209,7 +209,7 @@ export const fr = {
     titre: 'Visite guidée',
     fil: 'Le fil du projet : participants, mises à jour et discussion.',
     finTitre: 'Maillage : les ressources du quartier, enfin connectées',
-    texteCafe: 'Je suis un café de Saint-Roch. Je cherche un artiste pour exposer sur mon mur le jeudi soir.',
+    texteCafe: 'On a un espace libre le jeudi soir et on cherche des artistes pour l’animer',
     suivant: 'Suivant',
     precedent: 'Précédent',
     quitter: 'Quitter la visite',
@@ -255,8 +255,8 @@ export const fr = {
     boutonEvenement: 'Me désinscrire de l’événement',
     confirmer: 'Oui, me retirer',
     annuler: 'Annuler',
-    question: 'Vous retirer de ce projet ? Il disparaîtra de votre liste.',
-    questionEvenement: 'Vous désinscrire de cet événement ? Il disparaîtra de votre liste.',
+    question: 'Vous retirer de ce projet? Il disparaîtra de votre liste.',
+    questionEvenement: 'Vous désinscrire de cet événement? Il disparaîtra de votre liste.',
     fait: 'Projet retiré de votre liste.',
   },
 

@@ -38,7 +38,7 @@ Slide 3, puis écran du téléphone ou de l’app. Cian clique et parle en même
 [DÉMO]
 1. 0:50 : écran d’accueil, toucher « Commerçant ». Écran « Votre profil : Café Le Petit Détour ». « Je suis Mathieu, du Café Le Petit Détour. »
 2. 1:00 : taper « On a un espace libre le jeudi soir et on aimerait attirer du monde ». Puces : J’offre « Espace intérieur », Quand « Semaine, soir ». Toucher « Trouver des partenaires ».
-3. 1:15 : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 86 %. « Avec Camille Vézina, artiste, et le Collectif Les Voisins en Scène, à environ dix minutes à pied. »
+3. 1:15 : « Exposition collaborative chez Café Le Petit Détour », Compatibilité 87 %. « Avec Camille Vézina, artiste, et le Collectif Les Voisins en Scène, à environ dix minutes à pied. »
 4. 1:30 : montrer « Pourquoi cette suggestion » puis « À confirmer ». « Ce qu’on ne sait pas encore, on le dit. Le score est une somme pondérée visible : complémentarité, réciprocité, proximité, créneau, thème. Touchez “Comment ce score” pour le voir. »
 5. 2:00 : toucher « Ça m’intéresse ». Le statut passe à « Intérêt envoyé », « En attente des partenaires », puis « Projet confirmé (simulé) ». « Dans la démo, aucun message ne part; en pilote, chaque partenaire reçoit l’invitation et accepte. »
 6. 2:25 : si le temps manque, mentionner en une phrase la Visite guidée, sans la lancer.
@@ -64,6 +64,8 @@ Slide 7 (Feuille de route).
 
 « L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible à un sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
 Hébergement gratuit pour un projet pilote, et une personne à temps partiel à la SDC pour l’accueil et la modération. Prochaines étapes : le pilote avec la SDC, les profils réclamés, puis l’IA. »
+
+Ligne optionnelle (si le temps le permet, avant les prochaines étapes) : « Et pour le sentiment de sécurité : une équipe de médiation qui cherche un lieu extérieur le soir se voit proposer une animation de rue dans un parc public, avec un jardin communautaire du quartier. »
 
 ## 7. Conclusion (4:35 à 4:50) [COÉQUIPIÈRE]
 Slide 8.

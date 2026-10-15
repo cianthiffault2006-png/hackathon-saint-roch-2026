@@ -1,0 +1,222 @@
+/* Guided tour: bar, chapters, fake cursor, typing indicator, pause. */
+
+/* Pause freezes every animation on screen (pins, sheet, confetti, pulse, typing dots). */
+.tour-pause *,
+.tour-pause *::before,
+.tour-pause *::after {
+  animation-play-state: paused !important;
+}
+
+/* Steps after the first one on the map: no slide-in, no pin drop. */
+.sans-anim .feuille,
+.sans-anim .pin-forme,
+.sans-anim .pin-etiquette {
+  animation: none !important;
+}
+
+/* The invitation covers the proposal, which stays mounted underneath during the tour. */
+.tour-actif .plein-ecran {
+  z-index: 5;
+}
+
+.visite-tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.visite-chapitre {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.visite-chapitres {
+  display: flex;
+  gap: 0;
+}
+
+/* 24 px targets around a small dot. */
+.visite-point {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.visite-point::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.visite-point-vu::after {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.visite-point-on::after {
+  top: 6px;
+  left: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--orange);
+}
+
+.visite-point:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -2px;
+  border-radius: 50%;
+}
+
+.visite-barre .visite-legende {
+  margin-bottom: 4px;
+}
+
+/* A taller hit area around the thin progress line. */
+.visite-piste {
+  padding: 6px 0;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.visite-piste .visite-progres {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.visite-cran {
+  position: absolute;
+  top: -2px;
+  width: 2px;
+  height: 8px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.visite-barre .visite-btn {
+  min-height: 40px;
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.visite-revoir {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+/* Fake cursor: the arrow tip is at the target point. */
+.visite-curseur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 28px;
+  height: 28px;
+  margin: -2px 0 0 -4px;
+  transform-origin: 4px 2px;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.visite-curseur svg {
+  display: block;
+}
+
+.visite-curseur-onde {
+  position: absolute;
+  top: -14px;
+  left: -10px;
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--orange);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.visite-curseur-presse .visite-curseur-onde {
+  opacity: 0.9;
+}
+
+/* Typing indicator in the tour's thread. */
+.visite-ecrit {
+  font-size: 13px;
+  color: var(--gris, #5b6b64);
+}
+
+.visite-points {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.visite-points i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: visite-points 1s ease-in-out infinite;
+}
+
+.visite-points i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.visite-points i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes visite-points {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+.visite-msg {
+  animation: apparition 0.35s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visite-points i,
+  .visite-msg {
+    animation: none;
+  }
+}
+
+/* The tour bar now holds the chapter row: keep the screens' first lines below it. */
+.tour-actif .screen {
+  padding-top: 212px;
+}
+
+.tour-actif .plein-ecran {
+  padding-top: 212px;
+}
+
+/* Zero-size probe at the origin of the fixed layer (the app pane on a desktop). */
+.visite-origine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}

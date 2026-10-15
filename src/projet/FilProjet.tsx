@@ -9,9 +9,11 @@ interface Props {
   profils: Profil[]
   moi: Profil
   onRetour(): void
+  /** Guided tour: the tab shown, and what the Discussion tab shows (the tour's own thread, never saved). */
+  visite?: { onglet: Onglet; discussion: React.ReactNode }
 }
 
-type Onglet = 'participants' | 'maj' | 'discussion'
+export type Onglet = 'participants' | 'maj' | 'discussion'
 interface Maj { id: string; titre: string; texte: string; date: string }
 interface Msg { id: string; auteur: string; texte: string; ts: number; moi?: boolean; simule?: boolean; signale?: boolean }
 
@@ -36,8 +38,9 @@ function majDepart(noms: string[]): Maj[] {
 }
 const dateCourte = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long' })
 
-export default function FilProjet({ proposition, profils, moi, onRetour }: Props) {
-  const [onglet, setOnglet] = useState<Onglet>('participants')
+export default function FilProjet({ proposition, profils, moi, onRetour, visite }: Props) {
+  const [ongletMoi, setOnglet] = useState<Onglet>('participants')
+  const onglet = visite?.onglet ?? ongletMoi
   const cle = cleProjet(proposition)
   const organisateurId = proposition.partenaires[0]?.profilId
   const estOrganisateur = organisateurId === moi.id
@@ -86,7 +89,8 @@ export default function FilProjet({ proposition, profils, moi, onRetour }: Props
       <div role="tabpanel" id={`pj-panneau-${onglet}`} aria-labelledby={`pj-tab-${onglet}`}>
         {onglet === 'participants' && <Participants titre={proposition.titre} partenaires={partenaires} moi={moi} />}
         {onglet === 'maj' && <MisesAJour cle={cle} estOrganisateur={estOrganisateur} depart={demo ? MAJ_SEED : majDepart(partenaires.map((x) => x.profil?.nom ?? 'Partenaire'))} />}
-        {onglet === 'discussion' && <Discussion cle={cle} demo={demo} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />}
+        {onglet === 'discussion' && visite && visite.discussion}
+        {onglet === 'discussion' && !visite && <Discussion cle={cle} demo={demo} partenaires={partenaires.map((x) => x.profil?.nom ?? 'Partenaire')} moi={moi} />}
       </div>
     </main>
   )

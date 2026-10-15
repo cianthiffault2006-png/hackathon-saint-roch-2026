@@ -1265,6 +1265,15 @@ body {
   bottom: 34px;
 }
 
+/* « Simuler la réponse des partenaires »: a quiet secondary link under the invitation link */
+.btn-simuler {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 2px;
+  color: var(--gris);
+  font-size: 14px;
+  text-decoration: underline;
+}
 /* ================================
    SIDEBAR - MAILLAGE
    ================================ */

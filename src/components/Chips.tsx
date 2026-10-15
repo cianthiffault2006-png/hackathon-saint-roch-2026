@@ -26,6 +26,7 @@ export default function Chips<T extends string>({ options, selected, libelle, on
             type="button"
             className={actif ? 'chip chip-on' : 'chip'}
             aria-pressed={actif}
+            data-valeur={o}
             onClick={() => onToggle(o)}
           >
             {libelle[o]}

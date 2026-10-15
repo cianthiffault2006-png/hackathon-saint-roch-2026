@@ -11,6 +11,20 @@ export const CHEMINS: Record<NomIcone, string> = {
   evenement: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
 }
 
+/** Interface icons (navigation), same 24x24 stroke style; not map pins. */
+export type NomIconeUi = 'maison' | 'barres' | 'liste' | 'boussole' | 'plus' | 'sources' | 'menu' | 'fermer'
+
+export const CHEMINS_UI: Record<NomIconeUi, string> = {
+  maison: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+  barres: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  liste: '<path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+  boussole: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  plus: '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  sources: '<ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13"/><path d="M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  fermer: '<path d="M6 6l12 12M18 6L6 18"/>',
+}
+
 function etoile(): string {
   const pts: string[] = []
   for (let k = 0; k < 10; k++) {
@@ -59,7 +73,7 @@ export function svgIcone(nom: NomIcone, taille = 20): string {
   return `<svg width="${taille}" height="${taille}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CHEMINS[nom]}</svg>`
 }
 
-export default function Icone({ nom, taille = 20 }: { nom: NomIcone; taille?: number }) {
+export default function Icone({ nom, taille = 20 }: { nom: NomIcone | NomIconeUi; taille?: number }) {
   return (
     <svg
       width={taille}
@@ -71,7 +85,7 @@ export default function Icone({ nom, taille = 20 }: { nom: NomIcone; taille?: nu
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: CHEMINS[nom] }}
+      dangerouslySetInnerHTML={{ __html: nom in CHEMINS ? CHEMINS[nom as NomIcone] : CHEMINS_UI[nom as NomIconeUi] }}
     />
   )
 }

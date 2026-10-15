@@ -1,0 +1,81 @@
+/* Phone drawer (under 900 px), adapted from Nana-Lexis's mobile sidebar (origin/enhance, 77bac20).
+   The menu button sits top right so it never meets the back button, the « Démo simulée » stamp (top left) or the map legend.
+   From 900 px the sidebar is the desktop column (bureau.css) and none of this shows. */
+
+.sidebar-mobile-btn,
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 899.98px) {
+  .sidebar-mobile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: calc(env(safe-area-inset-top) + 8px);
+    right: 8px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: var(--vert);
+    color: #fff;
+    z-index: 62;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .sidebar-mobile-btn[hidden] {
+    display: none;
+  }
+
+  .sidebar-mobile-btn:focus-visible {
+    outline: 3px solid var(--cta, #1d1208);
+    outline-offset: 2px;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 60;
+  }
+
+  .coquille .sidebar.sidebar-ouverte {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: min(280px, 85vw);
+    padding-top: calc(env(safe-area-inset-top) + 64px);
+    border-right: 0;
+    border-left: 1px solid #dde7e0;
+    z-index: 61;
+    animation: tiroir-entree 0.2s ease-out both;
+  }
+
+  .sidebar-ouverte .sidebar-lien {
+    min-height: 44px;
+  }
+}
+
+@keyframes tiroir-entree {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coquille .sidebar.sidebar-ouverte {
+    animation: none;
+  }
+}

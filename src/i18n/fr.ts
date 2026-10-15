@@ -457,6 +457,8 @@ export const fr = {
     sources: 'Sources des données',
     sdc: 'Tableau SDC',
     prototype: 'Prototype de démonstration',
+    ouvrirMenu: 'Ouvrir le menu',
+    fermerMenu: 'Fermer le menu',
     nbProjets: (n: number) => (n <= 1 ? `${n} projet` : `${n} projets`),
     listeProjets: 'Liste de mes projets',
     choisirProjet: 'Choisissez un projet dans la liste : sa fiche et son fil (participants, mises à jour, discussion) s’affichent ici.',

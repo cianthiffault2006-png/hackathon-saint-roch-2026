@@ -7,6 +7,7 @@ import { t } from '../projet/textes'
 import { ROLE_VISITE, TEXTE_VISITE } from '../tour/script'
 import type { Evenement, Lieu, Profil, Proposition } from '../types'
 import { choixDepuisTexte, construireBesoin } from './besoin'
+import { prochaineDate } from './date'
 import { STAMP_STATIQUE, cheminIcsStatique, contenuIcs } from './calendrier'
 import { DEMOS, ID_DEMO_SOFIA, projetDepuis, projetDepuisEvenement, type Projet } from './projets'
 
@@ -53,6 +54,11 @@ describe('prebuilt public/ics files', () => {
     expect(projetSofia()).toMatchObject({ jour: '2026-10-24', heureDebut: 13, heureFin: 17 })
     expect(fichiers.get('ics/demo-cafe.ics')).toContain('DTSTART;TZID=America/Toronto:20261022T190000')
     expect(fichiers.get('ics/demo-corvee.ics')).toContain('SUMMARY:Corvée graffitis rue Saint-Joseph')
+  })
+  it('fixes the demo dates to what prochaineDate gives on pitch day (Oct 16)', () => {
+    const jourPitch = new Date('2026-10-16T16:00:00Z')
+    expect(DEMOS[projetCafe().proposition?.id as string].date).toEqual(prochaineDate('semaine_soir', jourPitch))
+    expect(DEMOS[ID_DEMO_SOFIA].date).toEqual(prochaineDate('fin_de_semaine', jourPitch))
   })
   it('has exactly one file per public event and demo project', () => {
     const surDisque = readdirSync(join('public', 'ics')).map((f) => `ics/${f}`).sort()

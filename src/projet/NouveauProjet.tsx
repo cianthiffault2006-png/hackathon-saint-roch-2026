@@ -119,7 +119,7 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree }:
     const score = roles.length === 0 ? 0 : Math.round((couverts / roles.length) * 100)
     const aConfirmer = [t.nouveau.aConfirmerDate, ...(lieu ? [] : [t.nouveau.aConfirmerLieu]), ...avant.slice(0, 3)]
     onCree({
-      id: proposeurId === 'p-sofia' && titre.trim() === t.exemple.titre ? ID_DEMO_SOFIA : `ouvert-${Date.now()}`,
+      id: proposeurId === 'p-sofia' && titre.trim() === t.exemple.titre && creneau === 'fin_de_semaine' ? ID_DEMO_SOFIA : `ouvert-${Date.now()}`,
       titre: titre.trim(),
       type,
       partenaires,

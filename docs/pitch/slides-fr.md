@@ -18,7 +18,7 @@ Visuel : capture de l’écran de proposition.
 Signal [VOIX 2] : « Voici Maillage », puis passer au téléphone pour la démo. (1 min 40 s avec la démo)
 
 ## 4. Ce que la démo montre
-Ligne : « Rôle, besoin, proposition à trois, Ça m’intéresse, projet confirmé (simulé). »
+Ligne : « Commerçant, besoin, proposition à trois (86 %), Ça m’intéresse, projet confirmé (simulé). »
 Visuel : les 5 étapes en frise, badge « Démo simulée ».
 Signal [VOIX 2] : à garder à l’écran si l’app plante, puis lancer la vidéo de secours. (peut être sautée si le temps manque)
 
@@ -32,8 +32,8 @@ Signal [VOIX 2] : trois idées seulement : profils cachés tant que non réclam�
 
 ## 6. Transparence : un moteur de règles, l’IA en phase 2
 Ligne : « Chaque suggestion explique pourquoi. L’app suggère, les personnes décident. »
-Visuel : une carte de proposition avec « Pourquoi cette suggestion » et « À confirmer » surlignés; à droite, un encadré « Phase 2 : un modèle de langage lit les demandes ».
-Signal [VOIX 1] : où est l’IA? Pas dans la démo. Le moteur est prêt, le coût revient à celui qui déploie. (45 s)
+Visuel : une carte de proposition avec « Pourquoi cette suggestion » et « À confirmer » surlignés; en bas, le test d’IA : « Modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/) : 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase. Trouve des profils semblables, pas complémentaires. » À droite : « Phase 2 : l’IA lit la demande libre ».
+Signal [VOIX 1] : où est l’IA? Nous l’avons testée; elle trouve du semblable, pas du complémentaire, d’où le moteur de règles. Phase 2 : lire la demande libre. Le coût revient à celui qui déploie. (55 s)
 
 ## 7. Impact et feuille de route
 Ligne : « Un pilote avec la SDC, puis tout Saint-Roch. »

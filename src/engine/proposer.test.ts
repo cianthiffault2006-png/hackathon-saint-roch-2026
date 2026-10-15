@@ -20,7 +20,7 @@ describe('proposer: histoire', () => {
   it('raisons concrètes en français avec distances', () => {
     const r = res[0].raisons.join('\n');
     expect(r).toMatch(/Collectif Les Passeurs offre du public le soir en semaine, ce que vous cherchez/);
-    expect(r).toMatch(/à \d+ minutes? à pied de vous/);
+    expect(r).toMatch(/À pied de vous: .* à \d+ minutes?/);
     expect(r).toMatch(/Thèmes en commun: culture/);
   });
   it('à confirmer: date, capacité, assurances, accessibilité', () => {
@@ -29,6 +29,43 @@ describe('proposer: histoire', () => {
   });
   it('événement proche partageant un thème; pas le lointain, ni le tardif, ni autre thème', () => {
     expect(res[0].evenementsProches).toEqual(['ev-proche']);
+  });
+});
+
+describe('proposer: organisme sans salle', () => {
+  const profilsReels = JSON.parse(JSON.stringify(profils)) as typeof profils;
+  const orga = {
+    ...profilsReels[2], offres: ['benevoles', 'animation'], besoins: ['espace_interieur', 'contenu_artistique'],
+  } as (typeof profils)[number];
+  const ps = profilsReels.map((p) => (p.id === 'story-organisme' ? orga : p));
+  const b: Besoin = {
+    auteurRole: 'organisme', auteurId: 'story-organisme',
+    texte: "On veut organiser un événement culturel mais on n'a pas de salle",
+    besoins: ['espace_interieur', 'contenu_artistique'], offres: ['benevoles', 'animation'],
+    creneaux: ['semaine_soir'], themes: ['culture', 'communautaire'],
+  };
+  const res = lancer(b, ps);
+  it("pas d'exposition pour un événement culturel", () => {
+    expect(res.length).toBeGreaterThan(0);
+    expect(res[0].type).not.toBe('exposition');
+    expect(['spectacle', 'atelier']).toContain(res[0].type);
+  });
+  it('lieu public proposé en solution de rechange', () => {
+    expect(res[0].lieuId).toBeTruthy();
+    expect(res[0].raisons.join(' | ')).toMatch(/Lieu public proposé : .+, à \d+ minutes?/);
+  });
+  it("exposition si le texte parle d'exposer", () => {
+    const r = lancer({ ...b, texte: 'On veut exposer des œuvres' }, ps);
+    expect(r.some((p) => p.type === 'exposition')).toBe(true);
+  });
+});
+
+describe('proposer: raisons', () => {
+  it('au plus 5 lignes, complémentarité en premier', () => {
+    for (const p of lancer(besoinCafe)) {
+      expect(p.raisons.length).toBeLessThanOrEqual(5);
+      expect(p.raisons[0]).toContain('ce que vous cherchez');
+    }
   });
 });
 

@@ -1,3 +1,4 @@
+import { normaliser } from './lecture.ts';
 import type {
   Besoin, Contribution, Creneau, Evenement, Lieu, Profil, Proposer, Proposition, Tag, Theme, TypeProjet,
 } from '../types.ts';
@@ -77,11 +78,11 @@ function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null 
   return { p, comp, rev, dist, creneaux, score };
 }
 
-function choisirType(tags: Tag[], themes: Theme[]): TypeProjet {
+function choisirType(tags: Tag[], themes: Theme[], sansExposition = false): TypeProjet {
   const has = (t: Tag) => tags.includes(t);
   const th = (t: Theme) => themes.includes(t);
   const espace = has('espace_interieur') || has('espace_exterieur');
-  if (has('contenu_artistique') && espace) return 'exposition';
+  if (has('contenu_artistique') && espace && !sansExposition) return 'exposition';
   if (th('environnement')) return 'verdissement';
   if (has('nourriture') && th('commerce_local')) return 'marche_ephemere';
   if (has('animation')) {
@@ -195,16 +196,25 @@ export const proposerAu = (
 
     const offresGroupe = uniq([...besoin.offres, ...profs.flatMap((p) => p.offres)]);
     const pts: Point[] = [...(pos ? [pos] : []), ...profs];
-    const lieu = inter(offresGroupe, ESPACES).length ? undefined : lieuLePlusProche(lieux, centre(pts), besoin.besoins);
-    const tags = uniq([...offresGroupe, ...(lieu ? lieu.offres : [])]);
+    const espaceOffert = inter(offresGroupe, ESPACES).length > 0;
+    const veutEspace = inter(besoin.besoins, ESPACES).length > 0;
+    // Lieu retenu: nécessaire si personne n'offre d'espace; sinon proposé en solution de rechange si le demandeur cherche un espace.
+    const lieu = !espaceOffert || veutEspace ? lieuLePlusProche(lieux, centre(pts), besoin.besoins) : undefined;
+    const lieuRemplace = !espaceOffert ? lieu : undefined;
+    const tags = uniq([...offresGroupe, ...(lieuRemplace ? lieuRemplace.offres : [])]);
     const themes = uniq([...besoin.themes, ...profs.flatMap((p) => p.themes)]);
-    const type = choisirType(tags, themes);
+    // Un événement culturel sans salle n'est pas une exposition, sauf si on l'a demandé ou si le demandeur apporte l'art.
+    const parleExpo = /expos|galerie|oeuvre|tableau|vernissage/.test(normaliser(besoin.texte));
+    const sansExposition = veutEspace && !besoin.offres.includes('contenu_artistique') && !parleExpo &&
+      (themes.includes('culture') || themes.includes('communautaire')) &&
+      (besoin.offres.includes('animation') || besoin.offres.includes('benevoles'));
+    const type = choisirType(tags, themes, sansExposition);
 
     const hoteProfil = profs.find((p) => inter(p.offres, ESPACES).length) ?? (inter(besoin.offres, ESPACES).length ? moi : undefined);
     const hoteNom = hoteProfil?.nom ?? lieu?.nom ?? profs[0].nom;
     const hotePos: Point = hoteProfil ?? lieu ?? pos ?? profs[0];
 
-    const couverts = uniq([...profs.flatMap((p) => p.offres), ...(lieu ? lieu.offres : [])]);
+    const couverts = uniq([...profs.flatMap((p) => p.offres), ...(lieuRemplace ? lieuRemplace.offres : [])]);
     const manquants = sans(besoin.besoins, couverts);
     const couverture = besoin.besoins.length ? (besoin.besoins.length - manquants.length) / besoin.besoins.length : 0;
     const score = Math.max(0, Math.min(100, Math.round(0.45 * a.score + 0.2 * (b ? b.score : 0) + 35 * couverture)));
@@ -225,19 +235,25 @@ export const proposerAu = (
       }),
     ];
 
-    const raisons: string[] = [];
+    const rComp: string[] = [];
     for (const m of membres) {
       const cr = inter(communs, m.p.creneaux)[0] ?? creneau;
-      if (m.comp.length) raisons.push(`${m.p.nom} offre ${m.comp.map((t) => LIBELLE[t]).join(' et ')} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
-      if (m.rev.length) raisons.push(`Ce que vous offrez (${m.rev.map((t) => NU[t]).join(', ')}) répond au besoin de ${m.p.nom}`);
-      if (m.dist !== undefined) raisons.push(`${m.p.nom}: à ${minTxt(m.dist)} à pied de vous`);
+      if (m.comp.length) rComp.push(`${m.p.nom} offre ${m.comp.map((t) => LIBELLE[t]).join(' et ')} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
     }
-    if (lieu) {
-      raisons.push(`Personne n'offre d'espace: ${lieu.nom} (${lieu.type.replace('_', ' ')}) est à ${minTxt(distanceM(centre(pts), lieu))} à pied du groupe`);
+    const rev = membres.filter((m) => m.rev.length);
+    const rRev = rev.length
+      ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond aux besoins de ${rev.map((m) => m.p.nom).join(' et ')}`]
+      : [];
+    const avecDist = membres.filter((m) => m.dist !== undefined);
+    const rDist = avecDist.length ? [`À pied de vous: ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
+    const rLieu: string[] = [];
+    if (lieuRemplace) {
+      rLieu.push(`Personne n'offre d'espace: ${lieuRemplace.nom} (${lieuRemplace.type.replace('_', ' ')}) est à ${minTxt(distanceM(centre(pts), lieuRemplace))} à pied du groupe`);
+    } else if (lieu) {
+      rLieu.push(`Lieu public proposé : ${lieu.nom}, à ${minTxt(distanceM(centre(pts), lieu))}`);
     }
     const themesCommuns = themes.filter((t) => besoin.themes.includes(t) && profs.some((p) => p.themes.includes(t)));
-    if (themesCommuns.length) raisons.push(`Thèmes en commun: ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`);
-    raisons.push(`Tous disponibles ${CRENEAU_TXT[creneau]}`);
+    const rTheme = themesCommuns.length ? [`Thèmes en commun: ${themesCommuns.map((t) => THEME_TXT[t]).join(', ')}`] : [];
 
     const proches = evenements
       .filter((e) => {
@@ -246,15 +262,18 @@ export const proposerAu = (
       })
       .sort((x, y) => x.debut.localeCompare(y.debut) || x.id.localeCompare(y.id))
       .slice(0, 3);
-    if (proches.length) {
-      raisons.push(`À proximité dans les 14 prochains jours: ${proches.map((e) => e.titre).join(', ')} (public à rejoindre ou chevauchement à éviter)`);
-    }
+    const rEvents = proches.length
+      ? [`À proximité dans les 14 prochains jours: ${proches.map((e) => e.titre).join(', ')}`]
+      : [];
+    // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
+    const raisons = [...rComp, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
 
     const aConfirmer = [
       'Date précise du projet',
       `Capacité d'accueil de ${hoteNom}`,
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
+      ...(proches.length ? [`Éviter le chevauchement avec: ${proches.map((e) => e.titre).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé: ${NU[t]}`),
       ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli: l'organisme doit d'abord activer son profil`),
     ];

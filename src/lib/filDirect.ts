@@ -44,7 +44,7 @@ export function configFil(env: Record<string, unknown> = import.meta.env): Confi
  */
 export function estDemo(id: string): boolean {
   const base = id.split('|')[0]
-  return base in DEMOS || base === ID_DEMO_SOFIA || base.startsWith('visite-')
+  return Object.hasOwn(DEMOS, base) || base === ID_DEMO_SOFIA || base.startsWith('visite-')
 }
 
 /** Live thread ids are random (see nouvelIdFil): letters, digits, - and _, 8 to 120 characters. */

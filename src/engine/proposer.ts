@@ -125,6 +125,27 @@ const centre = (pts: Point[]): Point => ({
   lng: pts.reduce((s, p) => s + p.lng, 0) / pts.length,
 });
 
+const partIds = (p: Proposition) => p.partenaires.slice(1).map((x) => x.profilId);
+
+/** Garde la meilleure, puis des propositions d'un autre type ou sans aucun partenaire déjà proposé (score > 50 d'abord). */
+function diversifier(tries: Proposition[], n: number): Proposition[] {
+  const out: Proposition[] = tries.slice(0, 1);
+  const different = (p: Proposition) =>
+    out.every((o) => p.titre !== o.titre && (p.type !== o.type || !partIds(p).some((i) => partIds(o).includes(i))));
+  const passes: ((p: Proposition) => boolean)[] = [
+    (p) => p.score > 50 && different(p),
+    (p) => p.score > 50 && out.every((o) => p.titre !== o.titre),
+    () => true,
+  ];
+  for (const ok of passes) {
+    for (const p of tries) {
+      if (out.length >= n) break;
+      if (!out.includes(p) && ok(p)) out.push(p);
+    }
+  }
+  return out.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+}
+
 /** `maintenant` sert à filtrer les événements; par défaut l'heure courante. */
 export const proposerAu = (
   besoin: Besoin, profils: Profil[], lieux: Lieu[], evenements: Evenement[], maintenant: Date = new Date(),
@@ -253,7 +274,8 @@ export const proposerAu = (
     };
   });
 
-  return props.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id)).slice(0, 3);
+  const tries = props.sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+  return diversifier(tries, 3);
 };
 
 export const proposer: Proposer = (besoin, profils, lieux, evenements) => proposerAu(besoin, profils, lieux, evenements);

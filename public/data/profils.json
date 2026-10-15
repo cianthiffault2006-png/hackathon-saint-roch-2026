@@ -37,7 +37,8 @@
   "lat": 46.8155,
   "lng": -71.2195,
   "offres": [
-   "contenu_artistique"
+   "contenu_artistique",
+   "animation"
   ],
   "besoins": [
    "espace_interieur",
@@ -50,7 +51,8 @@
   ],
   "themes": [
    "art",
-   "culture"
+   "culture",
+   "commerce_local"
   ],
   "source": "fictif",
   "origine": "Collection Art Public",
@@ -1324,7 +1326,7 @@
    "public"
   ],
   "creneaux": [
-   "semaine_soir"
+   "fin_de_semaine"
   ],
   "themes": [
    "etudiants",

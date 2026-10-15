@@ -66,7 +66,7 @@ LSVC, ORG, ENT, SDC, ART, ETU, ETE = ("Liste organismes reconnus LSVC", "Liste o
 # id, role, sousType, nom, description, offres, besoins, creneaux, themes, origine
 D = [
  ("story-cafe", "commerce", "café", "Café Le Parvis", "Café de quartier avec une grande salle et une clientèle fidèle, qui cherche à faire vivre ses soirées.", [EI, N, P], [AN, CA, V], [S], ["culture", "commerce_local"], ENT),
- ("story-artiste", "citoyen", "artiste", "Camille P., peintre", "Peintre du quartier qui cherche un mur et un public pour montrer ses toiles.", [CA], [EI, V, P], [S, W], ["art", "culture"], ART),
+ ("story-artiste", "citoyen", "artiste", "Camille P., peintre", "Peintre du quartier qui cherche un mur et un public pour montrer ses toiles.", [CA, AN], [EI, V, P], [S, W], ["art", "culture", "commerce_local"], ART),
  ("story-organisme", "organisme", "organisme culturel", "Collectif Les Fenêtres Ouvertes", "Collectif culturel qui mobilise des bénévoles et diffuse la création locale, mais sans salle.", [B, V, A, AN], [EI, CA], [S], ["culture", "communautaire"], LSVC),
  ("p-resto", "commerce", "restaurant", "Chez Marguerite", "Bistro de cuisine du marché, ouvert le soir et la fin de semaine.", [EI, N, P], [V, AN], [S, W], ["alimentation", "commerce_local"], SDC),
  ("p-librairie", "commerce", "librairie", "Librairie La Marge Douce", "Librairie indépendante avec un coin lecture et des vitrines à partager.", [EI, V, A, P], [AN, CA], [S], ["culture", "commerce_local"], ENT),
@@ -110,7 +110,7 @@ D = [
  ("p-retraite", "citoyen", "citoyen engagé", "Gaston V., retraité", "Retraité du quartier qui connaît l'histoire locale et aime guider des visites.", [EX, B, P], [V, AN], [J, W], ["communautaire", "culture"], ETE),
  ("p-cuisinier", "citoyen", "citoyen engagé", "Rémi C., cuisinier amateur", "Cuisinier amateur qui prépare des repas pour des activités de rue.", [N, B], [EE, M, V], [W], ["alimentation", "communautaire"], ETE),
  ("p-peintre-2", "citoyen", "artiste", "Lou G., muraliste", "Muraliste qui cherche des murs aveugles à embellir avec la permission des propriétaires.", [CA, EX], [EE, A, V], [W], ["art", "commerce_local"], ART),
- ("p-etu-musique", "citoyen", "étudiant", "Thomas E., étudiant en musique", "Étudiant en musique qui anime des soirées de poésie et de jazz.", [CA, AN, B], [EI, P], [S], ["etudiants", "culture"], ETU),
+ ("p-etu-musique", "citoyen", "étudiant", "Thomas E., étudiant en musique", "Étudiant en musique qui anime des soirées de poésie et de jazz.", [CA, AN, B], [EI, P], [W], ["etudiants", "culture"], ETU),
  ("p-resident-4", "citoyen", "nouveau résident", "Famille Beaulieu-Diop, nouveaux résidents", "Famille arrivée dans un nouveau logement, curieuse des activités jeunesse.", [B, P], [AN, EI], [W], ["jeunesse", "communautaire"], ETE),
 ]
 assert len(D) >= 45

@@ -108,20 +108,19 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     const tracer = () => {
       const geoLiens = { type: 'Feature' as const, properties: {}, geometry: { type: 'MultiLineString' as const, coordinates: lignes } }
       const geoCercle = { type: 'Feature' as const, properties: {}, geometry: { type: 'Polygon' as const, coordinates: cercle.length ? [cercle] : [] } }
-      const lien = map.getSource('lien') as GeoJSONSource | undefined
-      if (lien) {
-        lien.setData(geoLiens)
-        ;(map.getSource('cercle') as GeoJSONSource).setData(geoCercle)
-        return
+      // Idempotent on purpose: a failed attempt (style not ready) is simply retried.
+      const sCercle = map.getSource('cercle') as GeoJSONSource | undefined
+      if (sCercle) sCercle.setData(geoCercle)
+      else map.addSource('cercle', { type: 'geojson', data: geoCercle })
+      const sLien = map.getSource('lien') as GeoJSONSource | undefined
+      if (sLien) sLien.setData(geoLiens)
+      else map.addSource('lien', { type: 'geojson', data: geoLiens })
+      if (!map.getLayer('cercle-bord')) {
+        map.addLayer({ id: 'cercle-bord', type: 'line', source: 'cercle', paint: { 'line-color': '#1f5f4a', 'line-opacity': 0.45, 'line-width': 1.5 } })
       }
-      map.addSource('cercle', { type: 'geojson', data: geoCercle })
-      map.addLayer({ id: 'cercle-fond', type: 'fill', source: 'cercle', paint: { 'fill-color': '#1f5f4a', 'fill-opacity': 0.06 } })
-      map.addLayer({ id: 'cercle-bord', type: 'line', source: 'cercle', paint: { 'line-color': '#1f5f4a', 'line-opacity': 0.35, 'line-width': 1 } })
-      map.addSource('lien', { type: 'geojson', data: geoLiens })
-      map.addLayer({
-        id: 'lien', type: 'line', source: 'lien',
-        paint: { 'line-color': '#1c2b25', 'line-width': 2, 'line-dasharray': [2, 2] },
-      })
+      if (!map.getLayer('lien')) {
+        map.addLayer({ id: 'lien', type: 'line', source: 'lien', paint: { 'line-color': '#1c2b25', 'line-width': 2, 'line-dasharray': [2, 2] } })
+      }
     }
     let etiquetteCercle: Marker | null = null
     if (demandeur) {
@@ -133,11 +132,12 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     }
     // The style may still be loading when the pins drop: retry for a few seconds.
     let minuteur = 0
+    // isStyleLoaded() stays false while tiles download, so try to add the layers and retry on failure.
     const essayer = (n: number) => {
-      if (map.isStyleLoaded()) {
+      try {
         tracer()
-      } else if (n < 40) {
-        minuteur = window.setTimeout(() => essayer(n + 1), 250)
+      } catch {
+        if (n < 160) minuteur = window.setTimeout(() => essayer(n + 1), 250)
       }
     }
     minuteur = window.setTimeout(() => essayer(0), pins.length * delaiPinMs)

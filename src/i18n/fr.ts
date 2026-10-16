@@ -82,7 +82,7 @@ export const fr = {
   },
 
   proposition: {
-    autresOptions: 'Voir d’autres options',
+    autresOptions: 'Plus d’options',
     titre: 'Votre projet à trois',
     nombreTrouvees: (n: number) => (n === 1 ? '1 proposition trouvée' : `${n} propositions trouvées`),
     pourquoi: 'Pourquoi cette suggestion',
@@ -123,7 +123,7 @@ export const fr = {
       theme: 'Thème',
     },
     voirInvitation: (prenom: string) => `Voir ce que ${prenom} reçoit`,
-    decline: (prenom: string) => `${prenom} a décliné (simulé) : voyez d’autres options`,
+    decline: (prenom: string) => `${prenom} a décliné (simulé) : touchez « Plus d’options »`,
     simulerReponse: 'Simuler la réponse des partenaires',
     interet: 'Ça m’intéresse',
     statuts: {

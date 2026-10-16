@@ -146,7 +146,7 @@ describe('proposer: règles', () => {
     };
     const res = lancer(b);
     expect(res[0].partenaires.map((x) => x.profilId)).toContain('ruelle');
-    expect(res[0].aConfirmer.join('\n')).toContain("Profil pré-rempli : l’organisme doit d’abord activer son profil");
+    expect(res[0].aConfirmer.join('\n')).toContain('Faire activer le profil pré-rempli de Comité Ruelle Verte');
     expect(res[0].type).toBe('verdissement');
   });
   it('besoin non comblé signalé', () => {
@@ -229,14 +229,14 @@ describe('proposer: français des sorties', () => {
     expect(enumerer(['a', 'b'])).toBe('a et b');
     expect(enumerer(['a', 'b', 'c'])).toBe('a, b et c');
   });
-  it('profil pré-rempli d’un citoyen: « la personne »', () => {
+  it('profil pré-rempli d’un citoyen: une action à faire, avec son nom', () => {
     const ps = profils.map((p) => (p.id === 'etudiant' ? { ...p, reclame: false } : p));
     const b: Besoin = {
       auteurRole: 'commerce', auteurId: 'story-cafe', texte: '', besoins: ['animation'], offres: ['espace_interieur'],
       creneaux: ['semaine_soir'], themes: ['culture'],
     };
-    const lignes = lancer(b, ps).flatMap((p) => p.aConfirmer).filter((l) => l.startsWith('Samuel Roy'));
+    const lignes = lancer(b, ps).flatMap((p) => p.aConfirmer).filter((l) => l.includes('Samuel Roy'));
     expect(lignes.length).toBeGreaterThan(0);
-    for (const l of lignes) expect(l).toContain('la personne doit d’abord activer son profil');
+    for (const l of lignes) expect(l).toMatch(/^Faire activer le profil pré-rempli de Samuel Roy/);
   });
 });

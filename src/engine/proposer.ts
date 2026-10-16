@@ -59,7 +59,6 @@ export const lib = (tags: Tag[]) => enumerer(tags.map((t) => LIBELLE[t]));
 /** « 24 oct. » depuis un début ISO en heure locale (le jour seul, sans fuseau). */
 const FORMAT_JOUR_COURT = new Intl.DateTimeFormat('fr-CA', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 const jourCourt = (iso: string) => FORMAT_JOUR_COURT.format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
-const QUI_ACTIVE: Record<Profil['role'], string> = { citoyen: 'la personne', commerce: 'le commerce', organisme: 'l’organisme' };
 
 interface Cand {
   p: Profil;
@@ -436,7 +435,8 @@ export const proposerAu = (
       // Partenaire voulu gardé malgré tout: on dit ce qui ne colle pas.
       ...(impose && !impose.comp.length && !impose.rev.length ? [`Rôle de ${impose.p.nom} à préciser : son profil n’offre pas ce que vous cherchez`] : []),
       ...(impose && besoin.creneaux.length && !inter(besoin.creneaux, impose.p.creneaux).length ? [`Horaire à convenir avec ${impose.p.nom} : aucun créneau commun`] : []),
-      ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : ${QUI_ACTIVE[m.p.role]} doit d’abord activer son profil`),
+      // An action, like the other lines: « Faire activer le profil pré-rempli de Galerie L’Éclat » (du / des / d’ as needed).
+      ...membres.filter((m) => !m.p.reclame).map((m) => `Faire activer le profil pré-rempli ${/^le\s/i.test(m.p.nom) ? `du ${m.p.nom.slice(3)}` : /^les\s/i.test(m.p.nom) ? `des ${m.p.nom.slice(4)}` : /^[aeiouyhéèêàâîôû]/i.test(m.p.nom) ? `d’${m.p.nom}` : `de ${m.p.nom}`}`),
     ];
 
     const idProp = `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`;

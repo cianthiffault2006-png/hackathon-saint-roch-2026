@@ -51,7 +51,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   const [cherche, setCherche] = useState<Tag[]>(initial?.cherche ?? [])
   const [offre, setOffre] = useState<Tag[]>(initial?.offre ?? [])
   const [creneaux, setCreneaux] = useState<Creneau[]>(initial?.creneaux ?? [])
-  // Coming from the explorer, the user says who they act as (a demo profile, or « Je démarre » with none); otherwise the role given.
+  // Who the user acts as: the demo profile (default), or « Je démarre » with none; from the explorer, any role.
   const [acteur, setActeur] = useState<{ role: Role; nouveau: boolean }>({ role, nouveau: initial?.nouveau ?? false })
   const r = guide ? role : acteur.role
   const asker = acteur.nouveau && !guide ? undefined : trouverAsker(r, profils)
@@ -100,7 +100,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
           {fr.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen' : partenaireVoulu.nom}</strong>
         </p>
       )}
-      {partenaireVoulu && !guide && (
+      {!guide && (
         <p className="agir-comme">
           <label htmlFor="agir-comme">{fr.besoin.agirComme}</label>
           <select
@@ -111,11 +111,12 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
               setActeur({ role: ro as Role, nouveau: mode === 'nouveau' })
             }}
           >
-            {ROLES.map((ro) => {
+            {/* From the accueil the role is chosen already: its demo profile or « Je démarre »; from the explorer, any role. */}
+            {(partenaireVoulu ? ROLES : [role]).map((ro) => {
               const demo = trouverAsker(ro, profils)
               return demo ? <option key={ro} value={`${ro}:profil`}>{demo.nom} ({LIBELLE_ROLE[ro].toLowerCase()})</option> : null
             })}
-            {ROLES.map((ro) => <option key={`${ro}-n`} value={`${ro}:nouveau`}>{fr.besoin.jeDemarre[ro]}</option>)}
+            {(partenaireVoulu ? ROLES : [role]).map((ro) => <option key={`${ro}-n`} value={`${ro}:nouveau`}>{fr.besoin.jeDemarre[ro]}</option>)}
           </select>
         </p>
       )}

@@ -58,7 +58,8 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, e
   const [creneau, setCreneau] = useState<Creneau>(depart?.creneau ?? 'fin_de_semaine')
   const [lieuId, setLieuId] = useState('')
   const [roles, setRoles] = useState<Tag[]>(avecExemple ? ['benevoles', 'materiel', 'expertise', 'visibilite'] : depart?.roles ?? [])
-  const [cherche, setCherche] = useState(false)
+  // With the wanted partner already invited, the partner list shows at once.
+  const [cherche, setCherche] = useState(!!depart && Object.keys(depart.invites).length > 0)
   const [invites, setInvites] = useState<Record<string, Tag[]>>(depart?.invites ?? {})
   const [erreur, setErreur] = useState('')
   const [proposeurId, setProposeurId] = useState(avecExemple ? 'p-sofia' : '')

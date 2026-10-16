@@ -52,6 +52,10 @@ for p in profils:
     sub(p["creneaux"], CRE, p["id"] + " creneaux", True)
     sub(p["themes"], THEME, p["id"] + " themes", True)
     assert inside(p), p["id"] + " outside outline"
+# Real establishments (open data, build_open_rows.py): never claimed in the demo, no contact, licence line in origine.
+for p in [p for p in profils if p["source"] == "ouvert"]:
+    assert not p["reclame"] and not p["contactPublic"] and p["origine"].startswith("Source : "), p["id"]
+profils = [p for p in profils if p["source"] == "fictif"]
 assert 40 <= len(profils) <= 55
 for r in ROLE:
     assert sum(p["role"] == r for p in profils) >= 12, r

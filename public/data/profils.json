@@ -1520,5 +1520,506 @@
   "reclame": true,
   "verifie": "non",
   "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500QOW",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Torii Izakaya - Buvette japonaise",
+  "description": "Restaurant de Saint-Roch (salle de 75 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.815703,
+  "lng": -71.219483,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500QT4",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "jjacques",
+  "description": "Restaurant de Saint-Roch (salle de 45 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.813571,
+  "lng": -71.225491,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500R4T",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "La Revanche St-Roch - Resto-Pub ludique",
+  "description": "Restaurant de Saint-Roch (salle de 127 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.814287,
+  "lng": -71.22198,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500RND",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Battuto",
+  "description": "Restaurant de Saint-Roch (salle de 28 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.810418,
+  "lng": -71.229901,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500RNE",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Kundah Hôtel",
+  "description": "Restaurant de Saint-Roch (salle de 50 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.815194,
+  "lng": -71.225275,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500RXC",
+  "role": "commerce",
+  "sousType": "café",
+  "nom": "Céramic Café-Studio (Québec)",
+  "description": "Café de Saint-Roch (salle de 50 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.814299,
+  "lng": -71.22406,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_jour",
+   "semaine_soir"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500SOC",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Restaurant La Piazzetta (Québec / rue St-Joseph)",
+  "description": "Restaurant de Saint-Roch (salle de 103 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.8138,
+  "lng": -71.225505,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500SPG",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Brasserie Artisanale La Korrigane",
+  "description": "Restaurant de Saint-Roch (salle de 150 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.81386,
+  "lng": -71.226883,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500SXL",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Maelstrøm Saint-Roch",
+  "description": "Restaurant de Saint-Roch (salle de 46 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.81136,
+  "lng": -71.22759,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500SZT",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Les Salons d'Edgar",
+  "description": "Restaurant de Saint-Roch (salle de 100 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.811872,
+  "lng": -71.225845,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV500SZZ",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "La Cuisine",
+  "description": "Restaurant de Saint-Roch (salle de 55 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.811457,
+  "lng": -71.227412,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-RESTMTOV502CK0",
+  "role": "commerce",
+  "sousType": "restaurant",
+  "nom": "Poutineville Saint-Roch",
+  "description": "Restaurant de Saint-Roch (salle de 100 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.815623,
+  "lng": -71.219879,
+  "offres": [
+   "espace_interieur",
+   "nourriture",
+   "public",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "alimentation",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Restauration, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-DIVLMTOV500OSS",
+  "role": "commerce",
+  "sousType": "bar",
+  "nom": "Scanner Bistro",
+  "description": "Bar de Saint-Roch (salle de 142 personnes, terrasse). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.811876,
+  "lng": -71.224903,
+  "offres": [
+   "espace_interieur",
+   "public",
+   "nourriture",
+   "espace_exterieur"
+  ],
+  "besoins": [
+   "animation",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Divertissements et loisirs, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-DIVLMTOV503I45",
+  "role": "commerce",
+  "sousType": "centre récréatif",
+  "nom": "Musi'Quiz Québec",
+  "description": "Centre récréatif de Saint-Roch. Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.81433,
+  "lng": -71.223489,
+  "offres": [
+   "espace_interieur",
+   "animation",
+   "public"
+  ],
+  "besoins": [
+   "public",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Divertissements et loisirs, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-DIVLMTOV503LT3",
+  "role": "commerce",
+  "sousType": "centre récréatif",
+  "nom": "Le Grand Mini-Golf",
+  "description": "Centre récréatif de Saint-Roch (salle de 70 personnes). Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.815922,
+  "lng": -71.219514,
+  "offres": [
+   "espace_interieur",
+   "animation",
+   "public"
+  ],
+  "besoins": [
+   "public",
+   "contenu_artistique"
+  ],
+  "creneaux": [
+   "semaine_soir",
+   "fin_de_semaine"
+  ],
+  "themes": [
+   "jeunesse",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Divertissements et loisirs, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
+ },
+ {
+  "id": "sit-ORGAMTOV500RI2",
+  "role": "organisme",
+  "sousType": "organisme touristique",
+  "nom": "Destination Québec cité",
+  "description": "Organisme touristique de Saint-Roch. Fiche réelle du SIT Québec, à activer par l’établissement; les besoins indiqués sont ceux de son type.",
+  "lat": 46.813957,
+  "lng": -71.224954,
+  "offres": [
+   "visibilite",
+   "expertise",
+   "affichage"
+  ],
+  "besoins": [
+   "contenu_artistique",
+   "animation"
+  ],
+  "creneaux": [
+   "semaine_jour"
+  ],
+  "themes": [
+   "culture",
+   "commerce_local"
+  ],
+  "source": "ouvert",
+  "origine": "Source : ministère du Tourisme du Québec (SIT Québec), Organismes touristiques, licence CC BY 4.0",
+  "reclame": false,
+  "verifie": "non",
+  "contactPublic": false
  }
 ]

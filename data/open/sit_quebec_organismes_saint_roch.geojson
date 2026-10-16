@@ -1,0 +1,26 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "ORGAMTOV500RI2",
+    "NomEtablissement": "Destination Québec cité",
+    "TypeEtablissement": "Organisme touristique",
+    "NumeroVoie": "399, rue Saint-Joseph E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": "Soutien à l'organisation de congrès / d'événements"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.224954,
+     46.813957
+    ]
+   }
+  }
+ ]
+}

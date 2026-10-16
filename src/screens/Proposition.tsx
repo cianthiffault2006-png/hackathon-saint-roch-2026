@@ -202,6 +202,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
                   <strong>{p?.nom ?? c.profilId}</strong>
                   {p && !p.reclame && <span className="tag-prerempli">{fr.profil.tagNonReclame}</span>}
                   <span className="apport">{c.apport}</span>
+                  {p?.source === 'ouvert' && <span className="apport apport-source">{p.origine}</span>}
                 </li>
               )
             })}

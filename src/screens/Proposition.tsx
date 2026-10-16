@@ -287,7 +287,8 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           )}
           {onCreer && faibles && <p className="note-faible">{fr.proposition.peuCompatible}</p>}
           {onCreer && (faibles || index === propositions.length - 1) && (
-            <button type="button" className="btn btn-texte btn-petit btn-creer-quand-meme" onClick={onCreer}>
+            // All weak: a real secondary button, not a link under the note.
+            <button type="button" className={faibles ? 'btn btn-creer-quand-meme btn-creer-secondaire' : 'btn btn-texte btn-petit btn-creer-quand-meme'} onClick={onCreer}>
               {fr.proposition.creerQuandMeme}
             </button>
           )}

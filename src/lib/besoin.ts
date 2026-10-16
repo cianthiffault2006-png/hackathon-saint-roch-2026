@@ -30,9 +30,9 @@ export function departDepuisBesoin(besoin: Besoin, profils: Profil[]): Depart {
     // Invited once, for the first matching role (one row in the list, not one per role).
     if (tags.length) invites[voulu.id] = [tags[0]]
   }
-  const court = texte.length > 60 ? `${texte.slice(0, 57).trimEnd()}…` : texte
   return {
-    titre: type ? fr.proposition.typesProjet[type] : court,
+    // A title, not the need sentence: the type when the text names one, else a neutral one. The sentence stays in the description.
+    titre: type ? fr.proposition.typesProjet[type] : fr.proposition.nouveauProjet,
     description: texte,
     type,
     creneau: besoin.creneaux[0],

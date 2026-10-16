@@ -2475,6 +2475,14 @@ body:has(.accueil) .badge-demo {
 .btn-creer-quand-meme {
   width: 100%;
 }
+/* Same outline as the Discussion button: secondary to « Ça m’intéresse », still a button. */
+.btn-creer-secondaire {
+  margin-top: 10px;
+  border: 1px solid var(--vert);
+  background: var(--vert-pale);
+  color: var(--vert-fonce);
+  font-weight: 700;
+}
 
 /* Besoin: who the user acts as, when coming from the explorer */
 .agir-comme {

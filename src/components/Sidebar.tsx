@@ -22,6 +22,7 @@ const elements: ReadonlyArray<{ id: Rubrique; icone: NomIconeUi; texte: string }
   { id: 'projets', icone: 'liste', texte: fr.nav.projets },
   { id: 'explorer', icone: 'boussole', texte: fr.nav.explorer },
   { id: 'nouveau', icone: 'plus', texte: fr.nav.proposer },
+  { id: 'ajout', icone: 'magasin', texte: fr.nav.ajout },
   { id: 'sources', icone: 'sources', texte: fr.nav.sources },
   { id: 'sdc', icone: 'barres', texte: fr.nav.sdc },
 ]

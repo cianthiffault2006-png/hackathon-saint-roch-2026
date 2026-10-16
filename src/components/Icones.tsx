@@ -12,7 +12,7 @@ export const CHEMINS: Record<NomIcone, string> = {
 }
 
 /** Interface icons (navigation), same 24x24 stroke style; not map pins. */
-export type NomIconeUi = 'maison' | 'barres' | 'liste' | 'boussole' | 'plus' | 'sources' | 'menu' | 'fermer'
+export type NomIconeUi = 'maison' | 'barres' | 'liste' | 'boussole' | 'plus' | 'magasin' | 'sources' | 'menu' | 'fermer'
 
 export const CHEMINS_UI: Record<NomIconeUi, string> = {
   maison: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
@@ -20,6 +20,7 @@ export const CHEMINS_UI: Record<NomIconeUi, string> = {
   liste: '<path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
   boussole: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
   plus: '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  magasin: '<path d="M4 9l1.5-5h13L20 9"/><path d="M3 9h18v2.5a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 14v6h14v-6"/><path d="M10 20v-4h4v4"/>',
   sources: '<ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13"/><path d="M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   fermer: '<path d="M6 6l12 12M18 6L6 18"/>',

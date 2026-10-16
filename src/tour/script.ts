@@ -297,7 +297,8 @@ const SUITE: Omit<Etape, 'parcours'>[] = [
 
   {
     id: 'profil', chapitre: 'profil', ecran: 'profil', dureeMs: 6500,
-    gestes: [{ type: 'defile', a: 3200, cible: S.ppOffre, duree: 800, bloc: 'start' }],
+    // No scroll: it pushed the badge under the bar for the last 3.3 s.
+    gestes: [],
   },
   ...RECLAMER,
 

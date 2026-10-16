@@ -90,15 +90,19 @@ function Etiquettes({ el, court, enAttente }: { el: Entree; court?: boolean; enA
 
 const GENRES: Genre[] = ['commerce', 'organisme', 'citoyen', 'lieu', 'evenement']
 
+// Kept for the session: back from a profile or a proposal finds the same filters, search and list mode.
+const memoire = { actifs: { commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true } as Record<Genre, boolean>, requete: '', liste: false }
+
 export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite, masque = false }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
   const reclames = useReclames()
   const attente = (e: Entree) => !visite && reclames[e.id]?.statut === 'en_attente'
-  const [actifsMoi, setActifs] = useState<Record<Genre, boolean>>({ commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true })
-  const [requeteMoi, setRequete] = useState('')
-  const [listeMoi, setListe] = useState(false)
+  const [actifsMoi, setActifs] = useState<Record<Genre, boolean>>(() => memoire.actifs)
+  const [requeteMoi, setRequete] = useState(() => memoire.requete)
+  const [listeMoi, setListe] = useState(() => memoire.liste)
+  useEffect(() => { memoire.actifs = actifsMoi; memoire.requete = requeteMoi; memoire.liste = listeMoi }, [actifsMoi, requeteMoi, listeMoi])
   const [choisi, setChoisi] = useState<string | null>(null)
   // During the tour the screen shows what the tour sets; its own state stays untouched.
   const actifs = visite?.actifs ?? actifsMoi

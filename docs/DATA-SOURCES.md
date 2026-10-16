@@ -61,7 +61,7 @@ Les 19 fichiers fournis sont confidentiels : aucune valeur n'est dans le dépôt
 | CP-LSVC-Collection Art Public-k.xlsx | Artistes et œuvres du quartier : repérer les artistes à relier à des lieux, circuits d'art. | Artistes citoyens fictifs (`origine` : Collection Art Public). |
 | Nombre_étudiants_Québec.xlsx | Ampleur de la clientèle étudiante, donc de bénévoles et de public pour les projets. | Étudiants fictifs bénévoles (`origine` : Nombre_étudiants_Québec). |
 | DEGP-Projets_ETE2026_SaintRoch-Rev.xlsx | Semble lister des projets de logements : nouveaux résidents à accueillir et à relier aux voisins. | Nouveaux résidents fictifs (`origine` : Projets ÉTÉ 2026). |
-| CP-LSVC-Événements à venir-k.xlsx | Éviter les conflits d'horaire, se greffer à un événement existant, trouver des promoteurs déjà actifs. | `evenements.json` : 16 événements fictifs (octobre à décembre 2026), certains promus par des profils. |
+| CP-LSVC-Événements à venir-k.xlsx | Éviter les conflits d'horaire, se greffer à un événement existant, trouver des promoteurs déjà actifs. | `evenements.json` : 18 événements fictifs (octobre à décembre 2026), certains promus par des profils. |
 | CP-LSVC-Liste installations-k.xlsx | Espaces disponibles (salles, centres, équipements) à proposer comme lieu d'un projet. | Lieux ouverts de la Ville (Lieux publics, vque_14) dans `lieux.json`. |
 | GI - ColonnesMorris_Equip_Urbains-k.zip | Points d'affichage pour annoncer un projet (`offres` : affichage, visibilité). | 6 colonnes Morris fictives dans `lieux.json` (`Données fictives`). |
 | TMI - StationnementsHorsRueMunicipaux-k.geojson | Accès au projet : stationnements à proximité d'un lieu. | Stationnements ouverts (vque_14), sans nombre de cases. |
@@ -81,7 +81,7 @@ Position des profils et des événements fictifs : points d'adresse de la Ville 
 | `profils.json` | Fictif : lignes inventées qui reprennent les colonnes des fichiers de la Ville (aucune valeur des fichiers fournis); positions sur des points d'adresse de la Ville de Québec (Adresses, vque, données ouvertes) | CC BY 4.0 pour les points d'adresse; profils fictifs sans licence tierce | « Données fictives » (positions : Source : Ville de Québec, données ouvertes, licence CC BY 4.0) |
 | `lieux.json` (32 lieux ouverts) | Ouvert : Lieux publics (vque_14, Ville de Québec, via Données Québec) et Culture, arts et patrimoine (SIT Québec, ministère du Tourisme), filtrés dans Saint-Roch | CC BY 4.0 | Lieux publics : « Source : Ville de Québec, Lieux publics, licence CC BY 4.0 »; sites culturels : « Source : ministère du Tourisme du Québec (SIT Québec), licence CC BY 4.0 » (champ `attribution` de chaque lieu) |
 | `lieux.json` (6 colonnes Morris) | Fictif | Sans objet | « Données fictives » |
-| `evenements.json` | Fictif : 16 événements inventés (colonnes de Événements à venir), certains promus par des profils fictifs | Sans objet | `source: fictif` |
+| `evenements.json` | Fictif : 18 événements inventés (colonnes de Événements à venir), certains promus par des profils fictifs | Sans objet | `source: fictif` |
 | `quartier.geojson` | Ouvert : Quartiers (vque_9, Ville de Québec, via Données Québec), polygone Saint-Roch | CC BY 4.0 | « Ville de Québec, Quartiers (CC BY 4.0) » (champ `properties.source`, tel que dans le fichier) |
 
 Les lignes d'attribution sont notre formulation : le portail n'impose pas de phrase, seulement de créditer le producteur. Le polygone est publié tel quel; les lieux et points sont des extraits filtrés (« adapté de »).

@@ -99,7 +99,7 @@ D = [
  ("p-photographe", "citoyen", "artiste", "Noé B., photographe", "Photographe de rue qui documente le quartier.", [CA, V], [EI, A, P], [S, W], ["art", "culture"], ART),
  ("p-illustratrice", "citoyen", "artiste", "Zoé L., illustratrice", "Illustratrice qui crée des affiches et des fresques à petite échelle.", [CA, M], [V, EI, F], [J, W], ["art", "commerce_local"], ART),
  ("p-musicien", "citoyen", "artiste", "Félix M., musicien", "Guitariste-chanteur qui cherche des scènes intimes.", [CA, AN], [EI, P, V], [S, W], ["culture", "art"], ART),
- ("p-danseuse", "citoyen", "artiste", "Sofia D., danseuse", "Danseuse contemporaine qui propose des performances de rue.", [CA, AN], [EE, P, V], [W], ["art", "culture"], ART),
+ ("p-danseuse", "citoyen", "artiste", "Léa D., danseuse", "Danseuse contemporaine qui propose des performances de rue.", [CA, AN], [EE, P, V], [W], ["art", "culture"], ART),
  ("p-etu-design", "citoyen", "étudiant", "Hugo T., étudiant en design", "Étudiant en design graphique prêt à créer des affiches.", [B, CA, EX], [V, P], [S, W], ["etudiants", "art"], ETU),
  ("p-etu-social", "citoyen", "étudiant", "Inès K., étudiante en travail social", "Étudiante bénévole qui cherche une cause dans le quartier.", [B, EX], [P, AN], [S, W], ["etudiants", "communautaire"], ETU),
  ("p-etu-genie", "citoyen", "étudiant", "Malik A., étudiant en génie", "Étudiant qui peut monter des installations et du matériel.", [B, M, EX], [V, P], [W], ["etudiants", "environnement"], ETU),

@@ -73,7 +73,7 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
       <p>{profil.description}</p>
       {profil.source === 'ouvert' && <p className="pp-note">{profil.origine}</p>}
 
-      {reclamable && profil.role !== 'citoyen' && (
+      {reclamable && profil.role !== 'citoyen' && profil.source !== 'fourni' && (
         <section className="pp-reclamer" aria-labelledby="pp-reclamer-q">
           <p id="pp-reclamer-q" className="pp-reclamer-q">{fr.reclamer.question[profil.role]}</p>
           <p>{fr.reclamer.ctaAide}</p>
@@ -154,7 +154,9 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         )}
       </section>
 
-      {!apercu && <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>}
+      {profil.source === 'fourni'
+        ? <p className="pp-note">Fiche fournie par la Ville : affichage seulement pendant la présentation.</p>
+        : !apercu && <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>}
       {local?.statut === 'active' && (
         <button type="button" className="pp-btn pp-lien" onClick={() => annulerReclamation(profil.id)}>{fr.reclamer.reinitialiser}</button>
       )}

@@ -2401,3 +2401,6 @@ body:has(.accueil) .badge-demo {
 .btn-discussion-projet svg {
   flex-shrink: 0;
 }
+
+/* Mode présentation (laptop only): the provided-data banner, fixed at the top of every screen. */
+.bandeau-presentation { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; padding: 5px 12px; font-size: 12px; text-align: center; background: rgba(122, 46, 14, .92); color: #fff; pointer-events: none; }

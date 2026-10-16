@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Evenement, Proposition as PropositionType, Role, Statut, Tag } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
+import { fusionnerAffichage } from './lib/presentation'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite, prenom } from './lib/invitation'
@@ -50,6 +51,8 @@ export default function App() {
   // Local « Réclamer ce profil » claims (maillage.reclames) applied once here, so every screen sees the same « pré-rempli ».
   const reclames = useReclames()
   const donnees = useMemo(() => ({ ...brutes, profils: appliquerReclames(brutes.profils, reclames) }), [brutes, reclames])
+  // Explorer and public profiles also show the provided rows in presentation mode; the engine never sees them.
+  const affichage = useMemo(() => fusionnerAffichage(donnees, donnees.presentation), [donnees])
   const [propositions, setPropositions] = useState<PropositionType[]>([])
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
@@ -227,7 +230,7 @@ export default function App() {
   const projetsAffiches = enVisite ? (projetAffiche ? [projetAffiche] : []) : projets
 
   // The tour shows its profile and the explorer as in the raw data: the viewer's own claims never change it.
-  const profilPublic = (enVisite ? brutes.profils.find((p) => p.id === PROFIL_VISITE) : donnees.profils.find((p) => p.id === profilId)) ?? null
+  const profilPublic = (enVisite ? brutes.profils.find((p) => p.id === PROFIL_VISITE) : affichage.profils.find((p) => p.id === profilId)) ?? null
   const suiteVisite = etape?.parcours === 'suite'
   const filProposition = enVisite ? propositionFil : (projetAffiche?.proposition ? { ...projetAffiche.proposition, statut: projetAffiche.statut } : null)
   const filMoi = filProposition ? (donnees.profils.find((p) => p.id === filProposition.partenaires[0]?.profilId) ?? null) : null
@@ -395,9 +398,9 @@ export default function App() {
       )}
       {ecranActif === 'explorer' && (
         <Explorer
-          profils={enVisite ? brutes.profils : donnees.profils}
-          lieux={donnees.lieux}
-          evenements={donnees.evenements}
+          profils={enVisite ? brutes.profils : affichage.profils}
+          lieux={enVisite ? donnees.lieux : affichage.lieux}
+          evenements={enVisite ? donnees.evenements : affichage.evenements}
           onRetour={() => setEcran('accueil')}
           onOuvrirProfil={(id) => { setProfilId(id); setEcran('profil') }}
           visite={ee ? {
@@ -410,8 +413,8 @@ export default function App() {
       {ecranActif === 'profil' && profilPublic && (
         <ProfilPublic
           profil={profilPublic}
-          profils={donnees.profils}
-          evenements={donnees.evenements}
+          profils={affichage.profils}
+          evenements={affichage.evenements}
           onRetour={() => setEcran('explorer')}
           onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
         />
@@ -463,6 +466,7 @@ export default function App() {
       {ecranActif === 'sources' && <Sources lieux={donnees.lieux} profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sdc' && <Sdc profils={enVisite ? brutes.profils : donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
+      {donnees.presentation && <div className="bandeau-presentation" role="note">Données fournies par la Ville et l’UQ, sous entente de confidentialité : affichage local pour la présentation seulement</div>}
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
       <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer', 'ajout'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
       {etat && <Regie index={etat.index} lireMs={lireMs} />}

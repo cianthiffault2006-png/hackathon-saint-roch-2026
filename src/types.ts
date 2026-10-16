@@ -19,7 +19,7 @@ export type TypeProjet =
   | 'animation_de_rue' | 'verdissement' | 'conference' | 'collecte' | 'corvee_proprete';
 
 /** fictif = fake row using the columns of a City file; ouvert = open data; utilisateur = typed in the app */
-export type Source = 'fictif' | 'ouvert' | 'utilisateur';
+export type Source = 'fictif' | 'ouvert' | 'utilisateur' | 'fourni';  // fourni = provided file row, laptop presentation mode only (added day 2)
 
 export interface Profil {
   id: string;

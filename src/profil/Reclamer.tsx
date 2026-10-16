@@ -127,7 +127,8 @@ export default function Reclamer({ profil, onFermer }: Props) {
           <span>{r.titre}</span>
           <strong>{profil.nom}</strong>
         </p>
-        <p className="rc-progres">{r.etape(numero, chemin.length)}</p>
+        {/* The confirmation is not a step: the counter covers the steps before it and hides on it. */}
+        {!terminee && <p className="rc-progres">{r.etape(numero, chemin.length - 1)}</p>}
         <div className="rc-barre" aria-hidden="true">
           {chemin.map((e, i) => <span key={e} className={i < numero ? 'rc-point rc-point-on' : 'rc-point'} />)}
         </div>

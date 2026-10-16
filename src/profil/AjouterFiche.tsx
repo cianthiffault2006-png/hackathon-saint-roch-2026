@@ -11,7 +11,6 @@ import './Reclamer.css'
 const a = fr.ajout
 const r = fr.reclamer
 const TYPES: TypeAjout[] = ['commerce', 'organisme', 'citoyen']
-const ETAPES = 2
 
 interface Props {
   profils: Profil[]
@@ -73,7 +72,6 @@ export default function AjouterFiche({ profils, evenements, onFermer }: Props) {
   }
 
   const invalide = (cle: ErreurAjout) => (erreur === cle ? { 'aria-invalid': true as const, 'aria-describedby': idErreur } : {})
-  const numero = envoyee ? 2 : 1
 
   return (
     <main className="rc-racine">
@@ -85,10 +83,7 @@ export default function AjouterFiche({ profils, evenements, onFermer }: Props) {
           <span>{a.contexte}</span>
           <strong>{a.titre}</strong>
         </p>
-        <p className="rc-progres">{r.etape(numero, ETAPES)}</p>
-        <div className="rc-barre" aria-hidden="true">
-          {Array.from({ length: ETAPES }, (_, i) => <span key={i} className={i < numero ? 'rc-point rc-point-on' : 'rc-point'} />)}
-        </div>
+        {/* One form, then a confirmation: no « Étape 1 sur 2 » counter. */}
 
         {!envoyee && (
           <form ref={formulaire} className="rc-etape" onSubmit={envoyer} noValidate>

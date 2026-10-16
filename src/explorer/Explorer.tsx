@@ -65,7 +65,11 @@ function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): 
   }
   for (const l of lieux) {
     // Places of worship arrive typed « salle » (vque_45); their licence line says what they are.
-    const type = l.attribution.includes('Lieux de culte') ? 'Lieu de culte' : LIEU_TYPES[l.type]
+    // A parking lot offers nothing to a project: its row says what it is and who lists it, nothing more.
+    const producteur = l.attribution.replace(/^Source : /, '').split(', ')[0]
+    const type = l.attribution.includes('Lieux de culte') ? 'Lieu de culte'
+      : l.type === 'stationnement' && l.source === 'ouvert' ? `Stationnement public · ${producteur}`
+      : LIEU_TYPES[l.type]
     out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: type, lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${type}`) })
   }
   for (const e of evenements) out.push({ id: e.id, genre: 'evenement', nom: e.titre, detail: e.categorie, lat: e.lat, lng: e.lng, evenement: e, recherche: sans([e.titre, e.categorie, e.lieuNom, ...themesTxt(e.themes)].join(' ')) })

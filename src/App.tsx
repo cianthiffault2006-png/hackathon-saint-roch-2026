@@ -398,8 +398,10 @@ export default function App() {
           ) : null}
         />
       )}
-      {ecranActif === 'explorer' && (
+      {/* Outside the tour the explorer stays mounted, hidden, under a public profile: « ← Retour » finds it as left. */}
+      {(ecranActif === 'explorer' || (ecranActif === 'profil' && !enVisite)) && (
         <Explorer
+          masque={ecranActif === 'profil'}
           profils={enVisite ? brutes.profils : affichage.profils}
           lieux={enVisite ? donnees.lieux : affichage.lieux}
           evenements={enVisite ? donnees.evenements : affichage.evenements}

@@ -33,6 +33,8 @@ interface Props {
   onOuvrirProfil(id: string): void
   /** Guided tour: filters, search and list view come from the tour clock. */
   visite?: { actifs: Record<NomIcone, boolean>; requete: string; liste: boolean }
+  /** Hidden behind a public profile: stays mounted so search, filters, list mode and map position survive « ← Retour ». */
+  masque?: boolean
 }
 
 const sans = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -81,7 +83,7 @@ function Etiquettes({ el, court }: { el: Entree; court?: boolean }) {
 
 const GENRES: Genre[] = ['commerce', 'organisme', 'citoyen', 'lieu', 'evenement']
 
-export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite }: Props) {
+export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite, masque = false }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
@@ -141,11 +143,11 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
     })
   }, [visibles])
 
-  // La carte reste montée (cachée) pendant la vue liste: position et zoom conservés.
-  useEffect(() => { if (!liste) carte.current?.resize() }, [liste])
+  // La carte reste montée (cachée) pendant la vue liste et derrière un profil: position et zoom conservés.
+  useEffect(() => { if (!liste && !masque) carte.current?.resize() }, [liste, masque])
 
   return (
-    <div className="ex-racine">
+    <div className="ex-racine" hidden={masque}>
       <div ref={conteneur} className="ex-carte" role="img" aria-label={t.carteAria} hidden={liste} />
       <header className="ex-haut">
         <div className="ex-ligne">

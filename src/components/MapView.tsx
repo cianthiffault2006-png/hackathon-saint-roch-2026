@@ -167,6 +167,8 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     // MapLibre positions the marker element with a transform, so the drop animates an inner node.
     marqueurs.current = pins.map((p, i) => {
       const el = document.createElement('div')
+      // Partner and place pins always draw above event pins (an event at the café's address hid its pin).
+      el.style.zIndex = p.type === 'evenement' ? '1' : '2'
       const interieur = document.createElement('div')
       interieur.className = 'pin-forme'
       if (chute) interieur.style.animationDelay = `${i * delaiPinMs}ms`

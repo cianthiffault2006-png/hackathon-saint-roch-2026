@@ -221,8 +221,14 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       // Phones: the licence line sits bottom-left above the sheet, so keep pins and their labels (about 50 px below the centre) clear of it.
       const telephone = window.innerWidth < 900
       const licence = telephone ? document.querySelector('.screen-carte .attribution')?.getBoundingClientRect().height ?? 0 : 0
-      const cote = telephone ? 72 : 50
-      map.fitBounds(bornes, { padding: { top: margeHaut, left: cote, right: cote, bottom: margeBas + 40 + (telephone ? licence + 50 : 0) }, maxZoom: 17, duration: 700 })
+      // Short canvases (landscape phones, 853x480): MapLibre refuses a fit whose padding exceeds the canvas and the map
+      // stays at city scale. Keep at least 140 px of map on each axis, scaling the paddings down together.
+      const { clientWidth: largeur, clientHeight: hauteur } = map.getContainer()
+      const haut = margeHaut
+      const bas = margeBas + 40 + (telephone ? licence + 50 : 0)
+      const kV = Math.min(1, Math.max(0, hauteur - 140) / Math.max(1, haut + bas))
+      const cote = Math.min(telephone ? 72 : 50, Math.max(0, largeur - 140) / 2)
+      map.fitBounds(bornes, { padding: { top: Math.round(haut * kV), left: cote, right: cote, bottom: Math.round(bas * kV) }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)

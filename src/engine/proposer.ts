@@ -245,7 +245,10 @@ function diversifier(tries: Proposition[], n: number): Proposition[] {
   const out: Proposition[] = tries.slice(0, 1);
   const different = (p: Proposition) =>
     out.every((o) => p.titre !== o.titre && (p.type !== o.type || !partIds(p).some((i) => partIds(o).includes(i))));
+  // Scores proches (5 points du meilleur): un autre type de projet passe d'abord.
+  const proche = (p: Proposition) => !!out[0] && out[0].score - p.score <= 5 && out.every((o) => o.type !== p.type);
   const passes: ((p: Proposition) => boolean)[] = [
+    (p) => p.score > 50 && proche(p) && different(p),
     (p) => p.score > 50 && different(p),
     (p) => p.score > 50 && out.every((o) => p.titre !== o.titre),
     () => true,

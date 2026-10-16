@@ -53,7 +53,8 @@ for p in profils:
     sub(p["themes"], THEME, p["id"] + " themes", True)
     assert inside(p), p["id"] + " outside outline"
 # Real establishments (open data, build_open_rows.py): never claimed in the demo, no contact, licence line in origine.
-for p in [p for p in profils if p["source"] == "ouvert"]:
+ouverts = [p for p in profils if p["source"] == "ouvert"]
+for p in ouverts:
     assert not p["reclame"] and not p["contactPublic"] and p["origine"].startswith("Source : "), p["id"]
 profils = [p for p in profils if p["source"] == "fictif"]
 assert 40 <= len(profils) <= 55
@@ -97,4 +98,4 @@ for e in evs:
     assert inside(e), e["id"] + " outside outline"
 assert sum(e['ouvertAuPublic'] for e in evs) >= 8
 assert 14 <= len(evs) <= 20 and any("promoteurId" in e for e in evs)
-print(f"OK: {len(profils)} profils, {len(lieux)} lieux, {len(evs)} evenements, outline valid, ids unique, story trio present")
+print(f"OK: {len(profils)} profils fictifs + {len(ouverts)} reels (donnees ouvertes), {len(lieux)} lieux, {len(evs)} evenements, outline valid, ids unique, story trio present")

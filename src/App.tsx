@@ -12,7 +12,7 @@ import { fr } from './i18n/fr'
 import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
-import Besoin from './screens/Besoin'
+import Besoin, { type Brouillon } from './screens/Besoin'
 import FilProjet from './projet/FilProjet'
 import NouveauProjet from './projet/NouveauProjet'
 import Explorer from './explorer/Explorer'
@@ -60,6 +60,8 @@ export default function App() {
   const [ouvertId, setOuvertId] = useState<string | null>(null)
   const [discussionId, setDiscussionId] = useState<string | null>(null)
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
+  // What was typed for that need, so « ← » from the proposal brings it back; a new role from the accueil starts blank.
+  const [brouillon, setBrouillon] = useState<(Brouillon & { role: Role }) | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
   const [annonce, setAnnonce] = useState('')
@@ -127,8 +129,9 @@ export default function App() {
     [enVisite, donnees],
   )
 
-  function trouver(besoin: BesoinType) {
+  function trouver(besoin: BesoinType, brouillon: Brouillon) {
     setDernierBesoin(besoin)
+    setBrouillon({ role: besoin.auteurRole, ...brouillon })
     const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
     setPropositions(trouvees)
     setAnnonce(fr.proposition.nombreTrouvees(trouvees.length))
@@ -265,7 +268,7 @@ export default function App() {
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
-          onRole={(r) => { setRole(r); setEcran('besoin') }}
+          onRole={(r) => { setRole(r); setBrouillon(null); setEcran('besoin') }}
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
@@ -293,6 +296,7 @@ export default function App() {
           role={enVisite ? ROLE_VISITE : role}
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
+          initial={!enVisite && brouillon && brouillon.role === role ? brouillon : undefined}
           guide={guideBesoin}
           onRetour={() => setEcran('accueil')}
           onTrouver={trouver}

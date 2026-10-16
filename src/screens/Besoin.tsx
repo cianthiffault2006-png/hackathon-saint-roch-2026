@@ -5,15 +5,22 @@ import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
+/** What was typed and tapped, as is: given back with the need so « ← » from the proposal restores it. */
+export interface Brouillon extends Choix {
+  texte: string
+}
+
 interface Props {
   role: Role
   profils: Profil[]
   onRetour: () => void
-  onTrouver: (besoin: BesoinType) => void
+  onTrouver: (besoin: BesoinType, brouillon: Brouillon) => void
   /** Guided tour: the text and the chips come from the tour clock (the screen shows them as given). */
   guide?: GuideBesoin
   /** A profile opened in the explorer: its offers become needs, and its name shows above the field. */
   partenaireVoulu?: Profil
+  /** The previous draft for this role, when coming back from the proposal. */
+  initial?: Brouillon
 }
 
 export interface GuideBesoin {
@@ -35,14 +42,14 @@ function ajouter<T>(prev: T[], plus: T[]): T[] {
   return Array.from(new Set([...prev, ...plus]))
 }
 
-export default function Besoin({ role, profils, onRetour, onTrouver, guide, partenaireVoulu }: Props) {
-  const [texte, setTexte] = useState('')
-  const [cherche, setCherche] = useState<Tag[]>([])
-  const [offre, setOffre] = useState<Tag[]>([])
-  const [creneaux, setCreneaux] = useState<Creneau[]>([])
+export default function Besoin({ role, profils, onRetour, onTrouver, guide, partenaireVoulu, initial }: Props) {
+  const [texte, setTexte] = useState(initial?.texte ?? '')
+  const [cherche, setCherche] = useState<Tag[]>(initial?.cherche ?? [])
+  const [offre, setOffre] = useState<Tag[]>(initial?.offre ?? [])
+  const [creneaux, setCreneaux] = useState<Creneau[]>(initial?.creneaux ?? [])
   const asker = trouverAsker(role, profils)
   // What the text gave at the previous keystroke, so chips it no longer gives can be taken off.
-  const luAvant = useRef<Choix>({ cherche: [], offre: [], creneaux: [] })
+  const luAvant = useRef<Choix>(initial ? choixDepuisTexte(role, initial.texte, profils) : { cherche: [], offre: [], creneaux: [] })
   const main = useRef({ cherche: manuels<Tag>(), offre: manuels<Tag>(), creneaux: manuels<Creneau>() }).current
 
   useEffect(() => {
@@ -65,7 +72,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   }
 
   function soumettre() {
-    onTrouver(construireBesoin(role, texte, profils, { cherche, offre, creneaux }))
+    onTrouver(construireBesoin(role, texte, profils, { cherche, offre, creneaux }), { texte, cherche, offre, creneaux })
   }
 
   // During the tour the screen only shows what the tour sets; nothing is kept in its own state.

@@ -2,7 +2,7 @@
 
 Équipe 14, Hackathon étudiant 2026 Saint-Roch. Vendredi 16 octobre, 14 h 30.
 Deux voix : [COÉQUIPIÈRE] ouvre et conclut, [CIAN] fait la démo. Cian clique lui-même pendant qu’il parle. Les autres ne parlent pas, sauf aux questions.
-Durée visée : 4 min 33 s à 150 mots par minute (débit normal à voix haute en français), 4 min 45 s au plus; arrêt ferme à 4 min 50 s. Décompte : dernière section. Plan d’écran (qui parle, ce qui est projeté, qui clique, repli) : `ECRAN.md`.
+Durée visée : 4 min 41 s à 150 mots par minute (débit normal à voix haute en français), 4 min 45 s au plus; arrêt ferme à 4 min 50 s. Décompte : dernière section. Plan d’écran (qui parle, ce qui est projeté, qui clique, repli) : `ECRAN.md`.
 
 Convention : les lignes en citation (`>`) sont dites à voix haute, mot pour mot. Tout le reste est une consigne. Pas de tiret long dans le texte dit.
 
@@ -14,11 +14,11 @@ Le lien Vercel est figé sur une ancienne version (sans Explorer, sans fil, sans
 | 1. Accroche, quoi, qui | COÉQUIPIÈRE | 0:00 | 18 s |
 | 2. Le problème | COÉQUIPIÈRE | 0:18 | 32 s (dont 5 s de citation ou de repli) |
 | 3. La démo | CIAN | 0:50 | 1 min 45 s |
-| 4. Les données | CIAN | 2:35 | 42 s |
-| 5. Transparence et IA | COÉQUIPIÈRE | 3:17 | 18 s |
-| 6. Impact, pilote, faisabilité | CIAN | 3:35 | 46 s |
-| 7. Conclusion | COÉQUIPIÈRE | 4:21 | 12 s |
-| Fin | | 4:33 | marge de 12 s avant 4:45 |
+| 4. Les données | CIAN | 2:35 | 50 s |
+| 5. Transparence et IA | COÉQUIPIÈRE | 3:25 | 18 s |
+| 6. Impact, pilote, faisabilité | CIAN | 3:43 | 46 s |
+| 7. Conclusion | COÉQUIPIÈRE | 4:29 | 12 s |
+| Fin | | 4:41 | marge de 4 s avant 4:45 : la coupe de Sofia est acquise, la suivante se décide à la répétition |
 
 ---
 
@@ -73,22 +73,22 @@ Diapo 3 (2 s), puis l’écran de l’app. Cian clique et parle en même temps. 
 
 Plan B si l’app plante ou si la carte est encore grise à 1:20 : Cian revient à l’accueil et touche « Visite guidée ». La visite complète dure 2 min en 7 chapitres (plus une suite de 69 s) : trop long pour le créneau. Jouer seulement les chapitres 1 à 4 (Ouverture, Le besoin, La proposition, Côté partenaire : environ 73 s d’après les durées du script de la visite, à chronométrer une fois en répétition), puis toucher « Quitter la visite » dès que le chapitre 5 « La fiche » commence. Pendant la lecture, Cian dit les lignes des étapes 2 à 5 ci-dessus sur ce qui s’affiche, sans refaire les clics et sans s’excuser; puis partie 4. La vidéo de secours (plan C) reste le dernier recours (Q la lance).
 
-## 4. Les données (2:35 à 3:17) [CIAN]
+## 4. Les données (2:35 à 3:25) [CIAN]
 Diapo 4 (Technologies, outils et données).
 
 > Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche.
-> Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Le code part à l’adresse que la SDC ou la Ville a déjà au dossier, jamais à celle qu’on tape. Dans cette démo, les fiches pré-remplies sont fictives et marquées. Les personnes, elles, ne sont jamais pré-remplies.
+> Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Le code part à l’adresse que la SDC ou la Ville a déjà au dossier, jamais à celle qu’on tape. Dans cette démo, la carte mêle des fiches fictives et de vrais commerces des données ouvertes du SIT Québec, chacun marqué pré-rempli tant que son responsable ne l’a pas réclamé. Les personnes, elles, ne sont jamais pré-remplies.
 
-Notes (Q&A si on demande) : la règle du pilote est la phrase principale; « dans cette démo, les fiches pré-remplies sont fictives et marquées » est la moitié qui sert en questions et dans les notes de diapo. Dans l’app, « Réclamer votre fiche » envoie un code à l’adresse déjà au dossier de la SDC ou de la Ville (jamais à une adresse tapée par le demandeur), puis demande un consentement explicite; sans lien, le demandeur donne un courriel professionnel et la SDC vérifie à la main; le code de démo est affiché (482 913), aucun courriel ne part. Dans la démo, les neuf fiches pré-remplies (fictives) sont visibles sur la carte avec l’étiquette « Pré-rempli · visible ici pour la démo », sans coordonnées : c’est voulu, pour montrer le mécanisme; la règle du pilote (visibles par la SDC seulement) n’est pas codée. Les fichiers fournis restent confidentiels (structure et nombre de lignes seulement). Les nombres sont des totaux de lignes, approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
+Notes (Q&A si on demande) : la règle du pilote est la phrase principale; « dans cette démo, la carte mêle des fiches fictives et de vrais commerces des données ouvertes, marqués pré-rempli » est la moitié qui sert en questions et dans les notes de diapo. Dans l’app, « Réclamer votre fiche » envoie un code à l’adresse déjà au dossier de la SDC ou de la Ville (jamais à une adresse tapée par le demandeur), puis demande un consentement explicite; sans lien, le demandeur donne un courriel professionnel et la SDC vérifie à la main; le code de démo est affiché (482 913), aucun courriel ne part. Dans la démo, les fiches pré-remplies sont visibles sur la carte avec l’étiquette « Pré-rempli · visible ici pour la démo », sans coordonnées : neuf fictives, plus seize commerces réels (12 restos et cafés, 3 loisirs, 1 organisme touristique) tirés des données ouvertes du SIT Québec, ministère du Tourisme, CC BY 4.0 (65 profils en tout, 40 lieux publics, 18 événements, après la fusion de data/open-d2); c’est voulu, pour montrer le mécanisme; la règle du pilote (visibles par la SDC seulement) n’est pas codée. Les fichiers fournis restent confidentiels (structure et nombre de lignes seulement). Les nombres sont des totaux de lignes, approuvés par les organisateurs. Ne jamais dire « dans Saint-Roch » pour un fichier qui couvre toute la ville. Nos règles s’appuient aussi sur le Plan d’action Saint-Roch.
 
-## 5. Transparence et IA (3:17 à 3:35) [COÉQUIPIÈRE]
+## 5. Transparence et IA (3:25 à 3:43) [COÉQUIPIÈRE]
 Diapo 5. Les chiffres du test restent dans les notes de la diapo, pas à voix haute.
 
 > Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. L’app tolère déjà les fautes et un peu d’anglais; en phase 2, l’IA comprendra toutes les langues, toutes les fautes. L’app suggère, les personnes décident.
 
 Notes (si on veut aller plus loin, sinon en Q&A) : modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/); 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase; il comprend le sens mais trouve des profils semblables, pas complémentaires. Ce modèle (paraphrase-multilingual-MiniLM) est multilingue : c’est la preuve que la phase 2 peut lire toutes les langues. Tolérance aux fautes, aux accents oubliés et à quelques mots d’anglais ajoutée le 15 octobre, après la remarque d’un mentor. Pas d’IA payante aujourd’hui; en phase 2, celui qui déploie la paie.
 
-## 6. Impact, pilote, faisabilité (3:35 à 4:21) [CIAN]
+## 6. Impact, pilote, faisabilité (3:43 à 4:29) [CIAN]
 Diapo 6 (Impact et feuille de route).
 
 > L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
@@ -96,7 +96,7 @@ Diapo 6 (Impact et feuille de route).
 > Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada. Le tableau de modération pour la SDC est prévu, pas construit.
 > Ce qu’on demande à la SDC : dix membres volontaires, un trimestre, une personne à temps partiel et un export du fichier des membres. On mesure trois chiffres, et on décide ensemble si on étend.
 
-## 7. Conclusion (4:21 à 4:33) [COÉQUIPIÈRE]
+## 7. Conclusion (4:29 à 4:41) [COÉQUIPIÈRE]
 Diapo 7.
 
 > Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci!
@@ -125,11 +125,11 @@ Recompté le 16 octobre au matin (consentement en deux moitiés, ligne Réciproc
 | 1. Accroche, quoi, qui | 41 | 16 s | 0 | 18 s | 19 s |
 | 2. Le problème | 77 | 31 s | 0 (une seule version de la carte) | 32 s | 36 s |
 | 3. La démo (étapes 1 à 5) | 160 | 64 s | environ 40 s | 1 min 45 s | 74 s |
-| 4. Les données | 106 | 42 s | 0 | 42 s | 49 s |
+| 4. Les données | 126 | 50 s | 0 | 50 s | 58 s |
 | 5. Transparence et IA | 42 | 17 s | 0 | 18 s | 19 s |
 | 6. Impact, pilote, faisabilité | 114 | 46 s | 0 | 46 s | 53 s |
 | 7. Conclusion | 30 | 12 s | 0 | 12 s | 14 s |
-| Total | 570 | 3 min 48 s | environ 40 s | 4 min 33 s (4 min 28 s calculé, 5 s de jeu) | 5 min 03 s avec les clics |
+| Total | 590 | 3 min 56 s | environ 40 s | 4 min 41 s (4 min 36 s calculé, 5 s de jeu) | 5 min 12 s avec les clics |
 
-À 130 mots par minute on dépasse 4:45 de 18 s : si la répétition chronométrée donne plus de 4:45, on garde le débit normal, on ne coupe pas; si on dépasse encore, appliquer l’ordre de coupe des notes de répétition (Sofia, puis « Réciprocité 58 % », puis « Le code part à l’adresse… jamais à celle qu’on tape », 7 s).
+À 130 mots par minute on dépasse 4:45 de 27 s : si la répétition chronométrée donne plus de 4:45, on garde le débit normal, on ne coupe pas; si on dépasse encore, appliquer l’ordre de coupe des notes de répétition (Sofia, puis « Réciprocité 58 % », puis « Le code part à l’adresse… jamais à celle qu’on tape », 7 s).
 L’étape 6 de la démo [SI LE TEMPS LE PERMET] ajoute environ 37 mots et 25 s avec les clics : à faire seulement si le chrono est sous 2:15 à la fin de l’étape 5.

@@ -2,7 +2,7 @@
 
 Rôles : **Cian** clique sur le portable (écran en miroir). La **coéquipière** ouvre et conclut, Cian parle pendant la démo (U répète les textes de docs/pitch/). Q chronomètre depuis la salle et tient le plan C.
 Lien officiel : https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ (GitHub Pages). Le lien Vercel (https://hackathon-saint-roch-2026.vercel.app) est figé sur une ancienne version sans Explorer, sans fil et sans « Proposer un projet » : secours seulement, peut être périmé.
-Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de 0:50 à 2:35; total visé 4:33, 4:45 au plus). Le plan écran par écran (projecteur, fenêtre, zoom, repli) est dans docs/pitch/ECRAN.md. Le tableau ci-dessous en est le résumé pour les clics.
+Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de 0:50 à 2:35; total visé 4:41, 4:45 au plus). Le plan écran par écran (projecteur, fenêtre, zoom, repli) est dans docs/pitch/ECRAN.md. Le tableau ci-dessous en est le résumé pour les clics.
 
 ## Déroulement minuté
 
@@ -16,10 +16,10 @@ Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de
 | 1:30 | Cian | Montrer « Pourquoi cette suggestion », « À confirmer », puis toucher **Comment ce score** | Chaque suggestion s’explique. Ligne à dire sur les barres : « Réciprocité 58 % : le café comble une partie des besoins de ses deux partenaires, pas tout, et on le dit. » |
 | 1:52 | Cian | **Ça m’intéresse**, puis **Voir ce que Camille reçoit**, puis **Accepter** | Le lien « Voir ce que Camille reçoit » apparaît après une seconde et reste affiché (statut « En attente des partenaires » jusqu’à Accepter, vérifié le 16 octobre) : parler, puis le toucher, puis montrer l’invitation de Camille (jeudi 22 octobre, 19 h à 22 h) et l’accepter. Projet confirmé (réponse du Collectif simulée). |
 | 2:20 | Cian | [SI LE TEMPS LE PERMET, chrono sous 2:15 à la fin de l’étape précédente] Accueil, **Proposer un projet**, **Exemple**, « Avant de commencer » | Sofia, corvée du samedi 24 octobre, 13 h à 17 h; la ligne du 311. Sinon, sauter. |
-| 2:35 à 3:17 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25 en deux moitiés (public après réclamation avec code et consentement; en pilote, non réclamé visible par la SDC seulement; dans la démo, fiches fictives marquées). |
-| 3:17 à 3:35 | Coéquipière | Diapo 5 | Transparence et IA. |
-| 3:35 à 4:21 | Cian | Diapo 6 | Impact, portée, fil simulé et fil réel en option, tableau de modération prévu pas construit, demande de pilote (dix membres, un trimestre, une personne à temps partiel, un export des membres, trois mesures). |
-| 4:21 à 4:33 | Coéquipière | Diapo 7 (lien et QR GitHub Pages) | Conclusion, Merci. Arrêt au plus tard à 4:50. |
+| 2:35 à 3:25 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25 en deux moitiés (public après réclamation avec code et consentement; en pilote, non réclamé visible par la SDC seulement; dans la démo, fiches fictives et vrais commerces des données ouvertes, marqués pré-rempli). |
+| 3:25 à 3:43 | Coéquipière | Diapo 5 | Transparence et IA. |
+| 3:43 à 4:29 | Cian | Diapo 6 | Impact, portée, fil simulé et fil réel en option, tableau de modération prévu pas construit, demande de pilote (dix membres, un trimestre, une personne à temps partiel, un export des membres, trois mesures). |
+| 4:29 à 4:41 | Coéquipière | Diapo 7 (lien et QR GitHub Pages) | Conclusion, Merci. Arrêt au plus tard à 4:50. |
 
 Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 2:15 si la démo n’est pas finie (sauter l’étape Sofia), 1 doigt à 4:00 et 2 doigts à 4:30 si on dépasse.
 

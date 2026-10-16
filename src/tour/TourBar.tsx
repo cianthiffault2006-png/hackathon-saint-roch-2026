@@ -5,6 +5,9 @@ import { CHAPITRES, bornes, dureeParcours, minutes, tempsGlobal } from './etat'
 import type { EtatVisite } from './useTour'
 import './visite.css'
 
+// Recording the demo video: `?enregistrement=1` hides the four buttons; chapter, caption and progress stay.
+const ENREGISTREMENT = new URLSearchParams(window.location.search).get('enregistrement') === '1'
+
 interface Props {
   etat: EtatVisite
   /** The caption of the current step, with its live values. */
@@ -139,20 +142,22 @@ export default function TourBar({ etat, legende, onPause, onSuivant, onPrecedent
             ))}
           </div>
         </div>
-        <div className="visite-actions">
-          <button type="button" className="visite-btn" data-action="precedent" onClick={onPrecedent} disabled={premiere}>
-            {fr.visite.precedent}
-          </button>
-          <button type="button" className="visite-btn" data-action="pause" onClick={onPause}>
-            {etat.pause ? fr.visite.reprendre : fr.visite.pause}
-          </button>
-          <button type="button" className="visite-btn" data-action="suivant" onClick={onSuivant} disabled={fin}>
-            {fr.visite.suivant}
-          </button>
-          <button type="button" className="visite-btn visite-quitter" data-action="quitter" onClick={onQuitter}>
-            {fr.visite.quitter}
-          </button>
-        </div>
+        {!ENREGISTREMENT && (
+          <div className="visite-actions">
+            <button type="button" className="visite-btn" data-action="precedent" onClick={onPrecedent} disabled={premiere}>
+              {fr.visite.precedent}
+            </button>
+            <button type="button" className="visite-btn" data-action="pause" onClick={onPause}>
+              {etat.pause ? fr.visite.reprendre : fr.visite.pause}
+            </button>
+            <button type="button" className="visite-btn" data-action="suivant" onClick={onSuivant} disabled={fin}>
+              {fr.visite.suivant}
+            </button>
+            <button type="button" className="visite-btn visite-quitter" data-action="quitter" onClick={onQuitter}>
+              {fr.visite.quitter}
+            </button>
+          </div>
+        )}
       </div>
     </>
   )

@@ -58,6 +58,54 @@ function cerclePoints(lng: number, lat: number, rayonM: number): number[][] {
 /** The last set of pins that dropped, kept across remounts (ids joined). */
 let dernierLot = ''
 
+interface Boite { x: number; y: number; w: number; h: number }
+const chevauche = (a: Boite, b: Boite) =>
+  Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y))
+const PLACES = ['bas', 'droite', 'gauche', 'haut'] as const
+type Place = (typeof PLACES)[number]
+const DEMI_PIN = 20 // .pin-forme is 40 px, centred on the point
+const ECART = 22 // gap between the point and the label: matches the data-place offsets in styles.css
+
+/** A label sits under its pin; when that lands on another pin or label (or off the map), it moves right, left, then above. */
+function placerEtiquettes(map: Map, marqueurs: Marker[]) {
+  const { clientWidth, clientHeight } = map.getContainer()
+  const carte: Boite = { x: 0, y: 0, w: clientWidth, h: clientHeight }
+  const pts = marqueurs.map((m) => map.project(m.getLngLat()))
+  const pins = pts.map((p): Boite => ({ x: p.x - DEMI_PIN, y: p.y - DEMI_PIN, w: 2 * DEMI_PIN, h: 2 * DEMI_PIN }))
+  // The licence line and the legend float over the map: a label must not hide under them either.
+  const cont = map.getContainer().getBoundingClientRect()
+  const poses: Boite[] = Array.from(document.querySelectorAll('.attribution, .legende'))
+    .map((el) => el.getBoundingClientRect())
+    .filter((r) => r.width > 0)
+    .map((r): Boite => ({ x: r.left - cont.left, y: r.top - cont.top, w: r.width, h: r.height }))
+  // Top pins first: their labels keep the default spot, lower ones move around them.
+  const ordre = marqueurs.map((_, i) => i).sort((a, b) => pts[a].y - pts[b].y)
+  for (const i of ordre) {
+    const et = marqueurs[i].getElement().querySelector<HTMLElement>('.pin-etiquette')
+    if (!et) continue
+    const w = et.offsetWidth
+    const h = et.offsetHeight
+    const p = pts[i]
+    const candidats: Record<Place, Boite> = {
+      bas: { x: p.x - w / 2, y: p.y + ECART, w, h },
+      droite: { x: p.x + ECART, y: p.y - h / 2, w, h },
+      gauche: { x: p.x - ECART - w, y: p.y - h / 2, w, h },
+      haut: { x: p.x - w / 2, y: p.y - ECART - h, w, h },
+    }
+    const obstacles = [...pins.filter((_, j) => j !== i), ...poses]
+    let choix: Place = 'bas'
+    let gene = Infinity
+    for (const place of PLACES) {
+      const b = candidats[place]
+      const g = obstacles.reduce((s, o) => s + chevauche(b, o), 0) + (w * h - chevauche(b, carte))
+      if (g < gene) { gene = g; choix = place }
+      if (g === 0) break
+    }
+    et.dataset.place = choix
+    poses.push(candidats[choix])
+  }
+}
+
 export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
@@ -102,6 +150,8 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     const canvas = map.getCanvas()
     canvas.setAttribute('aria-hidden', 'true')
     canvas.tabIndex = -1
+    // Labels are placed again after every fit, zoom or pan (moveend covers all three).
+    map.on('moveend', () => placerEtiquettes(map, marqueurs.current))
     return () => {
       map.remove()
       carte.current = null
@@ -117,6 +167,8 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
     // MapLibre positions the marker element with a transform, so the drop animates an inner node.
     marqueurs.current = pins.map((p, i) => {
       const el = document.createElement('div')
+      // Partner and place pins always draw above event pins (an event at the café's address hid its pin).
+      el.style.zIndex = p.type === 'evenement' ? '1' : '2'
       const interieur = document.createElement('div')
       interieur.className = 'pin-forme'
       if (chute) interieur.style.animationDelay = `${i * delaiPinMs}ms`
@@ -130,7 +182,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
         etiquette.className = 'pin-etiquette'
         if (chute) etiquette.style.animationDelay = `${i * delaiPinMs + 300}ms`
         else etiquette.style.animation = 'none'
-        etiquette.textContent = p.label.length > 20 ? `${p.label.slice(0, 19)}…` : p.label
+        etiquette.textContent = p.label // long names wrap to two lines (styles.css), nothing is cut
         el.appendChild(etiquette)
       }
       // Tap popup with the full name and the role.
@@ -158,6 +210,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       const popup = new Popup({ offset: 24, closeButton: false }).setDOMContent(contenu)
       return new Marker({ element: el }).setLngLat([p.lng, p.lat]).setPopup(popup).addTo(map)
     })
+    placerEtiquettes(map, marqueurs.current)
 
     // Thin dashed lines from the asker (first partner) to each other partner, and a 400 m ring
     // around the asker (about 5 minutes on foot), drawn once the pins have dropped.

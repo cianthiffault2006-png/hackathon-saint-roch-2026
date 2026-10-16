@@ -143,7 +143,9 @@ const nettoyage = [
 export function listeAvant(type: TypeProjet, texte: string): string[] {
   const res: string[] = []
   if (/graffiti|nettoy|corv[ée]e|propret/i.test(texte)) res.push(...nettoyage)
-  for (const x of [...parType[type], ...generique]) if (!res.includes(x)) res.push(x)
+  // One « Autorisation… » line is enough: the cleanup or type-specific one wins over the generic one.
+  const autorisation = (x: string) => x.startsWith('Autorisation')
+  for (const x of [...parType[type], ...generique]) if (!res.includes(x) && !(autorisation(x) && res.some(autorisation))) res.push(x)
   return res.slice(0, 6)
 }
 

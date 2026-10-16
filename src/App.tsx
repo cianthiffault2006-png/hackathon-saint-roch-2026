@@ -433,7 +433,7 @@ export default function App() {
             proposition={filProposition}
             profils={donnees.profils}
             moi={filMoi}
-            onRetour={() => setEcran('fiche')}
+            onRetour={() => { setDiscussionId(null); setEcran('fiche') }}
             visite={ee && invite ? {
               onglet: ee.onglet,
               discussion: <FilVisite fil={ee.fil} moi={invite.demandeur.nom} partenaire={invite.partenaire.nom} autre={invite.autre?.nom ?? ''} />,

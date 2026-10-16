@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { Profil, Proposition, Tag } from '../types'
-import { fr } from '../i18n/fr'
+import type { Profil, Proposition } from '../types'
+import { CRENEAU_TXT, lib } from '../engine/proposer'
 import { libelleDate } from '../lib/date'
 import { dateProposee } from '../lib/projets'
 import './InvitationPartenaire.css'
@@ -25,16 +25,17 @@ function distanceM(a: Profil, b: Profil): number {
 
 // Reasons written from the partner's side (the engine's raisons are the asker's side).
 function construireRaisons(prop: Proposition, part: Profil, dem: Profil): string[] {
+  // Same article-aware labels as the engine (« du public », « de l’animation », « le soir en semaine »).
   const res: string[] = []
-  const labels = (tags: Tag[]) => tags.map((t) => fr.besoin.tags[t].toLowerCase()).join(', ')
   const commun = dem.offres.filter((t) => part.besoins.includes(t))
-  if (commun.length > 0) res.push(`${dem.nom} offre ${labels(commun)}, ce que vous cherchez`)
+  if (commun.length > 0) res.push(`${dem.nom} offre ${lib(commun)}, ce que vous cherchez`)
   const tags = prop.partenaires.find((c) => c.profilId === part.id)?.tags ?? []
-  if (tags.length > 0) res.push(`Vous apportez ${labels(tags)}`)
+  if (tags.length > 0) res.push(`Vous apportez ${lib(tags)}`)
   const min = Math.max(1, Math.round(distanceM(part, dem) / 80))
   res.push(`À ${min} minute${min > 1 ? 's' : ''} à pied de chez vous`)
   const cren = part.creneaux.find((c) => dem.creneaux.includes(c)) ?? prop.creneau
-  res.push(`Vous êtes disponibles ${fr.besoin.creneaux[cren].toLowerCase()}`)
+  // « vous » de politesse: singulier pour une personne, pluriel pour un commerce ou un organisme.
+  res.push(`Vous êtes disponible${part.role === 'citoyen' ? '' : 's'} ${CRENEAU_TXT[cren]}`)
   return res
 }
 

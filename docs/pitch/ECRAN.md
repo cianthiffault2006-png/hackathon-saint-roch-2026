@@ -41,17 +41,17 @@ Vendredi 16 octobre, 14 h 30. Ce fichier dit, seconde par seconde, qui parle, ce
 | 1:52 | (rien pendant 1 s) | Statut « En attente des partenaires », lien « Voir ce que Camille reçoit » (apparaît après une seconde et reste, vérifié le 16 octobre) | Toucher « Ça m’intéresse », puis le lien dès qu’il est là, sans course | Lien absent après 3 s : toucher « Simuler la réponse des partenaires », dire « La réponse de Camille est simulée ici; en pilote elle reçoit l’invitation », ouvrir la Fiche (date, Ajouter au calendrier), reprendre à 2:12 |
 | 1:56 | « Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » | Invitation côté Camille : projet, date, « ce que chacun apporte » | Rien, puis toucher « Accepter » sur « apporte » | |
 | 2:07 | « Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation. » | Retour sur la proposition, statut « Projet confirmé (simulé) » | Rien | |
-| 2:20 | Seulement si le chrono est sous 2:15 à la fin de la ligne précédente (signe de Q sinon) : « Deuxième histoire : Sofia… le 311 s’occupe de ce qui relève de la Ville. » | Accueil, « Proposer un projet », « Exemple », écran « Avant de commencer » avec la ligne du 311 | Logo (accueil), « Proposer un projet », « Exemple » | Chrono au-dessus de 2:15 : sauter, passer à la diapo 4 |
+| 2:20 | Seulement si le chrono est sous 2:15 à la fin de la ligne précédente (signe de Q sinon) : « Deuxième histoire : Sofia… le 311 s’occupe de ce qui relève de la Ville. » | Accueil, « Proposer un projet », « Exemple », écran « Avant de commencer » avec la ligne du 311 | Menu (en haut à droite), « Accueil », « Proposer un projet », « Exemple » | Chrono au-dessus de 2:15 : sauter, passer à la diapo 4 |
 | 2:33 | Cian : « D’où viennent les données? » (transition) | Diapo 4 | Ctrl+2 (onglet PDF; la diapo 4 est déjà la page courante : Cian a avancé le PDF à la page 4 avant de passer à l’app à 0:50) | Si le PDF est resté à la page 3 : flèche bas ou Page suivante, 1 s |
 
-Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : Cian touche le logo pour revenir à l’accueil, puis « Visite guidée ». La visite joue seule : chapitre 1 Ouverture (3 s), chapitre 2 Le besoin (15 s), chapitre 3 La proposition (34 s), chapitre 4 Côté partenaire (21 s), environ 73 s au total d’après les durées du script de la visite (à chronométrer une fois en répétition). Pendant la lecture, Cian dit les lignes de 1:12, 1:30, 1:38, 1:56 et 2:07 sur ce que la visite montre, sans refaire les clics et sans s’excuser. Dès que les points de chapitre passent au chapitre 5 « La fiche », toucher « Quitter la visite », puis Ctrl+2 vers la diapo 4. La visite complète dure 2:00 (plus une suite de 69 s) : ne jamais la laisser aller au bout. Plan C (le site ne répond pas du tout, ou le plan B échoue) : Ctrl+3 (onglet vidéo), plein écran, lecture, une seule phrase « Notre connexion nous lâche, voici l’enregistrement de la même démo », puis les mêmes lignes sur la vidéo.
+Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : Cian revient à l’accueil (flèche « ← Retour » deux fois, ou menu (en haut à droite) puis « Accueil » (aucun logo n’est cliquable, vérifié par qa)), puis « Visite guidée ». La visite joue seule : chapitre 1 Ouverture (3 s), chapitre 2 Le besoin (15 s), chapitre 3 La proposition (34 s), chapitre 4 Côté partenaire (21 s), environ 73 s au total d’après les durées du script de la visite (à chronométrer une fois en répétition). Pendant la lecture, Cian dit les lignes de 1:12, 1:30, 1:38, 1:56 et 2:07 sur ce que la visite montre, sans refaire les clics et sans s’excuser. Dès que les points de chapitre passent au chapitre 5 « La fiche », toucher « Quitter la visite », puis Ctrl+2 vers la diapo 4. La visite complète dure 2:00 (plus une suite de 69 s) : ne jamais la laisser aller au bout. Plan C (le site ne répond pas du tout, ou le plan B échoue) : Ctrl+3 (onglet vidéo), plein écran, lecture, une seule phrase « Notre connexion nous lâche, voici l’enregistrement de la même démo », puis les mêmes lignes sur la vidéo.
 
 ## Partie 4. Les données (2:35 à 3:17) [CIAN]
 
 | Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
 |---|---|---|---|---|
 | 2:35 | Cian : « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche. » | Diapo 4 (Technologies, outils et données; 386, 614, CC BY 4.0, Loi 25) | Rien | Diapo absente : l’app en arrière-plan suffit, les deux nombres sont dans la phrase |
-| 2:50 | « Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Le code part à l’adresse que la SDC ou la Ville a déjà au dossier, jamais à celle qu’on tape. Dans cette démo, les fiches pré-remplies sont fictives et marquées. Les personnes, elles, ne sont jamais pré-remplies. » | Diapo 4 | Rien | Ne jamais dire que la démo cache déjà les fiches non réclamées : elle les montre, voulu, étiquetées « Pré-rempli · visible ici pour la démo », sans coordonnées |
+| 2:50 | « Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Dans cette démo, la carte mêle des fiches fictives et de vrais commerces des données ouvertes du SIT Québec, chacun marqué pré-rempli tant que son responsable ne l’a pas réclamé. Les personnes, elles, ne sont jamais pré-remplies. » | Diapo 4 | Rien | Ne jamais dire que la démo cache déjà les fiches non réclamées : elle les montre, voulu, étiquetées « Pré-rempli · visible ici pour la démo », sans coordonnées |
 
 ## Partie 5. Transparence et IA (3:17 à 3:35) [COÉQUIPIÈRE]
 
@@ -79,15 +79,27 @@ Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : C
 ## Pendant les questions (3 min)
 
 - Une voix par réponse, 20 s au plus, répartition dans `qa-fr.md` (en-tête). La diapo 7 reste à l’écran; Cian ne touche l’app que si la question porte sur un écran précis (le score, une fiche pré-remplie, le Tableau SDC).
-- Pour montrer une fiche pré-remplie (Q22) : Accueil, « Explorer le quartier », une épingle avec l’étiquette pré-rempli (par exemple « Salle Le Bémol »), et dire la phrase de consentement en deux moitiés.
+- Pour montrer une fiche pré-remplie (Q22) : menu, « Explorer le quartier », bouton « Liste », chercher « Bémol », la carte « Salle Le Bémol » porte l’étiquette, puis « Voir le profil ». Ne pas viser l’épingle sur la carte : hors écran à 390 px, et à 767 px deux épingles d’événements la recouvrent (qa). Dire la phrase de consentement en deux moitiés.
 - Pour montrer le score (Q7, Q23) : la proposition est toujours ouverte dans l’app si on n’a pas quitté; sinon refaire Commerçant, Ctrl+V, Trouver des partenaires (8 s).
+
+## Gel et export des diapos (12 h 30, une commande)
+
+Depuis la racine du dépôt, dans le terminal (PowerPoint doit être installé sur le portable; testé le 16 octobre à 9 h 05 sur Maillage.pptx : 7 pages, images sur les diapos 1, 3 à 7, aucun crochet) :
+
+```
+powershell -ExecutionPolicy Bypass -File docs/pitch/export_pdf.ps1
+```
+
+Ce que la commande fait : reconstruit `Maillage.pptx` à partir de `slides-fr.md` et de `img/slide-<n>.png`, l’exporte en PDF par PowerPoint vers `C:\Users\maeli\cian-claude\media\slides.pdf`, puis vérifie 7 pages, les images et l’absence de « [ » sur une diapo (elle s’arrête avec une erreur sinon). Options : `-SansBuild` pour exporter le pptx tel quel, `-Sortie <chemin>` pour un autre fichier. Ensuite, à la main : copier `slides.pdf` sur la clé USB et le deuxième portable, l’ouvrir dans Chrome (onglet 2) et vérifier que la page 1 s’affiche en plein écran.
+
+Ordre du gel : 1. captures finales dans `img/` (après le bundle final, 10 h 45 à 11 h 30); 2. citation réelle sur la diapo 2 seulement si on en a une (sinon la carte de repli reste); 3. la commande ci-dessus; 4. `git add docs/pitch && git commit && git push`; 5. copies USB et deuxième portable.
 
 ## Moments sans parole à couvrir (pour que personne ne regarde ses pieds)
 
 | Moment | Durée | Ce qu’on fait |
 |---|---|---|
 | Ctrl+1, diapo 3 vers l’app (0:50) | 1 s | Couvert par « Voyons comment ça marche. » |
-| Chargement de la proposition (1:09) | 1 à 4 s | Cian regarde l’écran, pas le jury; la première phrase part dès que le titre apparaît. Si plus de 4 s : « Le moteur compare les 49 profils de la démo » (vrai : public/data/profils.json) |
+| Chargement de la proposition (1:09) | 1 à 4 s | Cian regarde l’écran, pas le jury; la première phrase part dès que le titre apparaît. Si plus de 4 s : « Le moteur compare les 65 profils de la carte » (vrai après la fusion de data/open-d2 : 49 fictifs et 16 commerces réels des données ouvertes, public/data/profils.json) |
 | Épingles qui tombent (1:12) | 1 à 3 s | Déjà couvert par « Avec Camille Vézina… » |
 | Attente après « Ça m’intéresse » (1:52) | 1 s | Le lien apparaît après une seconde et reste; le toucher, la phrase suivante part sur l’écran de Camille |
 | Ctrl+2, app vers diapo 4 (2:33) | 1 s | Couvert par « D’où viennent les données? » |
@@ -106,4 +118,4 @@ Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : C
 | 7. Conclusion | 30 | 12 s | 0 | 4:21 à 4:33 |
 | Total | 570 | 3 min 48 s | environ 40 s | 4 min 33 s (calculé 4:28; 5:03 à 130 mots par minute) |
 
-Ordre de coupe si la répétition dépasse 4:45 : l’étape Sofia (déjà optionnelle, 25 s), puis la ligne « Réciprocité 58 % » (8 s), puis « Le code part à l’adresse… » (7 s), jamais l’acceptation de Camille ni la demande de pilote.
+Ordre de coupe si la répétition dépasse 4:45 : l’étape Sofia (déjà optionnelle, 25 s), puis la ligne « Réciprocité 58 % » (8 s), jamais l’acceptation de Camille ni la demande de pilote.

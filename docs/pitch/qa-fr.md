@@ -2,10 +2,10 @@
 
 Règle : une réponse en 20 secondes au plus (deux phrases), une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer. Jury annoncé : Ville de Québec (deux personnes), SDC du centre-ville, FSG-CRTI-ULaval, Larian Studios, CIMMI. Les six réponses à répéter à voix haute (20 s chacune) : Q1 (coéquipière), Q3 (coéquipière), Q6 (Cian), Q23 (Cian), Q32 (Cian), Q35 (Cian). Ajouts du 16 octobre (jury, ronde 1) : Q37 bis, Q40 à Q47; Q45 : Cian essaie une fois le texte vide et « Aucune proposition » avant 14:00.
 
-Phrase de consentement, la même partout, la règle du pilote d’abord : une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Puis la moitié démo : les fiches pré-remplies sont fictives et marquées « Pré-rempli · visible ici pour la démo » (visibles sur la carte, voulu, sans coordonnées). Ne jamais dire que la démo les cache déjà.
+Phrase de consentement, la même partout, la règle du pilote d’abord : une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Puis la moitié démo : la carte mêle des fiches fictives et de vrais commerces des données ouvertes du SIT Québec (ministère du Tourisme, CC BY 4.0), tous marqués « Pré-rempli · visible ici pour la démo » (visibles sur la carte, voulu, sans coordonnées). Ne jamais dire que la démo les cache déjà.
 
 ## 1. Et la vie privée, la Loi 25?
-Le consentement décide : les répertoires de la Ville et de la SDC pré-remplissent les fiches, mais une fiche devient publique seulement après réclamation avec un code (envoyé à l’adresse que la SDC ou la Ville a déjà) et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour envoyer l’invitation. Les personnes ne sont jamais pré-remplies, et la démo montre des fiches fictives marquées « pré-rempli ».
+Le consentement décide : les répertoires de la Ville et de la SDC pré-remplissent les fiches, mais une fiche devient publique seulement après réclamation avec un code (envoyé à l’adresse que la SDC ou la Ville a déjà) et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour envoyer l’invitation. Les personnes ne sont jamais pré-remplies, et la démo montre des fiches fictives ou tirées des données ouvertes, marquées « Pré-rempli · visible ici pour la démo ».
 
 ## 2. Qui s’inscrit en premier?
 Les membres de la SDC, invités par la SDC elle-même : ils n’ont rien à remplir, leur fiche existe déjà, ils la réclament avec un code en une minute, écrivent une phrase et reçoivent trois partenaires avec les raisons et la distance à pied. Les commerces et les organismes ont les lieux et le matériel; les citoyens arrivent ensuite, attirés par les projets visibles sur la carte, et tout commence par un pilote avec un petit groupe, pas par une grande campagne.
@@ -70,13 +70,13 @@ Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à 
 Nos règles viennent des colonnes des répertoires et du Plan d’action Saint-Roch, et le pilote servira à les valider avec les gens du quartier; nous ne gonflons aucun chiffre. [NOMBRE RÉEL ICI, sinon supprimer cette ligne : « Ce matin, nous en avons rencontré N sur la rue Saint-Joseph. »]
 
 ## 22. Je vois une fiche pré-remplie sur la carte, et le consentement? C’est légal?
-Une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour inviter leur responsable, et les personnes ne sont jamais pré-remplies. Celles que vous voyez ici sont fictives et portent l’étiquette « Pré-rempli · visible ici pour la démo » : nom, type, description et emplacement, sans coordonnées, pour montrer le mécanisme.
+Une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour inviter leur responsable, et les personnes ne sont jamais pré-remplies. Celles que vous voyez ici sont fictives ou tirées des données ouvertes du SIT Québec, et portent l’étiquette « Pré-rempli · visible ici pour la démo » : nom, type, description et emplacement, sans coordonnées, pour montrer le mécanisme.
 
 ## 38. Comment savez-vous que c’est le vrai propriétaire et pas n’importe qui?
 Le code est envoyé à l’adresse que la SDC ou la Ville a déjà dans son répertoire, jamais à une adresse que le demandeur tape; sans lien, il donne un courriel professionnel et la SDC vérifie la demande à la main (dans la démo le code est simulé, 482 913, rien ne part). Limites honnêtes : une adresse périmée au répertoire tombe en vérification manuelle, et en pilote la SDC peut retirer une fiche et un responsable peut en signaler une.
 
 ## 39. Pourquoi vous n’utilisez pas nos fichiers fournis dans la démo publique?
-Par l’entente de confidentialité : l’app et le code sont publics, alors la démo utilise des lignes fictives avec exactement les mêmes colonnes, plus les données ouvertes; des fichiers fournis nous n’avons gardé que la structure et les totaux approuvés (386 membres au fichier de la SDC, 614 organismes reconnus à l’échelle de la ville), et l’IA n’a jamais vu une valeur. Brancher les vrais répertoires, c’est un export des mêmes colonnes, chez celui qui déploie.
+Par l’entente de confidentialité : l’app et le code sont publics, alors la démo utilise des lignes fictives avec exactement les mêmes colonnes, plus les données ouvertes (lieux, événements et seize commerces réels du SIT Québec); des fichiers fournis nous n’avons gardé que la structure et les totaux approuvés (386 membres au fichier de la SDC, 614 organismes reconnus à l’échelle de la ville), et l’IA n’a jamais vu une valeur. Brancher les vrais répertoires, c’est un export des mêmes colonnes, chez celui qui déploie.
 
 ## 23. Pourquoi les poids 35/20/20/15/10? Comment savez-vous qu’un 87 % est bon?
 Ce sont nos choix (complémentarité 35, réciprocité 20, proximité 20, thème 15, créneau 10), affichés dans l’app pour être débattus, et une proposition n’est bonne que si les trois partenaires l’acceptent. En pilote, les acceptations et les refus deviennent la vérité terrain qui calibre les poids.
@@ -127,7 +127,7 @@ Le code est sous licence MIT, en React sans serveur, avec 216 tests automatisés
 Un export de votre fichier des membres avec les mêmes colonnes, une personne à temps partiel pour approuver les fiches et modérer, et dix membres volontaires pour un trimestre. En retour vous recevez trois chiffres par mois : projets confirmés, nouveaux partenariats, fréquentation.
 
 ## 40. Une corvée tourne mal, quelqu’un se blesse. Qui est responsable : la Ville, la SDC, vous?
-Maillage met en relation, il n’organise pas : la liste « Avant de commencer » exige une autorisation du propriétaire ou du gestionnaire du lieu et une assurance responsabilité ou une entente avec un organisme reconnu avant de créer le projet. En pilote, c’est l’organisme reconnu qui porte la corvée, jamais une app.
+Maillage met en relation, il n’organise pas : pour une corvée, la liste « Avant de commencer » demande l’autorisation du propriétaire, le 311 pour ce qui relève de la Ville et le matériel de sécurité; en pilote on y ajoute l’assurance responsabilité ou l’entente avec un organisme reconnu (déjà dans la liste des autres types de projets). En pilote, c’est l’organisme reconnu qui porte la corvée, jamais une app.
 
 ## 41. Vous floutez les citoyens à 100 m. Dans Saint-Roch, 100 m c’est l’immeuble. Pourquoi les mettre sur la carte?
 Un citoyen n’apparaît sur la carte qu’avec son accord, sous la simple étiquette « Citoyen », sans nom ni adresse, position déplacée de 30 à 100 m; sans accord il n’existe pas dans l’app. Si le pilote juge que c’est encore trop, les citoyens passent en liste sans carte : c’est un réglage, pas une refonte.
@@ -149,6 +149,9 @@ Aujourd’hui, rien ne l’empêche : le moteur ne tient pas compte des invitati
 
 ## 47. « Thème 67 % », ça veut dire quoi exactement?
 C’est la moyenne du recouvrement des thèmes sur les trois paires du trio : ici deux paires sur trois partagent un thème. Réciprocité, c’est la part des besoins de chaque partenaire que le café comble lui-même; les deux sont affichés pour être discutés, pas pour impressionner.
+
+## 48. Ces restaurants ont-ils accepté d’être dans l’app?
+Non, et ils n’ont pas eu à le faire : ce sont des données ouvertes publiques du ministère du Tourisme (SIT Québec, CC BY 4.0, attribution dans l’app), affichées comme pré-remplies pour la démo, sans coordonnées. C’est exactement le cas que le parcours de réclamation et de consentement règle en pilote : public seulement après réclamation avec un code et consentement, sinon visible par la SDC seulement.
 
 ## Extras courts
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.

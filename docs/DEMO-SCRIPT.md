@@ -16,7 +16,7 @@ Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de
 | 1:30 | Cian | Montrer « Pourquoi cette suggestion », « À confirmer », puis toucher **Comment ce score** | Chaque suggestion s’explique. Ligne à dire sur les barres : « Réciprocité 58 % : le café comble une partie des besoins de ses deux partenaires, pas tout, et on le dit. » |
 | 1:52 | Cian | **Ça m’intéresse**, puis **Voir ce que Camille reçoit**, puis **Accepter** | Le lien « Voir ce que Camille reçoit » apparaît après une seconde et reste affiché (statut « En attente des partenaires » jusqu’à Accepter, vérifié le 16 octobre) : parler, puis le toucher, puis montrer l’invitation de Camille (jeudi 22 octobre, 19 h à 22 h) et l’accepter. Projet confirmé (réponse du Collectif simulée). |
 | 2:20 | Cian | [SI LE TEMPS LE PERMET, chrono sous 2:15 à la fin de l’étape précédente] Accueil, **Proposer un projet**, **Exemple**, « Avant de commencer » | Sofia, corvée du samedi 24 octobre, 13 h à 17 h; la ligne du 311. Sinon, sauter. |
-| 2:35 à 3:17 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25 en deux moitiés (public après réclamation avec code et consentement; en pilote, non réclamé visible par la SDC seulement; dans la démo, fiches fictives marquées). |
+| 2:35 à 3:17 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25 en deux moitiés (public après réclamation avec code et consentement; en pilote, non réclamé visible par la SDC seulement; dans la démo, fiches fictives et vrais commerces des données ouvertes, marqués pré-rempli). |
 | 3:17 à 3:35 | Coéquipière | Diapo 5 | Transparence et IA. |
 | 3:35 à 4:21 | Cian | Diapo 6 | Impact, portée, fil simulé et fil réel en option, tableau de modération prévu pas construit, demande de pilote (dix membres, un trimestre, une personne à temps partiel, un export des membres, trois mesures). |
 | 4:21 à 4:33 | Coéquipière | Diapo 7 (lien et QR GitHub Pages) | Conclusion, Merci. Arrêt au plus tard à 4:50. |
@@ -26,7 +26,7 @@ Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 2:15 si la
 ## Plan B : Visite guidée
 
 Déclencheur : l’app est lente, plante ou la carte ne charge pas à 1:20 au plus tard.
-1. Cian revient à l’accueil (logo Maillage ou bouton retour).
+1. Cian revient à l’accueil : flèche « ← Retour » deux fois, ou menu (en haut à droite) puis « Accueil » (aucun logo n’est cliquable, vérifié par qa).
 2. Toucher **Visite guidée** : l’histoire se joue seule (même histoire que ci-dessus).
 3. Cian commente pendant la lecture, sans refaire les clics : il dit les lignes des étapes 2 à 5 du script sur ce qui s’affiche. La visite complète dure 2 min en 7 chapitres (plus une suite optionnelle de 69 s), trop long pour le créneau de 1 min 45 s. En plan B, laisser jouer les chapitres 1 à 4 (Ouverture, Le besoin, La proposition, Côté partenaire : environ 73 s d’après les durées du script de la visite, à chronométrer une fois en répétition), puis toucher « Quitter la visite » dès que le chapitre 5 « La fiche » commence (les points de chapitre en haut le montrent). Un seul clic requis, à la sortie.
 4. Si la carte reste grise : continuer, la visite montre les raisons et le statut.

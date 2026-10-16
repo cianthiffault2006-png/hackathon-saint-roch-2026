@@ -72,7 +72,12 @@ function placerEtiquettes(map: Map, marqueurs: Marker[]) {
   const carte: Boite = { x: 0, y: 0, w: clientWidth, h: clientHeight }
   const pts = marqueurs.map((m) => map.project(m.getLngLat()))
   const pins = pts.map((p): Boite => ({ x: p.x - DEMI_PIN, y: p.y - DEMI_PIN, w: 2 * DEMI_PIN, h: 2 * DEMI_PIN }))
-  const poses: Boite[] = []
+  // The licence line and the legend float over the map: a label must not hide under them either.
+  const cont = map.getContainer().getBoundingClientRect()
+  const poses: Boite[] = Array.from(document.querySelectorAll('.attribution, .legende'))
+    .map((el) => el.getBoundingClientRect())
+    .filter((r) => r.width > 0)
+    .map((r): Boite => ({ x: r.left - cont.left, y: r.top - cont.top, w: r.width, h: r.height }))
   // Top pins first: their labels keep the default spot, lower ones move around them.
   const ordre = marqueurs.map((_, i) => i).sort((a, b) => pts[a].y - pts[b].y)
   for (const i of ordre) {

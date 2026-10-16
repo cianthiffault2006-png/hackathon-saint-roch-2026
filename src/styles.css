@@ -1934,6 +1934,33 @@ body:has(.accueil) .badge-demo {
 .pin-etiquette {
   color: var(--encre);
   box-shadow: 0 0 0 1px var(--trait);
+  /* Long names wrap to two lines instead of being cut */
+  width: max-content;
+  max-width: 150px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
+}
+
+/* MapView moves a label beside or above its pin when another pin or label is in the way (gap 22 px from the point) */
+.pin-etiquette[data-place='droite'] {
+  top: 50%;
+  left: 42px;
+  transform: translateY(-50%);
+  text-align: left;
+}
+
+.pin-etiquette[data-place='gauche'] {
+  top: 50%;
+  left: auto;
+  right: 42px;
+  transform: translateY(-50%);
+  text-align: right;
+}
+
+.pin-etiquette[data-place='haut'] {
+  top: auto;
+  bottom: 42px;
 }
 
 .evenement-bloc {

@@ -13,12 +13,12 @@ Le lien Vercel est figé sur une ancienne version : secours seulement, peut êtr
 |---|---|---|---|
 | 1. Le problème | COÉQUIPIÈRE | 0:00 | 27 s |
 | 2. La solution : Maillage | COÉQUIPIÈRE | 0:27 | 23 s |
-| 3. La démo (vidéo de la visite guidée) | CIAN (Mathieu), COÉQUIPIÈRE (Camille), CIAN | 0:50 | 8 s de cadrage + 1 min 33 s de vidéo |
+| 3. La démo (vidéo de la visite guidée) | CIAN (Mathieu), COÉQUIPIÈRE (Camille), CIAN | 0:50 | 8 s de cadrage + 1 min 32 s de vidéo |
 | 4. Données et technologie | CIAN | 2:31 | 46 s |
 | 5. Impact, pilote, évolution | CIAN | 3:17 | 32 s |
 | 6. Vous vous demandez peut-être… | COÉQUIPIÈRE demande, CIAN répond | 3:49 | 32 s |
 | 7. Conclusion | COÉQUIPIÈRE | 4:21 | 10 s |
-| Fin | | 4:31 | 14 s de marge avant 4:45; la partie 6 entière est la coupe si la répétition dépasse |
+| Fin | | 4:30 | 15 s de marge avant 4:45; la partie 6 entière est la coupe si la répétition dépasse |
 
 ---
 
@@ -39,49 +39,49 @@ Diapo 2 (captures de l’app, téléphone et ordinateur côte à côte : même �
 (Dernier mot « équipe 14 » : Cian passe à la diapo 3 et cadre la vidéo.)
 
 ## 3. La démo : la visite guidée en vidéo (0:50 à 2:31) [CIAN (Mathieu), COÉQUIPIÈRE (Camille), CIAN]
-Diapo 3 : la vidéo `tour-cadre-court.mp4`, seule, pleine hauteur (visite guidée, chapitres 1 à 5 et carte de fin, environ 1 min 33 s, cadre téléphone sur fond 16:9, sans son). Les sous-titres de la visite sont à l’écran : on ne les lit pas. Repères = temps de la vidéo, d’après les débuts de chapitres de `src/tour/script.ts` (chapitre 2 : 3 s; 3 : 18 s, barres 25 à 30 s, « Ça m’intéresse » 46 s; 4 : 52 s, « Accepter » 66 s; 5 : 74 s; carte de fin 89 s). À recaler une fois sur le mp4 final (ECRAN.md).
+Diapo 3 : la vidéo `tour-cadre-court.mp4`, seule, pleine hauteur (visite guidée, chapitres 1 à 5 et carte de fin, 1 min 32 s, cadre téléphone sur fond 16:9, sans son; fichier `C:\Users\maeli\cian-claude\media\tour-cadre-court.mp4`). Les sous-titres de la visite sont à l’écran : on ne les lit pas. Repères = temps de la vidéo, mesurés par build sur le mp4 du 16 octobre (chapitre 2 : 4 s; 3 : 19 s, barres 25 à 30 s, « Ça m’intéresse » 46 s; 4 : 53 s, « Accepter » 66 s; 5 : 75 s; carte de fin 1:30; fin 1:32). Le dernier enregistrement (10 h 40, bundle final) bouge d’au plus 0,3 s : rien à recaler sauf avis de build.
 
 Cadrage, avant d’appuyer sur lecture [CIAN] :
 > Enregistré ce matin sur l’app en ligne; les clics sont ceux de la visite guidée intégrée, le lien est à l’écran.
 ▶ Lecture.
 
-Chapitre 1, Ouverture (0:00) et chapitre 2, Le besoin (0:03 à 0:18) [CIAN, en Mathieu] :
+Chapitre 1, Ouverture (0:00) et chapitre 2, Le besoin (0:04 à 0:19) [CIAN, en Mathieu] :
 (0:00, l’accueil)
 > Je suis Mathieu. J’ai un café, et un espace vide le jeudi soir.
-(0:04, le texte s’écrit)
+(0:05, le texte s’écrit)
 > Je l’écris comme je le dirais : un espace libre le jeudi soir, et je cherche des artistes pour l’animer.
-(0:10, les puces s’allument; silence jusqu’au clic à 0:15)
+(0:10, les puces s’allument; silence jusqu’au clic à 0:16)
 > Je n’ai rien à classer : Maillage comprend ma phrase.
 
-Chapitre 3, La proposition (0:18 à 0:52) [CIAN, en Mathieu] :
-(0:18, la carte et le titre)
+Chapitre 3, La proposition (0:19 à 0:53) [CIAN, en Mathieu] :
+(0:19, la carte et le titre)
 > Un projet, pas une liste : une exposition chez moi, avec Camille et le Collectif, à deux minutes à pied.
 (0:25, les barres du score; le mot-repère est « Réciprocité »)
 > Réciprocité 58 % : je comble une partie de leurs besoins, pas tout, et on me le dit.
 (0:31, les raisons)
 > Chacun y gagne : mon espace et ma clientèle, ses toiles, leur public.
-(0:38, à confirmer)
+(0:39, à confirmer)
 > Ce qu’on ne sait pas encore, on le dit.
 (0:46, « Ça m’intéresse »)
 > Je dis « Ça m’intéresse ». Je n’engage rien : j’invite.
 
-Chapitre 4, Côté partenaire (0:52 à 1:14) [COÉQUIPIÈRE, en Camille] :
-(0:52, l’invitation)
+Chapitre 4, Côté partenaire (0:53 à 1:15) [COÉQUIPIÈRE, en Camille] :
+(0:53, l’invitation)
 > Moi, c’est Camille. Je reçois le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte.
-(0:59, « pourquoi elle »)
+(1:00, « pourquoi elle »)
 > Je sais pourquoi on m’a choisie avant de dire oui.
 (1:06, « Accepter »; le mot-repère est « J’accepte »)
 > J’accepte.
-(1:09, projet confirmé)
+(1:10, projet confirmé)
 > Le Collectif aussi : projet confirmé. Ici, aucun message ne part; en pilote, l’invitation part vraiment.
 
-Chapitre 5, La fiche (1:14 à 1:29) et carte de fin (1:29) [CIAN, en Mathieu] :
-(1:14, la fiche)
+Chapitre 5, La fiche (1:15 à 1:30) et carte de fin (1:30) [CIAN, en Mathieu] :
+(1:15, la fiche)
 > Mon projet a maintenant une fiche : une date, un lieu, des partenaires, et ce qu’il reste à régler.
-(1:29, carte de fin « Maillage : les ressources du quartier, enfin connectées »)
+(1:30, carte de fin « Maillage : les ressources du quartier, enfin connectées »)
 > Un café, une artiste, un organisme : un projet.
 
-Plan B si la vidéo ne démarre pas (ou se fige) dans les 3 s : Alt+Tab, Ctrl+1 (onglet de l’app, disposition bureau), « Visite guidée », laisser jouer les chapitres 1 à 5 (mêmes repères, environ 1 min 30 s), « Quitter la visite » dès le chapitre 6 « Le fil du projet », puis Alt+Tab et diapo 4. Même texte. Plan C : la vidéo de secours (onglet 3), même texte.
+Plan B si la vidéo ne démarre pas (ou se fige) dans les 3 s : Alt+Tab, Ctrl+1 (onglet de l’app, disposition bureau), « Visite guidée », laisser jouer les chapitres 1 à 5 (mêmes repères, environ 1 min 30 s; la visite en direct part environ 1 s plus tôt que la vidéo), « Quitter la visite » dès le chapitre 6 « Le fil du projet », puis Alt+Tab et diapo 4. Même texte. Plan C : la vidéo de secours (onglet 3), même texte.
 
 ## 4. Données et technologie (2:31 à 3:17) [CIAN]
 Diapo 4.
@@ -135,17 +135,17 @@ Sur « Merci! », Cian passe à l’accueil de l’app en direct (Alt+Tab, Ctrl+
 Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à agir. Surtout, chaque couleur respecte les contrastes d’accessibilité, et les épingles combinent forme, icône et couleur pour les personnes daltoniennes (environ 8 % des hommes). WCAG 2.2 AA visé, police Atkinson Hyperlegible, cibles de 44 px, mouvement réduit (Q20).
 
 ## Décompte
-Recompté le 16 octobre à 10 h 35 (v2). Seules les lignes en citation (`>`) sont comptées; la ligne [CONDITIONNEL] est exclue. Débit de référence 150 mots par minute; la partie 3 dure le cadrage plus la vidéo (1 min 33 s), quel que soit le nombre de mots. Compte produit par `node docs/pitch/compter.mjs` (130 pour la marge si on parle lentement).
+Recompté le 16 octobre à 10 h 35 (v2). Seules les lignes en citation (`>`) sont comptées; la ligne [CONDITIONNEL] est exclue. Débit de référence 150 mots par minute; la partie 3 dure le cadrage plus la vidéo (1 min 32 s), quel que soit le nombre de mots. Compte produit par `node docs/pitch/compter.mjs` (130 pour la marge si on parle lentement).
 
 | Partie | Mots | Parole à 150 | Créneau | À 130 mots/min |
 |---|---|---|---|---|
 | 1. Le problème | 67 | 27 s | 27 s | 31 s |
 | 2. La solution : Maillage | 59 | 24 s | 23 s | 27 s |
-| 3. La démo (cadrage + vidéo) | 200 | 80 s (21 s de silence sur 101 s) | 1 min 41 s | 92 s, tient dans la vidéo |
+| 3. La démo (cadrage + vidéo) | 200 | 80 s (20 s de silence sur 100 s) | 1 min 40 s | 92 s, tient dans la vidéo |
 | 4. Données et technologie | 113 | 45 s | 46 s | 52 s |
 | 5. Impact, pilote, évolution | 80 | 32 s | 32 s | 37 s |
 | 6. Vous vous demandez peut-être… | 82 | 33 s | 32 s | 38 s |
 | 7. Conclusion | 24 | 10 s | 10 s | 11 s |
-| Total | 625 | 4 min 10 s | 4 min 31 s | 4 min 57 s |
+| Total | 625 | 4 min 10 s | 4 min 30 s | 4 min 56 s |
 
 À 130 mots par minute on dépasse 4:45 de 12 s : garder le débit normal; sinon la partie 6 saute en bloc (32 s). La ligne [CONDITIONNEL] de la partie 4 ajoute 17 mots, 7 s : à dire seulement si le mode présentation local est livré, et seulement si la répétition est sous 4:35.

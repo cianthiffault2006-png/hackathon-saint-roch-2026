@@ -153,6 +153,15 @@ C’est la moyenne du recouvrement des thèmes sur les trois paires du trio : ic
 ## 48. Ces restaurants ont-ils accepté d’être dans l’app?
 Non, et ils n’ont pas eu à le faire : ce sont des données ouvertes publiques du ministère du Tourisme (SIT Québec, CC BY 4.0, attribution dans l’app), affichées comme pré-remplies pour la démo, sans coordonnées. C’est exactement le cas que le parcours de réclamation et de consentement règle en pilote : public seulement après réclamation avec un code et consentement, sinon visible par la SDC seulement.
 
+## 49. Je veux travailler avec un commerce précis, pas avec celui que l’app choisit. Je fais quoi?
+Sur son profil public, « Proposer une collaboration » : ce partenaire entre alors dans chaque proposition, et s’il ne convient pas tout à fait, « À confirmer » dit pourquoi, avec un score plus bas, honnêtement. L’app suggère, la personne décide; rien ne part avant un oui.
+
+## 50. Mon organisation n’est pas dans vos répertoires. Elle fait quoi?
+Dans le menu, « Ajouter mon organisation » (ou « Mon organisation n’est pas dans la liste » sur la page de réclamation) : un court formulaire et un consentement, puis « Demande envoyée à la SDC (simulée) »; la SDC vérifie que l’organisation existe et a une adresse à Saint-Roch, et la fiche reste en aperçu « En attente de vérification », pas publique, jusque-là. Les citoyens n’ont jamais de fiche publique.
+
+## 51. Et si un partenaire refuse?
+Un refus ne coûte rien : « Pas cette fois » est une vraie réponse, simulée dans la démo, et la proposition suivante s’affiche. [CONDITIONNEL : dire « simulée dans la démo » seulement si `fix` a livré le refus avant le gel; sinon : « dans le prototype, le refus n’est pas encore branché, c’est prévu pour le pilote ».]
+
 ## Extras courts
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.
 - Notifications : pas dans la démo (aucun message ne part); en pilote, chaque partenaire reçoit l’invitation par courriel ou par notification.

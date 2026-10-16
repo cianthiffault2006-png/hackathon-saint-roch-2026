@@ -1,6 +1,6 @@
 # Plan d’écran du pitch (projecteur, clics, replis)
 
-Vendredi 16 octobre, 14 h 30. Version 2 (10 h 35, conditions du jury) : la démo est la vidéo de la visite guidée dans la diapo 3, seule et pleine hauteur; l’app en direct n’est pas touchée pendant le pitch, elle est dans l’onglet 1 en disposition bureau, pré-chargée, et s’ouvre en 2 s à la première question sur le produit. Texte mot pour mot : `script-fr.md` (lignes `>`); diapos : `DIAPOS-POUR-COEQUIPIERE.md`. Minutage : 150 mots par minute, 4:31 en créneaux (14 s de marge); la partie 6 entière est la coupe au-dessus de 4:45.
+Vendredi 16 octobre, 14 h 30. Version 2 (10 h 35, conditions du jury) : la démo est la vidéo de la visite guidée dans la diapo 3, seule et pleine hauteur; l’app en direct n’est pas touchée pendant le pitch, elle est dans l’onglet 1 en disposition bureau, pré-chargée, et s’ouvre en 2 s à la première question sur le produit. Texte mot pour mot : `script-fr.md` (lignes `>`); diapos : `DIAPOS-POUR-COEQUIPIERE.md`. Minutage : 150 mots par minute, 4:30 en créneaux (15 s de marge); la partie 6 entière est la coupe au-dessus de 4:45.
 
 ## Réglage du portable (à 14 h 00 sur le projecteur de la salle)
 
@@ -26,25 +26,25 @@ Vendredi 16 octobre, 14 h 30. Version 2 (10 h 35, conditions du jury) : la démo
 
 ## Partie 3. La démo en vidéo (0:50 à 2:31) [CIAN (Mathieu), COÉQUIPIÈRE (Camille), CIAN]
 
-Repères = temps de la vidéo (entre parenthèses), d’après `src/tour/script.ts` et les repères du jury : chapitre 2 à 0:03, chapitre 3 à 0:18 (barres 0:25 à 0:30, « Ça m’intéresse » 0:46), chapitre 4 à 0:52 (« Accepter » 1:06), chapitre 5 à 1:14, carte de fin 1:29, fin vers 1:33. **À recaler une fois sur le mp4 final** avec un chronomètre avant 13 h 45 : corriger les parenthèses ici et dans ANTISECHE.md. Chaque ligne part sur son repère; entre deux, silence, on regarde l’écran.
+Repères = temps de la vidéo (entre parenthèses), mesurés par build sur `tour-cadre-court.mp4` (1:32) le 16 octobre : chapitre 2 à 0:04, chapitre 3 à 0:19 (barres 0:25 à 0:30, « Ça m’intéresse » 0:46), chapitre 4 à 0:53 (« Accepter » 1:06), chapitre 5 à 1:15, carte de fin 1:30, fin 1:32. Le dernier enregistrement (10 h 40) bouge d’au plus 0,3 s; build prévient sinon. Vérifier une fois à 13 h 45 avec un chronomètre. Chaque ligne part sur son repère; entre deux, silence, on regarde l’écran.
 
 | Temps (vidéo) | Qui parle, quoi (abrégé) | À l’écran (vidéo) | Cian clique | Si ça rate |
 |---|---|---|---|---|
 | 0:50 | Cian : « Enregistré ce matin sur l’app en ligne; les clics sont ceux de la visite guidée intégrée, le lien est à l’écran. » | Diapo 3, première image de la vidéo | Clic sur la vidéo sur **« écran »** : lecture | Vidéo immobile après 3 s : Alt+Tab, Ctrl+1 (app), « Visite guidée », même texte, mêmes repères; « Quitter la visite » dès le chapitre 6 « Le fil du projet », puis Alt+Tab, flèche droite : diapo 4 |
 | 0:58 (0:00) | « Je suis Mathieu. J’ai un café, et un espace vide le jeudi soir. » | Accueil | Rien, jusqu’à la diapo 4 | |
-| 1:02 (0:04) | « Je l’écris comme je le dirais : un espace libre le jeudi soir, et je cherche des artistes pour l’animer. » | La zone de texte se remplit | Rien | |
-| 1:08 (0:10) | « Je n’ai rien à classer : Maillage comprend ma phrase. » puis silence jusqu’au clic (0:15) | Puces allumées, clic sur « Trouver des partenaires » | Rien | |
-| 1:16 (0:18) | « Un projet, pas une liste : une exposition chez moi, avec Camille et le Collectif, à deux minutes à pied. » | Carte, trois épingles, feuille 87 % | Rien | |
+| 1:03 (0:05) | « Je l’écris comme je le dirais : un espace libre le jeudi soir, et je cherche des artistes pour l’animer. » | La zone de texte se remplit | Rien | |
+| 1:08 (0:10) | « Je n’ai rien à classer : Maillage comprend ma phrase. » puis silence jusqu’au clic (0:16) | Puces allumées, clic sur « Trouver des partenaires » | Rien | |
+| 1:17 (0:19) | « Un projet, pas une liste : une exposition chez moi, avec Camille et le Collectif, à deux minutes à pied. » | Carte, trois épingles, feuille 87 % | Rien | |
 | 1:23 (0:25) | « Réciprocité 58 % : je comble une partie de leurs besoins, pas tout, et on me le dit. » (mot-repère : les barres apparaissent, « Réciprocité ») | Barres du score | Rien | |
 | 1:29 (0:31) | « Chacun y gagne : mon espace et ma clientèle, ses toiles, leur public. » | Les cinq raisons | Rien | |
-| 1:36 (0:38) | « Ce qu’on ne sait pas encore, on le dit. » puis silence | À confirmer, événements proches | Rien | |
+| 1:37 (0:39) | « Ce qu’on ne sait pas encore, on le dit. » puis silence | À confirmer, événements proches | Rien | |
 | 1:44 (0:46) | « Je dis « Ça m’intéresse ». Je n’engage rien : j’invite. » | « Ça m’intéresse », En attente | Rien | |
-| 1:50 (0:52) | Coéquipière : « Moi, c’est Camille. Je reçois le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » | Invitation côté Camille | Rien | |
-| 1:57 (0:59) | « Je sais pourquoi on m’a choisie avant de dire oui. » | Les raisons de son point de vue | Rien | |
+| 1:51 (0:53) | Coéquipière : « Moi, c’est Camille. Je reçois le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte. » | Invitation côté Camille | Rien | |
+| 1:58 (1:00) | « Je sais pourquoi on m’a choisie avant de dire oui. » | Les raisons de son point de vue | Rien | |
 | 2:04 (1:06) | « J’accepte. » (mot-repère : le curseur touche « Accepter ») | Accepter | Rien | |
-| 2:07 (1:09) | « Le Collectif aussi : projet confirmé. Ici, aucun message ne part; en pilote, l’invitation part vraiment. » | « Projet confirmé (simulé) » | Rien | |
-| 2:12 (1:14) | Cian : « Mon projet a maintenant une fiche : une date, un lieu, des partenaires, et ce qu’il reste à régler. » | Fiche : date, lieu, partenaires, coches | Rien | |
-| 2:27 (1:29) | « Un café, une artiste, un organisme : un projet. » | Carte de fin « Maillage : les ressources du quartier, enfin connectées » | Flèche droite quand la ligne est dite (vers 2:31) : diapo 4 | Vidéo finie trop tôt : dire la ligne sur la carte de fin figée, avancer |
+| 2:08 (1:10) | « Le Collectif aussi : projet confirmé. Ici, aucun message ne part; en pilote, l’invitation part vraiment. » | « Projet confirmé (simulé) » | Rien | |
+| 2:13 (1:15) | Cian : « Mon projet a maintenant une fiche : une date, un lieu, des partenaires, et ce qu’il reste à régler. » | Fiche : date, lieu, partenaires, coches | Rien | |
+| 2:28 (1:30) | « Un café, une artiste, un organisme : un projet. » | Carte de fin « Maillage : les ressources du quartier, enfin connectées » | Flèche droite quand la ligne est dite (vers 2:31) : diapo 4 | Vidéo finie trop tôt : dire la ligne sur la carte de fin figée, avancer |
 
 Plan C (le portable ne lit aucune vidéo) : Alt+Tab, Ctrl+3, vidéo de secours plein écran, une phrase : « Voici l’enregistrement de la même démo », même texte.
 
@@ -99,7 +99,7 @@ Ordre du gel : 1. vidéo finale `tour-cadre-court.mp4` incorporée, captures fin
 | Moment | Durée | Ce qu’on fait |
 |---|---|---|
 | Diapo 2 → diapo 3 (0:50) | 1 s | Flèche droite sur « équipe 14 »; la phrase de cadrage couvre l’arrivée de la vidéo; clic sur « écran » |
-| Silences prévus dans la vidéo (0:15 à 0:18, 0:40 à 0:46, 1:02 à 1:06, 1:20 à 1:29) | 4 à 9 s chacun | Voulus : les sous-titres de la visite se lisent; les deux voix regardent l’écran, pas leurs notes |
+| Silences prévus dans la vidéo (0:16 à 0:19, 0:41 à 0:46, 1:02 à 1:06, 1:21 à 1:30) | 4 à 9 s chacun | Voulus : les sous-titres de la visite se lisent; les deux voix regardent l’écran, pas leurs notes |
 | Vidéo → diapo 4 (2:31) | 1 s | Flèche droite après la ligne de la carte de fin; « D’où viennent les données? » couvre le changement |
 | Diapo 7 → app en direct (4:31) | 2 s | Alt+Tab, Ctrl+1 sur « Merci! »; l’accueil est déjà chargé |
 

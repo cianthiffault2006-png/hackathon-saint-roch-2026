@@ -10,8 +10,8 @@ import { dirname, join } from 'node:path'
 const ici = dirname(fileURLToPath(import.meta.url))
 const texte = readFileSync(join(ici, 'script-fr.md'), 'utf8')
 const debit = Number(process.argv[2] ?? 150)
-// Durée fixe de la partie 3 : 8 s de cadrage avant lecture + la vidéo (chapitres 1 à 5 et carte de fin, 93 s d’après src/tour/script.ts; à recaler sur le mp4 final).
-const FIXE = { 3: 101 }
+// Durée fixe de la partie 3 : 8 s de cadrage avant lecture + la vidéo (chapitres 1 à 5 et carte de fin, 92 s mesurés par build sur tour-cadre-court.mp4 le 16 octobre).
+const FIXE = { 3: 100 }
 const EXCLUS = [/CONDITIONNEL/]
 
 const sections = new Map()

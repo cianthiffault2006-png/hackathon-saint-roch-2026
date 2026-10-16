@@ -22,22 +22,22 @@ Tu ouvres (diapos 1 et 2), tu joues Camille dans la vidéo, tu poses les trois q
 
 > Maillage, c’est l’app qui propose à ces trois-là un projet commun. On écrit son besoin en mots simples; Maillage propose trois partenaires complémentaires, à distance de marche, avec les raisons, et chacun accepte ou refuse. Elle ne remplace aucun outil existant : elle crée le lien qui manque. Testée sur téléphone et sur ordinateur. Nous sommes quatre étudiants, équipe 14.
 
-(Ton dernier mot **« équipe 14 »** : Cian cadre et lance la vidéo. Il parle en Mathieu jusqu’à l’invitation de Camille (0:52), environ 1 min. Tu regardes l’écran.)
+(Ton dernier mot **« équipe 14 »** : Cian cadre et lance la vidéo. Il parle en Mathieu jusqu’à l’invitation de Camille (0:53), environ 1 min. Tu regardes l’écran.)
 
-## Vidéo · tu es Camille · signal : l’invitation apparaît à l’écran (0:52)
+## Vidéo · tu es Camille · signal : l’invitation apparaît à l’écran (0:53)
 
 > Moi, c’est Camille. Je reçois le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte.
 
-(0:59, l’écran montre « pourquoi elle » :)
+(1:00, l’écran montre « pourquoi elle » :)
 > Je sais pourquoi on m’a choisie avant de dire oui.
 
 (1:06, le curseur touche « Accepter » : ton mot-repère)
 > J’accepte.
 
-(1:09, « Projet confirmé » :)
+(1:10, « Projet confirmé » :)
 > Le Collectif aussi : projet confirmé. Ici, aucun message ne part; en pilote, l’invitation part vraiment.
 
-(Cian reprend à la fiche (1:14). Tu te tais jusqu’à la diapo 6, environ 1 min 45 s.)
+(Cian reprend à la fiche (1:15). Tu te tais jusqu’à la diapo 6, environ 1 min 45 s.)
 
 ## 3:49 · Diapo 6 · signal : Cian finit par **« d’autres quartiers »** et passe à la diapo 6 (si Q a montré 2 doigts, cette diapo saute : il passe à la 7, tu conclus)
 
@@ -87,24 +87,24 @@ Tu as le portable. PowerPoint en diaporama; tu changes toutes les diapos (flèch
 
 (0:00, accueil)
 > Je suis Mathieu. J’ai un café, et un espace vide le jeudi soir.
-(0:04, le texte s’écrit)
+(0:05, le texte s’écrit)
 > Je l’écris comme je le dirais : un espace libre le jeudi soir, et je cherche des artistes pour l’animer.
 (0:10, les puces s’allument; silence jusqu’au clic)
 > Je n’ai rien à classer : Maillage comprend ma phrase.
-(0:18, la carte et la feuille 87 %)
+(0:19, la carte et la feuille 87 %)
 > Un projet, pas une liste : une exposition chez moi, avec Camille et le Collectif, à deux minutes à pied.
 (0:25, **les barres apparaissent : ton mot-repère, « Réciprocité »**)
 > Réciprocité 58 % : je comble une partie de leurs besoins, pas tout, et on me le dit.
 (0:31, les raisons)
 > Chacun y gagne : mon espace et ma clientèle, ses toiles, leur public.
-(0:38, à confirmer)
+(0:39, à confirmer)
 > Ce qu’on ne sait pas encore, on le dit.
 (0:46, « Ça m’intéresse »)
 > Je dis « Ça m’intéresse ». Je n’engage rien : j’invite.
-(0:52 à 1:14 : elle est Camille; à 1:06 elle dit « J’accepte » quand le curseur touche « Accepter ». Tu te tais.)
-(1:14, la fiche)
+(0:53 à 1:15 : elle est Camille; à 1:06 elle dit « J’accepte » quand le curseur touche « Accepter ». Tu te tais.)
+(1:15, la fiche)
 > Mon projet a maintenant une fiche : une date, un lieu, des partenaires, et ce qu’il reste à régler.
-(1:29, carte de fin)
+(1:30, carte de fin)
 > Un café, une artiste, un organisme : un projet.
 ▶ flèche droite : diapo 4.
 

@@ -14,6 +14,7 @@ const marche = (dir, out = []) => {
 }
 if (!/^data-private\/$/m.test(readFileSync('.gitignore', 'utf8'))) problemes.push('.gitignore ne contient pas data-private/')
 if (existsSync('dist')) for (const f of marche('dist')) if (/-reels\.json$|\/presentation\//.test(f)) problemes.push(`dans dist/: ${f}`)
+for (const dir of ['public', 'src', 'data', 'scripts']) if (existsSync(dir)) for (const f of marche(dir)) if (/-reels\.json$|data-private/.test(f)) problemes.push(`dans ${dir}/: ${f}`)
 try {
   const suivis = execSync('git ls-files', { encoding: 'utf8' }).split('\n')
   for (const f of suivis) if (/^data-private\/|-reels\.json$/.test(f)) problemes.push(`suivi par git: ${f}`)

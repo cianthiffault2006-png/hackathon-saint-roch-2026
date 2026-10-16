@@ -101,7 +101,7 @@ def lire_xlsx(path: Path, colonnes):
         c_norm = c.strip()
         trouve = [i for i, h in enumerate(entetes) if h == c_norm]
         if not trouve:
-            raise KeyError(f"colonne absente: {c!r} (colonnes du fichier: {entetes})")
+            raise SystemExit(f"colonne absente: {c!r} dans {path.name} ({len(entetes)} colonnes lues)")
         idx[c_norm] = trouve[0]
     out = []
     for r in rows:
@@ -281,7 +281,7 @@ def main():
             if not isinstance(d1, dt.datetime) or d1 < dt.datetime.now():
                 drop["date absente ou passée"] += 1
                 continue
-            if not isinstance(d2, dt.datetime):
+            if not isinstance(d2, dt.datetime) or d2 < d1:
                 d2 = d1 + dt.timedelta(hours=2)
             site = texte(r["Site(s) de l'activité"])
             pt = A_.adresse(site) or pts[n % len(pts)]
@@ -302,4 +302,13 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    for flux in (sys.stdout, sys.stderr):  # accents in PowerShell
+        if hasattr(flux, "reconfigure"):
+            flux.reconfigure(encoding="utf-8")
+    try:
+        sys.exit(main())
+    except SystemExit:
+        raise
+    except Exception as e:  # never echo a value or a traceback (cell values could appear in them)
+        print(f"erreur {type(e).__name__} : arrêt sans afficher de détail (données confidentielles); relancer après vérification des fichiers")
+        sys.exit(1)

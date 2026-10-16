@@ -57,8 +57,8 @@ export const enumerer = (xs: string[]): string =>
 /** Tags avec leur article : « un espace intérieur, du public et de l’animation ». */
 export const lib = (tags: Tag[]) => enumerer(tags.map((t) => LIBELLE[t]));
 /** « 24 oct. » depuis un début ISO en heure locale (le jour seul, sans fuseau). */
-const jourCourt = (iso: string) =>
-  new Intl.DateTimeFormat('fr-CA', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
+const FORMAT_JOUR_COURT = new Intl.DateTimeFormat('fr-CA', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+const jourCourt = (iso: string) => FORMAT_JOUR_COURT.format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
 const QUI_ACTIVE: Record<Profil['role'], string> = { citoyen: 'la personne', commerce: 'le commerce', organisme: 'l’organisme' };
 
 interface Cand {

@@ -199,7 +199,8 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
                   <PinForme nom={e.genre} taille={32} />
                   <div className="ex-item-texte">
                     <strong>{e.nom}</strong>
-                    <span>{e.detail} · {t.distance(d)}</span>
+                    {/* d < 1 m: placeholder coordinates on the Saint-Roch centre, so no distance. */}
+                    <span>{e.detail}{d >= 1 && ` · ${t.distance(d)}`}</span>
                     <Etiquettes el={e} court enAttente={attente(e)} />
                   </div>
                   {e.profil && (

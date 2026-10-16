@@ -25,3 +25,11 @@ export function rubriqueDe(ecran: string): Rubrique {
       return 'accueil'
   }
 }
+
+/** Outside the tour: the proposal flow (Besoin, Proposition, Invitation, more options) belongs to no entry, and a
+ *  Fiche opened from the dashboard keeps the dashboard lit. The tour keeps rubriqueDe as is. */
+export function rubriqueHorsVisite(ecran: string, retourFiche: string): Rubrique | null {
+  if (['besoin', 'proposition', 'invitation', 'plus'].includes(ecran)) return null
+  if (ecran === 'fiche' && retourFiche === 'dashboard') return 'dashboard'
+  return rubriqueDe(ecran)
+}

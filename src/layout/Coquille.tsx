@@ -4,7 +4,7 @@ import type { Rubrique } from './rubriques'
 import './bureau.css'
 
 interface Props {
-  rubrique: Rubrique
+  rubrique: Rubrique | null
   nbProjets: number
   /** Guided tour: the sidebar is inert, like the screens. */
   inerte: boolean

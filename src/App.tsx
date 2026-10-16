@@ -34,7 +34,7 @@ import { useTour } from './tour/useTour'
 import { ETAPES, PROFIL_VISITE, PUCES_VISITE, ROLE_VISITE, TEXTE_VISITE, legendeDe } from './tour/script'
 import { besoinSofia } from './tour/histoires'
 import Coquille from './layout/Coquille'
-import { rubriqueDe } from './layout/rubriques'
+import { rubriqueDe, rubriqueHorsVisite } from './layout/rubriques'
 import EspaceProjets from './layout/EspaceProjets'
 import { useBureau } from './layout/useBureau'
 import Dashboard from './screens/Dashboard'
@@ -285,7 +285,7 @@ export default function App() {
     : ''
 
   return (
-    <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={enVisite ? 1 : projets.length} inerte={enVisite} onAller={setEcran}>
+    <Coquille rubrique={enVisite ? rubriqueDe(ecranActif) : rubriqueHorsVisite(ecranActif, retourFiche)} nbProjets={enVisite ? 1 : projets.length} inerte={enVisite} onAller={setEcran}>
     <div className={enVisite ? (etat.pause ? 'racine tour-actif tour-pause' : 'racine tour-actif') : 'racine'}>
       <div className="ecrans" inert={enVisite}>
       {ecranActif === 'accueil' && (

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { cheminIcsStatique, contenuIcs, estIos, fichierIcs, lienGoogleAgenda, modeCalendrier } from './calendrier'
+import { cheminIcsStatique, cleIcs, contenuIcs, estIos, fichierIcs, lienGoogleAgenda, modeCalendrier } from './calendrier'
+import { CATALOGUE_ICS } from './icsCatalogue'
 import { libelleDate, prochaineDate } from './date'
 import type { Projet } from './projets'
 
@@ -97,6 +98,37 @@ describe('modeCalendrier (never a data: URL on iOS)', () => {
     expect(modeCalendrier(projet, true, true)).toBe('partage')
     expect(modeCalendrier(projet, true, false)).toBe('google')
     expect(cheminIcsStatique(projet)).toBeNull()
+  })
+  // Every engine proposal of the catalogue (title, pitch-day date, place) has a prebuilt file named by its key.
+  const cafe = CATALOGUE_ICS.find((e) => e.titre === 'Exposition collaborative au Café Le Petit Détour') ?? CATALOGUE_ICS[0]
+  const engin: Projet = { ...projet, ...cafe, id: `prop-story-cafe-p-galerie+p-salle|${cafe.titre}`, proposition: { id: 'prop-story-cafe-p-galerie+p-salle' } as Projet['proposition'] }
+  it('opens the prebuilt file on iOS for an engine proposal of the catalogue', () => {
+    expect(cafe).toBeDefined()
+    expect(cheminIcsStatique(engin)).toBe(`ics/prop-${cleIcs(cafe)}.ics`)
+    expect(modeCalendrier(engin, true, true)).toBe('fichier')
+    expect(modeCalendrier(engin, false, true)).toBe('telechargement')
+  })
+  it('falls back to the share sheet when the date is not the prebuilt one or the project is user-created', () => {
+    expect(cheminIcsStatique({ ...engin, jour: '2026-10-29' })).toBeNull()
+    expect(cheminIcsStatique({ ...engin, lieuNom: 'Ailleurs' })).toBeNull()
+    expect(cheminIcsStatique({ ...engin, proposition: { id: 'ouvert-1760000000000' } as Projet['proposition'] })).toBeNull()
+    expect(cheminIcsStatique({ ...engin, proposition: undefined })).toBeNull()
+  })
+})
+
+describe('cleIcs', () => {
+  const base = { titre: 'Atelier ouvert au Café Le Petit Détour', jour: '2026-10-22', heureDebut: 19, heureFin: 22, lieuNom: 'Café Le Petit Détour' }
+  it('is 8 hex characters, stable, and follows title, date and place', () => {
+    expect(cleIcs(base)).toMatch(/^[0-9a-f]{8}$/)
+    expect(cleIcs({ ...base })).toBe(cleIcs(base))
+    expect(cleIcs({ ...base, jour: '2026-10-29' })).not.toBe(cleIcs(base))
+    expect(cleIcs({ ...base, heureDebut: 18 })).not.toBe(cleIcs(base))
+    expect(cleIcs({ ...base, lieuNom: '' })).not.toBe(cleIcs(base))
+  })
+  it('has no collision in the catalogue, and each entry sits on a pitch-day slot', () => {
+    const cles = CATALOGUE_ICS.map(cleIcs)
+    expect(new Set(cles).size).toBe(cles.length)
+    for (const e of CATALOGUE_ICS) expect(['2026-10-21', '2026-10-22', '2026-10-24']).toContain(e.jour)
   })
   it('shares a text/calendar file with the same content', async () => {
     const f = fichierIcs(projet)

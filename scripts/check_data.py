@@ -98,4 +98,4 @@ for e in evs:
     assert inside(e), e["id"] + " outside outline"
 assert sum(e['ouvertAuPublic'] for e in evs) >= 8
 assert 14 <= len(evs) <= 20 and any("promoteurId" in e for e in evs)
-print(f"OK: {len(profils)} profils fictifs + {len(ouverts)} reels (donnees ouvertes), {len(lieux)} lieux, {len(evs)} evenements, outline valid, ids unique, story trio present")
+print(f"OK: {len(profils) + len(ouverts)} profils ({len(profils)} fictifs, {len(ouverts)} donnees ouvertes), {len(lieux)} lieux, {len(evs)} evenements, outline valid, ids unique, story trio present")

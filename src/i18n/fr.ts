@@ -1,6 +1,8 @@
 // Maillage: textes de l'interface (français du Québec). Clés alignées sur src/types.ts.
 // Aucun nom réel, aucune donnée personnelle.
 
+const NOMBRE: Record<number, string> = { 2: 'deux', 3: 'trois', 4: 'quatre' }
+
 export const fr = {
   accueil: {
     titre: 'Maillage',
@@ -84,12 +86,15 @@ export const fr = {
   proposition: {
     autresOptions: 'Plus d’options',
     titre: 'Votre projet à trois',
+    /** Titre et intertitre selon le nombre réel de membres (demandeur compris): 2, 3 ou 4. */
+    titreN: (n: number) => `Votre projet à ${NOMBRE[n] ?? n}`,
     nombreTrouvees: (n: number) => (n === 1 ? '1 proposition trouvée' : `${n} propositions trouvées`),
     pourquoi: 'Pourquoi cette suggestion',
     aConfirmer: 'À confirmer',
     evenementsProches: 'Événements à proximité',
     aucunEvenement: 'Aucun événement à proximité à ce moment-là.',
     partenaires: 'Les trois partenaires',
+    partenairesN: (n: number) => `Les ${NOMBRE[n] ?? n} partenaires`,
     vous: 'Vous',
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,

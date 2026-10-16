@@ -85,7 +85,7 @@ export default function Fiche({ projet, onRetour, onProjets, onCocher, onRetirer
       {projet.proposition?.lieuId && projet.lieuNom && <p className="fiche-note">{fr.proposition.lieuSuggere}</p>}
       <p className="fiche-statut">{projet.inscrit ? fr.evenement.inscrit : fr.proposition.statuts[projet.statut]}</p>
 
-      <h2 className="sous-titre">{projet.inscrit ? fr.evenement.organisateur : projet.partenaires.length === 3 ? fr.proposition.partenaires : `Les ${projet.partenaires.length} partenaires`}</h2>
+      <h2 className="sous-titre">{projet.inscrit ? fr.evenement.organisateur : fr.proposition.partenairesN(projet.partenaires.length)}</h2>
       <ul className="liste-part">
         {projet.partenaires.map((p) => (
           <li key={p.nom} className="partenaire">

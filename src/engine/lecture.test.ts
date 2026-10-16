@@ -149,7 +149,7 @@ describe('lireBesoin: questions du jury (vocabulaire élargi)', () => {
     ["Je viens d'ouvrir un café sur Saint-Joseph, je cherche des musiciens le samedi", ['animation', 'nourriture'], ['fin_de_semaine']],
     ["Je veux réparer mon toit avant l'hiver, je cherche un couvreur", [], []],
     ['Nous cherchons des cuisiniers bénévoles pour une soupe populaire le lundi matin', ['benevoles', 'nourriture'], ['semaine_jour']],
-    ['Je cherche des vélos usagés pour un atelier de réparation avec des ados', ['animation', 'expertise', 'materiel'], []],
+    ['Je cherche des vélos usagés pour un atelier de réparation avec des ados', ['animation', 'expertise', 'materiel', 'public'], []],
     ['Je fais du yoga et je cherche une salle le dimanche matin pour un cours gratuit', ['espace_interieur'], ['fin_de_semaine']],
     ["Je veux apprendre le mandarin avec d'autres personnes du quartier", ['expertise', 'public'], []],
   ] as const)('%s', (t, besoins, creneaux) => {
@@ -162,5 +162,18 @@ describe('lireBesoin: questions du jury (vocabulaire élargi)', () => {
   });
   it('soupe populaire: alimentation et communautaire', () => {
     expect(cas('Nous cherchons des cuisiniers bénévoles pour une soupe populaire').themes).toEqual(expect.arrayContaining(['alimentation', 'communautaire']));
+  });
+});
+
+describe('lireBesoin: une activité implique ses besoins', () => {
+  it.each([
+    ['Je suis libraire et je veux organiser une heure du conte le dimanche matin', ['animation', 'espace_interieur', 'public'], ['fin_de_semaine']],
+    ["J'ai 16 ans et je voudrais organiser une compétition de skate la fin de semaine", ['animation', 'espace_exterieur', 'public'], ['fin_de_semaine']],
+    ['Je suis parent et je cherche une heure de lecture pour les enfants le samedi matin', ['animation', 'espace_interieur', 'public'], ['fin_de_semaine']],
+    ['Je voudrais créer un jardin communautaire sur un terrain vacant', ['benevoles', 'espace_exterieur', 'materiel'], []],
+  ] as const)('%s', (t, besoins, creneaux) => {
+    const r = cas(t);
+    expect([...r.besoins].sort()).toEqual([...besoins].sort());
+    expect([...r.creneaux].sort()).toEqual([...creneaux].sort());
   });
 });

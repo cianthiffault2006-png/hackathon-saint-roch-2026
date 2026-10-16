@@ -179,6 +179,7 @@ describe('proposer: français des sorties', () => {
     expect(titre('spectacle', 'Bibliothèque Gabrielle-Roy', true, false, 'fin_de_semaine')).toBe('Spectacle à la Bibliothèque Gabrielle-Roy');
     expect(titre('spectacle', 'Bibliothèque Gabrielle-Roy', true, false, 'semaine_soir')).toBe('Soirée spectacle à la Bibliothèque Gabrielle-Roy');
     expect(typeDemande('Nous cherchons des cuisiniers bénévoles pour une soupe populaire le lundi matin')).toBe('collecte');
+    expect(typeDemande('Notre groupe d’aînés cherche une salle pour se réunir les après-midi de semaine')).toBe('atelier');
   });
   it('pas de « chez Chez »', () => {
     expect(titre('exposition', 'Chez Gaston')).toBe('Exposition collaborative Chez Gaston');

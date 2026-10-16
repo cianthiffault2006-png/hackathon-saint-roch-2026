@@ -130,6 +130,8 @@ const TYPES_DEMANDES: [RegExp, TypeProjet][] = [
   [/\b(ateliers?|cours|formations?|initiations?)\b/, 'atelier'],
   // Food aid run by volunteers (« soupe populaire », « cuisiniers bénévoles »): the closest existing type, never a show.
   [/\b(soupes? populaires?|cuisinier\w*|popotes?|banques? alimentaires?|repas communautaires?)/, 'collecte'],
+  // A group looking for a room to meet in (« pour se réunir »): a neutral open session, never a show.
+  [/\b(se reunir|reunions?|rassembl\w*)\b/, 'atelier'],
 ];
 export function typeDemande(texte: string): TypeProjet | undefined {
   const t = normaliser(texte);

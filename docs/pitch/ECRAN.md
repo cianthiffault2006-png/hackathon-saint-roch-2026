@@ -82,6 +82,18 @@ Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : C
 - Pour montrer une fiche pré-remplie (Q22) : Accueil, « Explorer le quartier », une épingle avec l’étiquette pré-rempli (par exemple « Salle Le Bémol »), et dire la phrase de consentement en deux moitiés.
 - Pour montrer le score (Q7, Q23) : la proposition est toujours ouverte dans l’app si on n’a pas quitté; sinon refaire Commerçant, Ctrl+V, Trouver des partenaires (8 s).
 
+## Gel et export des diapos (12 h 30, une commande)
+
+Depuis la racine du dépôt, dans le terminal (PowerPoint doit être installé sur le portable; testé le 16 octobre à 9 h 05 sur Maillage.pptx : 7 pages, images sur les diapos 1, 3 à 7, aucun crochet) :
+
+```
+powershell -ExecutionPolicy Bypass -File docs/pitch/export_pdf.ps1
+```
+
+Ce que la commande fait : reconstruit `Maillage.pptx` à partir de `slides-fr.md` et de `img/slide-<n>.png`, l’exporte en PDF par PowerPoint vers `C:\Users\maeli\cian-claude\media\slides.pdf`, puis vérifie 7 pages, les images et l’absence de « [ » sur une diapo (elle s’arrête avec une erreur sinon). Options : `-SansBuild` pour exporter le pptx tel quel, `-Sortie <chemin>` pour un autre fichier. Ensuite, à la main : copier `slides.pdf` sur la clé USB et le deuxième portable, l’ouvrir dans Chrome (onglet 2) et vérifier que la page 1 s’affiche en plein écran.
+
+Ordre du gel : 1. captures finales dans `img/` (après le bundle final, 10 h 45 à 11 h 30); 2. citation réelle sur la diapo 2 seulement si on en a une (sinon la carte de repli reste); 3. la commande ci-dessus; 4. `git add docs/pitch && git commit && git push`; 5. copies USB et deuxième portable.
+
 ## Moments sans parole à couvrir (pour que personne ne regarde ses pieds)
 
 | Moment | Durée | Ce qu’on fait |

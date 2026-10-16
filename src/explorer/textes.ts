@@ -2,7 +2,7 @@
 export const t = {
   titre: 'Explorer le quartier',
   retour: 'Retour',
-  recherche: 'Rechercher un nom, un type ou un thème',
+  recherche: 'Rechercher',
   rechercheEtiquette: 'Recherche',
   filtres: 'Filtres',
   chips: { commerce: 'Commerces', organisme: 'Organismes', citoyen: 'Citoyens', lieu: 'Lieux publics', evenement: 'Événements' },

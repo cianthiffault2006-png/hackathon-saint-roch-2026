@@ -1,5 +1,6 @@
 import { fr } from '../i18n/fr'
 import { libelleDate } from './date'
+import { CATALOGUE_ICS } from './icsCatalogue'
 import { DEMOS, type Projet } from './projets'
 
 function heure(h: number): string {
@@ -94,16 +95,34 @@ export function estIos(nav: Pick<Navigator, 'userAgent' | 'platform' | 'maxTouch
 /** Date stamp of the prebuilt files in public/ics, so regenerating them gives the same bytes. */
 export const STAMP_STATIQUE = new Date('2026-10-15T00:00:00Z')
 
-type Cle = Partial<Pick<Projet, 'evenementId'>> & { proposition?: { id: string } }
+/** What a prebuilt engine file carries: the key, the UID and the file name come from these five fields only. */
+export type ContenuIcs = Pick<Projet, 'titre' | 'jour' | 'heureDebut' | 'heureFin' | 'lieuNom'>
+
+/** FNV-1a over title, date and place, 8 hex characters: the stable name of a prebuilt engine file (ics/prop-<cle>.ics). */
+export function cleIcs(p: Partial<ContenuIcs>): string {
+  const texte = [p.titre ?? '', p.jour ?? '', p.heureDebut ?? '', p.heureFin ?? '', p.lieuNom ?? ''].join('|')
+  let h = 0x811c9dc5
+  for (let i = 0; i < texte.length; i++) h = Math.imul(h ^ texte.charCodeAt(i), 0x01000193) >>> 0
+  return h.toString(16).padStart(8, '0')
+}
+
+const CLES_CATALOGUE = new Set(CATALOGUE_ICS.map(cleIcs))
+
+type Cle = Partial<Pick<Projet, 'evenementId'> & ContenuIcs> & { proposition?: { id: string } }
 
 /**
- * Public events and the scripted demo projects have fixed dates, so their .ics is prebuilt in public/ics and
- * served over https as text/calendar: iOS (Safari and Chrome) opens its native « Ajouter au calendrier » sheet.
+ * Public events, the scripted demo projects and the engine proposals of the catalogue (fixed pitch-day dates) have
+ * a prebuilt .ics in public/ics, served over https as text/calendar: iOS (Safari and Chrome) opens its native
+ * « Ajouter au calendrier » sheet. An engine proposal (id prop-…) matches by title, date and place, so once
+ * prochaineDate moves past the prebuilt date it falls back to the share sheet; user-created projects (ouvert-…) never match.
  */
 export function cheminIcsStatique(p: Cle): string | null {
   if (p.evenementId) return `ics/${p.evenementId.replace(/[^A-Za-z0-9-]/g, '')}.ics`
   const demo = p.proposition && DEMOS[p.proposition.id]
-  return demo ? `ics/${demo.fichier}.ics` : null
+  if (demo) return `ics/${demo.fichier}.ics`
+  if (!p.proposition?.id.startsWith('prop-')) return null
+  const cle = cleIcs(p)
+  return CLES_CATALOGUE.has(cle) ? `ics/prop-${cle}.ics` : null
 }
 
 export type ModeCalendrier = 'fichier' | 'partage' | 'google' | 'telechargement'

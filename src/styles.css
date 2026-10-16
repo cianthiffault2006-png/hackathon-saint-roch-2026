@@ -2391,6 +2391,7 @@ body:has(.accueil) .badge-demo {
   color: var(--vert-fonce);
   font-size: 14px;
   font-weight: 700;
+  vertical-align: middle;
 }
 
 .btn-discussion-projet:hover {

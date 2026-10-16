@@ -43,7 +43,12 @@ const DICO: Entree[] = [
   { re: /\b(etudiants?|etudiantes?|cegep|universit\w*)\b/, themes: ['etudiants'] },
   { re: /\b(environnement|verdissement|verdir|ruelles? vertes?|vert|vegetalisation|jardin\w*|plantes?|ecolo\w*)\b/, themes: ['environnement'] },
   { re: /\b(securite|securitaire|sentiment de securite|eclairage)\b/, themes: ['securite'] },
-  { re: /\b(sports?|sportif|sportive|yoga|velos?|cyclis\w*)\b/, themes: ['sport'] },
+  { re: /\b(sports?|sportif|sportive|yoga|velos?|cyclis\w*|skate\w*|planche a roulettes)\b/, themes: ['sport'] },
+  // An activity implies its needs: a place, someone to run it, people to come.
+  { re: /\b(heures? du conte|heures? de (lecture|conte)|contes?|lecture)\b/, besoin: ['animation', 'espace_interieur', 'public'], offre: ['animation'], themes: ['culture'] },
+  { re: /\b(competitions?|tournois?|skate\w*|planche a roulettes)\b/, besoin: ['espace_exterieur', 'animation', 'public'], offre: ['animation'], themes: ['sport', 'jeunesse'] },
+  { re: /\b(jardins? communautaires?|terrains? vacants?|potagers?|verdir|plantation)\b/, besoin: ['espace_exterieur', 'benevoles', 'materiel'], offre: ['espace_exterieur'], themes: ['environnement', 'communautaire'] },
+  { re: /\b(enfants?|jeunes|ados|adolescents?)\b/, besoin: ['public'], themes: ['jeunesse'] },
   { re: /\b(communaute|communautaire|voisins?|quartier|citoyens?|solidarite|ainee?s?|personnes agees|familles?|soupe populaire)\b/, themes: ['communautaire'] },
   { re: /\b(commerces?|commercants?|boutiques?|marchands?|achat local)\b/, themes: ['commerce_local'] },
   { re: /\b(cuisine|manger|repas|bouffe|nourriture)\b/, themes: ['alimentation'] },

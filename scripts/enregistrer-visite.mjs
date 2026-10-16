@@ -42,8 +42,8 @@ const TAILLE_MIN_OCTETS = 1024 * 1024
 const PAUSE_FIN_MS = 3000
 const FONDU_S = 0.3
 
-// Cadre 1920 x 1080 : le téléphone remplit la hauteur (bord 1020 px), écran 460 x 996 (390 x 844 à 2,55x), coins ronds, ombre portée.
-const CADRE = { largeur: 1920, hauteur: 1080, ecran: { l: 460, h: 996, r: 55 }, bord: 12, rBord: 67, ombre: { dy: 14, flou: 36, alpha: 0.3 } }
+// Cadre 1920 x 1080 : le téléphone remplit la hauteur (bord 1024 px), écran 462 x 1000 (390 x 844 à 2,56x), coins ronds, ombre portée.
+const CADRE = { largeur: 1920, hauteur: 1080, ecran: { l: 462, h: 1000, r: 55 }, bord: 12, rBord: 67, ombre: { dy: 10, flou: 30, alpha: 0.3 } }
 const TENUE_FIN_S = 2
 const COULEURS = { papier: [247, 241, 230], lin: [239, 231, 216], bord: [31, 31, 31] }
 

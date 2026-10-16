@@ -926,6 +926,7 @@ body {
 
 .lien-evitement:focus {
   top: calc(env(safe-area-inset-top) + 8px);
+  z-index: 1000;
 }
 
 :focus-visible {

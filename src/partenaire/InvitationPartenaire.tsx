@@ -3,6 +3,7 @@ import type { Profil, Proposition } from '../types'
 import { CRENEAU_TXT, lib } from '../engine/proposer'
 import { libelleDate } from '../lib/date'
 import { dateProposee } from '../lib/projets'
+import { nomCourt } from '../lib/invitation'
 import './InvitationPartenaire.css'
 
 interface Props {
@@ -46,7 +47,7 @@ export default function InvitationPartenaire({ proposition, partenaire, demandeu
   const sonApport = proposition.partenaires.find((c) => c.profilId === partenaire.id)?.apport
   const autreContribution = proposition.partenaires.find((c) => c.profilId !== partenaire.id && c.profilId !== demandeur.id)
   const raisons = construireRaisons(proposition, partenaire, demandeur)
-  const salut = partenaire.nom.split(' ')[0]
+  const salut = nomCourt(partenaire)
 
   function accepter() {
     setAccepte(true)

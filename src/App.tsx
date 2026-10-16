@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Besoin as BesoinType, Creneau, Evenement, Proposition as PropositionType, Role, Statut, Tag } from './types'
+import type { Besoin as BesoinType, Creneau, Evenement, Profil, Proposition as PropositionType, Role, Statut, Tag } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { fusionnerAffichage } from './lib/presentation'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
-import { choisirInvite, prenom } from './lib/invitation'
+import { choisirInvite, nomCourt } from './lib/invitation'
 import { ASKER_PAR_ROLE, trouverAsker } from './lib/besoin'
 import FilVisite from './tour/FilVisite'
 import Regie from './tour/Regie'
@@ -13,7 +13,7 @@ import { fr } from './i18n/fr'
 import { chargerProjets, idEvenement, idProjet, projetDepuis, projetDepuisEvenement, sauverProjets, type Projet } from './lib/projets'
 import Badge from './components/Badge'
 import Accueil from './screens/Accueil'
-import Besoin from './screens/Besoin'
+import Besoin, { type Brouillon } from './screens/Besoin'
 import FilProjet from './projet/FilProjet'
 import NouveauProjet from './projet/NouveauProjet'
 import Explorer from './explorer/Explorer'
@@ -57,10 +57,14 @@ export default function App() {
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
+  // Project id → partner's first name once « Pas cette fois » was pressed (simulated decline).
+  const [declins, setDeclins] = useState<Record<string, string>>({})
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
   const [discussionId, setDiscussionId] = useState<string | null>(null)
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
+  // What was typed for that need, so « ← » from the proposal brings it back; a new role from the accueil starts blank.
+  const [brouillon, setBrouillon] = useState<(Brouillon & { role: Role }) | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
   // Where Besoin's « ← » goes: the profile or claim search that pressed « Proposer une collaboration », else Accueil.
@@ -130,12 +134,24 @@ export default function App() {
     [enVisite, donnees],
   )
 
-  function trouver(besoin: BesoinType) {
+  function trouver(besoin: BesoinType, brouillon: Brouillon) {
     setDernierBesoin(besoin)
+    setBrouillon({ role: besoin.auteurRole, ...brouillon })
     const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
     setPropositions(trouvees)
     setAnnonce(fr.proposition.nombreTrouvees(trouvees.length))
     setIndexProp(0)
+    setEcran('proposition')
+  }
+
+  // « Choisir » in Plus d'options: the chosen proposal joins the list in front, so the first three stay one swipe away.
+  function choisirOption(p: PropositionType) {
+    const i = propositions.findIndex((x) => x.id === p.id)
+    if (i >= 0) setIndexProp(i)
+    else {
+      setPropositions([p, ...propositions])
+      setIndexProp(0)
+    }
     setEcran('proposition')
   }
 
@@ -209,6 +225,14 @@ export default function App() {
     window.setTimeout(() => setEcran('proposition'), 2400)
   }
 
+  // « Pas cette fois »: the proposal goes back to « Proposition » with a note, and its invitation stays closed.
+  function declinerInvitation(prop: PropositionType, partenaire: Profil) {
+    if (enVisite) return
+    changerStatut(prop, 'proposee')
+    setDeclins((d) => ({ ...d, [idProjet(prop)]: nomCourt(partenaire) }))
+    setEcran('proposition')
+  }
+
   // What the tour asks of each screen: a pure function of the step and the time elapsed in it
   // (src/tour/etat.ts), so Pause holds everything and a jump rebuilds it from the index alone.
   const ee = etat ? etatEcrans(etat.index, etat.ms) : null
@@ -250,7 +274,7 @@ export default function App() {
   const propInvitation = enVisite ? propVisite : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
   const legende = etape
-    ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '', scoreSofia: propositionsSofia[0]?.score ?? 0 })
+    ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? nomCourt(invite.partenaire) : '', scoreSofia: propositionsSofia[0]?.score ?? 0 })
     : ''
 
   return (
@@ -260,7 +284,7 @@ export default function App() {
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
-          onRole={(r) => { setRole(r); setVoulu(null); setRetourBesoin('accueil'); setEcran('besoin') }}
+          onRole={(r) => { setRole(r); setVoulu(null); setBrouillon(null); setRetourBesoin('accueil'); setEcran('besoin') }}
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
@@ -288,6 +312,7 @@ export default function App() {
           role={enVisite ? ROLE_VISITE : role}
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
+          initial={!enVisite && brouillon && brouillon.role === role ? brouillon : undefined}
           guide={guideBesoin}
           onRetour={() => { setVoulu(null); setEcran(retourBesoin) }}
           onTrouver={trouver}
@@ -308,6 +333,7 @@ export default function App() {
           onIndex={setIndexProp}
           onFiche={(prop) => ouvrirFiche(idProjet(prop), 'proposition')}
           onInvitation={(prop) => { setInvitationProp(prop); setEcran('invitation') }}
+          declins={enVisite ? undefined : declins}
           projets={enVisite ? undefined : projets}
           onParticiper={enVisite ? undefined : participer}
           onPlusOptions={enVisite || !dernierBesoin ? undefined : () => setEcran('plus')}
@@ -323,6 +349,7 @@ export default function App() {
           autre={invite.autre}
           accepteVisite={ee ? ee.accepte : undefined}
           onAccepter={() => accepterInvitation(propInvitation)}
+          onDecliner={() => declinerInvitation(propInvitation, invite.partenaire)}
           onRetour={() => setEcran('proposition')}
         />
       )}
@@ -432,7 +459,7 @@ export default function App() {
             profils={donnees.profils}
             lieux={donnees.lieux}
             evenements={donnees.evenements}
-            onChoisir={(p) => { setPropositions([p]); setIndexProp(0); setEcran('proposition') }}
+            onChoisir={choisirOption}
           />
         </div>
       )}

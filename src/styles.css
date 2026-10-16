@@ -436,6 +436,18 @@ button {
   pointer-events: none;
 }
 
+/* After « Pas cette fois » (simulated decline): one line above « Ça m'intéresse ». */
+.note-declin {
+  margin: 0 0 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--orange-pale);
+  color: var(--texte);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
 .note-simulation {
   margin: 8px 0 0;
   color: var(--gris);

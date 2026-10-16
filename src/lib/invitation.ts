@@ -12,6 +12,7 @@ export function choisirInvite(prop: Proposition, profils: Profil[]): { partenair
   return demandeur && partenaire ? { partenaire, demandeur, autre } : null
 }
 
-export function prenom(p: Profil): string {
-  return p.nom.split(' ')[0]
+/** How a partner is addressed: a citizen by first name (« Camille »), a business or organisation by its full name. */
+export function nomCourt(p: Pick<Profil, 'nom' | 'role'>): string {
+  return p.role === 'citoyen' ? p.nom.split(' ')[0] : p.nom
 }

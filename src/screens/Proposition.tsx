@@ -3,7 +3,7 @@ import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } 
 import { fr } from '../i18n/fr'
 import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
-import { choisirInvite, prenom } from '../lib/invitation'
+import { choisirInvite, nomCourt } from '../lib/invitation'
 import { idEvenement, idProjet, type Projet } from '../lib/projets'
 
 interface Props {
@@ -21,6 +21,8 @@ interface Props {
   onIndex: (index: number) => void
   onFiche?: (prop: PropositionType) => void
   onInvitation?: (prop: PropositionType) => void
+  /** Project id → partner's first name, for proposals whose invitation was declined (simulated): a note, and no invitation link. */
+  declins?: Record<string, string>
   /** The viewer's projects, to show which public events are already joined. */
   projets?: Projet[]
   onParticiper?: (e: Evenement) => void
@@ -49,6 +51,7 @@ export interface GuideProposition {
 
 /** Shared empty list: a new [] on every render made the pins, then every marker, change each time. */
 const AUCUN_PROJET: Projet[] = []
+const AUCUN_DECLIN: Record<string, string> = {}
 
 const DELAI_PIN_VISITE_MS = 400
 
@@ -58,7 +61,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, projets = AUCUN_PROJET, onParticiper, onPlusOptions, onExplorer }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, declins = AUCUN_DECLIN, projets = AUCUN_PROJET, onParticiper, onPlusOptions, onExplorer }: Props) {
   const enVisite = visite !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLDivElement>(null)
@@ -66,6 +69,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
 
   const prop = propositions[index]
   const statut: Statut = (prop && statuts[idProjet(prop)]) || 'proposee'
+  const declin = prop ? declins[idProjet(prop)] : undefined
   const invite = prop ? choisirInvite(prop, profils) : null
 
   // « Intérêt envoyé » becomes « En attente » after 2 s. It then stays there until the partner accepts
@@ -259,6 +263,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           )}
         </div>
         <div className="pied-feuille">
+          {statut === 'proposee' && declin && (
+            <p className="note-declin" role="status">{fr.proposition.decline(declin)}</p>
+          )}
           {statut === 'proposee' ? (
             <button
               type="button"
@@ -282,9 +289,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
               ))}
             </div>
           )}
-          {statut === 'en_attente' && onInvitation && invite && (
+          {statut === 'en_attente' && onInvitation && invite && !declin && (
             <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
-              {fr.proposition.voirInvitation(prenom(invite.partenaire))}
+              {fr.proposition.voirInvitation(nomCourt(invite.partenaire))}
             </button>
           )}
           {statut === 'en_attente' && !enVisite && (

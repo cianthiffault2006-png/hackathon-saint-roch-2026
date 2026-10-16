@@ -4,6 +4,7 @@ import { proposer } from '../engine'
 import { LIBELLE_CRENEAU, LIBELLE_TAG } from '../labels'
 import { CENTRE_SAINT_ROCH, distanceM, minutesAPied } from './geo'
 import { t } from './textes'
+import { nomPublic, retenirCartes } from './cartesOptions'
 import './PlusOptions.css'
 
 interface Props {
@@ -15,7 +16,6 @@ interface Props {
 }
 
 const PALIERS = [5, 10, 20]
-const nomPublic = (p: Profil | undefined, id: string) => (p ? (p.role === 'citoyen' ? t.citoyen : p.nom) : id)
 
 /** Toutes les propositions: l'engin n'en rend que 3, donc on relance sans les partenaires déjà proposés. */
 function toutesLesPropositions(besoin: Besoin, profils: Profil[], lieux: Lieu[], evenements: Evenement[]): Proposition[] {
@@ -45,13 +45,14 @@ export default function PlusOptions({ besoin, profils, lieux, evenements, onChoi
   const propositions = useMemo(() => toutesLesPropositions(besoin, profils, lieux, evenements), [besoin, profils, lieux, evenements])
   const parId = useMemo(() => new Map(profils.map((p) => [p.id, p])), [profils])
 
-  const cartes = useMemo(() => propositions
+  // Within reach, then one card per title and partner set, at most MAX_CARTES by score.
+  const cartes = useMemo(() => retenirCartes(propositions
     .map((p) => {
       const partenaires = p.partenaires.filter((c) => c.profilId !== besoin.auteurId)
       const loin = Math.max(0, ...partenaires.map((c) => { const pr = parId.get(c.profilId); return pr ? minutesDe(pr) : 0 }))
       return { p, loin }
     })
-    .filter((x) => x.loin <= minMax)
+    .filter((x) => x.loin <= minMax))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     , [propositions, minMax, origine])
 
@@ -101,7 +102,7 @@ export default function PlusOptions({ besoin, profils, lieux, evenements, onChoi
         <ul className="po-liste">
           {individuels.map(({ p, offre, creneaux, min }) => (
             <li key={p.id} className="po-carte">
-              <strong>{p.role === 'citoyen' ? t.citoyen : p.nom}</strong>
+              <strong>{nomPublic(p, p.id)}</strong>
               <span>{p.sousType} · {t.aPied(min)}</span>
               <span>{t.raisonPartenaire(offre.map((o) => LIBELLE_TAG[o]).join(', '), creneaux.map((c) => LIBELLE_CRENEAU[c]).join(', '))}</span>
             </li>

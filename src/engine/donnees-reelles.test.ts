@@ -161,7 +161,7 @@ describe('visite guidée: phrase du café', () => {
           "Camille Vézina offre du contenu artistique et de l’animation le soir en semaine, ce que vous cherchez",
           "Collectif Les Voisins en Scène offre de la visibilité et de l’animation le soir en semaine, ce que vous cherchez",
           "Ce que vous offrez (espace intérieur, public) répond à ce que cherchent Camille Vézina et Collectif Les Voisins en Scène",
-          "Depuis chez vous, à pied : Camille Vézina à 3 minutes ; Collectif Les Voisins en Scène à 2 minutes",
+          "Depuis chez vous, à pied : Camille Vézina à 3 minutes; Collectif Les Voisins en Scène à 2 minutes",
           "Tous disponibles le soir en semaine",
         ],
         "score": 87,

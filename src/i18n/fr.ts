@@ -103,7 +103,7 @@ export const fr = {
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,
     lieuPropose: 'Lieu proposé',
-    accordVoulu: (nom: string, n: number) => `Avec ${nom} seul : ${n} %. Ce qui baisse le score :`,
+    accordVoulu: (nom: string, n: number) => `Avec ${nom} uniquement : ${n} %. Ce qui baisse le score :`,
     creerQuandMeme: 'Créer le projet quand même',
     nouveauProjet: 'Nouveau projet',
     peuCompatible: 'Aucune proposition ne dépasse 50 %. Vous pouvez lancer votre projet avec des rôles ouverts.',
@@ -160,7 +160,7 @@ export const fr = {
     tagNonReclame: 'Pré-rempli · visible ici pour la démo',
     nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Il devient public seulement après réclamation avec un code et consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Il est visible ici pour la démo : fiche fictive, avec seulement le nom, le type, une description et l’emplacement, sans coordonnées. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer votre fiche',
-    pasAffiche: 'Profil non réclamé : non affiché.',
+    pasAffiche: 'Fiche non réclamée : non affichée.',
     fictif: 'Données fictives créées pour la démo.',
   },
 
@@ -201,7 +201,7 @@ export const fr = {
       erreurIncorrect: 'Ce code ne correspond pas. Vérifiez-le et réessayez.',
     },
     profil: {
-      titre: 'Vérifiez votre profil',
+      titre: 'Vérifiez votre fiche',
       intro: 'Ces renseignements viennent du répertoire. Modifiez-les au besoin.',
       nom: 'Nom',
       description: 'Description',
@@ -216,14 +216,14 @@ export const fr = {
       coordonnees: 'Afficher mes coordonnées publiquement',
       coordonneesAide: 'Sinon, les coordonnées sont partagées seulement après une mise en relation acceptée.',
       consentement: 'J’accepte que ce profil soit visible dans Maillage. Je peux le retirer en tout temps.',
-      activer: 'Activer mon profil',
+      activer: 'Activer ma fiche',
       erreurConsentement: 'Cochez la case de consentement pour activer le profil.',
     },
     fait: {
-      titre: 'Profil activé (simulé)',
+      titre: 'Fiche activée (simulé)',
       texte: 'La mention « Pré-rempli · visible ici pour la démo » est retirée : le profil apparaît maintenant comme activé partout dans Maillage.',
       simule: 'Aucun courriel n’a été envoyé : tout se passe dans cette démo.',
-      voir: 'Voir mon profil',
+      voir: 'Voir ma fiche',
     },
     courriel: {
       titre: 'Votre courriel professionnel',
@@ -439,7 +439,7 @@ export const fr = {
       profil: 'Un profil public, avec son badge : organisme reconnu par la Ville.',
       nouveau: 'Ou lancer un projet ouvert, à partir d’un exemple.',
       avant: 'Avant de commencer : autorisation du propriétaire, et le 311 pour ce qui relève de la Ville.',
-      sdc: 'Pour la SDC : un tableau de bord du quartier (données fictives de pilote).',
+      sdc: 'Pour la SDC : le tableau du quartier (données fictives de pilote).',
       sdcImpact: 'Profils à activer et impact : projets confirmés, participation, achalandage.',
     },
     /** Sofia's need, read by the engine for the suite's second story (not shown on screen). */
@@ -539,7 +539,7 @@ export const fr = {
     total: 'Mes projets',
     // Same words as the statuses in Mes projets.
     enAttente: 'Intérêt envoyé ou en attente',
-    confirmes: 'Confirmés (simulé)',
+    confirmes: 'Confirmés (simulés)',
     proposes: 'Propositions',
     inscriptions: 'Inscriptions',
     recents: 'Mes projets récents',

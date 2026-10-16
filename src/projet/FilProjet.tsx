@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Profil, Proposition } from '../types'
+import { fr } from '../i18n/fr'
 import { t } from './textes'
 import { ecrire, lire } from './stockage'
 import BasculeDirect from './BasculeDirect'
@@ -25,10 +26,10 @@ const PAUSE_S = 60
 const MAX = 500
 // Scripted content of the café story: only its own project gets it (Camille's canvases, Thu Oct 22).
 const ID_DEMO_CAFE = 'prop-story-cafe-story-artiste+story-organisme'
-const REPONSE_DEMO = 'Super, j’apporte aussi deux chevalets!'
+const REPONSE_DEMO = fr.visite.filReponse
 
 const MAJ_SEED: Maj[] = [
-  { id: 's1', titre: 'Date confirmée : jeudi 22 octobre', texte: 'Le lieu est réservé en soirée. Merci de confirmer votre présence.', date: '2026-10-14' },
+  { id: 's1', titre: 'Date proposée : jeudi 22 octobre', texte: 'Le lieu est réservé en soirée. Merci de confirmer votre présence.', date: '2026-10-14' },
   { id: 's2', titre: 'Camille apporte 12 toiles', texte: 'Elles seront prêtes à accrocher dès l’arrivée du groupe.', date: '2026-10-13' },
 ]
 

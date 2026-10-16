@@ -239,7 +239,7 @@ export const fr = {
 
   // « Ajouter ma fiche » (simulé): a business or organisation on no directory asks the SDC to be added.
   ajout: {
-    titre: 'Ajouter ma fiche',
+    titre: 'Ajouter mon organisation',
     contexte: 'Demande d’ajout à la SDC',
     formulaire: 'Décrivez votre organisation',
     intro: 'Votre organisation n’est dans aucun répertoire. La SDC vérifie qu’elle existe et qu’elle est dans Saint-Roch, puis la fiche apparaît. Rien n’est envoyé : c’est une démo.',

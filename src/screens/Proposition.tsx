@@ -145,7 +145,8 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
         margeBas={Math.round(window.innerHeight * (enVisite ? 0.5 : 0.58))}
         // Outside the tour: room for the « DÉMO SIMULÉE » stamp and ← at the top, and for pin labels on the sides.
         margeHaut={enVisite ? 215 : 160}
-        margeCote={enVisite ? undefined : (window.innerWidth < 900 ? 90 : 70)}
+        margeCote={enVisite ? undefined : 70}
+        margeDroite={enVisite ? undefined : 180}
         delaiPinMs={enVisite ? DELAI_PIN_VISITE_MS : undefined}
         animerPins={visite?.animer}
         anneauVisible={visite?.anneau}

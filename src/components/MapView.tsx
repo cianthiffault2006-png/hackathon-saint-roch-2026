@@ -32,8 +32,9 @@ interface Props {
   margeBas?: number
   /** Pixels hidden by the tour bar at the top. */
   margeHaut?: number
-  /** Side padding for the fit (px); defaults to 72 on phones, 50 on desktop. */
+  /** Side paddings for the fit (px); default 72 on phones, 50 on desktop. Labels sit right of their pin. */
   margeCote?: number
+  margeDroite?: number
   /** Delay between two pin drops. */
   delaiPinMs?: number
   /**
@@ -108,7 +109,7 @@ function placerEtiquettes(map: Map, marqueurs: Marker[]) {
   }
 }
 
-export default function MapView({ pins, margeBas = 0, margeHaut = 70, margeCote, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
+export default function MapView({ pins, margeBas = 0, margeHaut = 70, margeCote, margeDroite, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
@@ -283,7 +284,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, margeCote,
       const bas = margeBas + 40 + (telephone ? licence + 50 : 0)
       const kV = Math.min(1, Math.max(0, hauteur - 140) / Math.max(1, haut + bas))
       const cote = Math.min(margeCote ?? (telephone ? 72 : 50), Math.max(0, largeur - 140) / 2)
-      map.fitBounds(bornes, { padding: { top: Math.round(haut * kV), left: cote, right: cote, bottom: Math.round(bas * kV) }, maxZoom: 17, duration: 700 })
+      map.fitBounds(bornes, { padding: { top: Math.round(haut * kV), left: cote, right: margeDroite === undefined ? cote : Math.min(margeDroite, Math.max(0, largeur - 140 - cote)), bottom: Math.round(bas * kV) }, maxZoom: 17, duration: 700 })
     }
     return () => {
       window.clearTimeout(minuteur)
@@ -291,7 +292,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, margeCote,
       etiquetteCercle?.remove()
       etiquetteAnneau.current = null
     }
-  }, [signature, lot, margeBas, margeHaut, margeCote, delaiPinMs, appliquerAnneau])
+  }, [signature, lot, margeBas, margeHaut, margeCote, margeDroite, delaiPinMs, appliquerAnneau])
 
   useEffect(() => {
     appliquerAnneau()

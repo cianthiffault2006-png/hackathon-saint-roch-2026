@@ -9,6 +9,7 @@ const M_PAR_MIN = 80;
 const RAYON_EVENT_M = 600;
 const FENETRE_EVENT_J = 14;
 
+const TRIO_SOLIDE = 80; // trio gardé tel quel à partir de ce score
 const POIDS = { comp: 35, rev: 20, dist: 20, theme: 15, creneau: 10 };
 
 const LIBELLE: Record<Tag, string> = {
@@ -278,7 +279,10 @@ export const proposerAu = (
   const impose = voulu ? (cands.find((c) => c.p.id === voulu.id) ?? scorerPaire(besoin, pos, voulu, true)!) : undefined;
 
   // Pour chacun des 5 meilleurs partenaires, tous les tiers utiles; un trio par ensemble de partenaires.
-  const combos = new Map<string, { a: Cand; b?: Cand; valeur: number }>();
+  // La taille suit la compatibilité: seul s'il couvre tout, un quatrième s'il comble un besoin encore ouvert et partage un créneau.
+  const combos = new Map<string, { a: Cand; autres: Cand[]; valeur: number }>();
+  const seuls: { a: Cand; autres: Cand[]; valeur: number }[] = [];
+  const quatuors = new Map<string, { a: Cand; autres: Cand[]; valeur: number }>();
   for (const a of impose ? [impose] : cands.slice(0, 5)) {
     const nonCouverts = sans(besoin.besoins, a.p.offres);
     const besoinsA = sans(a.p.besoins, besoin.offres);
@@ -295,17 +299,33 @@ export const proposerAu = (
       const valeur = a.score + (25 * couvre + 15 * couvreA + 8 * sert + c.score) / 4;
       const cle = [a.p.id, c.p.id].sort().join('+');
       const deja = combos.get(cle);
-      if (!deja || valeur > deja.valeur) combos.set(cle, { a, b: c, valeur });
+      if (!deja || valeur > deja.valeur) combos.set(cle, { a, autres: [c], valeur });
+      // Quatrième membre: comble un besoin que ni a ni c ne couvrent, et partage un créneau avec les deux.
+      const ouverts = sans(nonCouverts, c.p.offres);
+      if (!ouverts.length) continue;
+      const d = cands
+        .filter((x) => x.p.id !== a.p.id && x.p.id !== c.p.id && inter(x.creneaux, inter(a.p.creneaux, c.p.creneaux)).length)
+        .map((x) => ({ x, n: inter(x.p.offres, ouverts).length }))
+        .filter((y) => y.n > 0)
+        .sort((y, z) => z.n - y.n || z.x.score - y.x.score || y.x.p.id.localeCompare(z.x.p.id))[0];
+      if (!d) continue;
+      const cle4 = [a.p.id, c.p.id, d.x.p.id].sort().join('+');
+      const v4 = valeur + (25 * d.n + d.x.score) / 4;
+      const deja4 = quatuors.get(cle4);
+      if (!deja4 || v4 > deja4.valeur) quatuors.set(cle4, { a, autres: [c, d.x], valeur: v4 });
     }
-    if (!nTiers) combos.set(a.p.id, { a, valeur: a.score });
+    if (!nTiers) combos.set(a.p.id, { a, autres: [], valeur: a.score });
+    else if (besoin.besoins.length && !nonCouverts.length) seuls.push({ a, autres: [], valeur: a.score });
   }
-  const trios = [...combos.values()].filter((x) => x.b);
-  const choix = trios.length ? trios : [...combos.values()];
+  const trios = [...combos.values()].filter((x) => x.autres.length);
+  const base = trios.length ? trios : [...combos.values()];
+  const choix = [...base, ...seuls, ...quatuors.values()];
 
   const equipeVerifiee = new Map<string, number>(); // corvée avec une équipe de propreté reconnue: passe en premier (2 si elle couvre tous les thèmes du demandeur)
   const rang = new Map<string, number>(); // qualité des paires, pour départager les scores égaux
-  const props = choix.map(({ a, b, valeur }): Proposition => {
-    const membres = b && b.score > a.score && !impose ? [b, a] : b ? [a, b] : [a];
+  const props = choix.map(({ a, autres, valeur }): Proposition => {
+    // Le partenaire voulu reste en tête; sinon par score de paire (tri stable).
+    const membres = impose ? [a, ...autres] : [a, ...autres].sort((x, y) => y.score - x.score);
     const profs = membres.map((m) => m.p);
     const communs = (besoin.creneaux.length ? besoin.creneaux : profs[0].creneaux).filter((c) =>
       profs.every((p) => p.creneaux.includes(c)),
@@ -356,7 +376,7 @@ export const proposerAu = (
     const avecBesoins = membres.filter((m) => m.p.besoins.length);
     const toutesCommunes = !besoin.creneaux.length || besoin.creneaux.every((c) => communs.includes(c));
     // Les partenaires entre eux comptent aussi: le groupe doit tenir dans un même coin de quartier et partager des thèmes.
-    const entrePartenaires = membres.length === 2 ? [lienEntre(membres[0].p, membres[1].p)] : [];
+    const entrePartenaires = membres.flatMap((m, i) => membres.slice(i + 1).map((n) => lienEntre(m.p, n.p)));
     const valeurs = {
       complementarite: Math.round(100 * couverture),
       reciprocite: Math.round(100 * moy(avecBesoins.map((m) => m.rev.length / m.p.besoins.length), 0)),
@@ -452,7 +472,13 @@ export const proposerAu = (
     };
   });
 
-  const tries = props.sort((x, y) => (equipeVerifiee.get(y.id) ?? 0) - (equipeVerifiee.get(x.id) ?? 0) || y.score - x.score || (rang.get(y.id) ?? 0) - (rang.get(x.id) ?? 0) || x.id.localeCompare(y.id));
+  // Garde-fou: un trio solide (≥ TRIO_SOLIDE) reste tel quel (histoires, démo, catalogue .ics); sinon une équipe de 2 ou 4 entre si elle fait mieux.
+  const [trioProps, variantes] = [props.slice(0, base.length), props.slice(base.length)];
+  const meilleur = trioProps.reduce<Proposition | undefined>((m, p) => (!m || p.score > m.score ? p : m), undefined);
+  const retenues = variantes.filter((v) => v.score > 50 && (!meilleur || (v.partenaires.length < 3
+    ? meilleur.score < TRIO_SOLIDE && v.score > meilleur.score // à deux: un seul partenaire couvre tout et fait mieux
+    : meilleur.detailScore!.complementarite < 100 && v.detailScore!.complementarite > meilleur.detailScore!.complementarite)));
+  const tries = [...trioProps, ...retenues].sort((x, y) => (equipeVerifiee.get(y.id) ?? 0) - (equipeVerifiee.get(x.id) ?? 0) || y.score - x.score || (rang.get(y.id) ?? 0) - (rang.get(x.id) ?? 0) || x.id.localeCompare(y.id));
   return diversifier(tries, 3);
 };
 

@@ -32,6 +32,8 @@ interface Props {
   margeBas?: number
   /** Pixels hidden by the tour bar at the top. */
   margeHaut?: number
+  /** Side padding for the fit (px); defaults to 72 on phones, 50 on desktop. */
+  margeCote?: number
   /** Delay between two pin drops. */
   delaiPinMs?: number
   /**
@@ -106,7 +108,7 @@ function placerEtiquettes(map: Map, marqueurs: Marker[]) {
   }
 }
 
-export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
+export default function MapView({ pins, margeBas = 0, margeHaut = 70, margeCote, delaiPinMs = 300, animerPins, anneauVisible, onParticiper }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
@@ -280,7 +282,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       const haut = margeHaut
       const bas = margeBas + 40 + (telephone ? licence + 50 : 0)
       const kV = Math.min(1, Math.max(0, hauteur - 140) / Math.max(1, haut + bas))
-      const cote = Math.min(telephone ? 72 : 50, Math.max(0, largeur - 140) / 2)
+      const cote = Math.min(margeCote ?? (telephone ? 72 : 50), Math.max(0, largeur - 140) / 2)
       map.fitBounds(bornes, { padding: { top: Math.round(haut * kV), left: cote, right: cote, bottom: Math.round(bas * kV) }, maxZoom: 17, duration: 700 })
     }
     return () => {
@@ -289,7 +291,7 @@ export default function MapView({ pins, margeBas = 0, margeHaut = 70, delaiPinMs
       etiquetteCercle?.remove()
       etiquetteAnneau.current = null
     }
-  }, [signature, lot, margeBas, margeHaut, delaiPinMs, appliquerAnneau])
+  }, [signature, lot, margeBas, margeHaut, margeCote, delaiPinMs, appliquerAnneau])
 
   useEffect(() => {
     appliquerAnneau()

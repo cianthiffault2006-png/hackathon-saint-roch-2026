@@ -25,15 +25,15 @@ Puis UNE seule des deux :
 - citation réelle du matin : « Ce matin, un commerçant de la rue Saint-Joseph nous a dit : … » (telle quelle, sans nom sans permission)
 - sinon : > Ce qu’on a entendu hier, en une phrase : les initiatives existent, le réseau manque.
 
-(Ton dernier mot **« existent »** ou **« manque »** : Cian passe à la diapo 3 et dit « Voyons comment ça marche ». Tu te tais jusqu’à la diapo 5, environ 2 min 35 s.)
+(Ton dernier mot **« existent »** ou **« manque »** : Cian passe à la diapo 3 et dit « Voyons comment ça marche ». Tu te tais jusqu’à la diapo 5, environ 2 min 25 s.)
 
-## 3:25 · Diapo 5 · signal : Cian finit par **« jamais pré-remplies »** et passe à la diapo 5
+## 3:17 · Diapo 5 · signal : Cian finit par **« jamais pré-remplies »** et passe à la diapo 5
 
 > Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. L’app tolère déjà les fautes et un peu d’anglais; en phase 2, l’IA comprendra toutes les langues, toutes les fautes. L’app suggère, les personnes décident.
 
 (Ton dernier mot **« décident »** : Cian passe à la diapo 6 et parle 46 s.)
 
-## 4:29 · Diapo 7 · signal : Cian finit par **« si on étend »** et passe à la diapo 7
+## 4:21 · Diapo 7 · signal : Cian finit par **« si on étend »** et passe à la diapo 7
 
 > Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci!
 
@@ -59,8 +59,8 @@ Tu as le portable. Tu changes toutes les diapos (flèche droite dans le PDF, ong
 |---|---|
 | **« équipe 14 »** (0:18) | Ctrl+2 déjà fait; flèche droite : diapo 2 |
 | **« existent »** / **« manque »** (0:48) | flèche droite : diapo 3, tu parles |
-| **« décident »** (3:43) | flèche droite : diapo 6, tu parles |
-| **« si on étend »** (4:29, c’est toi) | flèche droite : diapo 7, elle conclut |
+| **« décident »** (3:35) | flèche droite : diapo 6, tu parles |
+| **« si on étend »** (4:21, c’est toi) | flèche droite : diapo 7, elle conclut |
 
 ## 0:50 · Diapo 3, puis l’app
 
@@ -91,11 +91,11 @@ Plan B (app plantée ou carte grise à 1:20) : ▶ « ← Retour » deux fois ou
 
 > D’où viennent les données?
 > Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche.
-> Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Le code part à l’adresse que la SDC ou la Ville a déjà au dossier, jamais à celle qu’on tape. Dans cette démo, la carte mêle des fiches fictives et de vrais commerces des données ouvertes du SIT Québec, chacun marqué pré-rempli tant que son responsable ne l’a pas réclamé. Les personnes, elles, ne sont jamais pré-remplies.
+> Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Dans cette démo, la carte mêle des fiches fictives et de vrais commerces des données ouvertes du SIT Québec, chacun marqué pré-rempli tant que son responsable ne l’a pas réclamé. Les personnes, elles, ne sont jamais pré-remplies.
 
 ▶ flèche droite : diapo 5. Elle parle (18 s). Tu te tais.
 
-## 3:43 · Diapo 6 · signal **« décident »** ▶ flèche droite
+## 3:35 · Diapo 6 · signal **« décident »** ▶ flèche droite
 
 > L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
 > Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement.
@@ -104,9 +104,9 @@ Plan B (app plantée ou carte grise à 1:20) : ▶ « ← Retour » deux fois ou
 
 ▶ flèche droite : diapo 7. Elle conclut. Tu te tais, tu laisses la diapo 7 (lien et QR) pendant les questions.
 
-Si on dépasse (Q : 1 doigt à 4:00, 2 doigts à 4:30) : couper Sofia, puis la ligne « Réciprocité 58 % », puis « Le code part à l’adresse… ». Jamais l’acceptation de Camille ni la demande à la SDC.
+Si on dépasse (Q : 1 doigt à 4:00, 2 doigts à 4:30) : couper Sofia, puis la ligne « Réciprocité 58 % ». Jamais l’acceptation de Camille ni la demande à la SDC.
 
-## Tes quatre réponses (20 s chacune)
+## Tes cinq réponses (20 s chacune)
 
 **Q6 · Est-ce de l’IA ou pas?**
 Pas d’IA payante aujourd’hui : un moteur de règles, pour que chaque suggestion s’explique, parce que le modèle multilingue testé sur l’appareil (page /labo/) trouvait des profils semblables, pas complémentaires. L’IA est prévue en phase 2, payée par celui qui déploie, et Claude Code nous a aidés à développer l’app (dernière diapo).
@@ -119,6 +119,9 @@ Avec peu de profils, le moteur complète avec un lieu public de la Ville et des 
 
 **Q35 · Bâti avec Claude Code : qu’est-ce que vous comprenez, qu’avez-vous coupé?**
 Le moteur, c’est cinq règles qu’on peut lire à voix haute, testées avant d’être codées, et on peut expliquer chaque pourcentage à l’écran. On a coupé les comptes, les paiements, la messagerie ouverte et l’IA payante pour livrer un parcours complet qui marche sur un téléphone.
+
+**Q38 · Comment savez-vous que c’est le vrai propriétaire?**
+Le code est envoyé à l’adresse que la SDC ou la Ville a déjà dans son répertoire, jamais à une adresse que le demandeur tape; sans lien, il donne un courriel professionnel et la SDC vérifie à la main (dans la démo le code est simulé, 482 913, rien ne part). Limites honnêtes : une adresse périmée au répertoire tombe en vérification manuelle, et en pilote la SDC peut retirer une fiche et un responsable peut en signaler une.
 
 Pour montrer un écran en questions : Ctrl+1 (app), Ctrl+2 pour revenir à la diapo 7. Fiche pré-remplie : menu, Explorer le quartier, « Liste », chercher « Bémol », « Voir le profil » (pas l’épingle).
 

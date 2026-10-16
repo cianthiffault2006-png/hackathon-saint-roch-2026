@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Creneau, Tag } from '../types'
 import { lireBesoin } from '../engine/lecture'
-import { basculer, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Manuels } from './besoin'
+import { basculer, choixDepuisTexte, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Manuels } from './besoin'
 import { profils } from '../fixtures'
 import { fr } from '../i18n/fr'
 
@@ -123,5 +123,16 @@ describe('construireBesoin: le besoin tapé passe devant le profil', () => {
     const b = construireBesoin('commerce', '', profils, { ...vide, offre: ['materiel'] })
     expect(b.offres[0]).toBe('materiel')
     expect(b.offres).toEqual(expect.arrayContaining(cafe.offres))
+  })
+})
+
+describe('choixDepuisTexte: un besoin tapé reste, même si le profil l’offre', () => {
+  it('organisme: « nous cherchons des cuisiniers bénévoles » garde Bénévoles', () => {
+    const c = choixDepuisTexte('organisme', 'Nous cherchons des cuisiniers bénévoles pour une soupe populaire le lundi matin', profils)
+    expect(c.cherche).toEqual(expect.arrayContaining(['benevoles', 'nourriture']))
+  })
+  it('café: le café nommé sans « je cherche » ne devient pas un besoin', () => {
+    const c = choixDepuisTexte('commerce', "Je viens d'ouvrir un café sur Saint-Joseph, je cherche des musiciens le samedi", profils)
+    expect(c.cherche).toEqual(['animation'])
   })
 })

@@ -1,5 +1,5 @@
 import type { Besoin, Creneau, Profil, Role, Tag, TypeProjet } from '../types'
-import { lireBesoin } from '../engineAdapter'
+import { besoinsExplicites, lireBesoin } from '../engineAdapter'
 import { typeDemande } from '../engine/proposer'
 import { fr } from '../i18n/fr'
 
@@ -89,8 +89,8 @@ export function construireBesoin(
 }
 
 /**
- * Chips read from typed text. A typed "je cherche" tag is dropped when the asker's profile already
- * offers it, and a typed "j'offre" tag when the profile needs it, so the profile stays coherent.
+ * Chips read from typed text. A need tag is dropped when the asker's profile already offers it, unless
+ * the text asks for it in so many words (« nous cherchons des bénévoles »), and a typed "j'offre" tag when the profile needs it, so the profile stays coherent.
  */
 export function choixDepuisTexte(
   role: Role,
@@ -99,8 +99,9 @@ export function choixDepuisTexte(
 ): { cherche: Tag[]; offre: Tag[]; creneaux: Creneau[] } {
   const asker = trouverAsker(role, profils)
   const lu = lireBesoin(texte)
+  const demandes = besoinsExplicites(texte)
   return {
-    cherche: lu.besoins.filter((t) => !asker?.offres.includes(t)),
+    cherche: lu.besoins.filter((t) => !asker?.offres.includes(t) || demandes.includes(t)),
     offre: lu.offres.filter((t) => !asker?.besoins.includes(t)),
     creneaux: lu.creneaux,
   }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { basculer, choixDepuisTexte, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Choix } from '../lib/besoin'
+import { lireBesoin } from '../engineAdapter'
 import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
@@ -55,6 +56,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   const [acteur, setActeur] = useState<{ role: Role; nouveau: boolean }>({ role, nouveau: initial?.nouveau ?? false })
   const r = guide ? role : acteur.role
   const asker = acteur.nouveau && !guide ? undefined : trouverAsker(r, profils)
+  // No need read in the text and none ticked: ask for a chip instead of a confident but random trio.
+  const [nonReconnu, setNonReconnu] = useState(false)
   // What the text gave at the previous keystroke, so chips it no longer gives can be taken off.
   const luAvant = useRef<Choix>(initial ? choixDepuisTexte(r, initial.texte, profils) : { cherche: [], offre: [], creneaux: [] })
   const main = useRef({ cherche: manuels<Tag>(), offre: manuels<Tag>(), creneaux: manuels<Creneau>() }).current
@@ -79,6 +82,11 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   }
 
   function soumettre() {
+    if (!guide && !partenaireVoulu && cherche.length === 0 && lireBesoin(texte).besoins.length === 0) {
+      setNonReconnu(true)
+      return
+    }
+    setNonReconnu(false)
     // The wanted partner goes to the engine too, so every proposition includes them.
     onTrouver({ ...construireBesoin(r, texte, profils, { cherche, offre, creneaux }, acteur.nouveau), ...(partenaireVoulu ? { voulu: partenaireVoulu.id } : {}) }, { texte, cherche, offre, creneaux, ...(acteur.nouveau ? { nouveau: true } : {}) })
   }
@@ -142,7 +150,10 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
       <h2 className="sous-titre">{fr.besoin.jOffre}</h2>
       <Chips options={TAGS} selected={vue.offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} communes={COMMUNES} onToggle={(t) => setOffre(basculer(offre, t, main.offre))} />
       <h2 className="sous-titre">{fr.besoin.jeCherche}</h2>
-      <Chips options={TAGS} selected={vue.cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => setCherche(basculer(cherche, t, main.cherche))} />
+      {nonReconnu && <p role="alert" className="profil-resume">{fr.besoin.nonReconnu}</p>}
+      <div className={nonReconnu ? 'surbrillance' : undefined}>
+        <Chips options={TAGS} selected={vue.cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => { setNonReconnu(false); setCherche(basculer(cherche, t, main.cherche)) }} />
+      </div>
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
       <Chips options={CRENEAUX} selected={vue.creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux(basculer(creneaux, c, main.creneaux))} />
       <div className="pied">

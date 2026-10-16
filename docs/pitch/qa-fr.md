@@ -127,7 +127,7 @@ Le code est sous licence MIT, en React sans serveur, avec 216 tests automatisés
 Un export de votre fichier des membres avec les mêmes colonnes, une personne à temps partiel pour approuver les fiches et modérer, et dix membres volontaires pour un trimestre. En retour vous recevez trois chiffres par mois : projets confirmés, nouveaux partenariats, fréquentation.
 
 ## 40. Une corvée tourne mal, quelqu’un se blesse. Qui est responsable : la Ville, la SDC, vous?
-Maillage met en relation, il n’organise pas : la liste « Avant de commencer » exige une autorisation du propriétaire ou du gestionnaire du lieu et une assurance responsabilité ou une entente avec un organisme reconnu avant de créer le projet. En pilote, c’est l’organisme reconnu qui porte la corvée, jamais une app.
+Maillage met en relation, il n’organise pas : pour une corvée, la liste « Avant de commencer » demande l’autorisation du propriétaire, le 311 pour ce qui relève de la Ville et le matériel de sécurité; en pilote on y ajoute l’assurance responsabilité ou l’entente avec un organisme reconnu (déjà dans la liste des autres types de projets). En pilote, c’est l’organisme reconnu qui porte la corvée, jamais une app.
 
 ## 41. Vous floutez les citoyens à 100 m. Dans Saint-Roch, 100 m c’est l’immeuble. Pourquoi les mettre sur la carte?
 Un citoyen n’apparaît sur la carte qu’avec son accord, sous la simple étiquette « Citoyen », sans nom ni adresse, position déplacée de 30 à 100 m; sans accord il n’existe pas dans l’app. Si le pilote juge que c’est encore trop, les citoyens passent en liste sans carte : c’est un réglage, pas une refonte.

@@ -136,3 +136,11 @@ describe('choixDepuisTexte: un besoin tapé reste, même si le profil l’offre'
     expect(c.cherche).toEqual(['animation'])
   })
 })
+
+describe('construireBesoin: « Je démarre » sans profil', () => {
+  it('pas d’adresse, donc pas de distances « Depuis chez vous »', () => {
+    const b = construireBesoin('commerce', '', profils, { cherche: ['animation'], offre: [], creneaux: [] }, true)
+    expect(b.lat).toBeUndefined()
+    expect(b.besoins).toEqual(['animation'])
+  })
+})

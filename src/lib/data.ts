@@ -22,7 +22,8 @@ async function charger<T>(nom: string, repli: T[]): Promise<T[]> {
 }
 
 // Typographic apostrophe in every displayed text field (names, descriptions, event titles), as the engine already does in titles.
-const apo = (s: string) => (s.includes("'") ? s.replace(/'/g, '’') : s)
+// Straight apostrophes, « (Charest ) » → « (Charest) », « L’OEil » → « L’Œil ».
+const apo = (s: string) => s.replace(/'/g, '’').replace(/\s+\)/g, ')').replace(/\bOE(?=[a-zé])/g, 'Œ')
 const typo = <T extends object>(xs: T[], champs: (keyof T)[]): T[] =>
   xs.map((x) => { const y = { ...x }; for (const c of champs) if (typeof y[c] === 'string') (y[c] as string) = apo(y[c] as string); return y })
 

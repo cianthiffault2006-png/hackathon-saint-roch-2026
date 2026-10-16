@@ -29,12 +29,12 @@ export default function TableauSdc({ profils }: Props) {
   const ajouts = AJOUTS_FICTIFS + useAjouts().length
   const reclames = profils.filter((p) => p.reclame).length
   const aActiver = profils.length - reclames
-  const kpis = KPI.map((k) => (k.libelle === 'Profils réclamés' ? { ...k, valeur: reclames } : k))
+  const kpis = KPI.map((k) => (k.libelle === 'Profils réclamés' ? { libelle: 'Profils réclamés (en direct)', valeur: reclames } : k))
   const max = Math.max(...TYPES.map((t) => t.n))
 
   return (
     <main className="p2-sdc">
-      <p className="p2-sdc-fictif" role="note">Exemple de tableau : données fictives de pilote</p>
+      <p className="p2-sdc-fictif" role="note">Exemple de tableau : données fictives de pilote, sauf les nombres marqués « en direct »</p>
       <h1 className="p2-sdc-titre">Tableau du quartier (SDC, pilote)</h1>
 
       <section aria-labelledby="p2-kpi">
@@ -65,7 +65,7 @@ export default function TableauSdc({ profils }: Props) {
       </section>
 
       <section aria-labelledby="p2-pre" className="p2-sdc-carte">
-        <h2 id="p2-pre" className="p2-sdc-h2">Profils pré-remplis à activer</h2>
+        <h2 id="p2-pre" className="p2-sdc-h2">Profils pré-remplis à activer (en direct)</h2>
         <p className="p2-pre-n">{aActiver}</p>
         {/* The two live counts are named as such, next to the fictional pilot KPIs. */}
         <p className="p2-pre-aide">Compté en direct dans ce prototype, comme les profils réclamés : une fiche réclamée passe de l’un à l’autre.</p>

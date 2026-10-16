@@ -64,7 +64,8 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, e
   const [erreur, setErreur] = useState('')
   const [proposeurId, setProposeurId] = useState(avecExemple ? 'p-sofia' : '')
 
-  const lieuxUtiles = useMemo(() => lieux.filter((l) => l.offres.length > 0), [lieux])
+  // A Morris column is a poster spot, not a meeting place.
+  const lieuxUtiles = useMemo(() => lieux.filter((l) => l.offres.length > 0 && l.type !== 'colonne_morris'), [lieux])
   const lieu = lieux.find((l) => l.id === lieuId)
   const ref = lieu ?? moi ?? CENTRE
   const danger = mentionneDanger(`${titre} ${description}`)

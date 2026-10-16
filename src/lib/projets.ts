@@ -87,7 +87,10 @@ export function projetDepuis(p: Proposition, profils: Profil[], lieux: Lieu[], s
   for (const c of p.partenaires) {
     const profil = profils.find((x) => x.id === c.profilId)
     if (!profil) continue
-    partenaires.push({ nom: profil.nom, role: profil.role, apport: c.apport })
+    // « Proposer un projet » (ouvert-…): the organiser comes first with no tags; it is the viewer, so « Vous »,
+    // not the default role's profile.
+    const vous = p.id.startsWith('ouvert-') && partenaires.length === 0 && c.tags.length === 0
+    partenaires.push({ nom: vous ? 'Vous' : profil.nom, role: profil.role, apport: c.apport })
     if (!hote && (c.tags.includes('espace_interieur') || c.tags.includes('espace_exterieur'))) hote = profil.nom
   }
   const lieu = lieux.find((l) => l.id === p.lieuId)

@@ -143,7 +143,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       <MapView
         pins={pins}
         margeBas={Math.round(window.innerHeight * (enVisite ? 0.5 : 0.58))}
-        margeHaut={enVisite ? 215 : 70}
+        margeHaut={enVisite ? 215 : 110}
         delaiPinMs={enVisite ? DELAI_PIN_VISITE_MS : undefined}
         animerPins={visite?.animer}
         anneauVisible={visite?.anneau}

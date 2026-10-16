@@ -8,12 +8,14 @@ interface Props {
   demandeur: Profil
   autre?: Profil
   onAccepter: () => void
+  /** « Pas cette fois »: a simulated decline, back to the proposal (the tour ignores it). */
+  onDecliner: () => void
   onRetour: () => void
   /** Guided tour: shows the invitation as accepted (set by the tour clock; the tour scrolls on its own). */
   accepteVisite?: boolean
 }
 
-export default function Invitation({ proposition, partenaire, demandeur, autre, onAccepter, onRetour, accepteVisite }: Props) {
+export default function Invitation({ proposition, partenaire, demandeur, autre, onAccepter, onDecliner, onRetour, accepteVisite }: Props) {
   return (
     <div className="plein-ecran">
       <button type="button" className="retour retour-plein" onClick={onRetour} aria-label={fr.general.retour}>←</button>
@@ -23,7 +25,7 @@ export default function Invitation({ proposition, partenaire, demandeur, autre, 
         demandeur={demandeur}
         autre={autre}
         onAccepter={onAccepter}
-        onDecliner={onRetour}
+        onDecliner={onDecliner}
         accepteVisite={accepteVisite}
       />
     </div>

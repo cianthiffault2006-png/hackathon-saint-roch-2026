@@ -122,6 +122,7 @@ export const fr = {
       theme: 'Thème',
     },
     voirInvitation: (prenom: string) => `Voir ce que ${prenom} reçoit`,
+    decline: (prenom: string) => `${prenom} a décliné (simulé) : voyez d’autres options`,
     simulerReponse: 'Simuler la réponse des partenaires',
     interet: 'Ça m’intéresse',
     statuts: {

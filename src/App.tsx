@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Besoin as BesoinType, Creneau, Evenement, Proposition as PropositionType, Role, Statut, Tag } from './types'
+import type { Besoin as BesoinType, Creneau, Evenement, Profil, Proposition as PropositionType, Role, Statut, Tag } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
@@ -54,6 +54,8 @@ export default function App() {
   const [indexProp, setIndexProp] = useState(0)
   const [statuts, setStatuts] = useState<Record<string, Statut>>({})
   const [invitationProp, setInvitationProp] = useState<PropositionType | null>(null)
+  // Project id → partner's first name once « Pas cette fois » was pressed (simulated decline).
+  const [declins, setDeclins] = useState<Record<string, string>>({})
   const [projets, setProjets] = useState<Projet[]>(chargerProjets)
   const [ouvertId, setOuvertId] = useState<string | null>(null)
   const [discussionId, setDiscussionId] = useState<string | null>(null)
@@ -204,6 +206,14 @@ export default function App() {
     window.setTimeout(() => setEcran('proposition'), 2400)
   }
 
+  // « Pas cette fois »: the proposal goes back to « Proposition » with a note, and its invitation stays closed.
+  function declinerInvitation(prop: PropositionType, partenaire: Profil) {
+    if (enVisite) return
+    changerStatut(prop, 'proposee')
+    setDeclins((d) => ({ ...d, [idProjet(prop)]: prenom(partenaire) }))
+    setEcran('proposition')
+  }
+
   // What the tour asks of each screen: a pure function of the step and the time elapsed in it
   // (src/tour/etat.ts), so Pause holds everything and a jump rebuilds it from the index alone.
   const ee = etat ? etatEcrans(etat.index, etat.ms) : null
@@ -303,6 +313,7 @@ export default function App() {
           onIndex={setIndexProp}
           onFiche={(prop) => ouvrirFiche(idProjet(prop), 'proposition')}
           onInvitation={(prop) => { setInvitationProp(prop); setEcran('invitation') }}
+          declins={enVisite ? undefined : declins}
           projets={enVisite ? undefined : projets}
           onParticiper={enVisite ? undefined : participer}
           onPlusOptions={enVisite || !dernierBesoin ? undefined : () => setEcran('plus')}
@@ -318,6 +329,7 @@ export default function App() {
           autre={invite.autre}
           accepteVisite={ee ? ee.accepte : undefined}
           onAccepter={() => accepterInvitation(propInvitation)}
+          onDecliner={() => declinerInvitation(propInvitation, invite.partenaire)}
           onRetour={() => setEcran('proposition')}
         />
       )}

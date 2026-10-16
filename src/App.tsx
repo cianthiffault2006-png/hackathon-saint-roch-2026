@@ -5,7 +5,7 @@ import { fusionnerAffichage } from './lib/presentation'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite, prenom } from './lib/invitation'
-import { trouverAsker } from './lib/besoin'
+import { ASKER_PAR_ROLE, trouverAsker } from './lib/besoin'
 import FilVisite from './tour/FilVisite'
 import Regie from './tour/Regie'
 import { etatEcrans } from './tour/etat'
@@ -417,6 +417,7 @@ export default function App() {
           profil={profilPublic}
           profils={affichage.profils}
           evenements={affichage.evenements}
+          moi={profilPublic.id === ASKER_PAR_ROLE[role]}
           onRetour={() => setEcran('explorer')}
           onProposer={(id) => { setVoulu(id); setRetourBesoin('profil'); setEcran('besoin') }}
         />

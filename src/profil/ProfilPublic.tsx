@@ -17,6 +17,8 @@ interface Props {
   onProposer(profilId: string): void
   /** Preview of a pending add request: the owner sees the fiche as it will appear, nobody else does. */
   apercu?: boolean
+  /** The viewer's own profile (the asker of the chosen role): no « Proposer une collaboration » with oneself. */
+  moi?: boolean
 }
 
 const THEMES = fr.besoin.themes
@@ -26,7 +28,7 @@ function dateCourte(iso: string): string {
   return new Intl.DateTimeFormat('fr-CA', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'America/Toronto' }).format(new Date(iso))
 }
 
-export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer, apercu = false }: Props) {
+export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer, apercu = false, moi = false }: Props) {
   const reclames = useReclames()
   const [flux, setFlux] = useState(false)
   const titre = useRef<HTMLHeadingElement>(null)
@@ -133,7 +135,8 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         {semblables.length === 0 ? <p>{t.aucunSemblable}</p> : (
           <ul className="pp-liste">
             {semblables.map((p) => (
-              <li key={p.id} className="pp-carte"><strong>{p.nom}</strong><span>{p.sousType}</span></li>
+              // Citizens stay « Citoyen » here as in the explorer (Loi 25); the name only appears after a match.
+              <li key={p.id} className="pp-carte"><strong>{p.role === 'citoyen' ? t.citoyen : p.nom}</strong><span>{p.sousType}</span></li>
             ))}
           </ul>
         )}
@@ -156,7 +159,7 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
 
       {profil.source === 'fourni'
         ? <p className="pp-note">Fiche fournie par la Ville : affichage seulement pendant la présentation.</p>
-        : !apercu && <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>}
+        : !apercu && !moi && <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>}
       {local?.statut === 'active' && (
         <button type="button" className="pp-btn pp-lien" onClick={() => annulerReclamation(profil.id)}>{fr.reclamer.reinitialiser}</button>
       )}

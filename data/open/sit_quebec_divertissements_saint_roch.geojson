@@ -1,0 +1,68 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "DIVLMTOV500OSS",
+    "NomEtablissement": "Scanner Bistro",
+    "TypeEtablissement": "Bar, boîte de nuit",
+    "NumeroVoie": "291, rue St-Vallier E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "142",
+    "CapaciteEnTerrassePersonnes": "34",
+    "InstallationsDisponibles": "Terrasse|Toilettes",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.224903,
+     46.811876
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "DIVLMTOV503I45",
+    "NomEtablissement": "Musi'Quiz Québec",
+    "TypeEtablissement": "Centre récréatif / sportif",
+    "NumeroVoie": "430 Rue du Parvis",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "Salle de réunion / réception|Toilettes",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.223489,
+     46.81433
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "DIVLMTOV503LT3",
+    "NomEtablissement": "Le Grand Mini-Golf",
+    "TypeEtablissement": "Centre récréatif / sportif",
+    "NumeroVoie": "770 Rue Saint-Joseph Est",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "70",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "Panneaux d'interprétation",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.219514,
+     46.815922
+    ]
+   }
+  }
+ ]
+}

@@ -46,8 +46,10 @@ Pitch Fri Oct 16 14:30 (5 min + 3 min questions). Feature freeze 11:30; code fre
 | `data/open/vque_24_reseau_cyclable.geojson` | Réseau cyclable, Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/vque_24 | CC BY 4.0 | 2026-10-15 |
 | `data/open/sit_quebec_hotels_saint_roch.geojson` | Hôtels, SIT Québec (ministère du Tourisme) | https://www.donneesquebec.ca/recherche/dataset/sit-quebec-hotels | CC BY 4.0 | 2026-10-15 |
 | `data/open/sit_quebec_culture_saint_roch.geojson` | Culture, arts et patrimoine, SIT Québec | https://www.donneesquebec.ca/recherche/dataset/sit-quebec-culture-art-et-patrimoine | CC BY 4.0 | 2026-10-15 |
+| `data/open/sit_quebec_restauration_saint_roch.geojson`, `..._divertissements_...`, `..._organismes_...` | Restauration, Divertissements et loisirs, Organismes touristiques, SIT Québec | https://www.donneesquebec.ca/recherche/dataset/sit-quebec-restauration (idem `-divertissements-et-loisirs`, `-organismes`) | CC BY 4.0 | 2026-10-16 |
+| `data/open/vque_45_lieux_culte_saint_roch.geojson` | Lieux de culte, Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/vque_45 | CC BY 4.0 | 2026-10-16 |
 | profile and event positions | Adresses de la Ville de Québec | https://www.donneesquebec.ca/recherche/dataset/adresses-de-la-ville-de-quebec | CC BY 4.0 | 2026-10-15 |
-| `public/data/profils.json`, `evenements.json`, Morris columns | Fictional rows with the provided files' columns | none | n/a | 2026-10-15 |
+| `public/data/profils.json` (49 fictional + 16 real SIT establishments, `source: ouvert`, pre-filled), `evenements.json`, Morris columns | Fictional rows with the provided files' columns; real rows from the SIT files above | none | n/a | 2026-10-15/16 |
 
 ## AI use (also on the last slide and in README)
 Tools: [Claude Code, Claude]. Used for: [coding, data scripts, French copy drafts]. Done by the team itself: [problem framing, interviews, data choices, design decisions, testing, presentation].

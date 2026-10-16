@@ -1,0 +1,257 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500QOW",
+    "NomEtablissement": "Torii Izakaya - Buvette japonaise",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "771, rue St-Joseph E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "75",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.219483,
+     46.815703
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500QT4",
+    "NomEtablissement": "jjacques",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "341, rue Notre-Dame-des-Anges",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "45",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.225491,
+     46.813571
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500R4T",
+    "NomEtablissement": "La Revanche St-Roch - Resto-Pub ludique",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "585, boul. Charest E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "127",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.22198,
+     46.814287
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500RND",
+    "NomEtablissement": "Battuto",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "527, boul. Langelier",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "28",
+    "CapaciteEnTerrassePersonnes": "15",
+    "InstallationsDisponibles": "Terrasse",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.229901,
+     46.810418
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500RNE",
+    "NomEtablissement": "Kundah Hôtel",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "325, de la Couronne",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "50",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.225275,
+     46.815194
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500RXC",
+    "NomEtablissement": "Céramic Café-Studio (Québec)",
+    "TypeEtablissement": "Café / salon de thé",
+    "NumeroVoie": "435, St-Joseph E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "50",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.22406,
+     46.814299
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500SOC",
+    "NomEtablissement": "Restaurant La Piazzetta (Québec / rue St-Joseph)",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "357, rue St-Joseph E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "103",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.225505,
+     46.8138
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500SPG",
+    "NomEtablissement": "Brasserie Artisanale La Korrigane",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "380, rue Dorchester",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "150",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "Terrasse",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.226883,
+     46.81386
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500SXL",
+    "NomEtablissement": "Maelstrøm Saint-Roch",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "181, rue St-Vallier E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "46",
+    "CapaciteEnTerrassePersonnes": "10",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.22759,
+     46.81136
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500SZT",
+    "NomEtablissement": "Les Salons d'Edgar",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "263, rue St-Vallier E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "100",
+    "CapaciteEnTerrassePersonnes": "",
+    "InstallationsDisponibles": "",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.225845,
+     46.811872
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV500SZZ",
+    "NomEtablissement": "La Cuisine",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "205, rue de St-Vallier E.",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "55",
+    "CapaciteEnTerrassePersonnes": "30",
+    "InstallationsDisponibles": "Terrasse",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.227412,
+     46.811457
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "IdentifiantUnique": "RESTMTOV502CK0",
+    "NomEtablissement": "Poutineville Saint-Roch",
+    "TypeEtablissement": "Restaurant",
+    "NumeroVoie": "735 Rue Saint-Joseph Est",
+    "Municipalite": "Québec",
+    "CapaciteEnSallePersonnes": "100",
+    "CapaciteEnTerrassePersonnes": "36",
+    "InstallationsDisponibles": "Terrasse",
+    "ServicesDisponibles": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.219879,
+     46.815623
+    ]
+   }
+  }
+ ]
+}

@@ -455,7 +455,7 @@ export default function App() {
           />
         </div>
       )}
-      {ecranActif === 'sources' && <Sources lieux={donnees.lieux} onRetour={() => setEcran('accueil')} />}
+      {ecranActif === 'sources' && <Sources lieux={donnees.lieux} profils={donnees.profils} onRetour={() => setEcran('accueil')} />}
       {ecranActif === 'sdc' && <Sdc profils={enVisite ? brutes.profils : donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>

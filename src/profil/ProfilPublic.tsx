@@ -67,6 +67,7 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         {enAttente && <span className="pp-badge">{fr.reclamer.demandeEnCours}</span>}
       </div>
       <p>{profil.description}</p>
+      {profil.source === 'ouvert' && <p className="pp-note">{profil.origine}</p>}
 
       {reclamable && profil.role !== 'citoyen' && (
         <section className="pp-reclamer" aria-labelledby="pp-reclamer-q">

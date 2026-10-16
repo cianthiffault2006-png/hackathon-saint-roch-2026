@@ -106,6 +106,13 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
     [visibles],
   )
   const selection = visibles.find((e) => e.id === choisi) ?? null
+  // Lignes de licence des données ouvertes affichées (portées par les données elles-mêmes).
+  const credits = useMemo(() => Array.from(new Set([
+    ...profils.filter((p) => p.source === 'ouvert').map((p) => p.origine),
+    ...lieux.filter((l) => l.source === 'ouvert').map((l) => l.attribution),
+  ])), [profils, lieux])
+  // Sur la carte, une ligne courte (producteurs); les lignes complètes sont dans la liste et l'écran Sources.
+  const producteurs = useMemo(() => Array.from(new Set(credits.map((c) => c.replace(/^Source : /, '').split(', ')[0]))), [credits])
 
   useEffect(() => {
     if (!conteneur.current) return
@@ -181,6 +188,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
               ))}
             </ul>
           )}
+          <p className="ex-note ex-credits">{credits.join(' · ')}</p>
         </main>
       )}
 
@@ -199,6 +207,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
         <div className="ex-attribution">
           <a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a> © <a href="https://openmaptiles.org" target="_blank" rel="noreferrer">OpenMapTiles</a>{' · '}
           données © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">contributeurs OpenStreetMap</a>
+          {producteurs.length > 0 && <span> · données ouvertes : {producteurs.join(', ')}, licence CC BY 4.0</span>}
         </div>
       )}
     </div>

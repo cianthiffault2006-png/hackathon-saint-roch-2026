@@ -24,7 +24,7 @@ const NU: Record<Tag, string> = {
   animation: 'animation', materiel: 'matériel', expertise: 'expertise', financement: 'financement',
   nourriture: 'nourriture',
 };
-const CRENEAU_TXT: Record<Creneau, string> = {
+export const CRENEAU_TXT: Record<Creneau, string> = {
   semaine_soir: 'le soir en semaine', fin_de_semaine: 'la fin de semaine', semaine_jour: 'le jour en semaine',
 };
 const THEME_TXT: Record<Theme, string> = {
@@ -54,7 +54,11 @@ const uniq = <T,>(a: readonly T[]): T[] => [...new Set(a)];
 /** « a », « a et b », « a, b et c ». */
 export const enumerer = (xs: string[]): string =>
   xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} et ${xs[xs.length - 1]}`;
-const lib = (tags: Tag[]) => enumerer(tags.map((t) => LIBELLE[t]));
+/** Tags avec leur article : « un espace intérieur, du public et de l’animation ». */
+export const lib = (tags: Tag[]) => enumerer(tags.map((t) => LIBELLE[t]));
+/** « 24 oct. » depuis un début ISO en heure locale (le jour seul, sans fuseau). */
+const jourCourt = (iso: string) =>
+  new Intl.DateTimeFormat('fr-CA', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
 const QUI_ACTIVE: Record<Profil['role'], string> = { citoyen: 'la personne', commerce: 'le commerce', organisme: 'l’organisme' };
 
 interface Cand {
@@ -384,7 +388,8 @@ export const proposerAu = (
       `Capacité d’accueil : ${hoteNom}`,
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
-      ...(proches.length ? [`Éviter le chevauchement avec : ${proches.map((e) => e.titre).join(', ')}`] : []),
+      // Le moteur ne connaît pas la date retenue (src/lib/projets): on nomme les voisins avec leur jour, sans parler de chevauchement.
+      ...(proches.length ? [`Événements voisins dans les 14 jours : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
       ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : ${QUI_ACTIVE[m.p.role]} doit d’abord activer son profil`),
     ];

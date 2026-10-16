@@ -114,6 +114,59 @@ describe('visite guidée: phrase du café', () => {
     expect(res[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
     expect(res[0].titre).toBe('Exposition collaborative au Café Le Petit Détour');
   });
+  // Pin de la proposition de la démo (jury): tout changement du moteur doit la laisser identique.
+  it('proposition de la démo: 87 %, détail 100/58/100/100/67, raisons et à confirmer figés', () => {
+    const { titre, type, score, detailScore, raisons, aConfirmer, partenaires } = res[0];
+    expect(detailScore).toEqual({ complementarite: 100, reciprocite: 58, proximite: 100, creneau: 100, theme: 67, poids: { complementarite: 35, reciprocite: 20, proximite: 20, creneau: 10, theme: 15 } });
+    expect({ titre, type, score, partenaires, raisons, aConfirmer }).toMatchInlineSnapshot(`
+      {
+        "aConfirmer": [
+          "Date précise du projet",
+          "Capacité d’accueil : Café Le Petit Détour",
+          "Assurances (responsabilité civile) à valider",
+          "Accessibilité du lieu pour tous",
+          "Événements voisins dans les 14 jours : Dégustation de bières d’automne (24 oct.), Corvée de verdissement d’automne (25 oct.)",
+        ],
+        "partenaires": [
+          {
+            "apport": "porte le projet et offre un espace intérieur, de la nourriture et du public",
+            "profilId": "story-cafe",
+            "tags": [
+              "espace_interieur",
+              "nourriture",
+              "public",
+            ],
+          },
+          {
+            "apport": "apporte du contenu artistique et de l’animation",
+            "profilId": "story-artiste",
+            "tags": [
+              "contenu_artistique",
+              "animation",
+            ],
+          },
+          {
+            "apport": "apporte de la visibilité et de l’animation",
+            "profilId": "story-organisme",
+            "tags": [
+              "visibilite",
+              "animation",
+            ],
+          },
+        ],
+        "raisons": [
+          "Camille Vézina offre du contenu artistique et de l’animation le soir en semaine, ce que vous cherchez",
+          "Collectif Les Voisins en Scène offre de la visibilité et de l’animation le soir en semaine, ce que vous cherchez",
+          "Ce que vous offrez (espace intérieur, public) répond à ce que cherchent Camille Vézina et Collectif Les Voisins en Scène",
+          "Depuis chez vous, à pied : Camille Vézina à 3 minutes, Collectif Les Voisins en Scène à 2 minutes",
+          "Tous disponibles le soir en semaine",
+        ],
+        "score": 87,
+        "titre": "Exposition collaborative au Café Le Petit Détour",
+        "type": "exposition",
+      }
+    `);
+  });
   it('proposition 2: l’hôte est le café qui offre l’espace, pas un partenaire qui apporte de l’art', () => {
     // Le café offre son espace intérieur; Obscura a aussi une salle, mais n'apporte que de l'art et de la visibilité.
     expect(res[1].titre).toMatch(/ au Café Le Petit Détour$/);

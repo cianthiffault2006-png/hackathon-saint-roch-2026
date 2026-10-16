@@ -68,6 +68,11 @@
   .sidebar-ouverte .sidebar-lien {
     min-height: 44px;
   }
+
+  /* Full-screen views put the « Démo simulée » stamp top right: keep it left of the 44 px menu button */
+  .coquille .badge-haut-droite {
+    right: 60px;
+  }
 }
 
 @keyframes tiroir-entree {

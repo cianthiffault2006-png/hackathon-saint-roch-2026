@@ -33,7 +33,7 @@ export const t = {
     majLancement: 'Projet lancé',
     majLancementTexte: (partenaires: string) => `Partenaires : ${partenaires}. Prochaine étape : confirmer la date et le lieu ensemble.`,
     preRempli: 'Profil pré-rempli : coordonnées partagées après activation',
-    msgOuverture: 'Bonjour tout le monde, ravi de lancer ce projet avec vous!',
+    msgOuverture: 'Bonjour tout le monde, hâte de lancer ce projet avec vous!',
     msgQuestion: 'Quelles dates vous conviendraient?',
     msgSuite: 'Parfait pour moi. On confirme la date cette semaine.',
     msgReponse: 'Bien reçu, je regarde mes disponibilités et je vous redonne des nouvelles.',

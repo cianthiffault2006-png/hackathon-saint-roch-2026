@@ -444,7 +444,7 @@ export const proposerAu = (
       ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond à ce que ${rev.length > 1 ? 'cherchent' : 'cherche'} ${enumerer(rev.map((m) => m.p.nom))}`]
       : [];
     const avecDist = membres.filter((m) => m.dist !== undefined);
-    const rDist = avecDist.length ? [`Depuis chez vous, à pied : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(' ; ')}`] : [];
+    const rDist = avecDist.length ? [`Depuis chez vous, à pied : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join('; ')}`] : [];
     const rLieu: string[] = [];
     if (lieuRemplace) {
       rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n’offre d’espace)`);

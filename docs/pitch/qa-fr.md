@@ -160,7 +160,7 @@ Sur son profil public, « Proposer une collaboration » : ce partenaire entre al
 Dans le menu, « Ajouter mon organisation » (ou « Mon organisation n’est pas dans la liste » sur la page de réclamation) : un court formulaire et un consentement, puis « Demande envoyée à la SDC (simulée) »; la SDC vérifie que l’organisation existe et a une adresse à Saint-Roch, et la fiche reste en aperçu « En attente de vérification », pas publique, jusque-là. Les citoyens n’ont jamais de fiche publique.
 
 ## 51. Et si un partenaire refuse?
-Un refus ne coûte rien : « Pas cette fois » est une vraie réponse, simulée dans la démo, et la proposition suivante s’affiche. [CONDITIONNEL : dire « simulée dans la démo » seulement si `fix` a livré le refus avant le gel; sinon : « dans le prototype, le refus n’est pas encore branché, c’est prévu pour le pilote ».]
+Un refus ne coûte rien : « Pas cette fois » est une vraie réponse, simulée dans la démo, et la proposition suivante s’affiche. [CONDITIONNEL : dire « simulée dans la démo » seulement si `ajout` a livré le refus avant le gel (team-lead prévient); sinon : « dans le prototype, le refus n’est pas encore branché, c’est prévu pour le pilote ».]
 
 ## Extras courts
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.

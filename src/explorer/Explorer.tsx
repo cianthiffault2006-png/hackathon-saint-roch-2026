@@ -7,6 +7,7 @@ import { fr } from '../i18n/fr'
 import { svgPin, PinForme, type NomIcone } from '../components/Icones'
 import { CENTRE_SAINT_ROCH, distanceM, flou } from './geo'
 import { t } from './textes'
+import { useReclames } from '../profil/useReclames'
 import './Explorer.css'
 
 setWorkerUrl(new URL(workerUrl, window.location.href).href)
@@ -72,7 +73,8 @@ function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): 
 }
 
 /** `court`: the list rows are narrow, so the pre-filled badge takes its short label there. */
-function Etiquettes({ el, court }: { el: Entree; court?: boolean }) {
+/** `enAttente`: a local claim is waiting, shown as « Demande en cours » like the profile does. */
+function Etiquettes({ el, court, enAttente }: { el: Entree; court?: boolean; enAttente?: boolean }) {
   const p = el.profil
   const verif = p ? badgeVerif(p) : null
   if (!verif && !(p && !p.reclame) && !el.evenement?.ouvertAuPublic) return null
@@ -80,6 +82,7 @@ function Etiquettes({ el, court }: { el: Entree; court?: boolean }) {
     <div className="ex-badges">
       {verif && <span className="ex-badge ex-badge-ok">{verif}</span>}
       {p && !p.reclame && <span className="ex-badge">{court ? t.preRempliCourt : t.preRempli}</span>}
+      {p && !p.reclame && enAttente && <span className="ex-badge">{fr.reclamer.demandeEnCours}</span>}
       {el.evenement?.ouvertAuPublic && <span className="ex-badge ex-badge-ok">{t.ouvertPublic}</span>}
     </div>
   )
@@ -91,6 +94,8 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
+  const reclames = useReclames()
+  const attente = (e: Entree) => !visite && reclames[e.id]?.statut === 'en_attente'
   const [actifsMoi, setActifs] = useState<Record<Genre, boolean>>({ commerce: true, organisme: true, citoyen: false, lieu: true, evenement: true })
   const [requeteMoi, setRequete] = useState('')
   const [listeMoi, setListe] = useState(false)
@@ -187,7 +192,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
                   <div className="ex-item-texte">
                     <strong>{e.nom}</strong>
                     <span>{e.detail} · {t.distance(d)}</span>
-                    <Etiquettes el={e} court />
+                    <Etiquettes el={e} court enAttente={attente(e)} />
                   </div>
                   {e.profil && (
                     <button type="button" className="ex-btn ex-btn-p" data-visite={`profil-${e.id}`} onClick={() => onOuvrirProfil(e.id)}>
@@ -208,7 +213,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
           <strong className="ex-fiche-nom">{selection.nom}</strong>
           <span>{selection.detail}</span>
           {selection.genre === 'citoyen' && <span className="ex-note">{t.citoyenNote}</span>}
-          <Etiquettes el={selection} />
+          <Etiquettes el={selection} enAttente={attente(selection)} />
           {selection.profil && <button type="button" className="ex-btn ex-btn-p" onClick={() => onOuvrirProfil(selection.id)}>{t.voirProfil}</button>}
         </section>
       )}

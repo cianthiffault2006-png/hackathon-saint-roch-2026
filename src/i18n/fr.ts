@@ -72,6 +72,7 @@ export const fr = {
     jOffre: 'J’offre',
     jeCherche: 'Je cherche',
     aideBouton: 'Écrivez un besoin ou choisissez une puce',
+    nonReconnu: 'Je n’ai pas reconnu de besoin précis : cochez ce que vous cherchez ci-dessous.',
     plus: 'Plus',
     moins: 'Moins',
     votreProfil: 'Votre profil :',

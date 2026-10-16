@@ -143,3 +143,24 @@ describe('lireBesoin: extérieur et expo', () => {
     expect(r.themes).toContain('art');
   });
 });
+
+describe('lireBesoin: questions du jury (vocabulaire élargi)', () => {
+  it.each([
+    ["Je viens d'ouvrir un café sur Saint-Joseph, je cherche des musiciens le samedi", ['animation', 'nourriture'], ['fin_de_semaine']],
+    ["Je veux réparer mon toit avant l'hiver, je cherche un couvreur", [], []],
+    ['Nous cherchons des cuisiniers bénévoles pour une soupe populaire le lundi matin', ['benevoles', 'nourriture'], ['semaine_jour']],
+    ['Je cherche des vélos usagés pour un atelier de réparation avec des ados', ['animation', 'expertise', 'materiel'], []],
+    ['Je fais du yoga et je cherche une salle le dimanche matin pour un cours gratuit', ['espace_interieur'], ['fin_de_semaine']],
+    ["Je veux apprendre le mandarin avec d'autres personnes du quartier", ['expertise', 'public'], []],
+  ] as const)('%s', (t, besoins, creneaux) => {
+    const r = cas(t);
+    expect([...r.besoins].sort()).toEqual([...besoins].sort());
+    expect([...r.creneaux].sort()).toEqual([...creneaux].sort());
+  });
+  it('vélos et ados: thèmes sport et jeunesse', () => {
+    expect(cas('Je cherche des vélos usagés pour un atelier de réparation avec des ados').themes).toEqual(expect.arrayContaining(['sport', 'jeunesse']));
+  });
+  it('soupe populaire: alimentation et communautaire', () => {
+    expect(cas('Nous cherchons des cuisiniers bénévoles pour une soupe populaire').themes).toEqual(expect.arrayContaining(['alimentation', 'communautaire']));
+  });
+});

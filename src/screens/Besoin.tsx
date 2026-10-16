@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { basculer, choixDepuisTexte, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Choix } from '../lib/besoin'
+import { lireBesoin } from '../engineAdapter'
 import { fr } from '../i18n/fr'
 import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
@@ -47,6 +48,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   const [cherche, setCherche] = useState<Tag[]>(initial?.cherche ?? [])
   const [offre, setOffre] = useState<Tag[]>(initial?.offre ?? [])
   const [creneaux, setCreneaux] = useState<Creneau[]>(initial?.creneaux ?? [])
+  // No need read in the text and none ticked: ask for a chip instead of a confident but random trio.
+  const [nonReconnu, setNonReconnu] = useState(false)
   const asker = trouverAsker(role, profils)
   // What the text gave at the previous keystroke, so chips it no longer gives can be taken off.
   const luAvant = useRef<Choix>(initial ? choixDepuisTexte(role, initial.texte, profils) : { cherche: [], offre: [], creneaux: [] })
@@ -72,6 +75,11 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   }
 
   function soumettre() {
+    if (!guide && !partenaireVoulu && cherche.length === 0 && lireBesoin(texte).besoins.length === 0) {
+      setNonReconnu(true)
+      return
+    }
+    setNonReconnu(false)
     // The wanted partner goes to the engine too, so every proposition includes them.
     onTrouver({ ...construireBesoin(role, texte, profils, { cherche, offre, creneaux }), ...(partenaireVoulu ? { voulu: partenaireVoulu.id } : {}) }, { texte, cherche, offre, creneaux })
   }
@@ -114,7 +122,10 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
       <h2 className="sous-titre">{fr.besoin.jOffre}</h2>
       <Chips options={TAGS} selected={vue.offre} libelle={LIBELLE_TAG} label={fr.besoin.jOffre} communes={COMMUNES} onToggle={(t) => setOffre(basculer(offre, t, main.offre))} />
       <h2 className="sous-titre">{fr.besoin.jeCherche}</h2>
-      <Chips options={TAGS} selected={vue.cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => setCherche(basculer(cherche, t, main.cherche))} />
+      {nonReconnu && <p role="alert" className="profil-resume">{fr.besoin.nonReconnu}</p>}
+      <div className={nonReconnu ? 'surbrillance' : undefined}>
+        <Chips options={TAGS} selected={vue.cherche} libelle={LIBELLE_TAG} label={fr.besoin.jeCherche} communes={COMMUNES} onToggle={(t) => { setNonReconnu(false); setCherche(basculer(cherche, t, main.cherche)) }} />
+      </div>
       <h2 className="sous-titre">{fr.besoin.puces.titreCreneaux}</h2>
       <Chips options={CRENEAUX} selected={vue.creneaux} libelle={LIBELLE_CRENEAU} label={fr.besoin.puces.titreCreneaux} onToggle={(c) => setCreneaux(basculer(creneaux, c, main.creneaux))} />
       <div className="pied">

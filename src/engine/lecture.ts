@@ -23,28 +23,31 @@ const DICO: Entree[] = [
   { re: /\b(expos?\b|expos(er|e|ons|ition|itions|ant|ants)|galerie|vernissage|accrochage)/, besoin: ['espace_interieur', 'visibilite'], offre: ['contenu_artistique'], themes: ['art'] },
   { re: /\b(oeuvres?|tableaux?|sculptures?|peintures?|photographies?|illustrations?)\b/, offre: ['contenu_artistique'], themes: ['art'] },
   { re: /\b(artistes?|artisans?)\b/, themes: ['art'] },
+  // People who make the art: asked for, they are artwork to bring in.
+  { re: /\b(photographes?|illustrat(eur|rice)s?|peintres?|graphistes?|muralistes?)\b/, besoin: ['contenu_artistique'], offre: ['contenu_artistique'], themes: ['art'] },
   // « espace extérieur », « lieu à l'extérieur », « en plein air » : dehors; un espace sans ce complément : dedans.
   { re: /\b(espaces?|salles?|locaux|local|endroits?|lieux?)\b(?!\s+(exterieurs?|a l'exterieur|dehors|en plein air)\b)/, besoin: ['espace_interieur'], offre: ['espace_interieur'] },
   { re: /\b(exterieurs?|plein air|dehors|terrasses?|cour|ruelles?|parcs?|places?|stationnements?)\b/, besoin: ['espace_exterieur'], offre: ['espace_exterieur'] },
   { re: /\b(benevol|coup de main|main[- ]d'oeuvre|mains|aide|aider)/, besoin: ['benevoles'], offre: ['benevoles'] },
-  { re: /\b(public|clientele|achalandage|visiteurs?|foule|attirer|monde|passants?)\b/, besoin: ['public'], offre: ['public'] },
+  { re: /\b(public|clientele|achalandage|visiteurs?|foule|attirer|monde|passants?|participant(e)?s?|inscrits?|(d'autres|autres|plus de|des) (personnes|gens))\b/, besoin: ['public'], offre: ['public'] },
   { re: /\b(affiches?|affichage|afficher|babillard|depliants?|flyers?)/, besoin: ['affichage'], offre: ['affichage'] },
-  { re: /\b(promotion|promouvoir|faire connaitre|visibilite|publicite|se faire voir|rayonnement)/, besoin: ['visibilite'], offre: ['visibilite'] },
-  { re: /\b(spectacles?|concerts?|musique|musiciens?|danse|animations?|animer|ateliers?)/, besoin: ['animation'], offre: ['animation'], themes: ['culture'] },
-  { re: /\b(materiel|chaises?|sono|sonorisation|tables?|equipements?|projecteurs?|tentes?)\b/, besoin: ['materiel'], offre: ['materiel'] },
+  { re: /\b(promotion|promouvoir|faire connaitre|visibilite|publicit|se faire voir|rayonnement|promo\b|de la pub\b|reseaux sociaux|annonc)/, besoin: ['visibilite'], offre: ['visibilite'] },
+  { re: /\b(spectacles?|concerts?|musique|musicien|danse|animations?|animer|ateliers?|scenes?\b|chanteu|chorale|humoristes?|conteu)/, besoin: ['animation'], offre: ['animation'], themes: ['culture'] },
+  { re: /\b(materiel|chaises?|sono|sonorisation|tables?|equipements?|projecteurs?|tentes?|outils?|outillage|velos?|bicyclettes?|usages?|usagees?|seconde main)\b/, besoin: ['materiel'], offre: ['materiel'] },
   { re: /\b(financement|subventions?|commandites?|commanditaires?|fonds|argent)\b/, besoin: ['financement'], offre: ['financement'] },
-  { re: /\b(bouffe|cafe|cafes|nourriture|traiteur|repas|collations?|manger|boissons?|nourrir)\b/, besoin: ['nourriture'], offre: ['nourriture'], themes: ['alimentation'] },
-  { re: /\b(expertise|experts?|conseils?|formation|savoir-faire|mentor)/, besoin: ['expertise'], offre: ['expertise'] },
+  { re: /\b(bouffe|cafe|cafes|nourriture|traiteur|repas|collations?|manger|boissons?|nourrir|cuisin\w*|soupes?|popote|denrees?|epicerie|banque alimentaire|dons? alimentaires?|boulang\w*|patisser\w*)\b/, besoin: ['nourriture'], offre: ['nourriture'], themes: ['alimentation'] },
+  { re: /\b(expertise|experts?|conseils?|formation|formateur|formatrice|savoir-faire|mentor|apprendre|enseign|professeur|profs?\b|tuteur|tutrice|tutorat|langues?\b|ateliers? de reparation|reparation de|mecani|bricol)/, besoin: ['expertise'], offre: ['expertise'] },
   { re: /\b(graffitis?|tags?|nettoy\w*|proprete|dechets?|ramass\w*|ordures?|vitrines? sales?|trottoirs?|salete)/, besoin: ['expertise', 'materiel', 'benevoles'], offre: ['expertise', 'materiel', 'benevoles'], themes: ['environnement', 'securite'] },
   { re: /\b(culture|culturel|culturelle|culturels|culturelles)\b/, themes: ['culture'] },
   { re: /\b(jeunes?|jeunesse|ados?|adolescents?|enfants?)\b/, themes: ['jeunesse'] },
   { re: /\b(etudiants?|etudiantes?|cegep|universit\w*)\b/, themes: ['etudiants'] },
   { re: /\b(environnement|verdissement|verdir|ruelles? vertes?|vert|vegetalisation|jardin\w*|plantes?|ecolo\w*)\b/, themes: ['environnement'] },
   { re: /\b(securite|securitaire|sentiment de securite|eclairage)\b/, themes: ['securite'] },
-  { re: /\b(sports?|sportif|sportive|yoga|velo)\b/, themes: ['sport'] },
-  { re: /\b(communaute|communautaire|voisins?|quartier|citoyens?|solidarite)\b/, themes: ['communautaire'] },
+  { re: /\b(sports?|sportif|sportive|yoga|velos?|cyclis\w*)\b/, themes: ['sport'] },
+  { re: /\b(communaute|communautaire|voisins?|quartier|citoyens?|solidarite|ainee?s?|personnes agees|familles?|soupe populaire)\b/, themes: ['communautaire'] },
   { re: /\b(commerces?|commercants?|boutiques?|marchands?|achat local)\b/, themes: ['commerce_local'] },
   { re: /\b(cuisine|manger|repas|bouffe|nourriture)\b/, themes: ['alimentation'] },
+  { re: /\bfamilles?\b/, themes: ['jeunesse'] },
 ];
 
 const MARQUEUR_OFFRE =
@@ -86,13 +89,15 @@ function lireCreneaux(t: string): Creneau[] {
   // A moment on its own: « une soirée concert samedi » is the weekend's evening, not a weekday one.
   const reste = out.has('fin_de_semaine') && !jourDeSemaine ? '' : t.replace(reJourMoment, ' ');
   if (/\b(soir|soiree|soirees|soirs)\b/.test(reste)) out.add('semaine_soir');
-  if (/\b(midi|apres-midi|matin|journee|jour|jours)\b/.test(reste)) out.add('semaine_jour');
+  if (/\b(midi|apres-midi|matin|matins|journee|jour|jours|(en|durant la|pendant la) semaine)\b/.test(reste)) out.add('semaine_jour');
   return [...out];
 }
 
-export const lireBesoin: LireBesoin = (texte) => {
+/** Reads the text; `explicites` = need tags from a clause that says so (« je cherche », « besoin »...). */
+function lire(texte: string) {
   const t = corrigerTexte(normaliser(texte));
   const besoins = new Set<Tag>();
+  const explicites = new Set<Tag>();
   const offres = new Set<Tag>();
   const themes = new Set<Theme>();
 
@@ -104,6 +109,7 @@ export const lireBesoin: LireBesoin = (texte) => {
       e.themes?.forEach((x) => themes.add(x));
       const cible = estOffre ? e.offre : e.besoin;
       cible?.forEach((x) => (estOffre ? offres : besoins).add(x));
+      if (!estOffre && MARQUEUR_BESOIN.test(clause)) e.besoin?.forEach((x) => explicites.add(x));
     }
     if (!estOffre && APPORT_PERSONNEL.test(clause)) offres.add('contenu_artistique');
   }
@@ -112,5 +118,14 @@ export const lireBesoin: LireBesoin = (texte) => {
     offres: [...offres],
     creneaux: lireCreneaux(t),
     themes: [...themes],
+    explicites: [...explicites],
   };
+}
+
+export const lireBesoin: LireBesoin = (texte) => {
+  const { besoins, offres, creneaux, themes } = lire(texte);
+  return { besoins, offres, creneaux, themes };
 };
+
+/** Needs the user asked for in so many words: kept even when their profile already offers them. */
+export const besoinsExplicites = (texte: string): Tag[] => lire(texte).explicites;

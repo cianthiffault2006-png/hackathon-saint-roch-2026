@@ -6,7 +6,7 @@ export default function Sources({ lieux, profils = [], onRetour }: { lieux: Lieu
   const culture = Array.from(new Set(lieux.map((l) => l.attribution).filter((a) => a.includes('SIT')).map((a) => a.replace(/^Source\s*:\s*/, ''))))
   // Other open rows (places of worship, real establishments): licence lines carried by the rows themselves.
   const autresLieux = Array.from(new Set(lieux.filter((l) => l.source === 'ouvert' && !l.attribution.includes('SIT') && !l.attribution.includes('Lieux publics')).map((l) => l.attribution)))
-  const fiches = Array.from(new Set(profils.filter((p) => p.source === 'ouvert').map((p) => p.origine)))
+  const fiches = Array.from(new Set(profils.filter((p) => p.source === 'ouvert').map((p) => p.origine.replace(/^Source\s*:\s*/, ''))))
   return (
     <main className="screen sources">
       <header className="entete">

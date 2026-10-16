@@ -219,7 +219,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
                 <li className="partenaire">
                   <strong>{lieu.nom}</strong>
                   <span className="apport">{fr.proposition.lieuSuggere}</span>
-                  <span className="apport apport-source">Lieu public : {lieu.attribution}</span>
+                  <span className="apport apport-source">{lieu.attribution}</span>
                 </li>
               </ul>
             </>

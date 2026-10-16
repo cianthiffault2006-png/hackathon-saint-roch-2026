@@ -5,7 +5,7 @@ import { fusionnerAffichage } from './lib/presentation'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite, nomCourt } from './lib/invitation'
-import { ASKER_PAR_ROLE, trouverAsker } from './lib/besoin'
+import { ASKER_PAR_ROLE, departDepuisBesoin, trouverAsker, type Depart } from './lib/besoin'
 import FilVisite from './tour/FilVisite'
 import Regie from './tour/Regie'
 import { etatEcrans } from './tour/etat'
@@ -63,6 +63,8 @@ export default function App() {
   const [ouvertId, setOuvertId] = useState<string | null>(null)
   const [discussionId, setDiscussionId] = useState<string | null>(null)
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
+  // « Créer le projet quand même »: the « Proposer un projet » form starts from the last need.
+  const [depart, setDepart] = useState<Depart | null>(null)
   // What was typed for that need, so « ← » from the proposal brings it back; a new role from the accueil starts blank.
   const [brouillon, setBrouillon] = useState<(Brouillon & { role: Role }) | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
@@ -137,6 +139,8 @@ export default function App() {
   function trouver(besoin: BesoinType, brouillon: Brouillon) {
     setDernierBesoin(besoin)
     setBrouillon({ role: besoin.auteurRole, ...brouillon })
+    // From the explorer the user may act as another role (Besoin's « Vous proposez en tant que »): it becomes theirs.
+    if (besoin.voulu && !enVisite) setRole(besoin.auteurRole)
     const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
     setPropositions(trouvees)
     setAnnonce(fr.proposition.nombreTrouvees(trouvees.length))
@@ -290,7 +294,7 @@ export default function App() {
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
           onSources={enVisite ? undefined : () => setEcran('sources')}
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
-          onProposer={enVisite ? undefined : () => setEcran('nouveau')}
+          onProposer={enVisite ? undefined : () => { setDepart(null); setEcran('nouveau') }}
           onDashboard={enVisite ? undefined : () => setEcran('dashboard')}
           onReclamer={enVisite ? undefined : () => setEcran('reclamer')}
         />
@@ -338,6 +342,7 @@ export default function App() {
           onParticiper={enVisite ? undefined : participer}
           onPlusOptions={enVisite || !dernierBesoin ? undefined : () => setEcran('plus')}
           onExplorer={enVisite ? undefined : () => setEcran('explorer')}
+          onCreer={enVisite || !dernierBesoin ? undefined : () => { setDepart(departDepuisBesoin(dernierBesoin, donnees.profils)); setEcran('nouveau') }}
           onRetour={() => setEcran('besoin')}
         />
       )}
@@ -484,13 +489,14 @@ export default function App() {
       {ecranActif === 'nouveau' && (
         <div className="plein-ecran">
           <NouveauProjet
-            key={ee ? `visite-${ee.exemple}` : 'app'}
+            key={ee ? `visite-${ee.exemple}` : depart ? `depart-${depart.description}` : 'app'}
             exemple={ee?.exemple}
             profils={donnees.profils}
             lieux={donnees.lieux}
             evenements={donnees.evenements}
-            moi={trouverAsker(role, donnees.profils)}
-            onRetour={() => setEcran('accueil')}
+            moi={depart && !ee ? donnees.profils.find((p) => p.id === depart.auteurId) : trouverAsker(role, donnees.profils)}
+            depart={ee ? undefined : depart ?? undefined}
+            onRetour={() => setEcran(depart && !ee ? 'proposition' : 'accueil')}
             onCree={enVisite ? () => undefined : creerProjet}
           />
         </div>

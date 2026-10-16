@@ -8,6 +8,8 @@ import Chips from '../components/Chips'
 /** What was typed and tapped, as is: given back with the need so « ← » from the proposal restores it. */
 export interface Brouillon extends Choix {
   texte: string
+  /** « Je démarre »: acting with no existing profile. */
+  nouveau?: boolean
 }
 
 interface Props {
@@ -32,6 +34,8 @@ export interface GuideBesoin {
   pulse: boolean
 }
 
+const ROLES: Role[] = ['commerce', 'organisme', 'citoyen']
+
 const COMMUNES: Tag[] = ['espace_interieur', 'visibilite', 'public', 'contenu_artistique', 'animation', 'benevoles']
 
 function liste(tags: Tag[]): string {
@@ -47,9 +51,12 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   const [cherche, setCherche] = useState<Tag[]>(initial?.cherche ?? [])
   const [offre, setOffre] = useState<Tag[]>(initial?.offre ?? [])
   const [creneaux, setCreneaux] = useState<Creneau[]>(initial?.creneaux ?? [])
-  const asker = trouverAsker(role, profils)
+  // Coming from the explorer, the user says who they act as (a demo profile, or « Je démarre » with none); otherwise the role given.
+  const [acteur, setActeur] = useState<{ role: Role; nouveau: boolean }>({ role, nouveau: initial?.nouveau ?? false })
+  const r = guide ? role : acteur.role
+  const asker = acteur.nouveau && !guide ? undefined : trouverAsker(r, profils)
   // What the text gave at the previous keystroke, so chips it no longer gives can be taken off.
-  const luAvant = useRef<Choix>(initial ? choixDepuisTexte(role, initial.texte, profils) : { cherche: [], offre: [], creneaux: [] })
+  const luAvant = useRef<Choix>(initial ? choixDepuisTexte(r, initial.texte, profils) : { cherche: [], offre: [], creneaux: [] })
   const main = useRef({ cherche: manuels<Tag>(), offre: manuels<Tag>(), creneaux: manuels<Creneau>() }).current
 
   useEffect(() => {
@@ -58,12 +65,12 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
     marquerMains(main.cherche, voulus)
     setCherche((prev) => ajouter(prev, voulus))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [partenaireVoulu])
+  }, [partenaireVoulu, asker])
 
   // Typing refreshes the chips from the whole text; a chip tapped on stays, a chip tapped off stays off.
   function surSaisie(valeur: string) {
     setTexte(valeur)
-    const lu = choixDepuisTexte(role, valeur, profils)
+    const lu = choixDepuisTexte(r, valeur, profils)
     const avant = luAvant.current
     luAvant.current = lu
     setCherche((prev) => suivreSaisie(prev, avant.cherche, lu.cherche, main.cherche))
@@ -73,7 +80,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
 
   function soumettre() {
     // The wanted partner goes to the engine too, so every proposition includes them.
-    onTrouver({ ...construireBesoin(role, texte, profils, { cherche, offre, creneaux }), ...(partenaireVoulu ? { voulu: partenaireVoulu.id } : {}) }, { texte, cherche, offre, creneaux })
+    onTrouver({ ...construireBesoin(r, texte, profils, { cherche, offre, creneaux }, acteur.nouveau), ...(partenaireVoulu ? { voulu: partenaireVoulu.id } : {}) }, { texte, cherche, offre, creneaux, ...(acteur.nouveau ? { nouveau: true } : {}) })
   }
 
   // During the tour the screen only shows what the tour sets; nothing is kept in its own state.
@@ -85,7 +92,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
     <main className="screen besoin">
       <header className="entete">
         <button type="button" className="retour" onClick={onRetour} aria-label={fr.besoin.boutonRetour}>←</button>
-        <span className="role-tag">{LIBELLE_ROLE[role]}</span>
+        <span className="role-tag">{LIBELLE_ROLE[r]}</span>
       </header>
       <h1 className="sr-only">{fr.besoin.titre}</h1>
       {partenaireVoulu && (
@@ -93,6 +100,26 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
           {fr.options.voulu} <strong>{partenaireVoulu.role === 'citoyen' ? 'Citoyen' : partenaireVoulu.nom}</strong>
         </p>
       )}
+      {partenaireVoulu && !guide && (
+        <p className="agir-comme">
+          <label htmlFor="agir-comme">{fr.besoin.agirComme}</label>
+          <select
+            id="agir-comme"
+            value={`${acteur.role}:${acteur.nouveau ? 'nouveau' : 'profil'}`}
+            onChange={(e) => {
+              const [ro, mode] = e.target.value.split(':')
+              setActeur({ role: ro as Role, nouveau: mode === 'nouveau' })
+            }}
+          >
+            {ROLES.map((ro) => {
+              const demo = trouverAsker(ro, profils)
+              return demo ? <option key={ro} value={`${ro}:profil`}>{demo.nom} ({LIBELLE_ROLE[ro].toLowerCase()})</option> : null
+            })}
+            {ROLES.map((ro) => <option key={`${ro}-n`} value={`${ro}:nouveau`}>{fr.besoin.jeDemarre[ro]}</option>)}
+          </select>
+        </p>
+      )}
+      {!asker && acteur.nouveau && !guide && <p className="profil-resume">{fr.besoin.sansProfil}</p>}
       {asker && (
         <p className="profil-ligne">
           {fr.besoin.votreProfil} <strong>{asker.nom}</strong>
@@ -108,7 +135,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
         className="champ"
         rows={5}
         value={vue.texte}
-        placeholder={fr.besoin.placeholders[role]}
+        placeholder={fr.besoin.placeholders[r]}
         onChange={(e) => surSaisie(e.target.value)}
       />
       <h2 className="sous-titre">{fr.besoin.jOffre}</h2>

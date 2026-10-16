@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Besoin, Evenement, Lieu, Profil, Proposition, Role } from '../types.ts';
 import { proposerAu } from './proposer.ts';
-import { choixDepuisTexte, construireBesoin, suivreSaisie, type Choix } from '../lib/besoin.ts';
+import { choixDepuisTexte, construireBesoin, departDepuisBesoin, suivreSaisie, type Choix } from '../lib/besoin.ts';
 import { fr } from '../i18n/fr.ts';
 
 // Lecture des fichiers réels (pas de types node dans tsconfig.app: import.meta.glob de Vite).
@@ -284,6 +284,33 @@ describe('partenaire voulu (explorateur → « Proposer une collaboration »)', 
     expect(acc.freins).not.toContain('Aucun créneau en commun');
     expect(acc.score).toBeGreaterThan(0);
     expect(acc.score).toBeLessThanOrEqual(100);
+  });
+  it('« Je démarre »: aucun profil existant, X toujours en premier', () => {
+    const x = profils.find((p) => p.id === 'p-mdj')!;
+    const b = construireBesoin('commerce', 'Je veux animer mon nouveau local le soir', profils, { cherche: x.offres, offre: [], creneaux: [] }, true);
+    expect(b.auteurId).toBeUndefined();
+    expect(b.offres).toEqual([]);
+    const res = proposerAu({ ...b, voulu: x.id }, profils, lieux, evenements, new Date('2026-10-15T12:00:00'));
+    expect(res.length).toBeGreaterThan(0);
+    for (const p of res) {
+      expect(p.id.startsWith('prop-anon-')).toBe(true);
+      expect(partenaires(p)[0]).toBe(x.id);
+    }
+  });
+  it('« Créer le projet quand même »: le formulaire part du besoin, X invité', () => {
+    const b = { ...construireBesoin('commerce', 'Un concert le jeudi soir', profils, { cherche: [], offre: [], creneaux: ['semaine_soir'] }), voulu: 'p-cuisinier' };
+    const d = departDepuisBesoin(b, profils);
+    expect(d.titre).toBe(fr.proposition.typesProjet.spectacle);
+    expect(d.type).toBe('spectacle');
+    expect(d.description).toBe('Un concert le jeudi soir');
+    expect(d.creneau).toBe('semaine_soir');
+    expect(d.auteurId).toBe('story-cafe');
+    const cuisinier = profils.find((p) => p.id === 'p-cuisinier')!;
+    expect(d.invites['p-cuisinier']?.length).toBeGreaterThan(0);
+    for (const t of d.invites['p-cuisinier']) {
+      expect(cuisinier.offres).toContain(t);
+      expect(d.roles).toContain(t);
+    }
   });
   it('X qui colle: aucune ligne d’excuse', () => {
     const a = avecVoulu('commerce', 'p-mdj')[0].aConfirmer.join('\n');

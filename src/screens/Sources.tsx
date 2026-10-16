@@ -24,6 +24,8 @@ export default function Sources({ lieux, profils = [], onRetour }: { lieux: Lieu
         {fiches.length > 0 && <li>Fiches réelles d’établissements (profils pré-remplis, à activer par leur responsable) : {fiches.join(' ')}</li>}
         <li>{fr.sources.profils}</li>
       </ul>
+      {/* The on-device model experiment (public/labo) is reachable from here only: it downloads 129 MB. */}
+      <p className="profil-resume"><a href="labo/">{fr.sources.labo}</a></p>
     </main>
   )
 }

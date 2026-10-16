@@ -67,6 +67,8 @@ export default function TableauSdc({ profils }: Props) {
       <section aria-labelledby="p2-pre" className="p2-sdc-carte">
         <h2 id="p2-pre" className="p2-sdc-h2">Profils pré-remplis à activer</h2>
         <p className="p2-pre-n">{aActiver}</p>
+        {/* The two live counts are named as such, next to the fictional pilot KPIs. */}
+        <p className="p2-pre-aide">Compté en direct dans ce prototype, comme les profils réclamés : une fiche réclamée passe de l’un à l’autre.</p>
       </section>
 
       <section aria-labelledby="p2-ajouts" className="p2-sdc-carte">

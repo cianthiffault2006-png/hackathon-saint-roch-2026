@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import type { Creneau, Tag } from '../types'
 import { lireBesoin } from '../engine/lecture'
-import { basculer, manuels, marquerMains, suivreSaisie, type Manuels } from './besoin'
+import { basculer, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Manuels } from './besoin'
+import { profils } from '../fixtures'
+import { fr } from '../i18n/fr'
 
 // Mirrors Besoin.tsx: each text is one keystroke state, chips follow it through suivreSaisie.
 function rangee<T>(lire: (t: string) => T[]) {
@@ -87,5 +89,39 @@ describe('suivreSaisie: pastilles et saisie', () => {
     expect(r.chips).toEqual(['animation'])
     r.taper('on cherche')
     expect(r.chips).toEqual([])
+  })
+})
+
+// What the user typed or ticked drives the need; the profile fills in only what was not said.
+describe('construireBesoin: le besoin tapé passe devant le profil', () => {
+  const cafe = trouverAsker('commerce', profils)!
+  const vide = { cherche: [], offre: [], creneaux: [] }
+
+  it('rien de tapé: les besoins et créneaux du profil', () => {
+    const b = construireBesoin('commerce', '', profils, vide)
+    expect(b.besoins).toEqual(cafe.besoins)
+    expect(b.creneaux).toEqual(cafe.creneaux)
+  })
+
+  it('démo: « animation » est déjà un besoin du café, le profil reste entier', () => {
+    const b = construireBesoin('commerce', fr.visite.texteCafe, profils, { cherche: ['animation'], offre: ['espace_interieur'], creneaux: ['semaine_soir'] })
+    expect([...b.besoins].sort()).toEqual([...cafe.besoins].sort())
+    expect(b.creneaux).toEqual(['semaine_soir'])
+  })
+
+  it('un besoin hors profil remplace les besoins du profil', () => {
+    const b = construireBesoin('commerce', 'On cherche du matériel pour une soirée', profils, { ...vide, cherche: ['materiel'] })
+    expect(b.besoins).toEqual(['materiel'])
+  })
+
+  it('le créneau tapé remplace ceux du profil', () => {
+    const b = construireBesoin('citoyen', 'samedi', profils, { ...vide, creneaux: ['fin_de_semaine'] })
+    expect(b.creneaux).toEqual(['fin_de_semaine'])
+  })
+
+  it('les offres du profil restent, les offres tapées devant', () => {
+    const b = construireBesoin('commerce', '', profils, { ...vide, offre: ['materiel'] })
+    expect(b.offres[0]).toBe('materiel')
+    expect(b.offres).toEqual(expect.arrayContaining(cafe.offres))
   })
 })

@@ -97,6 +97,9 @@ describe('lireBesoin: créneaux et thèmes', () => {
     ['dimanche matin', ['fin_de_semaine']],
     ['vendredi soir le samedi', ['fin_de_semaine', 'semaine_soir']],
     ['jeudi', ['semaine_jour']],
+    ['une soirée concert samedi', ['fin_de_semaine']],
+    ['samedi, le soir', ['fin_de_semaine']],
+    ['le jeudi, de préférence le soir', ['semaine_jour', 'semaine_soir']],
   ] as const)('créneau %s', (t, att) => {
     expect([...cas(t).creneaux].sort()).toEqual([...att].sort());
   });
@@ -116,5 +119,27 @@ describe('lireBesoin: créneaux et thèmes', () => {
   });
   it('texte vide', () => {
     expect(cas('')).toEqual({ besoins: [], offres: [], creneaux: [], themes: [] });
+  });
+});
+
+describe('lireBesoin: extérieur et expo', () => {
+  it.each([
+    'Je cherche un espace extérieur pour un spectacle de danse',
+    'Je veux organiser une soirée de musique en plein air',
+    'On cherche un lieu à l’extérieur pour une projection',
+  ])('« %s » lit un espace extérieur, pas intérieur', (t) => {
+    const r = cas(t);
+    expect(r.besoins).toContain('espace_exterieur');
+    expect(r.besoins).not.toContain('espace_interieur');
+  });
+  it('« des cours de yoga » ne sont pas une cour', () => {
+    const r = cas('J’offre des cours de yoga, je cherche une salle le matin');
+    expect(r.offres).not.toContain('espace_exterieur');
+    expect(r.besoins).toContain('espace_interieur');
+  });
+  it('« expo » court compte comme une exposition', () => {
+    const r = cas('Je cherche du public pour mon expo');
+    expect(r.besoins).toEqual(expect.arrayContaining(['visibilite', 'public']));
+    expect(r.themes).toContain('art');
   });
 });

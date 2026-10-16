@@ -20,10 +20,13 @@ describe('proposer sur public/data', () => {
   it('premier: trio de l’histoire', () => {
     expect(res[0].partenaires.slice(1).map((x) => x.profilId).sort()).toEqual(['story-artiste', 'story-organisme']);
   });
-  it('3 résultats aux titres distincts', () => {
+  // Three results, never the same pair of partners twice; a title may repeat when only two project types fit
+  // (before, the third was a « Projet de verdissement » the café never asked for).
+  it('3 résultats, trois paires de partenaires distinctes, 2 types au moins', () => {
     console.log(res.map((p) => p.titre + ' | ' + p.type + ' | ' + p.score + ' | ' + p.partenaires.slice(1).map((x) => x.profilId)).join(' // '));
     expect(res).toHaveLength(3);
-    expect(new Set(res.map((p) => p.titre)).size).toBe(3);
+    expect(new Set(res.map((p) => p.partenaires.slice(1).map((x) => x.profilId).sort().join('+'))).size).toBe(3);
+    expect(new Set(res.map((p) => p.type)).size).toBeGreaterThanOrEqual(2);
   });
 });
 
@@ -185,6 +188,57 @@ describe('visite guidée: phrase du café', () => {
     const r = proposerAu(construireBesoin('commerce', phrase, profils, cur), profils, lire<Lieu[]>('lieux.json'), lire<Evenement[]>('evenements.json'), new Date('2026-10-15T12:00:00'));
     expect(r[0].score).toBe(87);
     expect(r[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
+  });
+});
+
+// The need drives the proposal: type from what was asked, time slot from what was typed.
+describe('proposer sur public/data: le besoin mène', () => {
+  const profils = lire<Profil[]>('profils.json');
+  const lieux = lire<Lieu[]>('lieux.json');
+  const evenements = lire<Evenement[]>('evenements.json');
+  const lancer = (role: Role, texte: string) =>
+    proposerAu(construireBesoin(role, texte, profils, choixDepuisTexte(role, texte, profils)), profils, lieux, evenements, new Date('2026-10-15T12:00:00'));
+
+  it.each([
+    ['commerce', 'On cherche un groupe de musique pour une soirée concert samedi.', 'spectacle', 'fin_de_semaine'],
+    ['commerce', 'On veut accueillir une conférence sur l’histoire du quartier.', 'conference', 'semaine_soir'],
+    ['commerce', 'On cherche des artistes pour une expo dans notre salle.', 'exposition', 'semaine_soir'],
+    ['citoyen', 'Je cherche une salle pour un concert acoustique vendredi soir.', 'spectacle', 'semaine_soir'],
+    ['citoyen', 'Je veux verdir ma ruelle avec mes voisins.', 'verdissement', undefined],
+    ['citoyen', 'Je cherche un espace extérieur pour un spectacle de danse en fin de semaine.', 'spectacle', 'fin_de_semaine'],
+    ['organisme', 'On organise une conférence sur la sécurité, on cherche un lieu.', 'conference', 'semaine_soir'],
+    ['organisme', 'On organise une expo de photos, on cherche un lieu et du public.', 'exposition', 'semaine_soir'],
+    ['organisme', 'On offre des ateliers d’écriture, on cherche une salle le jour.', 'atelier', 'semaine_jour'],
+    ['citoyen', 'Je cherche des bénévoles pour une collecte de vêtements.', 'collecte', undefined],
+    ['citoyen', 'Je cherche du matériel pour une projection de films.', 'spectacle', undefined],
+  ] as const)('%s « %s » → %s, %s', (role, texte, type, creneau) => {
+    const res = lancer(role, texte);
+    expect(res.length).toBeGreaterThan(0);
+    expect(res[0].type).toBe(type);
+    if (creneau) expect(res[0].creneau).toBe(creneau);
+  });
+  it('une équipe de propreté parmi les partenaires ne fait pas une corvée d’une animation jeunesse', () => {
+    const res = lancer('organisme', 'On cherche un espace extérieur pour une animation jeunesse en fin de semaine.');
+    for (const p of res) expect(p.type).not.toBe('corvee_proprete');
+  });
+  it('la démo du café: ni marché ni verdissement parmi ses trois propositions', () => {
+    for (const p of lancer('commerce', fr.visite.texteCafe)) expect(['marche_ephemere', 'verdissement']).not.toContain(p.type);
+  });
+  it('le demandeur qui accueille chez lui: « au Café », pas « avec Café »', () => {
+    const res = lancer('commerce', 'On aimerait verdir notre terrasse avec des plantes.');
+    expect(res[0].type).toBe('verdissement');
+    expect(res[0].titre).toBe('Projet de verdissement au Café Le Petit Détour');
+  });
+  it('citoyen (Camille) qui parle de graffitis obtient une corvée malgré son profil d’artiste', () => {
+    const res = lancer('citoyen', 'Il y a des graffitis et des déchets sur ma rue, j’aimerais organiser un nettoyage avec des voisins.');
+    expect(res[0].type).toBe('corvee_proprete');
+  });
+  it('pas de marché éphémère quand le besoin ne parle ni de nourriture ni de marché', () => {
+    for (const p of lancer('commerce', fr.visite.texteCafe)) expect(p.type).not.toBe('marche_ephemere');
+    for (const p of lancer('organisme', 'On cherche une salle pour un spectacle de musique samedi soir.')) expect(p.type).not.toBe('marche_ephemere');
+  });
+  it('marché éphémère quand on le demande', () => {
+    expect(lancer('organisme', 'On veut faire un marché de Noël avec les commerçants.')[0].type).toBe('marche_ephemere');
   });
 });
 

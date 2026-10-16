@@ -13,7 +13,7 @@ export const t = {
   citoyenNote: 'Position approximative (à environ 100 m).',
   voirProfil: 'Voir le profil',
   fermer: 'Fermer',
-  membreSdc: 'Membre SDC',
+  membreSdc: 'Membre de la SDC',
   reconnuVille: 'Organisme reconnu par la Ville',
   preRempli: 'Pré-rempli · visible ici pour la démo',
   preRempliCourt: 'Pré-rempli · démo', // list rows only: the long one wraps to two uppercase lines

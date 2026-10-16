@@ -93,6 +93,7 @@ export const fr = {
     vous: 'Vous',
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,
+    lieuPropose: 'Lieu proposé',
     lieuSuggere: 'Lieu public proposé, à confirmer avec le lieu',
     rolesPartenaire: {
       commerce: 'Commerce',

@@ -87,22 +87,31 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         </div>
       )}
 
-      <section aria-labelledby="pp-offre">
-        <h2 id="pp-offre">{t.jOffre}</h2>
-        <ul className="pp-chips">{profil.offres.map((o) => <li key={o} className="pp-chip">{LIBELLE_TAG[o]}</li>)}</ul>
-      </section>
-      <section aria-labelledby="pp-cherche">
-        <h2 id="pp-cherche">{t.jeCherche}</h2>
-        <ul className="pp-chips">{profil.besoins.map((o) => <li key={o} className="pp-chip">{LIBELLE_TAG[o]}</li>)}</ul>
-      </section>
-      <section aria-labelledby="pp-creneaux">
-        <h2 id="pp-creneaux">{t.creneaux}</h2>
-        <ul className="pp-chips">{profil.creneaux.map((c) => <li key={c} className="pp-chip">{LIBELLE_CRENEAU[c]}</li>)}</ul>
-      </section>
-      <section aria-labelledby="pp-themes">
-        <h2 id="pp-themes">{t.themes}</h2>
-        <ul className="pp-chips">{profil.themes.map((x) => <li key={x} className="pp-chip">{THEMES[x]}</li>)}</ul>
-      </section>
+      {/* An empty list gets no heading: nothing to read under it. */}
+      {profil.offres.length > 0 && (
+        <section aria-labelledby="pp-offre">
+          <h2 id="pp-offre">{t.jOffre}</h2>
+          <ul className="pp-chips">{profil.offres.map((o) => <li key={o} className="pp-chip">{LIBELLE_TAG[o]}</li>)}</ul>
+        </section>
+      )}
+      {profil.besoins.length > 0 && (
+        <section aria-labelledby="pp-cherche">
+          <h2 id="pp-cherche">{t.jeCherche}</h2>
+          <ul className="pp-chips">{profil.besoins.map((o) => <li key={o} className="pp-chip">{LIBELLE_TAG[o]}</li>)}</ul>
+        </section>
+      )}
+      {profil.creneaux.length > 0 && (
+        <section aria-labelledby="pp-creneaux">
+          <h2 id="pp-creneaux">{t.creneaux}</h2>
+          <ul className="pp-chips">{profil.creneaux.map((c) => <li key={c} className="pp-chip">{LIBELLE_CRENEAU[c]}</li>)}</ul>
+        </section>
+      )}
+      {profil.themes.length > 0 && (
+        <section aria-labelledby="pp-themes">
+          <h2 id="pp-themes">{t.themes}</h2>
+          <ul className="pp-chips">{profil.themes.map((x) => <li key={x} className="pp-chip">{THEMES[x]}</li>)}</ul>
+        </section>
+      )}
 
       <section aria-labelledby="pp-events">
         <h2 id="pp-events">{t.evenements}</h2>

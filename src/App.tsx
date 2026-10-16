@@ -19,6 +19,7 @@ import Explorer from './explorer/Explorer'
 import PlusOptions from './explorer/PlusOptions'
 import ProfilPublic from './profil/ProfilPublic'
 import RechercheReclamer from './profil/RechercheReclamer'
+import AjouterFiche from './profil/AjouterFiche'
 import { appliquerReclames } from './profil/reclamation'
 import { useReclames } from './profil/useReclames'
 import Fiche from './screens/Fiche'
@@ -37,7 +38,7 @@ import EspaceProjets from './layout/EspaceProjets'
 import { useBureau } from './layout/useBureau'
 import Dashboard from './screens/Dashboard'
 
-type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau' | 'reclamer'
+type Ecran = 'accueil' | 'dashboard' | 'besoin' | 'proposition' | 'invitation' | 'fiche' | 'projets' | 'sdc' | 'sources' | 'explorer' | 'profil' | 'plus' | 'fil' | 'nouveau' | 'reclamer' | 'ajout'
 
 const VIDE: Donnees = { profils: [], lieux: [], evenements: [] }
 
@@ -273,6 +274,10 @@ export default function App() {
           onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
         />
       )}
+      {/* From the menu: the add-request form directly; done or cancelled, it lands on the claim search, which lists pending requests. */}
+      {ecranActif === 'ajout' && (
+        <AjouterFiche profils={donnees.profils} evenements={donnees.evenements} onFermer={() => setEcran('reclamer')} />
+      )}
       {ecranActif === 'besoin' && (
         <Besoin
           role={enVisite ? ROLE_VISITE : role}
@@ -459,7 +464,7 @@ export default function App() {
       {ecranActif === 'sdc' && <Sdc profils={enVisite ? brutes.profils : donnees.profils} onRetour={() => setEcran('accueil')} />}
       </div>
       <div className="sr-only" role="status" aria-live="polite">{annonce}</div>
-      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
+      <Badge place={ecranActif === 'explorer' ? 'bas-droite' : ['profil', 'fil', 'nouveau', 'plus', 'sdc', 'invitation', 'reclamer', 'ajout'].includes(ecranActif) ? 'haut-droite' : 'defaut'} />
       {etat && <Regie index={etat.index} lireMs={lireMs} />}
       {etat && (
         <TourBar

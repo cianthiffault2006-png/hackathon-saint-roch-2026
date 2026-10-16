@@ -448,6 +448,7 @@ export const fr = {
       sdc: 'Tableau de bord du quartier',
       dashboard: 'Tableau de bord',
       reclamer: 'Réclamer votre fiche',
+      ajout: 'Ajouter mon organisation',
     },
   },
 
@@ -504,6 +505,7 @@ export const fr = {
     projets: 'Mes projets',
     sources: 'Sources des données',
     sdc: 'Tableau SDC',
+    ajout: 'Ajouter mon organisation',
     prototype: 'Prototype de démonstration',
     ouvrirMenu: 'Ouvrir le menu',
     fermerMenu: 'Fermer le menu',

@@ -30,10 +30,54 @@ export const DUREE_TOTALE = dureeParcours('principal')
 /** The step playing at time t (ms from the start of that tour), and the time elapsed in it. */
 export function etapeA(t: number, parcours: Parcours = 'principal'): { index: number; ms: number } {
   const { premier, dernier } = bornes(parcours)
-  const temps = Math.max(0, Math.min(t, dureeParcours(parcours)))
+  // A time that is not a number (a click on a bar of width 0) lands nowhere special: the start, never NaN.
+  const temps = Number.isFinite(t) ? Math.max(0, Math.min(t, dureeParcours(parcours))) : 0
   let index = premier
   while (index < dernier && DEBUTS[index + 1] <= temps) index++
   return { index, ms: temps - DEBUTS[index] }
+}
+
+/**
+ * One tick of the tour clock: from the step it was on and the time elapsed since that step started
+ * (however long the tab slept), the step it is on now. It only moves forward, never past the last
+ * step of its own tour, and stops there (fin: true) so the end card shows. A time that is not a
+ * finite number keeps the step where it is.
+ */
+export function avancer(index: number, ecoule: number): { index: number; ms: number; fin: boolean } {
+  let ms = Number.isFinite(ecoule) ? Math.max(0, ecoule) : 0
+  let i = index
+  const { dernier } = bornes(ETAPES[index].parcours)
+  while (ms >= ETAPES[i].dureeMs && i < dernier) {
+    ms -= ETAPES[i].dureeMs
+    i++
+  }
+  if (ms >= ETAPES[i].dureeMs) return { index: i, ms: ETAPES[i].dureeMs, fin: true }
+  return { index: i, ms, fin: false }
+}
+
+/** The clock's memory: the step, the time it had reached (base) and when (depuis, in performance.now() ms). */
+export interface Horloge {
+  index: number
+  base: number
+  depuis: number
+  pause: boolean
+}
+
+/** Time elapsed in the step at `maintenant`; frozen while paused. */
+export function lire(h: Horloge, maintenant: number): number {
+  return h.pause ? h.base : h.base + (maintenant - h.depuis)
+}
+
+/** Pause or resume at `maintenant`: the time reached is kept, so Reprendre continues exactly from it. */
+export function basculer(h: Horloge, maintenant: number): Horloge {
+  return { index: h.index, base: lire(h, maintenant), depuis: maintenant, pause: !h.pause }
+}
+
+/** One interval tick at `maintenant`: the new clock (null when paused, nothing to do). */
+export function tic(h: Horloge, maintenant: number): Horloge | null {
+  if (h.pause) return null
+  const { index, ms, fin } = avancer(h.index, lire(h, maintenant))
+  return { index, base: ms, depuis: maintenant, pause: fin }
 }
 
 /** Time from the start of the step's own tour. */

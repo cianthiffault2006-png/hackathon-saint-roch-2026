@@ -2498,3 +2498,12 @@ body:has(.accueil) .badge-demo {
   padding: 4px 6px;
   border-radius: 8px;
 }
+
+/* Short desktop viewports (projector zoom, 1280x720 at 150 %): the sheet takes most of the height,
+   a thin map strip stays above it, so the title, score and first partners show without a tiny scroller. */
+@media (min-width: 700px) and (max-height: 800px) {
+  .feuille,
+  .tour-actif .feuille {
+    max-height: calc(100dvh - 80px);
+  }
+}

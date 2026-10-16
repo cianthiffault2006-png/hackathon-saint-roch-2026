@@ -1,4 +1,5 @@
 .ex-racine { position: fixed; inset: 0; background: var(--fond); color: var(--texte); }
+.ex-racine[hidden] { display: none; }
 .ex-carte { position: absolute; inset: 0; }
 .ex-carte[hidden] { display: none; }
 .ex-haut { position: absolute; top: 0; left: 0; right: 0; z-index: 5; padding: calc(env(safe-area-inset-top) + 8px) 8px 8px; display: flex; flex-direction: column; gap: 8px; background: linear-gradient(to bottom, rgba(247,241,230,.96) 80%, rgba(247,241,230,0)); }

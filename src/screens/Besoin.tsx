@@ -71,7 +71,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
 
   // During the tour the screen only shows what the tour sets; nothing is kept in its own state.
   const vue = guide ?? { texte, offre, cherche, creneaux, pulse: false }
-  const pret = vue.texte.trim().length > 0 || vue.cherche.length > 0 || vue.offre.length > 0
+  // A wanted partner is a need in itself: the engine builds around them even when their offers add no chip (same trade).
+  const pret = vue.texte.trim().length > 0 || vue.cherche.length > 0 || vue.offre.length > 0 || partenaireVoulu !== undefined
 
   return (
     <main className="screen besoin">
@@ -119,7 +120,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
         >
           {fr.besoin.bouton}
         </button>
-        <p id="aide-besoin" className="sr-only">{fr.besoin.aideBouton}</p>
+        {/* Visible while the button is disabled, so the grey button never stays unexplained. */}
+        <p id="aide-besoin" className={pret ? 'sr-only' : 'profil-resume'}>{fr.besoin.aideBouton}</p>
       </div>
     </main>
   )

@@ -5,7 +5,7 @@ import { fusionnerAffichage } from './lib/presentation'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
 import { choisirInvite, prenom } from './lib/invitation'
-import { trouverAsker } from './lib/besoin'
+import { ASKER_PAR_ROLE, trouverAsker } from './lib/besoin'
 import FilVisite from './tour/FilVisite'
 import Regie from './tour/Regie'
 import { etatEcrans } from './tour/etat'
@@ -63,6 +63,8 @@ export default function App() {
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
+  // Where Besoin's « ← » goes: the profile or claim search that pressed « Proposer une collaboration », else Accueil.
+  const [retourBesoin, setRetourBesoin] = useState<Ecran>('accueil')
   const [annonce, setAnnonce] = useState('')
   const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps, continuer } = useTour()
   const bureau = useBureau()
@@ -258,7 +260,7 @@ export default function App() {
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
-          onRole={(r) => { setRole(r); setVoulu(null); setEcran('besoin') }}
+          onRole={(r) => { setRole(r); setVoulu(null); setRetourBesoin('accueil'); setEcran('besoin') }}
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
@@ -274,7 +276,7 @@ export default function App() {
           profils={donnees.profils}
           evenements={donnees.evenements}
           onRetour={() => setEcran('accueil')}
-          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
+          onProposer={(id) => { setVoulu(id); setRetourBesoin('reclamer'); setEcran('besoin') }}
         />
       )}
       {/* From the menu: the add-request form directly; done or cancelled, it lands on the claim search, which lists pending requests. */}
@@ -287,7 +289,7 @@ export default function App() {
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
           guide={guideBesoin}
-          onRetour={() => { setVoulu(null); setEcran('accueil') }}
+          onRetour={() => { setVoulu(null); setEcran(retourBesoin) }}
           onTrouver={trouver}
         />
       )}
@@ -396,8 +398,10 @@ export default function App() {
           ) : null}
         />
       )}
-      {ecranActif === 'explorer' && (
+      {/* Outside the tour the explorer stays mounted, hidden, under a public profile: « ← Retour » finds it as left. */}
+      {(ecranActif === 'explorer' || (ecranActif === 'profil' && !enVisite)) && (
         <Explorer
+          masque={ecranActif === 'profil'}
           profils={enVisite ? brutes.profils : affichage.profils}
           lieux={enVisite ? donnees.lieux : affichage.lieux}
           evenements={enVisite ? donnees.evenements : affichage.evenements}
@@ -415,8 +419,9 @@ export default function App() {
           profil={profilPublic}
           profils={affichage.profils}
           evenements={affichage.evenements}
+          moi={profilPublic.id === ASKER_PAR_ROLE[role]}
           onRetour={() => setEcran('explorer')}
-          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
+          onProposer={(id) => { setVoulu(id); setRetourBesoin('profil'); setEcran('besoin') }}
         />
       )}
       {ecranActif === 'plus' && dernierBesoin && (

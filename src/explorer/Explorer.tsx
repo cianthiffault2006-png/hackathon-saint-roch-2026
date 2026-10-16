@@ -33,6 +33,8 @@ interface Props {
   onOuvrirProfil(id: string): void
   /** Guided tour: filters, search and list view come from the tour clock. */
   visite?: { actifs: Record<NomIcone, boolean>; requete: string; liste: boolean }
+  /** Hidden behind a public profile: stays mounted so search, filters, list mode and map position survive « ← Retour ». */
+  masque?: boolean
 }
 
 const sans = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -60,7 +62,11 @@ function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): 
       out.push({ id: p.id, genre: p.role, nom: p.nom, detail: p.sousType, lat: p.lat, lng: p.lng, profil: p, recherche: sans([p.nom, p.sousType, ...themesTxt(p.themes)].join(' ')) })
     }
   }
-  for (const l of lieux) out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: LIEU_TYPES[l.type], lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${LIEU_TYPES[l.type]}`) })
+  for (const l of lieux) {
+    // Places of worship arrive typed « salle » (vque_45); their licence line says what they are.
+    const type = l.attribution.includes('Lieux de culte') ? 'Lieu de culte' : LIEU_TYPES[l.type]
+    out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: type, lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${type}`) })
+  }
   for (const e of evenements) out.push({ id: e.id, genre: 'evenement', nom: e.titre, detail: e.categorie, lat: e.lat, lng: e.lng, evenement: e, recherche: sans([e.titre, e.categorie, e.lieuNom, ...themesTxt(e.themes)].join(' ')) })
   return out
 }
@@ -81,7 +87,7 @@ function Etiquettes({ el, court }: { el: Entree; court?: boolean }) {
 
 const GENRES: Genre[] = ['commerce', 'organisme', 'citoyen', 'lieu', 'evenement']
 
-export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite }: Props) {
+export default function Explorer({ profils, lieux, evenements, onRetour, onOuvrirProfil, visite, masque = false }: Props) {
   const conteneur = useRef<HTMLDivElement>(null)
   const carte = useRef<Map | null>(null)
   const marqueurs = useRef<Marker[]>([])
@@ -141,11 +147,11 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
     })
   }, [visibles])
 
-  // La carte reste montée (cachée) pendant la vue liste: position et zoom conservés.
-  useEffect(() => { if (!liste) carte.current?.resize() }, [liste])
+  // La carte reste montée (cachée) pendant la vue liste et derrière un profil: position et zoom conservés.
+  useEffect(() => { if (!liste && !masque) carte.current?.resize() }, [liste, masque])
 
   return (
-    <div className="ex-racine">
+    <div className="ex-racine" hidden={masque}>
       <div ref={conteneur} className="ex-carte" role="img" aria-label={t.carteAria} hidden={liste} />
       <header className="ex-haut">
         <div className="ex-ligne">
@@ -167,6 +173,9 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
         </div>
         <p className="ex-sr" role="status">{t.nbResultats(visibles.length)}</p>
       </header>
+
+      {/* Map view with nothing to show: the same message as the list, where the pin card would sit. */}
+      {!liste && visibles.length === 0 && <p className="ex-fiche" role="status">{t.aucun}</p>}
 
       {liste && (
         <main className="ex-liste">

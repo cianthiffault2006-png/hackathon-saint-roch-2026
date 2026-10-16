@@ -491,7 +491,8 @@ export const fr = {
     carte: 'Fond de carte : OpenFreeMap © OpenMapTiles, données © contributeurs OpenStreetMap.',
     lieux: 'Lieux publics et quartiers : Ville de Québec, Données Québec, licence CC BY 4.0.',
     culture: 'Culture :',
-    profils: 'Profils et événements : fictifs, construits sur la structure des répertoires de la Ville (données réelles confidentielles non utilisées).',
+    profils: 'Les autres profils et événements sont fictifs, construits sur la structure des répertoires de la Ville (données réelles confidentielles non utilisées).',
+    labo: 'Labo : l’IA testée dans le navigateur',
   },
 
   // Bureau (écran large) : barre latérale et espace Mes projets.

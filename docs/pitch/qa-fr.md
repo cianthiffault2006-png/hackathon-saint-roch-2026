@@ -121,7 +121,7 @@ Le moteur, c’est cinq règles qu’on peut lire à voix haute, testées avant 
 Il n’a rien à remplir : sa fiche existe déjà, il la réclame avec un code en une minute, écrit une phrase et reçoit trois partenaires avec les raisons et la distance à pied. Ce qu’il gagne, c’est un événement dans son local avec un public qu’il n’aurait pas eu.
 
 ## 37. Si la Ville veut le reprendre, qu’est-ce qu’elle reçoit?
-Le code est sous licence MIT, en React sans serveur, avec 216 tests automatisés (compte du 16 octobre au matin), et nos profils ont les mêmes colonnes que vos répertoires : un export suffit pour le brancher. Le coût récurrent, c’est un hébergement gratuit ou presque et une personne à temps partiel à la SDC; nous ne donnons pas de chiffre que nous n’avons pas calculé.
+Le code est sous licence MIT, en React sans serveur, avec plus de 230 tests automatisés (236 sur la branche d’intégration le 16 octobre), et nos profils ont les mêmes colonnes que vos répertoires : un export suffit pour le brancher. Le coût récurrent, c’est un hébergement gratuit ou presque et une personne à temps partiel à la SDC; nous ne donnons pas de chiffre que nous n’avons pas calculé.
 
 ## 37 bis. Concrètement, la SDC doit fournir quoi, et quand?
 Un export de votre fichier des membres avec les mêmes colonnes, une personne à temps partiel pour approuver les fiches et modérer, et dix membres volontaires pour un trimestre. En retour vous recevez trois chiffres par mois : projets confirmés, nouveaux partenariats, fréquentation.

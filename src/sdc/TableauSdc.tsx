@@ -1,4 +1,7 @@
 import type { Profil, Proposition } from '../types'
+import { fr } from '../i18n/fr'
+import { AJOUTS_FICTIFS } from '../profil/ajout'
+import { useAjouts } from '../profil/useAjouts'
 import './TableauSdc.css'
 
 interface Props {
@@ -22,6 +25,8 @@ const TYPES = [
 ]
 
 export default function TableauSdc({ profils }: Props) {
+  // Fictional backlog plus the add requests made in this browser (pending: on no map, in no partner pool).
+  const ajouts = AJOUTS_FICTIFS + useAjouts().length
   const reclames = profils.filter((p) => p.reclame).length
   const aActiver = profils.length - reclames
   const kpis = KPI.map((k) => (k.libelle === 'Profils réclamés' ? { ...k, valeur: reclames } : k))
@@ -62,6 +67,12 @@ export default function TableauSdc({ profils }: Props) {
       <section aria-labelledby="p2-pre" className="p2-sdc-carte">
         <h2 id="p2-pre" className="p2-sdc-h2">Profils pré-remplis à activer</h2>
         <p className="p2-pre-n">{aActiver}</p>
+      </section>
+
+      <section aria-labelledby="p2-ajouts" className="p2-sdc-carte">
+        <h2 id="p2-ajouts" className="p2-sdc-h2">{fr.ajout.sdc.titre}</h2>
+        <p className="p2-pre-n">{ajouts}</p>
+        <p className="p2-pre-aide">{fr.ajout.sdc.aide}</p>
       </section>
 
       <p className="p2-sdc-impact">Mesurer l’impact : projets confirmés, participation, achalandage déclaré par les commerçants</p>

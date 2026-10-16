@@ -21,3 +21,4 @@
 .p2-pre-n { margin: 0; font-family: var(--police-titre); font-optical-sizing: auto; font-variation-settings: "SOFT" 100; font-size: 44px; font-weight: 600; line-height: 1; color: var(--brique-fonce); }
 /* Impact line: Fraunces italic under a stitch */
 .p2-sdc-impact { margin: 18px 0 0; padding: 16px 0 0; border-radius: 0; background: var(--couture) top left / 100% 2px no-repeat; color: var(--encre); font-family: var(--police-titre); font-optical-sizing: auto; font-variation-settings: "SOFT" 100; font-style: italic; font-size: 18px; font-weight: 600; line-height: 1.35; }
+.p2-pre-aide { margin: 8px 0 0; font-size: 14px; color: var(--gris-fil); }

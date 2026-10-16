@@ -15,6 +15,8 @@ interface Props {
   evenements: Evenement[]
   onRetour(): void
   onProposer(profilId: string): void
+  /** Preview of a pending add request: the owner sees the fiche as it will appear, nobody else does. */
+  apercu?: boolean
 }
 
 const THEMES = fr.besoin.themes
@@ -24,7 +26,7 @@ function dateCourte(iso: string): string {
   return new Intl.DateTimeFormat('fr-CA', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'America/Toronto' }).format(new Date(iso))
 }
 
-export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer }: Props) {
+export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer, apercu = false }: Props) {
   const reclames = useReclames()
   const [flux, setFlux] = useState(false)
   const titre = useRef<HTMLHeadingElement>(null)
@@ -65,7 +67,9 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         {verif && <span className="pp-badge pp-badge-ok">{verif}</span>}
         {!profil.reclame && <span className="pp-badge">{t.preRempli}</span>}
         {enAttente && <span className="pp-badge">{fr.reclamer.demandeEnCours}</span>}
+        {apercu && <span className="pp-badge">{fr.ajout.enAttente}</span>}
       </div>
+      {apercu && <p className="pp-note" role="note">{fr.ajout.apercu}</p>}
       <p>{profil.description}</p>
       {profil.source === 'ouvert' && <p className="pp-note">{profil.origine}</p>}
 
@@ -141,7 +145,7 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
         )}
       </section>
 
-      <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>
+      {!apercu && <button type="button" className="pp-btn pp-btn-p" onClick={() => onProposer(profil.id)}>{t.proposer}</button>}
       {local?.statut === 'active' && (
         <button type="button" className="pp-btn pp-lien" onClick={() => annulerReclamation(profil.id)}>{fr.reclamer.reinitialiser}</button>
       )}

@@ -7,7 +7,9 @@ export const MAX_CARTES = 12
 /** A citizen never shows a name: « Citoyen · artiste », so two citizens still read differently. */
 export function nomPublic(p: Profil | undefined, id: string): string {
   if (!p) return id
-  return p.role === 'citoyen' ? `${t.citoyen} · ${p.sousType}` : p.nom
+  if (p.role !== 'citoyen') return p.nom
+  // « citoyen engagé » already says it: no « Citoyen · citoyen engagé ».
+  return p.sousType.toLowerCase().startsWith(t.citoyen.toLowerCase()) ? p.sousType.charAt(0).toUpperCase() + p.sousType.slice(1) : `${t.citoyen} · ${p.sousType}`
 }
 
 /** Same title and same partners: one card. Then the best `max` by score (the input is already sorted by score). */

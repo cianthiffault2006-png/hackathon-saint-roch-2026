@@ -171,6 +171,9 @@ const FEMININS = [
 // Mots en h muet: on élide (« à l'Hôtel de ville »); les autres h sont aspirés (« à la Halte »).
 const H_MUET = ['hotel', 'hopital'];
 const sansAccent = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+/** « Jade et Samuel, nouveaux voisins »: a pair or a group takes the plural verb. */
+const plusieurs = (p: Profil) => /\set\s/.test(p.nom.split(',')[0]);
+
 // Salles connues dont le nom ne commence pas par un nom commun (SIT Québec), repérées par la partie avant la virgule.
 const PARTICULIERS = new Map<string, string>([
   ['imperial bell', 'à l’Impérial Bell'],
@@ -379,7 +382,10 @@ export const proposerAu = (
         const tagsM = m.comp.length ? m.comp : m.p.offres;
         return {
           profilId: m.p.id,
-          apport: tagsM.some((t) => ESPACES.includes(t)) ? `accueille ${APPORT_TYPE[type]}` : `apporte ${lib(tagsM)}`,
+          // Only the host « accueille »: a second partner with a space just brings it.
+          apport: m.p.id === hoteProfil?.id && tagsM.some((t) => ESPACES.includes(t))
+            ? `${plusieurs(m.p) ? 'accueillent' : 'accueille'} ${APPORT_TYPE[type]}`
+            : `${plusieurs(m.p) ? 'apportent' : 'apporte'} ${lib(tagsM)}`,
           tags: tagsM,
         };
       }),
@@ -395,7 +401,7 @@ export const proposerAu = (
       ? [`Ce que vous offrez (${uniq(rev.flatMap((m) => m.rev)).map((t) => NU[t]).join(', ')}) répond à ce que ${rev.length > 1 ? 'cherchent' : 'cherche'} ${enumerer(rev.map((m) => m.p.nom))}`]
       : [];
     const avecDist = membres.filter((m) => m.dist !== undefined);
-    const rDist = avecDist.length ? [`Depuis chez vous, à pied : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(', ')}`] : [];
+    const rDist = avecDist.length ? [`Depuis chez vous, à pied : ${avecDist.map((m) => `${m.p.nom} à ${minTxt(m.dist!)}`).join(' ; ')}`] : [];
     const rLieu: string[] = [];
     if (lieuRemplace) {
       rLieu.push(`Lieu public proposé : ${lieuRemplace.nom}, à ${minTxt(distanceM(centre(pts), lieuRemplace))} (personne n’offre d’espace)`);
@@ -414,7 +420,7 @@ export const proposerAu = (
       .sort((x, y) => x.debut.localeCompare(y.debut) || x.id.localeCompare(y.id))
       .slice(0, 3);
     const rEvents = proches.length
-      ? [`À proximité dans les 14 prochains jours : ${proches.map((e) => e.titre).join(', ')}`]
+      ? [`Événements à proximité : ${proches.map((e) => e.titre).join(', ')}`]
       : [];
     // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
     const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
@@ -425,7 +431,7 @@ export const proposerAu = (
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
       // Le moteur ne connaît pas la date retenue (src/lib/projets): on nomme les voisins avec leur jour, sans parler de chevauchement.
-      ...(proches.length ? [`Événements voisins dans les 14 jours : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
+      ...(proches.length ? [`Événements à proximité : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
       // Partenaire voulu gardé malgré tout: on dit ce qui ne colle pas.
       ...(impose && !impose.comp.length && !impose.rev.length ? [`Rôle de ${impose.p.nom} à préciser : son profil n’offre pas ce que vous cherchez`] : []),

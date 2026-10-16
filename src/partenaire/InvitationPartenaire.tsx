@@ -40,6 +40,9 @@ function construireRaisons(prop: Proposition, part: Profil, dem: Profil): string
   return res
 }
 
+// The engine writes « apporte… » / « accueille… »; « Votre rôle » speaks to the partner like « Pourquoi vous ».
+const aVous = (apport: string) => apport.replace(/^apporte(nt)? /, 'Vous apportez ').replace(/^accueille(nt)? /, 'Vous accueillez ')
+
 export default function InvitationPartenaire({ proposition, partenaire, demandeur, autre, onAccepter, onDecliner, accepteVisite }: Props) {
   const [accepteMoi, setAccepte] = useState(false)
   const accepte = accepteVisite ?? accepteMoi
@@ -65,7 +68,7 @@ export default function InvitationPartenaire({ proposition, partenaire, demandeu
 
       <section className="p2-carte" aria-labelledby="p2-role">
         <h2 id="p2-role" className="p2-sous-titre">Votre rôle</h2>
-        <p className="p2-texte"><strong>{partenaire.nom}</strong> : {sonApport ?? 'À préciser avec les partenaires.'}</p>
+        <p className="p2-texte">{sonApport ? aVous(sonApport) : 'À préciser avec les partenaires.'}</p>
         {autreContribution && (
           <>
             <h2 className="p2-sous-titre">L’autre partenaire</h2>

@@ -20,18 +20,22 @@ const PALIERS = [5, 10, 20]
 /** Toutes les propositions: l'engin n'en rend que 3, donc on relance sans les partenaires déjà proposés. */
 function toutesLesPropositions(besoin: Besoin, profils: Profil[], lieux: Lieu[], evenements: Evenement[]): Proposition[] {
   const vues = new Map<string, Proposition>()
+  let premier: Proposition[] = []
   let reste = profils
   for (let tour = 0; tour < 8; tour++) {
     const lot = proposer(besoin, reste, lieux, evenements)
     const nouvelles = lot.filter((p) => !vues.has(p.id))
     if (nouvelles.length === 0) break
     nouvelles.forEach((p) => vues.set(p.id, p))
+    if (tour === 0) premier = nouvelles
     const retires = new Set(nouvelles.flatMap((p) => p.partenaires.map((c) => c.profilId)))
     retires.delete(besoin.auteurId ?? '')
     retires.delete(besoin.voulu ?? '') // the wanted partner stays in every round
     reste = reste.filter((p) => !retires.has(p.id))
   }
-  return [...vues.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+  // The cards' own order first, so entry 1 is proposal 1; then the others by score.
+  const autres = [...vues.values()].filter((p) => !premier.includes(p)).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+  return [...premier, ...autres]
 }
 
 export default function PlusOptions({ besoin, profils, lieux, evenements, onChoisir }: Props) {

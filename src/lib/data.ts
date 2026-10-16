@@ -21,6 +21,9 @@ async function charger<T>(nom: string, repli: T[]): Promise<T[]> {
   }
 }
 
+// Typographic apostrophe in every displayed name (cards, partner lists, pins), as the engine already does in titles.
+const typo = <T extends { nom: string }>(xs: T[]): T[] => xs.map((x) => (x.nom.includes("'") ? { ...x, nom: x.nom.replace(/'/g, '’') } : x))
+
 export async function chargerDonnees(): Promise<Donnees> {
   const [profils, lieux, evenements] = await Promise.all([
     charger('profils', fixtures.profils),
@@ -28,5 +31,5 @@ export async function chargerDonnees(): Promise<Donnees> {
     charger('evenements', fixtures.evenements),
   ])
   const presentation = presentationDemandee() ? await chargerPresentation(import.meta.env.BASE_URL) : null
-  return { profils, lieux, evenements, presentation }
+  return { profils: typo(profils), lieux: typo(lieux), evenements, presentation }
 }

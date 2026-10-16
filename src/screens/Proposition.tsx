@@ -210,14 +210,20 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
                 </li>
               )
             })}
-            {lieu && (
-              <li className="partenaire">
-                <strong>{lieu.nom}</strong>
-                <span className="apport">{fr.proposition.lieuSuggere}</span>
-                <span className="apport apport-source">Lieu public : {lieu.attribution}</span>
-              </li>
-            )}
           </ul>
+          {/* The public venue is not a partner: its own heading, so « Les trois partenaires » lists three. */}
+          {lieu && (
+            <>
+              <h2 className="sous-titre">{fr.proposition.lieuPropose}</h2>
+              <ul className="liste-part">
+                <li className="partenaire">
+                  <strong>{lieu.nom}</strong>
+                  <span className="apport">{fr.proposition.lieuSuggere}</span>
+                  <span className="apport apport-source">{lieu.attribution}</span>
+                </li>
+              </ul>
+            </>
+          )}
 
           <h2 className="sous-titre" data-visite="pourquoi">{fr.proposition.pourquoi}</h2>
           <ul className="liste">
@@ -267,7 +273,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <p className="note-declin" role="status">{fr.proposition.decline(declin)}</p>
           )}
           {statut === 'proposee' ? (
-            <button
+            !declin && <button
               type="button"
               className="btn btn-primaire"
               onClick={() => onChangerStatut(prop, 'interet_envoye')}

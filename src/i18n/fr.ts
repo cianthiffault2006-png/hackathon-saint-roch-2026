@@ -20,7 +20,7 @@ export const fr = {
     visiteGuidee: 'Visite guidée',
     badgeDemo: 'Démo simulée',
     pasDeCompte: 'Aucune inscription pour essayer.',
-    tableauSdc: 'Tableau SDC',
+    tableauSdc: 'Tableau du quartier (SDC)',
     explorer: 'Explorer le quartier',
     proposer: 'Proposer un projet',
   },
@@ -82,7 +82,7 @@ export const fr = {
   },
 
   proposition: {
-    autresOptions: 'Voir d’autres options',
+    autresOptions: 'Plus d’options',
     titre: 'Votre projet à trois',
     nombreTrouvees: (n: number) => (n === 1 ? '1 proposition trouvée' : `${n} propositions trouvées`),
     pourquoi: 'Pourquoi cette suggestion',
@@ -93,6 +93,7 @@ export const fr = {
     vous: 'Vous',
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,
+    lieuPropose: 'Lieu proposé',
     lieuSuggere: 'Lieu public proposé, à confirmer avec le lieu',
     rolesPartenaire: {
       commerce: 'Commerce',
@@ -122,7 +123,7 @@ export const fr = {
       theme: 'Thème',
     },
     voirInvitation: (prenom: string) => `Voir ce que ${prenom} reçoit`,
-    decline: (prenom: string) => `${prenom} a décliné (simulé) : voyez d’autres options`,
+    decline: (prenom: string) => `${prenom} a décliné (simulé) : touchez « Plus d’options »`,
     simulerReponse: 'Simuler la réponse des partenaires',
     interet: 'Ça m’intéresse',
     statuts: {
@@ -238,7 +239,7 @@ export const fr = {
 
   // « Ajouter ma fiche » (simulé): a business or organisation on no directory asks the SDC to be added.
   ajout: {
-    titre: 'Ajouter ma fiche',
+    titre: 'Ajouter mon organisation',
     contexte: 'Demande d’ajout à la SDC',
     formulaire: 'Décrivez votre organisation',
     intro: 'Votre organisation n’est dans aucun répertoire. La SDC vérifie qu’elle existe et qu’elle est dans Saint-Roch, puis la fiche apparaît. Rien n’est envoyé : c’est une démo.',
@@ -446,7 +447,7 @@ export const fr = {
       invitation: 'Invitation du partenaire',
       fiche: 'Fiche projet',
       projets: 'Mes projets',
-      sdc: 'Tableau de bord du quartier',
+      sdc: 'Tableau du quartier (SDC)',
       dashboard: 'Tableau de bord',
       reclamer: 'Réclamer votre fiche',
       ajout: 'Ajouter mon organisation',
@@ -506,7 +507,7 @@ export const fr = {
     proposer: 'Proposer un projet',
     projets: 'Mes projets',
     sources: 'Sources des données',
-    sdc: 'Tableau SDC',
+    sdc: 'Tableau du quartier (SDC)',
     ajout: 'Ajouter mon organisation',
     prototype: 'Prototype de démonstration',
     ouvrirMenu: 'Ouvrir le menu',
@@ -523,7 +524,7 @@ export const fr = {
     stats: 'Statistiques de mes projets',
     total: 'Mes projets',
     enAttente: 'En attente',
-    confirmes: 'Confirmés (simulation)',
+    confirmes: 'Confirmés (simulé)',
     proposes: 'Proposés',
     inscriptions: 'Inscriptions',
     recents: 'Mes projets récents',

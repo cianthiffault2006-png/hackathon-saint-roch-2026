@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Profil, Role, Tag } from '../types'
 import { basculer, choixDepuisTexte, construireBesoin, manuels, marquerMains, suivreSaisie, trouverAsker, type Choix } from '../lib/besoin'
 import { fr } from '../i18n/fr'
-import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_ROLE, LIBELLE_TAG, TAGS } from '../labels'
+import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 
 /** What was typed and tapped, as is: given back with the need so « ← » from the proposal restores it. */
@@ -85,7 +85,7 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
     <main className="screen besoin">
       <header className="entete">
         <button type="button" className="retour" onClick={onRetour} aria-label={fr.besoin.boutonRetour}>←</button>
-        <span className="role-tag">{LIBELLE_ROLE[role]}</span>
+        <span className="role-tag">{fr.proposition.rolesPartenaire[role]}</span>
       </header>
       <h1 className="sr-only">{fr.besoin.titre}</h1>
       {partenaireVoulu && (

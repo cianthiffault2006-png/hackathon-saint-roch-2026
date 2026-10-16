@@ -128,6 +128,8 @@ const TYPES_DEMANDES: [RegExp, TypeProjet][] = [
   [/\b(verdi\w*|jardin\w*|plant\w*|fleurs?|vegetal\w*|ruelles? vertes?)/, 'verdissement'],
   [/\b(collectes?|dons?|guignolee)\b/, 'collecte'],
   [/\b(ateliers?|cours|formations?|initiations?)\b/, 'atelier'],
+  // Food aid run by volunteers (« soupe populaire », « cuisiniers bénévoles »): the closest existing type, never a show.
+  [/\b(soupes? populaires?|cuisinier\w*|popotes?|banques? alimentaires?|repas communautaires?)/, 'collecte'],
 ];
 export function typeDemande(texte: string): TypeProjet | undefined {
   const t = normaliser(texte);
@@ -233,12 +235,14 @@ export const AU_LIEU_PUBLIC = 'au lieu public proposé';
  * « chez » reste pour une personne (« chez Camille Vézina »); un nom qui commence par « Chez » n'en reçoit pas un deuxième.
  * `chezSoi`: l'hôte est le demandeur lui-même, donc jamais « avec » (« Projet de verdissement au Café… »).
  */
-export function titre(type: TypeProjet, nomHote: string, lieuPublic = false, chezSoi = false): string {
-  if (lieuPublic) return `${DEBUT[type]} ${aLieu(nomHote) ?? AU_LIEU_PUBLIC}`;
-  if (!CHEZ.includes(type) && !chezSoi) return `${DEBUT[type]} avec ${nomHote}`;
+export function titre(type: TypeProjet, nomHote: string, lieuPublic = false, chezSoi = false, creneau?: Creneau): string {
+  // « Soirée » only for an evening slot: a daytime or weekend show is just « Spectacle ».
+  const debut = type === 'spectacle' && creneau && creneau !== 'semaine_soir' ? 'Spectacle' : DEBUT[type];
+  if (lieuPublic) return `${debut} ${aLieu(nomHote) ?? AU_LIEU_PUBLIC}`;
+  if (!CHEZ.includes(type) && !chezSoi) return `${debut} avec ${nomHote}`;
   const hote = nomHote.trim();
-  if (/^chez\s/i.test(hote)) return `${DEBUT[type]} ${hote}`;
-  return `${DEBUT[type]} ${aLieu(hote) ?? `chez ${hote}`}`;
+  if (/^chez\s/i.test(hote)) return `${debut} ${hote}`;
+  return `${debut} ${aLieu(hote) ?? `chez ${hote}`}`;
 }
 
 const APPORT_TYPE: Record<TypeProjet, string> = {
@@ -488,7 +492,7 @@ export const proposerAu = (
     if (corvee && equipe && equipe.verifie === 'ville') equipeVerifiee.set(idProp, besoin.themes.every((t) => equipe.themes.includes(t)) ? 2 : 1);
     return {
       id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
-      titre: titre(type, hoteNom, !corvee && !hoteProfil && !!lieu, !corvee && !!moi && hoteProfil === moi),
+      titre: titre(type, hoteNom, !corvee && !hoteProfil && !!lieu, !corvee && !!moi && hoteProfil === moi, creneau),
       type,
       partenaires,
       lieuId: lieu?.id,

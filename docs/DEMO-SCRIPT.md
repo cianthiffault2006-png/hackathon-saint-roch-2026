@@ -2,33 +2,33 @@
 
 Rôles : **Cian** clique sur le portable (écran en miroir). La **coéquipière** ouvre et conclut, Cian parle pendant la démo (U répète les textes de docs/pitch/). Q chronomètre depuis la salle et tient le plan C.
 Lien officiel : https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ (GitHub Pages). Le lien Vercel (https://hackathon-saint-roch-2026.vercel.app) est figé sur une ancienne version sans Explorer, sans fil et sans « Proposer un projet » : secours seulement, peut être périmé.
-Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de 0:50 à 2:40). Le tableau ci-dessous en est le résumé pour les clics.
+Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de 0:50 à 2:35; total visé 4:25, 4:45 au plus). Le plan écran par écran (projecteur, fenêtre, zoom, repli) est dans docs/pitch/ECRAN.md. Le tableau ci-dessous en est le résumé pour les clics.
 
 ## Déroulement minuté
 
 | Temps | Qui parle | Cian clique | Contenu |
 |---|---|---|---|
-| 0:00 à 0:20 | Coéquipière | Rien (diapo 1) | Accroche, puis « Maillage, c’est l’app qui propose à ces trois-là un projet commun » (avant 0:10), « quatre étudiants, équipe 14 » (avant 0:20). |
-| 0:20 à 0:50 | Coéquipière | Rien (diapo 2) | Problème : Mathieu, Camille Vézina, le Collectif. Citation « Ce qu’on a entendu » seulement si elle est vraie. |
-| 0:50 | Cian | Passer à l’app (accueil pré-chargé), toucher **Commerçant** | « Votre profil : Café Le Petit Détour ». |
-| 0:58 | Cian | COLLER (pas taper) : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Les puces s’allument : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir. Toucher **Trouver des partenaires**. |
-| 1:15 | Cian | Ne rien toucher | « Exposition collaborative au Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène. Dire : « le café apporte son espace et sa clientèle, Camille ses toiles, le Collectif son public ». |
-| 1:35 | Cian | Montrer « Pourquoi cette suggestion », « À confirmer » | Chaque suggestion s’explique. |
-| 1:55 | Cian | **Ça m’intéresse**, puis **Voir ce que Camille reçoit**, puis **Accepter** | Ne pas attendre le statut : appuyer tout de suite sur « Voir ce que Camille reçoit » (l’attente se confirme seule en quelques secondes et le lien disparaît), puis montrer l’invitation de Camille (jeudi 22 octobre, 19 h à 22 h) et l’accepter. Projet confirmé (réponse du Collectif simulée). |
-| 2:25 | Cian | [SI LE TEMPS LE PERMET] Accueil, **Proposer un projet**, **Exemple**, « Avant de commencer » | Sofia, corvée du samedi 24 octobre, 13 h à 17 h; la ligne du 311. Sinon, sauter. |
-| 2:40 à 3:15 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25. |
-| 3:15 à 3:35 | Coéquipière | Diapo 5 | Transparence et IA. |
-| 3:35 à 4:30 | Cian | Diapo 6 | Impact, portée, fil local aujourd’hui et table gratuite en pilote, coût. |
-| 4:30 à 4:45 | Coéquipière | Diapo 7 (lien et QR GitHub Pages) | Conclusion, Merci. Arrêt au plus tard à 4:50. |
+| 0:00 à 0:18 | Coéquipière | Rien (diapo 1) | Accroche, puis « Maillage, c’est l’app qui propose à ces trois-là un projet commun » (avant 0:10), « quatre étudiants, équipe 14 » (avant 0:18). |
+| 0:18 à 0:50 | Coéquipière | Rien (diapo 2) | Problème : Mathieu, Camille Vézina, le Collectif. Carte « Ce qu’on a entendu » : la citation réelle si on en a une, sinon la phrase de repli « les initiatives existent, le réseau manque ». |
+| 0:50 | Cian | Diapo 3 (2 s), passer à l’app (accueil pré-chargé), toucher **Commerçant** | « Votre profil : Café Le Petit Détour ». |
+| 0:58 | Cian | COLLER (pas taper) : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Les puces s’allument : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir. Toucher **Trouver des partenaires**. Si le collage échoue : toucher les trois puces à la main, même 87 %. |
+| 1:12 | Cian | Ne rien toucher | « Exposition collaborative au Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène. Dire : « le café apporte son espace et sa clientèle, Camille ses toiles, le Collectif son public ». |
+| 1:30 | Cian | Montrer « Pourquoi cette suggestion », « À confirmer », puis toucher **Comment ce score** | Chaque suggestion s’explique. Ligne à dire sur les barres : « Réciprocité 58 % : le café comble une partie des besoins de ses deux partenaires, pas tout, et on le dit. » |
+| 1:52 | Cian | **Ça m’intéresse**, puis **Voir ce que Camille reçoit**, puis **Accepter** | Ne pas attendre le statut : appuyer tout de suite sur « Voir ce que Camille reçoit » (l’attente se confirme seule en quelques secondes et le lien disparaît), puis montrer l’invitation de Camille (jeudi 22 octobre, 19 h à 22 h) et l’accepter. Projet confirmé (réponse du Collectif simulée). |
+| 2:20 | Cian | [SI LE TEMPS LE PERMET, chrono sous 2:15 à la fin de l’étape précédente] Accueil, **Proposer un projet**, **Exemple**, « Avant de commencer » | Sofia, corvée du samedi 24 octobre, 13 h à 17 h; la ligne du 311. Sinon, sauter. |
+| 2:35 à 3:10 | Cian | Diapo 4 | Données : « les 386 membres du fichier fourni par la SDC », « 614 organismes reconnus à l’échelle de la ville », Loi 25 en deux moitiés (public après réclamation avec code et consentement; en pilote, non réclamé visible par la SDC seulement; dans la démo, fiches fictives marquées). |
+| 3:10 à 3:28 | Coéquipière | Diapo 5 | Transparence et IA. |
+| 3:28 à 4:13 | Cian | Diapo 6 | Impact, portée, fil simulé et fil réel en option, tableau de modération prévu pas construit, demande de pilote (dix membres, un trimestre, une personne à temps partiel, trois mesures). |
+| 4:13 à 4:25 | Coéquipière | Diapo 7 (lien et QR GitHub Pages) | Conclusion, Merci. Arrêt au plus tard à 4:50. |
 
-Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 2:20 si la démo n’est pas finie (sauter l’étape Sofia), 1 doigt à 4:00 et 2 doigts à 4:30 si on dépasse.
+Temps de réserve : 3 minutes de questions après. Q lève 1 doigt à 2:15 si la démo n’est pas finie (sauter l’étape Sofia), 1 doigt à 4:00 et 2 doigts à 4:30 si on dépasse.
 
 ## Plan B : Visite guidée
 
 Déclencheur : l’app est lente, plante ou la carte ne charge pas à 1:20 au plus tard.
 1. Cian revient à l’accueil (logo Maillage ou bouton retour).
 2. Toucher **Visite guidée** : l’histoire se joue seule (même histoire que ci-dessus).
-3. Cian commente pendant la lecture, sans refaire les clics. Durée 2 min en 7 chapitres (plus une suite optionnelle de 69 s). En plan B, jouer les chapitres 1 à 4 (environ 70 s), puis « Quitter la visite ». Pas de clic requis.
+3. Cian commente pendant la lecture, sans refaire les clics : il dit les lignes des étapes 2 à 5 du script sur ce qui s’affiche. La visite complète dure 2 min en 7 chapitres (plus une suite optionnelle de 69 s), trop long pour le créneau de 1 min 45 s. En plan B, laisser jouer les chapitres 1 à 4 (Ouverture, Le besoin, La proposition, Côté partenaire : environ 73 s d’après les durées du script de la visite, à chronométrer une fois en répétition), puis toucher « Quitter la visite » dès que le chapitre 5 « La fiche » commence (les points de chapitre en haut le montrent). Un seul clic requis, à la sortie.
 4. Si la carte reste grise : continuer, la visite montre les raisons et le statut.
 
 ## Plan C : vidéo de secours

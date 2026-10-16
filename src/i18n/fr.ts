@@ -142,7 +142,7 @@ export const fr = {
 
   profil: {
     tagNonReclame: 'Profil pré-rempli',
-    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Seuls son nom, son type, une description et son emplacement sont affichés, sans coordonnées, jusqu’à ce que son propriétaire l’active. Les profils de personnes restent cachés.',
+    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Il devient public seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Dans cette démo, les fiches pré-remplies sont fictives et affichent seulement le nom, le type, une description et l’emplacement, sans coordonnées. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer votre fiche',
     pasAffiche: 'Profil non réclamé : non affiché.',
     fictif: 'Données fictives créées pour la démo.',
@@ -226,7 +226,7 @@ export const fr = {
     recherche: {
       lienAccueil: 'Vous êtes un commerce ou un organisme de Saint-Roch? Réclamez votre fiche',
       titre: 'Réclamer votre fiche',
-      intro: 'Les commerces et organismes de Saint-Roch sont pré-remplis à partir des répertoires de la Ville et de la SDC, sans coordonnées. Trouvez le vôtre pour l’activer.',
+      intro: 'Les commerces et organismes de Saint-Roch sont pré-remplis à partir des répertoires de la Ville et de la SDC, sans coordonnées. Une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Trouvez la vôtre pour l’activer.',
       etiquette: 'Nom du commerce ou de l’organisme',
       nb: (n: number) => (n === 0 ? 'Aucune fiche à réclamer avec ce nom.' : n === 1 ? '1 fiche à réclamer' : `${n} fiches à réclamer`),
       ouvrir: 'Voir la fiche',

@@ -248,7 +248,7 @@ export default function App() {
     : ''
 
   return (
-    <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={projets.length} inerte={enVisite} onAller={setEcran}>
+    <Coquille rubrique={rubriqueDe(ecranActif)} nbProjets={enVisite ? 1 : projets.length} inerte={enVisite} onAller={setEcran}>
     <div className={enVisite ? (etat.pause ? 'racine tour-actif tour-pause' : 'racine tour-actif') : 'racine'}>
       <div className="ecrans" inert={enVisite}>
       {ecranActif === 'accueil' && (

@@ -160,7 +160,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       <section
         className="feuille"
         style={{ animationDelay: `${(pins.length + 1) * (enVisite ? DELAI_PIN_VISITE_MS : 300)}ms` }}
-        aria-label={fr.proposition.titre}
+        aria-label={prop ? fr.proposition.titreN(prop.partenaires.length) : fr.proposition.titre}
         onTouchStart={(e) => { departX.current = e.touches[0].clientX }}
         onTouchEnd={(e) => surFin(e.changedTouches[0].clientX)}
       >
@@ -197,7 +197,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             </div>
           )}
 
-          <h2 className="sous-titre" data-visite="partenaires">{fr.proposition.partenaires}</h2>
+          <h2 className="sous-titre" data-visite="partenaires">{fr.proposition.partenairesN(prop.partenaires.length)}</h2>
           <ul className="liste-part">
             {prop.partenaires.map((c) => {
               const p = profils.find((x) => x.id === c.profilId)

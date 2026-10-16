@@ -35,7 +35,6 @@ function toutesLesPropositions(besoin: Besoin, profils: Profil[], lieux: Lieu[],
 }
 
 export default function PlusOptions({ besoin, profils, lieux, evenements, onChoisir }: Props) {
-  const [minMax, setMinMax] = useState(10)
   const origine = useMemo(() => {
     if (besoin.lat !== undefined && besoin.lng !== undefined) return { lat: besoin.lat, lng: besoin.lng }
     return profils.find((p) => p.id === besoin.auteurId) ?? CENTRE_SAINT_ROCH
@@ -44,6 +43,13 @@ export default function PlusOptions({ besoin, profils, lieux, evenements, onChoi
 
   const propositions = useMemo(() => toutesLesPropositions(besoin, profils, lieux, evenements), [besoin, profils, lieux, evenements])
   const parId = useMemo(() => new Map(profils.map((p) => [p.id, p])), [profils])
+  // Default reach covers the proposals the sheet just showed (proposer's first lot), 10 minutes at least.
+  const [minMax, setMinMax] = useState(() => {
+    const loin = Math.max(0, ...proposer(besoin, profils, lieux, evenements).flatMap((p) => p.partenaires)
+      .filter((c) => c.profilId !== besoin.auteurId)
+      .map((c) => { const pr = parId.get(c.profilId); return pr ? minutesDe(pr) : 0 }))
+    return PALIERS.find((x) => x >= Math.max(10, loin)) ?? PALIERS[PALIERS.length - 1]
+  })
 
   // Within reach, then one card per title and partner set, at most MAX_CARTES by score.
   const cartes = useMemo(() => retenirCartes(propositions

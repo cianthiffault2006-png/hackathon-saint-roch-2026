@@ -254,7 +254,7 @@ export default function App() {
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
-          onRole={(r) => { setRole(r); setEcran('besoin') }}
+          onRole={(r) => { setRole(r); setVoulu(null); setEcran('besoin') }}
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
@@ -279,7 +279,7 @@ export default function App() {
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
           guide={guideBesoin}
-          onRetour={() => setEcran('accueil')}
+          onRetour={() => { setVoulu(null); setEcran('accueil') }}
           onTrouver={trouver}
         />
       )}

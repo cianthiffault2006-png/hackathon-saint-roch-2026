@@ -78,6 +78,8 @@ export interface Besoin {
   themes: Theme[];
   lat?: number;
   lng?: number;
+  /** Profile picked in the explorer (« Proposer une collaboration »): every proposition includes it. */
+  voulu?: string;
 }
 
 export interface Contribution {

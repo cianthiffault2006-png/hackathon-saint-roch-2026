@@ -65,7 +65,8 @@ export default function Besoin({ role, profils, onRetour, onTrouver, guide, part
   }
 
   function soumettre() {
-    onTrouver(construireBesoin(role, texte, profils, { cherche, offre, creneaux }))
+    // The wanted partner goes to the engine too, so every proposition includes them.
+    onTrouver({ ...construireBesoin(role, texte, profils, { cherche, offre, creneaux }), ...(partenaireVoulu ? { voulu: partenaireVoulu.id } : {}) })
   }
 
   // During the tour the screen only shows what the tour sets; nothing is kept in its own state.

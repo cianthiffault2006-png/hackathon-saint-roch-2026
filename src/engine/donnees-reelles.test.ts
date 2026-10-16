@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Besoin, Evenement, Lieu, Profil } from '../types.ts';
+import type { Besoin, Evenement, Lieu, Profil, Proposition, Role } from '../types.ts';
 import { proposerAu } from './proposer.ts';
 import { choixDepuisTexte, construireBesoin, suivreSaisie, type Choix } from '../lib/besoin.ts';
 import { fr } from '../i18n/fr.ts';
@@ -185,5 +185,47 @@ describe('visite guidée: phrase du café', () => {
     const r = proposerAu(construireBesoin('commerce', phrase, profils, cur), profils, lire<Lieu[]>('lieux.json'), lire<Evenement[]>('evenements.json'), new Date('2026-10-15T12:00:00'));
     expect(r[0].score).toBe(87);
     expect(r[0].partenaires.slice(1).map((x) => nom(x.profilId)).sort()).toEqual(['Camille Vézina', 'Collectif Les Voisins en Scène']);
+  });
+});
+
+describe('partenaire voulu (explorateur → « Proposer une collaboration »)', () => {
+  const profils = lire<Profil[]>('profils.json');
+  const lieux = lire<Lieu[]>('lieux.json');
+  const evenements = lire<Evenement[]>('evenements.json');
+  // Même chemin que l'écran Besoin: les offres de X deviennent des puces « je cherche », puis X va au moteur.
+  const avecVoulu = (role: Role, id: string, puces = true): Proposition[] => {
+    const x = profils.find((p) => p.id === id)!;
+    const b = construireBesoin(role, '', profils, { cherche: puces ? x.offres : [], offre: [], creneaux: [] });
+    return proposerAu({ ...b, voulu: id }, profils, lieux, evenements, new Date('2026-10-15T12:00:00'));
+  };
+  const partenaires = (p: Proposition) => p.partenaires.slice(1).map((c) => c.profilId);
+  it.each([
+    ['citoyen pré-rempli', 'commerce', 'p-sofia'],
+    ['commerce (rangée ouverte SIT, non réclamée)', 'organisme', 'sit-RESTMTOV500RND'],
+    ['organisme', 'commerce', 'p-mdj'],
+    ['citoyen sans créneau ni offre communs', 'commerce', 'p-cuisinier'],
+  ])('X = %s: X en premier dans chaque proposition', (_, role, id) => {
+    const res = avecVoulu(role as Role, id);
+    expect(res.length).toBeGreaterThan(0);
+    for (const p of res) expect(partenaires(p)[0]).toBe(id);
+    for (const p of res) expect(p.partenaires[0].profilId).not.toBe(id);
+  });
+  it('X qui ne colle pas: gardé quand même, et « À confirmer » dit pourquoi', () => {
+    const res = avecVoulu('commerce', 'p-cuisinier', false); // sans les puces: ses offres ne répondent à rien
+    const a = res[0].aConfirmer.join('\n');
+    expect(a).toContain('Rôle de Rémi C., cuisinier amateur à préciser : son profil n’offre pas ce que vous cherchez');
+    expect(a).toContain('Horaire à convenir avec Rémi C., cuisinier amateur : aucun créneau commun');
+  });
+  it('X qui colle: aucune ligne d’excuse', () => {
+    const a = avecVoulu('commerce', 'p-mdj')[0].aConfirmer.join('\n');
+    expect(a).not.toMatch(/à préciser : son profil|aucun créneau commun/);
+  });
+  it('pin: sans X (ou X = soi-même), même résultat qu’avant', () => {
+    const cafe = profils.find((p) => p.id === 'story-cafe')!;
+    const b: Besoin = { auteurRole: 'commerce', auteurId: cafe.id, texte: fr.visite.texteCafe, besoins: cafe.besoins, offres: cafe.offres, creneaux: cafe.creneaux, themes: cafe.themes };
+    const sans = proposerAu(b, profils, lieux, evenements, new Date('2026-10-15T12:00:00'));
+    expect(proposerAu({ ...b, voulu: cafe.id }, profils, lieux, evenements, new Date('2026-10-15T12:00:00'))).toEqual(sans);
+    expect(proposerAu({ ...b, voulu: 'inconnu' }, profils, lieux, evenements, new Date('2026-10-15T12:00:00'))).toEqual(sans);
+    expect(sans[0].score).toBe(87);
   });
 });

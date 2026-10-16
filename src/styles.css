@@ -2448,3 +2448,45 @@ body:has(.accueil) .badge-demo {
 .liste-projets > li { padding: 0 16px 12px; background: var(--craie); border: 1px solid var(--trait); border-radius: var(--rayon); }
 .liste-projets > li > .carte-projet { padding: 14px 0 4px; background: transparent; border: 0; }
 .liste-projets > li:has(> .carte-projet[aria-current='true']) { background: var(--vert-pale); border-color: var(--vert); }
+
+/* Wanted partner who does not fit fully: their pair % and what lowers it, under the score. */
+.accord-voulu {
+  margin: 6px 0 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--orange-pale);
+  font-size: 14px;
+}
+.accord-voulu p {
+  margin: 0;
+  font-weight: 600;
+}
+.accord-voulu ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+/* « Créer le projet quand même » */
+.note-faible {
+  margin: 8px 0 0;
+  color: var(--gris);
+  font-size: 14px;
+}
+.btn-creer-quand-meme {
+  width: 100%;
+}
+
+/* Besoin: who the user acts as, when coming from the explorer */
+.agir-comme {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+.agir-comme select {
+  font: inherit;
+  padding: 4px 6px;
+  border-radius: 8px;
+}

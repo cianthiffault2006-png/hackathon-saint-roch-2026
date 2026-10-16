@@ -5,6 +5,7 @@ import { CRENEAUX, LIBELLE_CRENEAU, LIBELLE_TAG, TAGS } from '../labels'
 import Chips from '../components/Chips'
 import { listeAvant, mentionneDanger, t } from './textes'
 import { ID_DEMO_SOFIA } from '../lib/projets'
+import type { Depart } from '../lib/besoin'
 import './projet.css'
 
 interface Props {
@@ -16,6 +17,8 @@ interface Props {
   onCree(p: Proposition): void
   /** Guided tour: the form starts filled with the Exemple (the tour remounts it to switch). */
   exemple?: boolean
+  /** « Créer le projet quand même »: starts filled from the need. */
+  depart?: Depart
 }
 
 const TYPES = Object.keys(fr.proposition.typesProjet) as TypeProjet[]
@@ -48,15 +51,16 @@ function pertinence(p: Profil, type: TypeProjet): number {
   return pts
 }
 
-export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, exemple: avecExemple }: Props) {
-  const [titre, setTitre] = useState(avecExemple ? t.exemple.titre : '')
-  const [description, setDescription] = useState(avecExemple ? t.exemple.description : '')
-  const [type, setType] = useState<TypeProjet>(avecExemple ? 'corvee_proprete' : 'atelier')
-  const [creneau, setCreneau] = useState<Creneau>('fin_de_semaine')
+export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, exemple: avecExemple, depart }: Props) {
+  const [titre, setTitre] = useState(avecExemple ? t.exemple.titre : depart?.titre ?? '')
+  const [description, setDescription] = useState(avecExemple ? t.exemple.description : depart?.description ?? '')
+  const [type, setType] = useState<TypeProjet>(avecExemple ? 'corvee_proprete' : depart?.type ?? 'atelier')
+  const [creneau, setCreneau] = useState<Creneau>(depart?.creneau ?? 'fin_de_semaine')
   const [lieuId, setLieuId] = useState('')
-  const [roles, setRoles] = useState<Tag[]>(avecExemple ? ['benevoles', 'materiel', 'expertise', 'visibilite'] : [])
-  const [cherche, setCherche] = useState(false)
-  const [invites, setInvites] = useState<Record<string, Tag[]>>({})
+  const [roles, setRoles] = useState<Tag[]>(avecExemple ? ['benevoles', 'materiel', 'expertise', 'visibilite'] : depart?.roles ?? [])
+  // With the wanted partner already invited, the partner list shows at once.
+  const [cherche, setCherche] = useState(!!depart && Object.keys(depart.invites).length > 0)
+  const [invites, setInvites] = useState<Record<string, Tag[]>>(depart?.invites ?? {})
   const [erreur, setErreur] = useState('')
   const [proposeurId, setProposeurId] = useState(avecExemple ? 'p-sofia' : '')
 
@@ -72,11 +76,12 @@ export default function NouveauProjet({ profils, lieux, moi, onRetour, onCree, e
       res[tag] = profils
         .filter((p) => p.id !== moi?.id && p.id !== proposeurId && p.offres.includes(tag))
         .map((profil) => ({ profil, m: distanceM(profil, ref), pts: pertinence(profil, type) }))
-        .sort((a, b) => b.pts - a.pts || a.m - b.m)
+        // The partner wanted in the explorer, invited from the start, stays visible, first.
+        .sort((a, b) => Number(!!depart?.invites[b.profil.id]?.includes(tag)) - Number(!!depart?.invites[a.profil.id]?.includes(tag)) || b.pts - a.pts || a.m - b.m)
         .slice(0, 3)
     }
     return res
-  }, [roles, profils, moi, proposeurId, type, ref])
+  }, [roles, profils, moi, proposeurId, type, ref, depart])
 
   function exemple() {
     setTitre(t.exemple.titre)

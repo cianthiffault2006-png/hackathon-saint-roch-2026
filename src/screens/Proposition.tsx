@@ -29,7 +29,13 @@ interface Props {
   onPlusOptions?: () => void
   /** After « Ça m’intéresse »: leave the proposal for the neighbourhood map. */
   onExplorer?: () => void
+  /** « Créer le projet quand même »: the need becomes an open project (shown when nothing fits, and after the last card). */
+  onCreer?: () => void
 }
+
+/** Below this, a proposal is a weak fit: the screen puts « Créer le projet quand même » forward. */
+const SEUIL_FAIBLE = 50
+const toutesFaibles = (ps: PropositionType[]) => ps.every((p) => p.score < SEUIL_FAIBLE)
 
 const LEGENDE: [NomIcone, string][] = [
   ['commerce', fr.proposition.rolesPartenaire.commerce],
@@ -61,7 +67,7 @@ function formaterDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, declins = AUCUN_DECLIN, projets = AUCUN_PROJET, onParticiper, onPlusOptions, onExplorer }: Props) {
+export default function Proposition({ propositions, profils, lieux, evenements, onRetour, visite, statuts, onChangerStatut, index, onIndex, onFiche, onInvitation, declins = AUCUN_DECLIN, projets = AUCUN_PROJET, onParticiper, onPlusOptions, onExplorer, onCreer }: Props) {
   const enVisite = visite !== undefined
   const departX = useRef<number | null>(null)
   const feuilleRef = useRef<HTMLDivElement>(null)
@@ -108,7 +114,9 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
       <main className="screen">
         <h1>{fr.etats.vide.titre}</h1>
         <p>{fr.etats.vide.texte}</p>
-        <button type="button" className="btn btn-primaire" onClick={onRetour}>{fr.general.retour}</button>
+        {onCreer && <p>{fr.proposition.aucuneCompatible}</p>}
+        {onCreer && <button type="button" className="btn btn-primaire" onClick={onCreer}>{fr.proposition.creerQuandMeme}</button>}
+        <button type="button" className={onCreer ? 'btn btn-texte' : 'btn btn-primaire'} onClick={onRetour}>{fr.general.retour}</button>
       </main>
     )
   }
@@ -117,6 +125,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
     .map((id) => evenements.find((e) => e.id === id))
     .filter((e): e is Evenement => e !== undefined)
   const lieu = lieux.find((l) => l.id === prop.lieuId)
+  const faibles = toutesFaibles(propositions)
 
   function aller(delta: number) {
     onIndex(Math.min(propositions.length - 1, Math.max(0, index + delta)))
@@ -178,6 +187,15 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           <h1 className="feuille-titre">{prop.titre}</h1>
           {statut !== 'confirmee' && <p className="etiquette-collab">{fr.evenement.collab}</p>}
           <p className="score">{fr.proposition.score(prop.score)}</p>
+          {/* Only when the pair pulls the proposal down, or is a weak fit on its own. */}
+          {prop.accordVoulu && (prop.accordVoulu.score < prop.score || prop.accordVoulu.score < 50) && (
+            <div className="accord-voulu">
+              <p>{fr.proposition.accordVoulu(prop.accordVoulu.nom, prop.accordVoulu.score)}</p>
+              <ul>
+                {prop.accordVoulu.freins.map((f) => <li key={f}>{f}</li>)}
+              </ul>
+            </div>
+          )}
           {prop.detailScore && (
             <div className="detail-score">
               <button type="button" className="detail-bouton" aria-expanded={visite ? visite.detail : detailOuvert} onClick={() => setDetailOuvert(!detailOuvert)}>
@@ -265,6 +283,12 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           {onPlusOptions && (
             <button type="button" className="btn btn-texte btn-petit btn-plus-options" onClick={onPlusOptions}>
               {fr.options.plus}
+            </button>
+          )}
+          {onCreer && faibles && <p className="note-faible">{fr.proposition.peuCompatible}</p>}
+          {onCreer && (faibles || index === propositions.length - 1) && (
+            <button type="button" className="btn btn-texte btn-petit btn-creer-quand-meme" onClick={onCreer}>
+              {fr.proposition.creerQuandMeme}
             </button>
           )}
         </div>

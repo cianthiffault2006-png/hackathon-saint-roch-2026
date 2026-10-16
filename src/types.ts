@@ -112,6 +112,14 @@ export interface Proposition {
   aConfirmer: string[];      // 'À confirmer' lines, French
   evenementsProches: string[]; // Evenement ids nearby in time and place
   statut: Statut;
+  /** The partner picked in the explorer, when they do not fit fully: their pair score and what lowers it (from scorerPaire). */
+  accordVoulu?: AccordVoulu;
+}
+
+export interface AccordVoulu {
+  nom: string;
+  score: number;             // 0..100, pair score asker + wanted partner
+  freins: string[];          // French, plain lines
 }
 
 /** Engine API (src/engine/). Phase 2 swaps lireBesoin for a language model; screens do not change. */

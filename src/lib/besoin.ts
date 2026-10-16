@@ -1,5 +1,46 @@
-import type { Besoin, Creneau, Profil, Role, Tag } from '../types'
+import type { Besoin, Creneau, Profil, Role, Tag, TypeProjet } from '../types'
 import { lireBesoin } from '../engineAdapter'
+import { typeDemande } from '../engine/proposer'
+import { fr } from '../i18n/fr'
+
+/** « Créer le projet quand même »: the « Proposer un projet » form filled from the need (and the wanted partner, invited). */
+export interface Depart {
+  titre: string
+  description: string
+  type?: TypeProjet
+  creneau?: Creneau
+  roles: Tag[]
+  invites: Record<string, Tag[]>
+  auteurId?: string
+}
+
+export function departDepuisBesoin(besoin: Besoin, profils: Profil[]): Depart {
+  const type = typeDemande(besoin.texte)
+  const texte = besoin.texte.trim()
+  const roles = [...besoin.besoins]
+  const invites: Record<string, Tag[]> = {}
+  const voulu = besoin.voulu ? profils.find((p) => p.id === besoin.voulu && p.id !== besoin.auteurId) : undefined
+  if (voulu) {
+    let tags = voulu.offres.filter((t) => roles.includes(t))
+    // Nothing they offer is asked for: their first offer becomes an open role, so they still have a place.
+    if (!tags.length && voulu.offres.length) {
+      roles.push(voulu.offres[0])
+      tags = [voulu.offres[0]]
+    }
+    // Invited once, for the first matching role (one row in the list, not one per role).
+    if (tags.length) invites[voulu.id] = [tags[0]]
+  }
+  const court = texte.length > 60 ? `${texte.slice(0, 57).trimEnd()}…` : texte
+  return {
+    titre: type ? fr.proposition.typesProjet[type] : court,
+    description: texte,
+    type,
+    creneau: besoin.creneaux[0],
+    roles,
+    invites,
+    auteurId: besoin.auteurId,
+  }
+}
 
 // Demo rule: each role is played by its story profile.
 export const ASKER_PAR_ROLE: Record<Role, string> = {
@@ -27,14 +68,16 @@ export function construireBesoin(
   texte: string,
   profils: Profil[],
   choix: { cherche: Tag[]; offre: Tag[]; creneaux: Creneau[] },
+  sansProfil = false,
 ): Besoin {
-  const asker = trouverAsker(role, profils)
+  // « Je démarre »: no existing profile; the engine scores an anonymous asker.
+  const asker = sansProfil ? undefined : trouverAsker(role, profils)
   const lu = lireBesoin(texte)
   const besoinsProfil = asker?.besoins ?? []
   const horsProfil = choix.cherche.some((t) => !besoinsProfil.includes(t))
   return {
     auteurRole: role,
-    auteurId: asker?.id ?? ASKER_PAR_ROLE[role],
+    auteurId: sansProfil ? undefined : asker?.id ?? ASKER_PAR_ROLE[role],
     texte,
     besoins: horsProfil ? [...choix.cherche] : union(besoinsProfil, choix.cherche),
     offres: union(choix.offre, asker?.offres ?? []),

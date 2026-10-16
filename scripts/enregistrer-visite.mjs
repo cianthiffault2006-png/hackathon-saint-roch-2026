@@ -8,7 +8,7 @@
 // Portrait (--portrait) : fenêtre 390 x 844 px CSS à l'échelle 3 (iPhone), chaque image composée dans un cadre de
 // téléphone (bord sombre fin, coins ronds, ombre douce, sans logo) centré sur un fond 1920 x 1080 aux couleurs du
 // « point de maille » (--papier, --lin). --court ajoute une version courte : chapitres 1 à 5 puis la carte de fin,
-// fondu enchaîné de 0,3 s à la coupe, d'après les changements de chapitre réellement observés dans la barre de visite.
+// carte tenue 2 s, fondu enchaîné de 0,3 s à la coupe, d'après les changements de chapitre observés dans la barre de visite.
 // Stockage vide (nouveau contexte), accueil, « Visite guidée », jusqu'à la carte de fin des 7 chapitres (≈ 2 min),
 // puis la « Suite de la visite » (≈ 69 s) avec --suite. Trois images de contrôle (début, milieu, fin) à côté de chaque .mp4.
 // Rien ici n'est destiné au dépôt : la sortie va dans media/.
@@ -42,8 +42,9 @@ const TAILLE_MIN_OCTETS = 1024 * 1024
 const PAUSE_FIN_MS = 3000
 const FONDU_S = 0.3
 
-// Cadre 1920 x 1080 : écran 434 x 940 (1170 x 2532 réduit), bord de 12 px, coins ronds, ombre portée.
-const CADRE = { largeur: 1920, hauteur: 1080, ecran: { l: 434, h: 940, r: 52 }, bord: 12, rBord: 64, ombre: { dy: 18, flou: 44, alpha: 0.32 } }
+// Cadre 1920 x 1080 : le téléphone remplit la hauteur (bord 1020 px), écran 460 x 996 (390 x 844 à 2,55x), coins ronds, ombre portée.
+const CADRE = { largeur: 1920, hauteur: 1080, ecran: { l: 460, h: 996, r: 55 }, bord: 12, rBord: 67, ombre: { dy: 14, flou: 36, alpha: 0.3 } }
+const TENUE_FIN_S = 2
 const COULEURS = { papier: [247, 241, 230], lin: [239, 231, 216], bord: [31, 31, 31] }
 
 function chargerPlaywright() {
@@ -281,7 +282,8 @@ async function main() {
     // Chapitres 1 à 5, puis la carte de fin, fondu enchaîné de 0,3 s à la coupe (instants observés dans la barre).
     const debutCh6 = suivi.chapitres.find((c) => c.n === 6)?.t
     if (!debutCh6) throw new Error('Chapitre 6 non observé : version courte impossible')
-    const finA = debutCh6 - 0.2, debutB = tCarteFin + 0.2
+    // La carte de fin tenue 2 s (les dernières secondes de la version complète, la carte est déjà affichée).
+    const finA = debutCh6 - 0.2, debutB = Math.max(tCarteFin + 0.2, secondes - TENUE_FIN_S)
     const filtreCourt = `[0:v]split[s1][s2];[s1]trim=0:${finA.toFixed(3)},setpts=PTS-STARTPTS[a];[s2]trim=${debutB.toFixed(3)}:${secondes.toFixed(3)},setpts=PTS-STARTPTS[b];[a][b]xfade=transition=fade:duration=${FONDU_S}:offset=${(finA - FONDU_S).toFixed(3)},format=yuv420p[v]`
     // (la source est déjà en plage limitée ; xfade travaille dessus sans la changer)
     execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-i', sortie, '-filter_complex', filtreCourt, '-map', '[v]', ...ENCODAGE, sortieCourt], { stdio: 'inherit' })

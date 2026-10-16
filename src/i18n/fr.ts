@@ -205,7 +205,7 @@ export const fr = {
     },
     fait: {
       titre: 'Profil activé (simulé)',
-      texte: 'La mention « Profil pré-rempli » est retirée : le profil apparaît maintenant comme activé partout dans Maillage.',
+      texte: 'La mention « Pré-rempli · visible ici pour la démo » est retirée : le profil apparaît maintenant comme activé partout dans Maillage.',
       simule: 'Aucun courriel n’a été envoyé : tout se passe dans cette démo.',
       voir: 'Voir mon profil',
     },

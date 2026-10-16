@@ -82,10 +82,10 @@ Tu as le portable. Tu changes toutes les diapos (flèche droite dans le PDF, ong
 ▶ Toucher « Accepter ».
 > Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation.
 
-Seulement si le chrono est sous 2:15 ici (Q ne lève pas le doigt) : ▶ logo, « Proposer un projet », « Exemple ».
+Seulement si le chrono est sous 2:15 ici (Q ne lève pas le doigt) : ▶ menu (en haut à droite), « Accueil », « Proposer un projet », « Exemple ».
 > Deuxième histoire : Sofia, résidente, organise une corvée de propreté le samedi 24 octobre, de 13 h à 17 h. Avant de commencer, Maillage lui rappelle que le 311 s’occupe de ce qui relève de la Ville.
 
-Plan B (app plantée ou carte grise à 1:20) : ▶ logo, « Visite guidée », laisser jouer les chapitres 1 à 4 (environ 73 s) en disant les lignes ci-dessus sur ce qui s’affiche, ▶ « Quitter la visite » dès le chapitre 5. Plan C : ▶ Ctrl+3, vidéo plein écran, « Notre connexion nous lâche, voici l’enregistrement de la même démo. »
+Plan B (app plantée ou carte grise à 1:20) : ▶ « ← Retour » deux fois ou menu, « Accueil », puis « Visite guidée », laisser jouer les chapitres 1 à 4 (environ 73 s) en disant les lignes ci-dessus sur ce qui s’affiche, ▶ « Quitter la visite » dès le chapitre 5. Plan C : ▶ Ctrl+3, vidéo plein écran, « Notre connexion nous lâche, voici l’enregistrement de la même démo. »
 
 ## 2:35 · Diapo 4 · ▶ Ctrl+2 en disant la transition
 
@@ -120,7 +120,7 @@ Avec peu de profils, le moteur complète avec un lieu public de la Ville et des 
 **Q35 · Bâti avec Claude Code : qu’est-ce que vous comprenez, qu’avez-vous coupé?**
 Le moteur, c’est cinq règles qu’on peut lire à voix haute, testées avant d’être codées, et on peut expliquer chaque pourcentage à l’écran. On a coupé les comptes, les paiements, la messagerie ouverte et l’IA payante pour livrer un parcours complet qui marche sur un téléphone.
 
-Pour montrer un écran en questions : Ctrl+1 (app), Ctrl+2 pour revenir à la diapo 7. Fiche pré-remplie : Explorer le quartier, épingle « Salle Le Bémol ».
+Pour montrer un écran en questions : Ctrl+1 (app), Ctrl+2 pour revenir à la diapo 7. Fiche pré-remplie : menu, Explorer le quartier, « Liste », chercher « Bémol », « Voir le profil » (pas l’épingle).
 
 ---
 

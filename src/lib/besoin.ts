@@ -83,8 +83,8 @@ export function construireBesoin(
     offres: union(choix.offre, asker?.offres ?? []),
     creneaux: choix.creneaux.length ? [...choix.creneaux] : [...(asker?.creneaux ?? [])],
     themes: union(asker?.themes ?? [], lu.themes),
-    lat: asker?.lat ?? 46.8135,
-    lng: asker?.lng ?? -71.2205,
+    // No profile, no address: no « Depuis chez vous » distances.
+    ...(sansProfil ? {} : { lat: asker?.lat ?? 46.8135, lng: asker?.lng ?? -71.2205 }),
   }
 }
 

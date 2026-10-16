@@ -39,12 +39,25 @@ export const DEMOS: Record<string, { fichier: string; date: Occurrence }> = {
 const CLE = 'maillage.projets.v1'
 let memoire: Projet[] = []
 
+/** A stored record Mes projets can render: the fields every screen reads without a guard (date, partners, checklist). */
+export function estProjet(x: unknown): x is Projet {
+  if (typeof x !== 'object' || x === null) return false
+  const p = x as Record<string, unknown>
+  return typeof p.id === 'string' && typeof p.titre === 'string' && typeof p.statut === 'string'
+    && typeof p.jour === 'string' && typeof p.heureDebut === 'number' && typeof p.heureFin === 'number'
+    && typeof p.lieuNom === 'string' && Array.isArray(p.partenaires) && Array.isArray(p.aConfirmer) && Array.isArray(p.coches)
+}
+
+/** What the store holds, minus records from an older build or a hand edit: one bad row must not blank the screen. */
+export function filtrerProjets(json: unknown): Projet[] | null {
+  return Array.isArray(json) ? json.filter(estProjet) : null
+}
+
 export function chargerProjets(): Projet[] {
   try {
     const brut = window.localStorage.getItem(CLE)
     if (!brut) return memoire
-    const json: unknown = JSON.parse(brut)
-    return Array.isArray(json) ? (json as Projet[]) : memoire
+    return filtrerProjets(JSON.parse(brut)) ?? memoire
   } catch {
     return memoire
   }

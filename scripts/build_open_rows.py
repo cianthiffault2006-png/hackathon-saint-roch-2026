@@ -52,10 +52,10 @@ S, W, J = "semaine_soir", "fin_de_semaine", "semaine_jour"
 # (what brings people in), refined by the establishment when it activates its profile; no single generic need such as
 # 'visibilite', which any profile satisfies and let a real row outrank the story partners on reciprocity.
 TYPES = {
-    "Restaurant": ("commerce", "restaurant", [EI, N, P], [AN, CA], [S, W], ["alimentation", "commerce_local"]),
-    "Café / salon de thé": ("commerce", "café", [EI, N, P], [AN, CA], [J, S], ["alimentation", "commerce_local"]),
-    "Bar, boîte de nuit": ("commerce", "bar", [EI, P, N], [AN, CA], [S, W], ["culture", "commerce_local"]),
-    "Centre récréatif / sportif": ("commerce", "centre récréatif", [EI, AN, P], [P, CA], [S, W], ["jeunesse", "commerce_local"]),
+    "Restaurant": ("commerce", "restaurant", [N, P], [AN, CA], [S, W], ["alimentation", "commerce_local"]),
+    "Café / salon de thé": ("commerce", "café", [N, P], [AN, CA], [J, S], ["alimentation", "commerce_local"]),
+    "Bar, boîte de nuit": ("commerce", "bar", [P, N], [AN, CA], [S, W], ["culture", "commerce_local"]),
+    "Centre récréatif / sportif": ("commerce", "centre récréatif", [AN, P], [P, CA], [S, W], ["jeunesse", "commerce_local"]),
     "Organisme touristique": ("organisme", "organisme touristique", [V, EX, A], [CA, AN], [J], ["culture", "commerce_local"]),
 }
 LICENCE = "licence CC BY 4.0"
@@ -68,8 +68,10 @@ def profil_sit(pr: dict, dataset: str, geom: dict):
     role, st, of, be, cr, th = t
     of = list(of)
     details = []
+    # Space offers come from the data only: a hall capacity gives espace_interieur, a terrace espace_exterieur.
     if pr.get("CapaciteEnSallePersonnes"):
         details.append(f"salle de {pr['CapaciteEnSallePersonnes']} personnes")
+        of.insert(0, EI)
     if "Terrasse" in (pr.get("InstallationsDisponibles") or "") or pr.get("CapaciteEnTerrassePersonnes"):
         details.append("terrasse")
         of.append(EE)

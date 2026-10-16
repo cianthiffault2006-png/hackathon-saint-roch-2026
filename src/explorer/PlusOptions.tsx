@@ -28,6 +28,7 @@ function toutesLesPropositions(besoin: Besoin, profils: Profil[], lieux: Lieu[],
     nouvelles.forEach((p) => vues.set(p.id, p))
     const retires = new Set(nouvelles.flatMap((p) => p.partenaires.map((c) => c.profilId)))
     retires.delete(besoin.auteurId ?? '')
+    retires.delete(besoin.voulu ?? '') // the wanted partner stays in every round
     reste = reste.filter((p) => !retires.has(p.id))
   }
   return [...vues.values()].sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))

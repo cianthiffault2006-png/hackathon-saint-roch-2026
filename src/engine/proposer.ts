@@ -72,12 +72,14 @@ interface Cand {
   score: number; // 0..100 (paire, sert à choisir les partenaires)
 }
 
-function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil): Cand | null {
-  const creneaux = b.creneaux.length ? inter(b.creneaux, p.creneaux) : p.creneaux;
-  if (!creneaux.length) return null; // créneau commun obligatoire
+/** `impose`: partenaire voulu (choisi dans l'explorateur), gardé même sans créneau commun ni complémentarité. */
+function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil, impose = false): Cand | null {
+  const crenCommuns = b.creneaux.length ? inter(b.creneaux, p.creneaux) : p.creneaux;
+  if (!crenCommuns.length && !impose) return null; // créneau commun obligatoire
+  const creneaux = crenCommuns.length ? crenCommuns : p.creneaux;
   const comp = inter(p.offres, b.besoins);
   const rev = inter(b.offres, p.besoins);
-  if (!comp.length && !rev.length) return null;
+  if (!comp.length && !rev.length && !impose) return null;
   const dist = pos ? distanceM(pos, p) : undefined;
   const sDist = dist === undefined ? 0.5 : dist <= M_PROCHE ? 1 : dist >= M_LOIN ? 0 : (M_LOIN - dist) / (M_LOIN - M_PROCHE);
   const communs = inter(b.themes, p.themes);
@@ -244,10 +246,13 @@ export const proposerAu = (
     .map((p) => scorerPaire(besoin, pos, p))
     .filter((c): c is Cand => c !== null)
     .sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));
+  // Partenaire voulu: il est dans chaque proposition, en premier; on cherche le meilleur tiers autour de lui.
+  const voulu = besoin.voulu && besoin.voulu !== besoin.auteurId ? profils.find((p) => p.id === besoin.voulu) : undefined;
+  const impose = voulu ? (cands.find((c) => c.p.id === voulu.id) ?? scorerPaire(besoin, pos, voulu, true)!) : undefined;
 
   // Pour chacun des 5 meilleurs partenaires, tous les tiers utiles; un trio par ensemble de partenaires.
   const combos = new Map<string, { a: Cand; b?: Cand; valeur: number }>();
-  for (const a of cands.slice(0, 5)) {
+  for (const a of impose ? [impose] : cands.slice(0, 5)) {
     const nonCouverts = sans(besoin.besoins, a.p.offres);
     const besoinsA = sans(a.p.besoins, besoin.offres);
     const groupe = uniq([...besoin.offres, ...a.p.offres]);
@@ -273,7 +278,7 @@ export const proposerAu = (
   const equipeVerifiee = new Map<string, number>(); // corvée avec une équipe de propreté reconnue: passe en premier (2 si elle couvre tous les thèmes du demandeur)
   const rang = new Map<string, number>(); // qualité des paires, pour départager les scores égaux
   const props = choix.map(({ a, b, valeur }): Proposition => {
-    const membres = b && b.score > a.score ? [b, a] : b ? [a, b] : [a];
+    const membres = b && b.score > a.score && !impose ? [b, a] : b ? [a, b] : [a];
     const profs = membres.map((m) => m.p);
     const communs = (besoin.creneaux.length ? besoin.creneaux : profs[0].creneaux).filter((c) =>
       profs.every((p) => p.creneaux.includes(c)),
@@ -391,6 +396,9 @@ export const proposerAu = (
       // Le moteur ne connaît pas la date retenue (src/lib/projets): on nomme les voisins avec leur jour, sans parler de chevauchement.
       ...(proches.length ? [`Événements voisins dans les 14 jours : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
+      // Partenaire voulu gardé malgré tout: on dit ce qui ne colle pas.
+      ...(impose && !impose.comp.length && !impose.rev.length ? [`Rôle de ${impose.p.nom} à préciser : son profil n’offre pas ce que vous cherchez`] : []),
+      ...(impose && besoin.creneaux.length && !inter(besoin.creneaux, impose.p.creneaux).length ? [`Horaire à convenir avec ${impose.p.nom} : aucun créneau commun`] : []),
       ...membres.filter((m) => !m.p.reclame).map((m) => `${m.p.nom}. Profil pré-rempli : ${QUI_ACTIVE[m.p.role]} doit d’abord activer son profil`),
     ];
 

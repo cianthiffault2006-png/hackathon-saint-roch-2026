@@ -65,14 +65,15 @@ function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): 
   return out
 }
 
-function Etiquettes({ el }: { el: Entree }) {
+/** `court`: the list rows are narrow, so the pre-filled badge takes its short label there. */
+function Etiquettes({ el, court }: { el: Entree; court?: boolean }) {
   const p = el.profil
   const verif = p ? badgeVerif(p) : null
   if (!verif && !(p && !p.reclame) && !el.evenement?.ouvertAuPublic) return null
   return (
     <div className="ex-badges">
       {verif && <span className="ex-badge ex-badge-ok">{verif}</span>}
-      {p && !p.reclame && <span className="ex-badge">{t.preRempli}</span>}
+      {p && !p.reclame && <span className="ex-badge">{court ? t.preRempliCourt : t.preRempli}</span>}
       {el.evenement?.ouvertAuPublic && <span className="ex-badge ex-badge-ok">{t.ouvertPublic}</span>}
     </div>
   )
@@ -177,7 +178,7 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
                   <div className="ex-item-texte">
                     <strong>{e.nom}</strong>
                     <span>{e.detail} · {t.distance(d)}</span>
-                    <Etiquettes el={e} />
+                    <Etiquettes el={e} court />
                   </div>
                   {e.profil && (
                     <button type="button" className="ex-btn ex-btn-p" data-visite={`profil-${e.id}`} onClick={() => onOuvrirProfil(e.id)}>

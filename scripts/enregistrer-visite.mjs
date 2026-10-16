@@ -1,16 +1,20 @@
 #!/usr/bin/env node
-// Enregistre la Visite guidée de bout en bout (vidéo de secours du pitch), en disposition téléphone telle que projetée.
+// Enregistre la Visite guidée de bout en bout (vidéo de secours ou démo vidéo du pitch).
 //
 //   node scripts/enregistrer-visite.mjs [--url <https://…/>] [--sortie <fichier.mp4>] [--suite] [--chrome] [--ips 15]
+//   node scripts/enregistrer-visite.mjs --portrait [--url …] [--sortie tour-cadre-complet.mp4] [--court [tour-cadre-court.mp4]]
 //
-// Fenêtre 850 x 480 px CSS (sous le seuil téléphone de 900 px) à deviceScaleFactor 2 : vidéo 1700 x 960.
+// Paysage (défaut) : fenêtre 850 x 480 px CSS (sous le seuil téléphone de 900 px) à l'échelle 2, vidéo 1700 x 960.
+// Portrait (--portrait) : fenêtre 390 x 844 px CSS à l'échelle 3 (iPhone), chaque image composée dans un cadre de
+// téléphone (bord sombre fin, coins ronds, ombre douce, sans logo) centré sur un fond 1920 x 1080 aux couleurs du
+// « point de maille » (--papier, --lin). --court ajoute une version courte : chapitres 1 à 5 puis la carte de fin,
+// fondu enchaîné de 0,3 s à la coupe, d'après les changements de chapitre réellement observés dans la barre de visite.
 // Stockage vide (nouveau contexte), accueil, « Visite guidée », jusqu'à la carte de fin des 7 chapitres (≈ 2 min),
-// puis la « Suite de la visite » (≈ 69 s) avec --suite. Trois images de contrôle (début, milieu, fin) à côté du .mp4.
+// puis la « Suite de la visite » (≈ 69 s) avec --suite. Trois images de contrôle (début, milieu, fin) à côté de chaque .mp4.
 // Rien ici n'est destiné au dépôt : la sortie va dans media/.
 //
-// Pourquoi des captures et non recordVideo : le screencast de Chrome rend les images en pixels CSS (850 x 480) quel
-// que soit le deviceScaleFactor, donc recordVideo pose la page dans un coin d'une vidéo 1700 x 960 ; page.screenshot
-// rend les vrais pixels (≈ 50 ms l'image), et ffmpeg assemble les images avec leurs durées réelles.
+// Pourquoi des captures et non recordVideo : le screencast de Chrome rend les images en pixels CSS quel que soit le
+// deviceScaleFactor ; page.screenshot rend les vrais pixels, et ffmpeg assemble les images avec leurs durées réelles.
 //
 // Playwright n'est pas une dépendance du projet : on prend celui du projet s'il existe, sinon l'installation globale
 // (npm i -g playwright@1.64.1). ffmpeg : winget install Gyan.FFmpeg.
@@ -19,19 +23,28 @@ import { execFileSync, execSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
+import { deflateSync } from 'node:zlib'
 
 const args = process.argv.slice(2)
-const option = (nom, defaut) => { const i = args.indexOf(nom); return i >= 0 && args[i + 1] ? args[i + 1] : defaut }
+const option = (nom, defaut) => { const i = args.indexOf(nom); return i >= 0 && args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : defaut }
 const drapeau = (nom) => args.includes(nom)
 
 const URL_DEFAUT = 'https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/'
+const MEDIA = 'C:/Users/maeli/cian-claude/media'
 const url = option('--url', URL_DEFAUT)
-const sortie = resolve(option('--sortie', 'C:/Users/maeli/cian-claude/media/backup-d2.mp4'))
+const portrait = drapeau('--portrait')
+const sortie = resolve(option('--sortie', portrait ? `${MEDIA}/tour-cadre-complet.mp4` : `${MEDIA}/backup-d2.mp4`))
+const sortieCourt = portrait && drapeau('--court') ? resolve(option('--court', `${MEDIA}/tour-cadre-court.mp4`)) : null
 const avecSuite = drapeau('--suite')
-const IPS = Number(option('--ips', '15'))
-const LARGEUR = 850, HAUTEUR = 480, ECHELLE = 2
+const IPS = Number(option('--ips', portrait ? '12' : '15'))
+const ECRAN = portrait ? { largeur: 390, hauteur: 844, echelle: 3 } : { largeur: 850, hauteur: 480, echelle: 2 }
 const TAILLE_MIN_OCTETS = 1024 * 1024
 const PAUSE_FIN_MS = 3000
+const FONDU_S = 0.3
+
+// Cadre 1920 x 1080 : écran 434 x 940 (1170 x 2532 réduit), bord de 12 px, coins ronds, ombre portée.
+const CADRE = { largeur: 1920, hauteur: 1080, ecran: { l: 434, h: 940, r: 52 }, bord: 12, rBord: 64, ombre: { dy: 18, flou: 44, alpha: 0.32 } }
+const COULEURS = { papier: [247, 241, 230], lin: [239, 231, 216], bord: [31, 31, 31] }
 
 function chargerPlaywright() {
   const essais = [
@@ -64,12 +77,64 @@ function duree(ffmpeg, fichier) {
   return m ? Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]) : NaN
 }
 
+// --- PNG minimal (pas de dépendance) : RGBA ou gris, 8 bits, sans filtre. ---
+const TABLE_CRC = new Uint32Array(256).map((_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0 })
+function crc32(buf) { let c = 0xffffffff; for (const b of buf) c = TABLE_CRC[(c ^ b) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0 }
+function png(largeur, hauteur, pixels, gris = false) {
+  const canaux = gris ? 1 : 4
+  const brut = Buffer.alloc((largeur * canaux + 1) * hauteur)
+  for (let y = 0; y < hauteur; y++) pixels.copy(brut, y * (largeur * canaux + 1) + 1, y * largeur * canaux, (y + 1) * largeur * canaux)
+  const morceau = (type, donnees) => {
+    const t = Buffer.from(type, 'latin1')
+    const long = Buffer.alloc(4); long.writeUInt32BE(donnees.length)
+    const crc = Buffer.alloc(4); crc.writeUInt32BE(crc32(Buffer.concat([t, donnees])))
+    return Buffer.concat([long, t, donnees, crc])
+  }
+  const ihdr = Buffer.alloc(13)
+  ihdr.writeUInt32BE(largeur, 0); ihdr.writeUInt32BE(hauteur, 4); ihdr[8] = 8; ihdr[9] = gris ? 0 : 6
+  return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), morceau('IHDR', ihdr), morceau('IDAT', deflateSync(brut)), morceau('IEND', Buffer.alloc(0))])
+}
+
+/** Distance signée d'un point au rectangle arrondi (négative dedans). */
+function distanceRect(px, py, cx, cy, demiL, demiH, r) {
+  const qx = Math.abs(px - cx) - (demiL - r), qy = Math.abs(py - cy) - (demiH - r)
+  return Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r
+}
+const couverture = (d) => Math.min(1, Math.max(0, 0.5 - d))
+
+/** Fond papier avec une grille lin discrète, ombre portée, bord sombre : l'écran se pose dessus. Et le masque de l'écran. */
+function dessinerCadre(dossier) {
+  const { largeur, hauteur, ecran, bord, rBord, ombre } = CADRE
+  const bl = ecran.l + 2 * bord, bh = ecran.h + 2 * bord
+  const cx = largeur / 2, cy = hauteur / 2
+  const fond = Buffer.alloc(largeur * hauteur * 4)
+  for (let y = 0; y < hauteur; y++) for (let x = 0; x < largeur; x++) {
+    const grille = x % 48 === 0 || y % 48 === 0
+    let [r, g, b] = grille ? COULEURS.lin : COULEURS.papier
+    const dOmbre = distanceRect(x + 0.5, y + 0.5 - ombre.dy, cx, cy, bl / 2, bh / 2, rBord)
+    const aOmbre = ombre.alpha * (1 - Math.min(1, Math.max(0, dOmbre / ombre.flou)))
+    r *= 1 - aOmbre; g *= 1 - aOmbre; b *= 1 - aOmbre
+    const aBord = couverture(distanceRect(x + 0.5, y + 0.5, cx, cy, bl / 2, bh / 2, rBord))
+    r = r * (1 - aBord) + COULEURS.bord[0] * aBord; g = g * (1 - aBord) + COULEURS.bord[1] * aBord; b = b * (1 - aBord) + COULEURS.bord[2] * aBord
+    const i = (y * largeur + x) * 4
+    fond[i] = r; fond[i + 1] = g; fond[i + 2] = b; fond[i + 3] = 255
+  }
+  const masque = Buffer.alloc(ecran.l * ecran.h)
+  for (let y = 0; y < ecran.h; y++) for (let x = 0; x < ecran.l; x++) {
+    masque[y * ecran.l + x] = Math.round(255 * couverture(distanceRect(x + 0.5, y + 0.5, ecran.l / 2, ecran.h / 2, ecran.l / 2, ecran.h / 2, ecran.r)))
+  }
+  const cadre = join(dossier, 'cadre.png'), masqueFichier = join(dossier, 'masque.png')
+  writeFileSync(cadre, png(largeur, hauteur, fond))
+  writeFileSync(masqueFichier, png(ecran.l, ecran.h, masque, true))
+  return { cadre, masque: masqueFichier, x: Math.round(cx - ecran.l / 2), y: Math.round(cy - ecran.h / 2) }
+}
+
 /** Captures à intervalle régulier dans `dossier`, jusqu'à arret(); rend la liste (fichier, instant) pour ffmpeg. */
 function capturer(page, dossier) {
   const images = []
+  const debut = Date.now()
   let actif = true
   const boucle = (async () => {
-    const debut = Date.now()
     let n = 0
     while (actif) {
       const prevu = debut + (n * 1000) / IPS
@@ -83,7 +148,56 @@ function capturer(page, dossier) {
       n++
     }
   })()
-  return { images, arret: async () => { actif = false; await boucle } }
+  return { images, instant: () => (Date.now() - debut) / 1000, arret: async () => { actif = false; await boucle } }
+}
+
+/** Suit la barre de visite (« 3/7 · La proposition ») et note chaque changement de chapitre avec son instant. */
+function suivreChapitres(page, capture) {
+  const chapitres = []
+  let actif = true
+  const boucle = (async () => {
+    let dernier = ''
+    while (actif) {
+      await new Promise((r) => setTimeout(r, 150))
+      const texte = await page.evaluate(() => document.querySelector('.visite-chapitre span[aria-hidden="true"]')?.textContent ?? '').catch(() => '')
+      if (texte && texte !== dernier) {
+        const m = /(\d+)\/(\d+)\s*·\s*(.+)$/.exec(texte)
+        if (m) chapitres.push({ n: Number(m[1]), titre: m[3].trim(), t: capture.instant() })
+        dernier = texte
+      }
+    }
+  })()
+  return { chapitres, arret: async () => { actif = false; await boucle } }
+}
+
+function listeConcat(images, dossier) {
+  const liste = join(dossier, 'liste.txt')
+  const chemin = (f) => f.replace(/\\/g, '/').replace(/'/g, "'\\''")
+  const lignes = images.map((im, i) => `file '${chemin(im.fichier)}'\nduration ${((images[i + 1]?.t ?? im.t + 1 / IPS) - im.t).toFixed(4)}`)
+  writeFileSync(liste, [...lignes, `file '${chemin(images[images.length - 1].fichier)}'`].join('\n') + '\n')
+  return liste
+}
+
+// H.264 High yuv420p 30 i/s constant, faststart : lisible dans PowerPoint, VLC et le lecteur Windows.
+const ENCODAGE = ['-r', '30', '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an']
+
+function imagesDeControle(ffmpeg, fichier, secondes) {
+  const base = fichier.replace(/\.mp4$/i, '')
+  for (const [nom, t] of [['debut', Math.min(8, secondes / 4)], ['milieu', secondes / 2], ['fin', Math.max(0, secondes - PAUSE_FIN_MS / 1000 - 2)]]) {
+    const png = `${base}-${nom}.png`
+    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-ss', t.toFixed(1), '-i', fichier, '-frames:v', '1', png])
+    console.log(`Image : ${png} (à ${t.toFixed(0)} s)`)
+  }
+}
+
+function bilan(ffmpeg, fichier, dims) {
+  const secondes = duree(ffmpeg, fichier)
+  const octets = statSync(fichier).size
+  console.log(`Sortie : ${fichier}`)
+  console.log(`Durée : ${Math.floor(secondes / 60)} min ${(secondes % 60).toFixed(1)} s · Taille : ${(octets / 1e6).toFixed(1)} Mo · ${dims}`)
+  if (octets < TAILLE_MIN_OCTETS) throw new Error(`Vidéo trop petite (${octets} octets < 1 Mo) : enregistrement probablement vide`)
+  imagesDeControle(ffmpeg, fichier, secondes)
+  return secondes
 }
 
 async function main() {
@@ -101,8 +215,10 @@ async function main() {
     return chromium.launch({ channel: 'chrome' })
   }))
   const contexte = await navigateur.newContext({
-    viewport: { width: LARGEUR, height: HAUTEUR },
-    deviceScaleFactor: ECHELLE,
+    viewport: { width: ECRAN.largeur, height: ECRAN.hauteur },
+    deviceScaleFactor: ECRAN.echelle,
+    isMobile: portrait,
+    hasTouch: portrait,
     locale: 'fr-CA',
     timezoneId: 'America/Toronto',
   })
@@ -116,11 +232,13 @@ async function main() {
   log('accueil')
 
   const capture = capturer(page, dossier)
+  const suivi = suivreChapitres(page, capture)
   await page.waitForTimeout(1000)
   await page.getByRole('button', { name: 'Visite guidée' }).click()
   log('visite lancée')
   const carteFin = page.getByRole('dialog', { name: 'Visite guidée' })
   await carteFin.waitFor({ state: 'visible', timeout: 4 * 60 * 1000 })
+  const tCarteFin = capture.instant()
   log('carte de fin (7 chapitres)')
   await page.waitForTimeout(PAUSE_FIN_MS)
 
@@ -132,34 +250,39 @@ async function main() {
     await page.waitForTimeout(PAUSE_FIN_MS)
   }
 
+  await suivi.arret()
   await capture.arret()
   await navigateur.close()
   const images = capture.images
   if (images.length < IPS * 10) throw new Error(`Trop peu d'images capturées (${images.length})`)
   log(`${images.length} images (${(images.length / images[images.length - 1].t).toFixed(1)} i/s réelles)`)
+  for (const c of suivi.chapitres) log(`chapitre ${c.n} « ${c.titre} » à ${c.t.toFixed(1)} s`)
+  const liste = listeConcat(images, dossier)
 
-  // Liste concat avec la durée réelle de chaque image, puis H.264 yuv420p lisible partout (PowerPoint, VLC, Windows).
-  const liste = join(dossier, 'liste.txt')
-  const lignes = images.map((im, i) => {
-    const suivante = images[i + 1]?.t ?? im.t + 1 / IPS
-    return `file '${im.fichier.replace(/\\/g, '/').replace(/'/g, "'\\''")}'\nduration ${(suivante - im.t).toFixed(4)}`
-  })
-  writeFileSync(liste, [...lignes, `file '${images[images.length - 1].fichier.replace(/\\/g, '/')}'`].join('\n') + '\n')
-  execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', '-r', '30', '-movflags', '+faststart', '-an', sortie], { stdio: 'inherit' })
+  if (!portrait) {
+    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, ...ENCODAGE, sortie], { stdio: 'inherit' })
+    rmSync(dossier, { recursive: true, force: true })
+    bilan(ffmpeg, sortie, `${ECRAN.largeur * ECRAN.echelle} x ${ECRAN.hauteur * ECRAN.echelle}`)
+    return
+  }
+
+  // Portrait : chaque image réduite à 434 x 940, coins arrondis par le masque, posée sur le cadre.
+  const cadre = dessinerCadre(dossier)
+  const { ecran } = CADRE
+  const filtre = `[0:v]scale=${ecran.l}:${ecran.h}:flags=lanczos,format=rgba[e];[2:v]format=gray[m];[e][m]alphamerge[ea];[1:v][ea]overlay=${cadre.x}:${cadre.y}:shortest=1,format=yuv420p[v]`
+  execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, '-loop', '1', '-i', cadre.cadre, '-i', cadre.masque, '-filter_complex', filtre, '-map', '[v]', ...ENCODAGE, sortie], { stdio: 'inherit' })
   rmSync(dossier, { recursive: true, force: true })
+  const secondes = bilan(ffmpeg, sortie, `${CADRE.largeur} x ${CADRE.hauteur}`)
 
-  const secondes = duree(ffmpeg, sortie)
-  const octets = statSync(sortie).size
-  console.log(`Sortie : ${sortie}`)
-  console.log(`Durée : ${Math.floor(secondes / 60)} min ${(secondes % 60).toFixed(1)} s · Taille : ${(octets / 1e6).toFixed(1)} Mo · ${LARGEUR * ECHELLE} x ${HAUTEUR * ECHELLE}`)
-  if (octets < TAILLE_MIN_OCTETS) throw new Error(`Vidéo trop petite (${octets} octets < 1 Mo) : enregistrement probablement vide`)
-
-  // Trois images de contrôle : début, milieu, fin (avant la carte de fin).
-  const base = sortie.replace(/\.mp4$/i, '')
-  for (const [nom, t] of [['debut', 8], ['milieu', secondes / 2], ['fin', Math.max(0, secondes - PAUSE_FIN_MS / 1000 - 2)]]) {
-    const png = `${base}-${nom}.png`
-    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-ss', t.toFixed(1), '-i', sortie, '-frames:v', '1', png])
-    console.log(`Image : ${png} (à ${t.toFixed(0)} s)`)
+  if (sortieCourt) {
+    // Chapitres 1 à 5, puis la carte de fin, fondu enchaîné de 0,3 s à la coupe (instants observés dans la barre).
+    const debutCh6 = suivi.chapitres.find((c) => c.n === 6)?.t
+    if (!debutCh6) throw new Error('Chapitre 6 non observé : version courte impossible')
+    const finA = debutCh6 - 0.2, debutB = tCarteFin + 0.2
+    const filtreCourt = `[0:v]split[s1][s2];[s1]trim=0:${finA.toFixed(3)},setpts=PTS-STARTPTS[a];[s2]trim=${debutB.toFixed(3)}:${secondes.toFixed(3)},setpts=PTS-STARTPTS[b];[a][b]xfade=transition=fade:duration=${FONDU_S}:offset=${(finA - FONDU_S).toFixed(3)},format=yuv420p[v]`
+    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-i', sortie, '-filter_complex', filtreCourt, '-map', '[v]', ...ENCODAGE, sortieCourt], { stdio: 'inherit' })
+    console.log(`Version courte : chapitres 1-5 (0 à ${finA.toFixed(1)} s) + carte de fin (${debutB.toFixed(1)} s à ${secondes.toFixed(1)} s)`)
+    bilan(ffmpeg, sortieCourt, `${CADRE.largeur} x ${CADRE.hauteur}`)
   }
 }
 

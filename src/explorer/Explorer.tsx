@@ -170,6 +170,9 @@ export default function Explorer({ profils, lieux, evenements, onRetour, onOuvri
         <p className="ex-sr" role="status">{t.nbResultats(visibles.length)}</p>
       </header>
 
+      {/* Map view with nothing to show: the same message as the list, where the pin card would sit. */}
+      {!liste && visibles.length === 0 && <p className="ex-fiche" role="status">{t.aucun}</p>}
+
       {liste && (
         <main className="ex-liste">
           {parDistance.length === 0 ? <p>{t.aucun}</p> : (

@@ -16,7 +16,12 @@ function union<T>(...listes: T[][]): T[] {
   return Array.from(new Set(listes.flat()))
 }
 
-/** The asker's profile plus what was typed and chosen. Offers never go into needs. */
+/**
+ * What was typed and ticked, completed by the asker's profile. The profile's standing needs come along only
+ * when every chosen need is already one of them (the demo); a need outside the profile is the request, alone.
+ * The time slots are the user's when given; the profile's offers stay (what the café has), typed ones first.
+ * Offers never go into needs.
+ */
 export function construireBesoin(
   role: Role,
   texte: string,
@@ -25,13 +30,15 @@ export function construireBesoin(
 ): Besoin {
   const asker = trouverAsker(role, profils)
   const lu = lireBesoin(texte)
+  const besoinsProfil = asker?.besoins ?? []
+  const horsProfil = choix.cherche.some((t) => !besoinsProfil.includes(t))
   return {
     auteurRole: role,
     auteurId: asker?.id ?? ASKER_PAR_ROLE[role],
     texte,
-    besoins: union(asker?.besoins ?? [], choix.cherche),
-    offres: union(asker?.offres ?? [], choix.offre),
-    creneaux: union(asker?.creneaux ?? [], choix.creneaux),
+    besoins: horsProfil ? [...choix.cherche] : union(besoinsProfil, choix.cherche),
+    offres: union(choix.offre, asker?.offres ?? []),
+    creneaux: choix.creneaux.length ? [...choix.creneaux] : [...(asker?.creneaux ?? [])],
     themes: union(asker?.themes ?? [], lu.themes),
     lat: asker?.lat ?? 46.8135,
     lng: asker?.lng ?? -71.2205,

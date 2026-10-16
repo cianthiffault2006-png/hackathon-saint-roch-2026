@@ -99,14 +99,40 @@ function lienEntre(x: Profil, y: Profil): { sDist: number; sTheme: number } {
   return { sDist, sTheme };
 }
 
-function choisirType(tags: Tag[], themes: Theme[], sansExposition = false, securiteExterieur = false): TypeProjet {
+/** Type de projet nommé par le besoin lui-même (texte normalisé), le premier qui correspond; sinon undefined. */
+const TYPES_DEMANDES: [RegExp, TypeProjet][] = [
+  [/\b(graffitis?|nettoy\w*|corvees?|proprete|dechets?|ramass\w*|ordures?)/, 'corvee_proprete'],
+  [/\b(expos?\b|expos(er|e|ons|ition|itions|ant|ants)|vernissage|oeuvres?|tableaux?)/, 'exposition'],
+  [/\b(concerts?|spectacles?|musique|musical\w*|musiciens?|danse|shows?|chansons?|chorale|projections?|films?|cinema|festivals?)/, 'spectacle'],
+  [/\b(conferences?|conferenci\w*|causeries?|tables? rondes?|panel|debats?)/, 'conference'],
+  [/\b(marches?|kiosques?|foires?|degustations?|producteurs|bouffe de rue)\b/, 'marche_ephemere'],
+  [/\b(verdi\w*|jardin\w*|plant\w*|fleurs?|vegetal\w*|ruelles? vertes?)/, 'verdissement'],
+  [/\b(collectes?|dons?|guignolee)\b/, 'collecte'],
+  [/\b(ateliers?|cours|formations?|initiations?)\b/, 'atelier'],
+];
+export function typeDemande(texte: string): TypeProjet | undefined {
+  const t = normaliser(texte);
+  return TYPES_DEMANDES.find(([re]) => re.test(t))?.[1];
+}
+
+interface Demande {
+  sansExposition: boolean;
+  securiteExterieur: boolean;
+  /** Le demandeur cherche de la nourriture: sans ça, le café qui en offre ne fait pas un marché. */
+  veutNourriture: boolean;
+  /** Le demandeur parle de dehors (cherche ou offre un espace extérieur, thème environnement): sans ça, un partenaire vert ne fait pas un verdissement. */
+  dehors: boolean;
+}
+
+/** Type déduit du groupe (offres et thèmes réunis) quand le besoin ne le nomme pas. */
+function choisirType(tags: Tag[], themes: Theme[], d: Demande): TypeProjet {
   const has = (t: Tag) => tags.includes(t);
   const th = (t: Theme) => themes.includes(t);
   const espace = has('espace_interieur') || has('espace_exterieur');
-  if (has('contenu_artistique') && espace && !sansExposition) return 'exposition';
-  if (securiteExterieur) return 'animation_de_rue';
-  if (th('environnement')) return 'verdissement';
-  if (has('nourriture') && th('commerce_local')) return 'marche_ephemere';
+  if (has('contenu_artistique') && espace && !d.sansExposition) return 'exposition';
+  if (d.securiteExterieur) return 'animation_de_rue';
+  if (th('environnement') && d.dehors) return 'verdissement';
+  if (has('nourriture') && th('commerce_local') && d.veutNourriture) return 'marche_ephemere';
   if (has('animation')) {
     if (has('espace_exterieur') && !has('espace_interieur')) return 'animation_de_rue';
     return th('culture') || th('art') ? 'spectacle' : 'atelier';
@@ -183,10 +209,11 @@ export const AU_LIEU_PUBLIC = 'au lieu public proposé';
  * donc jamais « chez » ni « avec » : « Soirée spectacle au Centre Materia ».
  * Hôte privé dont le nom commence par un nom commun : « au Café Le Petit Détour », « à la Galerie L’Éclat ».
  * « chez » reste pour une personne (« chez Camille Vézina »); un nom qui commence par « Chez » n'en reçoit pas un deuxième.
+ * `chezSoi`: l'hôte est le demandeur lui-même, donc jamais « avec » (« Projet de verdissement au Café… »).
  */
-export function titre(type: TypeProjet, nomHote: string, lieuPublic = false): string {
+export function titre(type: TypeProjet, nomHote: string, lieuPublic = false, chezSoi = false): string {
   if (lieuPublic) return `${DEBUT[type]} ${aLieu(nomHote) ?? AU_LIEU_PUBLIC}`;
-  if (!CHEZ.includes(type)) return `${DEBUT[type]} avec ${nomHote}`;
+  if (!CHEZ.includes(type) && !chezSoi) return `${DEBUT[type]} avec ${nomHote}`;
   const hote = nomHote.trim();
   if (/^chez\s/i.test(hote)) return `${DEBUT[type]} ${hote}`;
   return `${DEBUT[type]} ${aLieu(hote) ?? `chez ${hote}`}`;
@@ -293,8 +320,11 @@ export const proposerAu = (
     // Corvée de propreté: le demandeur cherche expertise ou matériel (propreté, graffitis…), ou un partenaire est l'équipe de nettoyage.
     const parlePropre = /proprete|graffiti|nettoy|dechet|ramass|ordure/.test(normaliser(`${besoin.texte} ${moi?.description ?? ''}`));
     const equipe = profs.find((p) => p.offres.includes('expertise') && p.offres.includes('materiel') && p.themes.includes('environnement'));
-    const corvee = !besoin.offres.includes('contenu_artistique') && !(besoin.besoins.includes('contenu_artistique') && !parlePropre) && !!(
-      (parlePropre && inter(besoin.besoins, ['expertise', 'materiel']).length && (besoin.themes.includes('environnement') || besoin.themes.includes('securite'))) || equipe);
+    // Le besoin nomme-t-il le type (« une expo », « un concert », « des graffitis ») ? Il passe devant ce que le groupe suggère.
+    const typeVoulu = typeDemande(besoin.texte);
+    const themePropre = besoin.themes.includes('environnement') || besoin.themes.includes('securite');
+    const corvee = typeVoulu ? typeVoulu === 'corvee_proprete' : !besoin.offres.includes('contenu_artistique') && !(besoin.besoins.includes('contenu_artistique') && !parlePropre) && !!(
+      (parlePropre && inter(besoin.besoins, ['expertise', 'materiel']).length && themePropre) || (equipe && (parlePropre || themePropre)));
     const lieu = corvee ? undefined : !espaceOffert || veutEspace ? lieuLePlusProche(lieux, centre(pts), besoin.besoins) : undefined;
     const lieuRemplace = !espaceOffert ? lieu : undefined;
     const tags = uniq([...offresGroupe, ...(lieuRemplace ? lieuRemplace.offres : [])]);
@@ -305,7 +335,8 @@ export const proposerAu = (
       (themes.includes('culture') || themes.includes('communautaire')) &&
       (besoin.offres.includes('animation') || besoin.offres.includes('benevoles'));
     const securiteExt = themes.includes('securite') && besoin.besoins.includes('espace_exterieur') && !besoin.besoins.includes('contenu_artistique');
-    const type: TypeProjet = corvee ? 'corvee_proprete' : choisirType(tags, themes, sansExposition, securiteExt);
+    const dehors = inter([...besoin.besoins, ...besoin.offres], ['espace_exterieur']).length > 0 || besoin.themes.includes('environnement');
+    const type: TypeProjet = corvee ? 'corvee_proprete' : typeVoulu ?? choisirType(tags, themes, { sansExposition, securiteExterieur: securiteExt, veutNourriture: besoin.besoins.includes('nourriture'), dehors });
 
     // Hôte : qui fournit l'espace. Le demandeur s'il en offre un, sinon le partenaire qui l'apporte au projet,
     // sinon un partenaire qui en a un.
@@ -407,7 +438,7 @@ export const proposerAu = (
     if (corvee && equipe && equipe.verifie === 'ville') equipeVerifiee.set(idProp, besoin.themes.every((t) => equipe.themes.includes(t)) ? 2 : 1);
     return {
       id: `prop-${besoin.auteurId ?? 'anon'}-${profs.map((p) => p.id).sort().join('+')}`,
-      titre: titre(type, hoteNom, !corvee && !hoteProfil && !!lieu),
+      titre: titre(type, hoteNom, !corvee && !hoteProfil && !!lieu, !corvee && !!moi && hoteProfil === moi),
       type,
       partenaires,
       lieuId: lieu?.id,

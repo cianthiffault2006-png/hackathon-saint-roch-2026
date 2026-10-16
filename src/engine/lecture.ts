@@ -20,11 +20,12 @@ interface Entree {
 
 // Dictionnaire sur texte normalisé; les racines couvrent pluriels et féminins.
 const DICO: Entree[] = [
-  { re: /\b(expos(er|e|ons|ition|itions|ant|ants)|galerie|vernissage|accrochage)/, besoin: ['espace_interieur', 'visibilite'], offre: ['contenu_artistique'], themes: ['art'] },
+  { re: /\b(expos?\b|expos(er|e|ons|ition|itions|ant|ants)|galerie|vernissage|accrochage)/, besoin: ['espace_interieur', 'visibilite'], offre: ['contenu_artistique'], themes: ['art'] },
   { re: /\b(oeuvres?|tableaux?|sculptures?|peintures?|photographies?|illustrations?)\b/, offre: ['contenu_artistique'], themes: ['art'] },
   { re: /\b(artistes?|artisans?)\b/, themes: ['art'] },
-  { re: /\b(espaces?|salles?|locaux|local|endroits?|lieux?)\b/, besoin: ['espace_interieur'], offre: ['espace_interieur'] },
-  { re: /\b(terrasses?|cours?|ruelles?|parcs?|places?|stationnements?)\b/, besoin: ['espace_exterieur'], offre: ['espace_exterieur'] },
+  // « espace extérieur », « lieu à l'extérieur », « en plein air » : dehors; un espace sans ce complément : dedans.
+  { re: /\b(espaces?|salles?|locaux|local|endroits?|lieux?)\b(?!\s+(exterieurs?|a l'exterieur|dehors|en plein air)\b)/, besoin: ['espace_interieur'], offre: ['espace_interieur'] },
+  { re: /\b(exterieurs?|plein air|dehors|terrasses?|cour|ruelles?|parcs?|places?|stationnements?)\b/, besoin: ['espace_exterieur'], offre: ['espace_exterieur'] },
   { re: /\b(benevol|coup de main|main[- ]d'oeuvre|mains|aide|aider)/, besoin: ['benevoles'], offre: ['benevoles'] },
   { re: /\b(public|clientele|achalandage|visiteurs?|foule|attirer|monde|passants?)\b/, besoin: ['public'], offre: ['public'] },
   { re: /\b(affiches?|affichage|afficher|babillard|depliants?|flyers?)/, besoin: ['affichage'], offre: ['affichage'] },
@@ -74,11 +75,16 @@ const FDS = /^(fin|fins|week|fds|samedi|dimanche)/;
 
 function lireCreneaux(t: string): Creneau[] {
   const out = new Set<Creneau>();
+  let jourDeSemaine = false;
   for (const m of t.matchAll(reJourMoment)) {
     if (FDS.test(m[2])) out.add('fin_de_semaine');
-    else out.add(/soir/.test(`${m[1] ?? ''} ${m[3] ?? ''}`) ? 'semaine_soir' : 'semaine_jour');
+    else {
+      jourDeSemaine = true;
+      out.add(/soir/.test(`${m[1] ?? ''} ${m[3] ?? ''}`) ? 'semaine_soir' : 'semaine_jour');
+    }
   }
-  const reste = t.replace(reJourMoment, ' ');
+  // A moment on its own: « une soirée concert samedi » is the weekend's evening, not a weekday one.
+  const reste = out.has('fin_de_semaine') && !jourDeSemaine ? '' : t.replace(reJourMoment, ' ');
   if (/\b(soir|soiree|soirees|soirs)\b/.test(reste)) out.add('semaine_soir');
   if (/\b(midi|apres-midi|matin|journee|jour|jours)\b/.test(reste)) out.add('semaine_jour');
   return [...out];

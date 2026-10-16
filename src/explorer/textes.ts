@@ -16,6 +16,7 @@ export const t = {
   membreSdc: 'Membre SDC',
   reconnuVille: 'Organisme reconnu par la Ville',
   preRempli: 'Pré-rempli · visible ici pour la démo',
+  preRempliCourt: 'Pré-rempli · démo', // list rows only: the long one wraps to two uppercase lines
   ouvertPublic: 'Ouvert au public',
   distance: (m: number) => (m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toFixed(1).replace('.', ',')} km`),
   carteAria: 'Carte de Saint-Roch avec les commerces, organismes, citoyens, lieux et événements',

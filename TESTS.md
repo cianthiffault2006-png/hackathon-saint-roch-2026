@@ -15,7 +15,7 @@ Avant chaque passage sur le téléphone de démo : vider les données du site (r
 | 3 | Coller : « On a un espace libre le jeudi soir et on cherche des artistes pour l’animer » | Allumés : J’offre : Espace intérieur; Je cherche : Animation; Quand : Semaine, soir |
 | 4 | Appuyer sur « Trouver des partenaires » | Première proposition : « Exposition collaborative au Café Le Petit Détour », Compatibilité 87 %, avec Camille Vézina et Collectif Les Voisins en Scène |
 | 5 | Lire la proposition | 3 épingles sur la carte, « Pourquoi cette suggestion » (raisons) et « À confirmer » visibles |
-| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », lien « Voir ce que Camille reçoit » (l’attente passe seule à « Projet confirmé » en quelques secondes : cliquer sans tarder) |
+| 6 | Appuyer sur « Ça m’intéresse » | Statut : en attente, mention « Démo simulée », lien « Voir ce que Camille reçoit » (le statut reste « En attente » jusqu’à Accepter ou « Simuler la réponse des partenaires ») |
 | 7 | Toucher « Voir ce que Camille reçoit », puis « Accepter » | Invitation de Camille (jeudi 22 octobre, 19 h à 22 h), puis statut « Projet confirmé (simulé) » |
 | 8 | Retour accueil, « Visite guidée » | Lecture automatique de 2 min en 7 chapitres (mesuré le 15 oct. à 15:44 : environ 120 s), puis « Continuer la visite » (suite de 69 s), sans clic, qui se termine sur « Maillage : les ressources du quartier, enfin connectées » |
 

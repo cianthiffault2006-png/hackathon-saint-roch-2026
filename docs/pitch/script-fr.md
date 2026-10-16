@@ -2,7 +2,7 @@
 
 Équipe 14, Hackathon étudiant 2026 Saint-Roch. Vendredi 16 octobre, 14 h 30.
 Deux voix : [COÉQUIPIÈRE] ouvre et conclut, [CIAN] fait la démo. Cian clique lui-même pendant qu’il parle. Les autres ne parlent pas, sauf aux questions.
-Durée visée : 4 min 32 s à 150 mots par minute (débit normal à voix haute en français), 4 min 45 s au plus; arrêt ferme à 4 min 50 s. Décompte : dernière section. Plan d’écran (qui parle, ce qui est projeté, qui clique, repli) : `ECRAN.md`.
+Durée visée : 4 min 33 s à 150 mots par minute (débit normal à voix haute en français), 4 min 45 s au plus; arrêt ferme à 4 min 50 s. Décompte : dernière section. Plan d’écran (qui parle, ce qui est projeté, qui clique, repli) : `ECRAN.md`.
 
 Convention : les lignes en citation (`>`) sont dites à voix haute, mot pour mot. Tout le reste est une consigne. Pas de tiret long dans le texte dit.
 
@@ -16,9 +16,9 @@ Le lien Vercel est figé sur une ancienne version (sans Explorer, sans fil, sans
 | 3. La démo | CIAN | 0:50 | 1 min 45 s |
 | 4. Les données | CIAN | 2:35 | 42 s |
 | 5. Transparence et IA | COÉQUIPIÈRE | 3:17 | 18 s |
-| 6. Impact, pilote, faisabilité | CIAN | 3:35 | 45 s |
-| 7. Conclusion | COÉQUIPIÈRE | 4:20 | 12 s |
-| Fin | | 4:32 | marge de 13 s avant 4:45 |
+| 6. Impact, pilote, faisabilité | CIAN | 3:35 | 46 s |
+| 7. Conclusion | COÉQUIPIÈRE | 4:21 | 12 s |
+| Fin | | 4:33 | marge de 12 s avant 4:45 |
 
 ---
 
@@ -63,7 +63,7 @@ Diapo 3 (2 s), puis l’écran de l’app. Cian clique et parle en même temps. 
    > Chaque suggestion s’explique, et ce qu’on ne sait pas encore, on le dit.
    Toucher « Comment ce score » (les barres apparaissent : Complémentarité 100, Réciprocité 58, Proximité 100, Créneau 100, Thème 67).
    > Le score est une somme pondérée, visible. Réciprocité 58 % : le café comble une partie des besoins de ses deux partenaires, pas tout, et on le dit.
-5. 1:52 : toucher « Ça m’intéresse ». Statut « En attente des partenaires ». Ne pas attendre : toucher tout de suite « Voir ce que Camille reçoit » (le lien disparaît quand l’attente se confirme seule, après quelques secondes).
+5. 1:52 : toucher « Ça m’intéresse ». Statut « En attente des partenaires »; le lien « Voir ce que Camille reçoit » apparaît après une seconde et reste affiché (vérifié le 16 octobre : le statut reste en attente jusqu’à « Accepter » ou « Simuler la réponse des partenaires », pas de course). Toucher le lien :
    > Voici ce que Camille reçoit sur son téléphone : le projet, le jeudi 22 octobre, de 19 h à 22 h, et ce que chacun apporte.
    Toucher « Accepter ».
    > Elle accepte, et le projet est confirmé. Dans la démo, la réponse du Collectif est simulée et aucun message ne part; en pilote, chaque partenaire reçoit vraiment l’invitation.
@@ -88,15 +88,15 @@ Diapo 5. Les chiffres du test restent dans les notes de la diapo, pas à voix ha
 
 Notes (si on veut aller plus loin, sinon en Q&A) : modèle multilingue dans le navigateur, gratuit, texte sur l’appareil (page /labo/); 69 s au premier chargement (129 Mo), 13 s ensuite, 0,3 à 0,6 s par phrase; il comprend le sens mais trouve des profils semblables, pas complémentaires. Ce modèle (paraphrase-multilingual-MiniLM) est multilingue : c’est la preuve que la phase 2 peut lire toutes les langues. Tolérance aux fautes, aux accents oubliés et à quelques mots d’anglais ajoutée le 15 octobre, après la remarque d’un mentor. Pas d’IA payante aujourd’hui; en phase 2, celui qui déploie la paie.
 
-## 6. Impact, pilote, faisabilité (3:35 à 4:20) [CIAN]
+## 6. Impact, pilote, faisabilité (3:35 à 4:21) [CIAN]
 Diapo 6 (Impact et feuille de route).
 
 > L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation.
 > Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement.
 > Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada. Le tableau de modération pour la SDC est prévu, pas construit.
-> Ce qu’on demande à la SDC : dix membres volontaires, un trimestre, une personne à temps partiel. On mesure trois chiffres, et on décide ensemble si on étend.
+> Ce qu’on demande à la SDC : dix membres volontaires, un trimestre, une personne à temps partiel et un export du fichier des membres. On mesure trois chiffres, et on décide ensemble si on étend.
 
-## 7. Conclusion (4:20 à 4:32) [COÉQUIPIÈRE]
+## 7. Conclusion (4:21 à 4:33) [COÉQUIPIÈRE]
 Diapo 7.
 
 > Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci!
@@ -127,9 +127,9 @@ Recompté le 16 octobre au matin (consentement en deux moitiés, ligne Réciproc
 | 3. La démo (étapes 1 à 5) | 160 | 64 s | environ 40 s | 1 min 45 s | 74 s |
 | 4. Les données | 106 | 42 s | 0 | 42 s | 49 s |
 | 5. Transparence et IA | 42 | 17 s | 0 | 18 s | 19 s |
-| 6. Impact, pilote, faisabilité | 107 | 43 s | 0 | 45 s | 49 s |
+| 6. Impact, pilote, faisabilité | 114 | 46 s | 0 | 46 s | 53 s |
 | 7. Conclusion | 30 | 12 s | 0 | 12 s | 14 s |
-| Total | 563 | 3 min 45 s | environ 40 s | 4 min 32 s (4 min 25 s calculé, 7 s de jeu) | 5 min 00 s avec les clics |
+| Total | 570 | 3 min 48 s | environ 40 s | 4 min 33 s (4 min 28 s calculé, 5 s de jeu) | 5 min 03 s avec les clics |
 
-À 130 mots par minute on dépasse 4:45 de 15 s : si la répétition chronométrée donne plus de 4:45, on garde le débit normal, on ne coupe pas; si on dépasse encore, appliquer l’ordre de coupe des notes de répétition (Sofia, puis « Réciprocité 58 % », puis « Le code part à l’adresse… jamais à celle qu’on tape », 7 s).
+À 130 mots par minute on dépasse 4:45 de 18 s : si la répétition chronométrée donne plus de 4:45, on garde le débit normal, on ne coupe pas; si on dépasse encore, appliquer l’ordre de coupe des notes de répétition (Sofia, puis « Réciprocité 58 % », puis « Le code part à l’adresse… jamais à celle qu’on tape », 7 s).
 L’étape 6 de la démo [SI LE TEMPS LE PERMET] ajoute environ 37 mots et 25 s avec les clics : à faire seulement si le chrono est sous 2:15 à la fin de l’étape 5.

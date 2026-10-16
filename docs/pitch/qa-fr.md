@@ -1,6 +1,6 @@
 # Questions probables du jury (3 minutes) et réponses courtes
 
-Règle : une réponse en 20 secondes au plus (deux phrases), une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer. Jury annoncé : Ville de Québec (deux personnes), SDC du centre-ville, FSG-CRTI-ULaval, Larian Studios, CIMMI. Les six réponses à répéter à voix haute (20 s chacune) : Q1 (coéquipière), Q3 (coéquipière), Q6 (Cian), Q23 (Cian), Q32 (Cian), Q35 (Cian).
+Règle : une réponse en 20 secondes au plus (deux phrases), une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer. Jury annoncé : Ville de Québec (deux personnes), SDC du centre-ville, FSG-CRTI-ULaval, Larian Studios, CIMMI. Les six réponses à répéter à voix haute (20 s chacune) : Q1 (coéquipière), Q3 (coéquipière), Q6 (Cian), Q23 (Cian), Q32 (Cian), Q35 (Cian). Ajouts du 16 octobre (jury, ronde 1) : Q37 bis, Q40 à Q47; Q45 : Cian essaie une fois le texte vide et « Aucune proposition » avant 14:00.
 
 Phrase de consentement, la même partout, la règle du pilote d’abord : une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Puis la moitié démo : les fiches pré-remplies sont fictives et marquées « Pré-rempli · visible ici pour la démo » (visibles sur la carte, voulu, sans coordonnées). Ne jamais dire que la démo les cache déjà.
 
@@ -122,6 +122,33 @@ Il n’a rien à remplir : sa fiche existe déjà, il la réclame avec un code e
 
 ## 37. Si la Ville veut le reprendre, qu’est-ce qu’elle reçoit?
 Le code est sous licence MIT, en React sans serveur, avec 216 tests automatisés (compte du 16 octobre au matin), et nos profils ont les mêmes colonnes que vos répertoires : un export suffit pour le brancher. Le coût récurrent, c’est un hébergement gratuit ou presque et une personne à temps partiel à la SDC; nous ne donnons pas de chiffre que nous n’avons pas calculé.
+
+## 37 bis. Concrètement, la SDC doit fournir quoi, et quand?
+Un export de votre fichier des membres avec les mêmes colonnes, une personne à temps partiel pour approuver les fiches et modérer, et dix membres volontaires pour un trimestre. En retour vous recevez trois chiffres par mois : projets confirmés, nouveaux partenariats, fréquentation.
+
+## 40. Une corvée tourne mal, quelqu’un se blesse. Qui est responsable : la Ville, la SDC, vous?
+Maillage met en relation, il n’organise pas : la liste « Avant de commencer » exige une autorisation du propriétaire ou du gestionnaire du lieu et une assurance responsabilité ou une entente avec un organisme reconnu avant de créer le projet. En pilote, c’est l’organisme reconnu qui porte la corvée, jamais une app.
+
+## 41. Vous floutez les citoyens à 100 m. Dans Saint-Roch, 100 m c’est l’immeuble. Pourquoi les mettre sur la carte?
+Un citoyen n’apparaît sur la carte qu’avec son accord, sous la simple étiquette « Citoyen », sans nom ni adresse, position déplacée de 30 à 100 m; sans accord il n’existe pas dans l’app. Si le pilote juge que c’est encore trop, les citoyens passent en liste sans carte : c’est un réglage, pas une refonte.
+
+## 42. Un commerçant qui n’a pas de courriel au dossier de la SDC, il fait quoi?
+Il choisit « Je n’ai pas de lien », entre un courriel professionnel, et la SDC vérifie à la main en deux jours ouvrables; en attendant sa fiche affiche « Demande en cours ». C’est déjà dans le prototype, simulé.
+
+## 43. Votre première proposition est à 87 %, la deuxième plus bas. Qu’est-ce qui les sépare, et si les trois refusent?
+Chaque proposition a son détail sous « Comment ce score » : on lit à l’écran sur quel critère la deuxième perd (complémentarité, réciprocité, proximité, créneau, thème) plutôt que de me croire; aucun chiffre de la deuxième n’est cité sans l’avoir lu à l’écran. Un refus ne coûte rien : la proposition suivante s’affiche, et « Voir d’autres options » élargit à 20 minutes à pied.
+
+## 44. Pourquoi un commerçant accepterait d’être jumelé avec un citoyen qu’il ne connaît pas, sans historique?
+Il voit son rôle, ses raisons et son badge (Membre SDC, Organisme reconnu par la Ville, citoyen sans badge), et rien ne l’engage avant qu’il accepte : les coordonnées ne sont partagées qu’après. L’historique des projets confirmés, c’est ce que le pilote construira.
+
+## 45. Montrez-moi ce qui se passe quand ça ne marche pas : texte vide, aucun partenaire, pas de réseau.
+Texte vide : le bouton reste inactif et l’app demande « Écrivez un besoin ou choisissez une puce »; aucun partenaire : l’écran « Aucune proposition pour l’instant » suggère d’ajouter une puce ou de changer le moment; hors ligne : une note, et la visite guidée tourne avec les données locales. Quand il manque un lieu, le moteur propose un lieu public de la Ville et écrit « À confirmer ».
+
+## 46. Deux cafés voisins écrivent la même phrase : Camille reçoit dix invitations. Comment vous gérez ça?
+Aujourd’hui, rien ne l’empêche : le moteur ne tient pas compte des invitations déjà reçues, et on le dit. En pilote, une règle simple : un partenaire déjà sollicité cette semaine descend dans le classement, et un refus ne lui coûte rien.
+
+## 47. « Thème 67 % », ça veut dire quoi exactement?
+C’est la moyenne du recouvrement des thèmes sur les trois paires du trio : ici deux paires sur trois partagent un thème. Réciprocité, c’est la part des besoins de chaque partenaire que le café comble lui-même; les deux sont affichés pour être discutés, pas pour impressionner.
 
 ## Extras courts
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.

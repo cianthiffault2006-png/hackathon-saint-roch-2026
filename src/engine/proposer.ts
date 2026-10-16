@@ -407,8 +407,9 @@ export const proposerAu = (
 
     const rComp: string[] = [];
     for (const m of membres) {
-      const cr = inter(communs, m.p.creneaux)[0] ?? creneau;
-      if (m.comp.length) rComp.push(`${m.p.nom} offre ${lib(m.comp)} ${CRENEAU_TXT[cr]}, ce que vous cherchez`);
+      // No slot shared by everyone (forced partner): no slot named, never one the partner does not have.
+      const cr = inter(communs, m.p.creneaux)[0];
+      if (m.comp.length) rComp.push(`${m.p.nom} offre ${lib(m.comp)}${cr ? ` ${CRENEAU_TXT[cr]}` : ''}, ce que vous cherchez`);
     }
     const rev = membres.filter((m) => m.rev.length);
     const rRev = rev.length
@@ -437,7 +438,7 @@ export const proposerAu = (
       ? [`À proximité dans les 14 prochains jours : ${proches.map((e) => e.titre).join(', ')}`]
       : [];
     // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
-    const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
+    const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, communs.length ? `Tous disponibles ${CRENEAU_TXT[creneau]}` : 'Aucun créneau commun à tous : horaire à convenir', ...rTheme, ...rEvents].slice(0, 5);
 
     const aConfirmer = [
       'Date précise du projet',

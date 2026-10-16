@@ -66,7 +66,7 @@ export default function App() {
   // « Créer le projet quand même »: the « Proposer un projet » form starts from the last need.
   const [depart, setDepart] = useState<Depart | null>(null)
   // What was typed for that need, so « ← » from the proposal brings it back; a new role from the accueil starts blank.
-  const [brouillon, setBrouillon] = useState<(Brouillon & { role: Role }) | null>(null)
+  const [brouillon, setBrouillon] = useState<(Brouillon & { role: Role; voulu?: string }) | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
   // Where Besoin's « ← » goes: the profile or claim search that pressed « Proposer une collaboration », else Accueil.
@@ -138,7 +138,7 @@ export default function App() {
 
   function trouver(besoin: BesoinType, brouillon: Brouillon) {
     setDernierBesoin(besoin)
-    setBrouillon({ role: besoin.auteurRole, ...brouillon })
+    setBrouillon({ role: besoin.auteurRole, voulu: besoin.voulu, ...brouillon })
     // From the explorer the user may act as another role (Besoin's « Vous proposez en tant que »): it becomes theirs.
     if (besoin.voulu && !enVisite) setRole(besoin.auteurRole)
     const trouvees = proposer(besoin, donnees.profils, donnees.lieux, donnees.evenements)
@@ -316,7 +316,8 @@ export default function App() {
           role={enVisite ? ROLE_VISITE : role}
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
-          initial={!enVisite && brouillon && brouillon.role === role ? brouillon : undefined}
+          // A draft comes back only for the same role and the same wanted partner: a new partner starts a clean form (only their offers ticked).
+          initial={!enVisite && brouillon && brouillon.role === role && brouillon.voulu === (voulu ?? undefined) ? brouillon : undefined}
           guide={guideBesoin}
           onRetour={() => { setVoulu(null); setEcran(retourBesoin) }}
           onTrouver={trouver}

@@ -285,6 +285,14 @@ describe('partenaire voulu (explorateur → « Proposer une collaboration »)', 
     expect(acc.score).toBeGreaterThan(0);
     expect(acc.score).toBeLessThanOrEqual(100);
   });
+  it('X sans créneau commun (Boulangerie, semaine jour): « Pourquoi » ne promet aucun créneau', () => {
+    for (const p of avecVoulu('commerce', 'p-boulangerie')) {
+      const r = p.raisons.join('\n');
+      expect(r).not.toMatch(/Tous disponibles/);
+      expect(r).not.toMatch(/Boulangerie[^\n]*le soir en semaine/);
+      expect(p.aConfirmer.join('\n')).toContain('aucun créneau commun');
+    }
+  });
   it('« Je démarre »: aucun profil existant, X toujours en premier', () => {
     const x = profils.find((p) => p.id === 'p-mdj')!;
     const b = construireBesoin('commerce', 'Je veux animer mon nouveau local le soir', profils, { cherche: x.offres, offre: [], creneaux: [] }, true);

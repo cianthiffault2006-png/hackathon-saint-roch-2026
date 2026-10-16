@@ -12,8 +12,6 @@ interface Props {
   autre: string
 }
 
-const DELAI_S = 15
-
 /**
  * Guided tour only: the Discussion tab played from the tour clock, with the real thread's look.
  * Shown on screen only: nothing is saved and nothing reaches a shared thread.
@@ -25,7 +23,6 @@ export default function FilVisite({ fil, moi, partenaire, autre }: Props) {
   ]
   const ecritPar = fil.ecrit !== null ? recus[fil.ecrit].auteur : fil.reponseEcrit ? partenaire : null
   const saisie = fr.visite.filMoi.slice(0, Math.ceil(fr.visite.filMoi.length * fil.frappe))
-  const attenteS = fil.envoyeDepuis !== null ? Math.max(0, DELAI_S - Math.floor(fil.envoyeDepuis / 1000)) : 0
 
   return (
     <section aria-label={t.fil.onglets.discussion}>
@@ -73,8 +70,8 @@ export default function FilVisite({ fil, moi, partenaire, autre }: Props) {
           <textarea data-visite="fil-champ" value={saisie} readOnly />
         </label>
         <p className="pj-note">{t.fil.msgLimite(saisie.length)}</p>
-        {attenteS > 0 && <p className="pj-compte">{t.fil.prochain(attenteS)}</p>}
-        <button type="submit" data-visite="fil-envoyer" className="pj-btn pj-btn-cta" disabled={attenteS > 0 || saisie.length === 0}>
+        {/* No slow-mode timer in the tour: the real thread keeps it. */}
+        <button type="submit" data-visite="fil-envoyer" className="pj-btn pj-btn-cta" disabled={saisie.length === 0}>
           {t.fil.msgEnvoyer}
         </button>
       </form>

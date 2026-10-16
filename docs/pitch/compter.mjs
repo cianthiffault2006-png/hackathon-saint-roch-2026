@@ -26,7 +26,7 @@ for (const brute of texte.split('\n')) {
   sections.get(courante).mots += mots.length
 }
 
-const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`
+const fmt = (s0) => { const s = Math.round(s0); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 let totalMots = 0, totalParole = 0, totalClics = 0, debut = 0
 console.log(`| Partie | Mots | Parole à ${debit} mots/min | Clics | Début | Fin |`)
 console.log('|---|---|---|---|---|---|')

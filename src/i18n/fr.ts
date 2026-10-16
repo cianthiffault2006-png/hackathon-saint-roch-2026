@@ -141,8 +141,8 @@ export const fr = {
   },
 
   profil: {
-    tagNonReclame: 'Profil pré-rempli',
-    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Il devient public seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Dans cette démo, les fiches pré-remplies sont fictives et affichent seulement le nom, le type, une description et l’emplacement, sans coordonnées. Les profils de personnes restent cachés.',
+    tagNonReclame: 'Pré-rempli · visible ici pour la démo',
+    nonReclame: 'Ce profil a été pré-rempli à partir des répertoires de la Ville et de la SDC. Il devient public seulement après réclamation avec un code et consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Il est visible ici pour la démo : fiche fictive, avec seulement le nom, le type, une description et l’emplacement, sans coordonnées. Les profils de personnes restent cachés.',
     reclamer: 'Réclamer votre fiche',
     pasAffiche: 'Profil non réclamé : non affiché.',
     fictif: 'Données fictives créées pour la démo.',

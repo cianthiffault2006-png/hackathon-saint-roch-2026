@@ -2,7 +2,7 @@
 
 Règle : une réponse en 20 secondes au plus (deux phrases), une seule voix répond, on dit « nous ne savons pas encore » plutôt que d’inventer. Jury annoncé : Ville de Québec (deux personnes), SDC du centre-ville, FSG-CRTI-ULaval, Larian Studios, CIMMI. Les six réponses à répéter à voix haute (20 s chacune) : Q1 (coéquipière), Q3 (coéquipière), Q6 (Cian), Q23 (Cian), Q32 (Cian), Q35 (Cian).
 
-Phrase de consentement, la même partout : une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Dans la démo, les fiches pré-remplies sont fictives et marquées « Profil pré-rempli » (visibles sur la carte, sans coordonnées) : ne jamais dire que la démo les cache déjà.
+Phrase de consentement, la même partout, la règle du pilote d’abord : une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC. Puis la moitié démo : les fiches pré-remplies sont fictives et marquées « Pré-rempli · visible ici pour la démo » (visibles sur la carte, voulu, sans coordonnées). Ne jamais dire que la démo les cache déjà.
 
 ## 1. Et la vie privée, la Loi 25?
 Le consentement décide : les répertoires de la Ville et de la SDC pré-remplissent les fiches, mais une fiche devient publique seulement après réclamation avec un code (envoyé à l’adresse que la SDC ou la Ville a déjà) et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour envoyer l’invitation. Les personnes ne sont jamais pré-remplies, et la démo montre des fiches fictives marquées « pré-rempli ».
@@ -69,8 +69,14 @@ Le vert profond rassure et ancre l’app dans le quartier, l’orange invite à 
 ## 21. Combien de commerçants avez-vous rencontrés?
 Nos règles viennent des colonnes des répertoires et du Plan d’action Saint-Roch, et le pilote servira à les valider avec les gens du quartier; nous ne gonflons aucun chiffre. [NOMBRE RÉEL ICI, sinon supprimer cette ligne : « Ce matin, nous en avons rencontré N sur la rue Saint-Joseph. »]
 
-## 22. Je vois une fiche pré-remplie sur la carte, et le consentement?
-Dans la démo, les fiches marquées « pré-rempli » sont fictives et montrent le mécanisme : nom, type, description et emplacement, sans coordonnées. En vrai, une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour inviter leur responsable.
+## 22. Je vois une fiche pré-remplie sur la carte, et le consentement? C’est légal?
+Une fiche devient publique seulement après réclamation avec un code et consentement; en pilote, les fiches non réclamées ne sont visibles que par la SDC, pour inviter leur responsable, et les personnes ne sont jamais pré-remplies. Celles que vous voyez ici sont fictives et portent l’étiquette « Pré-rempli · visible ici pour la démo » : nom, type, description et emplacement, sans coordonnées, pour montrer le mécanisme.
+
+## 38. Comment savez-vous que c’est le vrai propriétaire et pas n’importe qui?
+Le code est envoyé à l’adresse que la SDC ou la Ville a déjà dans son répertoire, jamais à une adresse que le demandeur tape; sans lien, il donne un courriel professionnel et la SDC vérifie la demande à la main (dans la démo le code est simulé, 482 913, rien ne part). Limites honnêtes : une adresse périmée au répertoire tombe en vérification manuelle, et en pilote la SDC peut retirer une fiche et un responsable peut en signaler une.
+
+## 39. Pourquoi vous n’utilisez pas nos fichiers fournis dans la démo publique?
+Par l’entente de confidentialité : l’app et le code sont publics, alors la démo utilise des lignes fictives avec exactement les mêmes colonnes, plus les données ouvertes; des fichiers fournis nous n’avons gardé que la structure et les totaux approuvés (386 membres au fichier de la SDC, 614 organismes reconnus à l’échelle de la ville), et l’IA n’a jamais vu une valeur. Brancher les vrais répertoires, c’est un export des mêmes colonnes, chez celui qui déploie.
 
 ## 23. Pourquoi les poids 35/20/20/15/10? Comment savez-vous qu’un 87 % est bon?
 Ce sont nos choix (complémentarité 35, réciprocité 20, proximité 20, thème 15, créneau 10), affichés dans l’app pour être débattus, et une proposition n’est bonne que si les trois partenaires l’acceptent. En pilote, les acceptations et les refus deviennent la vérité terrain qui calibre les poids.

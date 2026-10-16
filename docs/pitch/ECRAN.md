@@ -1,6 +1,6 @@
 # Plan d’écran du pitch (projecteur, clics, replis)
 
-Vendredi 16 octobre, 14 h 30. Ce fichier dit, seconde par seconde, qui parle, ce que le jury voit, qui clique, et quoi faire si l’étape rate. Le texte dit mot pour mot est dans `script-fr.md` (lignes `>`); ici il est repris en abrégé. Minutage de référence : 150 mots par minute, total visé 4:25, 4:45 au plus (voir le décompte de `script-fr.md`, produit par `node docs/pitch/compter.mjs`).
+Vendredi 16 octobre, 14 h 30. Ce fichier dit, seconde par seconde, qui parle, ce que le jury voit, qui clique, et quoi faire si l’étape rate. Le texte dit mot pour mot est dans `script-fr.md` (lignes `>`); ici il est repris en abrégé. Minutage de référence : 150 mots par minute, total visé 4:32, 4:45 au plus (voir le décompte de `script-fr.md`, produit par `node docs/pitch/compter.mjs`).
 
 ## Réglage du portable (fait à 14:00 sur le projecteur de la salle, liste complète dans `docs/DEMO-SCRIPT.md`)
 
@@ -47,40 +47,40 @@ Vendredi 16 octobre, 14 h 30. Ce fichier dit, seconde par seconde, qui parle, ce
 
 Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : Cian touche le logo pour revenir à l’accueil, puis « Visite guidée ». La visite joue seule : chapitre 1 Ouverture (3 s), chapitre 2 Le besoin (15 s), chapitre 3 La proposition (34 s), chapitre 4 Côté partenaire (21 s), environ 73 s au total d’après les durées du script de la visite (à chronométrer une fois en répétition). Pendant la lecture, Cian dit les lignes de 1:12, 1:30, 1:38, 1:56 et 2:07 sur ce que la visite montre, sans refaire les clics et sans s’excuser. Dès que les points de chapitre passent au chapitre 5 « La fiche », toucher « Quitter la visite », puis Alt+Tab vers la diapo 4. La visite complète dure 2:00 (plus une suite de 69 s) : ne jamais la laisser aller au bout. Plan C (le site ne répond pas du tout, ou le plan B échoue) : Ctrl+2 (onglet vidéo), plein écran, lecture, une seule phrase « Notre connexion nous lâche, voici l’enregistrement de la même démo », puis les mêmes lignes sur la vidéo.
 
-## Partie 4. Les données (2:35 à 3:10) [CIAN]
+## Partie 4. Les données (2:35 à 3:17) [CIAN]
 
 | Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
 |---|---|---|---|---|
 | 2:35 | Cian : « Maillage part des répertoires qui existent déjà : les 386 membres du fichier fourni par la SDC, et 614 organismes reconnus à l’échelle de la ville. Personne ne commence avec une page blanche. » | Diapo 4 (Technologies, outils et données; 386, 614, CC BY 4.0, Loi 25) | Rien | Diapo absente : l’app en arrière-plan suffit, les deux nombres sont dans la phrase |
-| 2:50 | « Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Dans cette démo, les fiches pré-remplies sont fictives et marquées. Les personnes, elles, ne sont jamais pré-remplies. » | Diapo 4 | Rien | Ne jamais dire que la démo cache déjà les fiches non réclamées : elle les montre, étiquetées, sans coordonnées |
+| 2:50 | « Pour la Loi 25, le consentement décide. Ces répertoires pré-remplissent les fiches. Une fiche devient publique seulement après réclamation, avec un code et un consentement; en pilote, une fiche non réclamée n’est visible que par la SDC. Le code part à l’adresse que la SDC ou la Ville a déjà au dossier, jamais à celle qu’on tape. Dans cette démo, les fiches pré-remplies sont fictives et marquées. Les personnes, elles, ne sont jamais pré-remplies. » | Diapo 4 | Rien | Ne jamais dire que la démo cache déjà les fiches non réclamées : elle les montre, voulu, étiquetées « Pré-rempli · visible ici pour la démo », sans coordonnées |
 
-## Partie 5. Transparence et IA (3:10 à 3:28) [COÉQUIPIÈRE]
-
-| Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
-|---|---|---|---|---|
-| 3:10 | Coéquipière : « Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. » | Diapo 5 (Règles visibles; Score pondéré visible; IA phase 2) | Page suivante sur « pré-remplies » | |
-| 3:18 | « L’app tolère déjà les fautes et un peu d’anglais; en phase 2, l’IA comprendra toutes les langues, toutes les fautes. L’app suggère, les personnes décident. » | Diapo 5 | Rien | Chiffres du labo seulement en questions (Q6, Q11, Q29) |
-
-## Partie 6. Impact, pilote, faisabilité (3:28 à 4:13) [CIAN]
+## Partie 5. Transparence et IA (3:17 à 3:35) [COÉQUIPIÈRE]
 
 | Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
 |---|---|---|---|---|
-| 3:28 | Cian : « L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation. » | Diapo 6 (Maintenant, Pilote, Plus tard; la demande à la SDC) | Page suivante sur « décident » | |
-| 3:40 | « Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement. » | Diapo 6 | Rien | |
-| 3:52 | « Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada. Le tableau de modération pour la SDC est prévu, pas construit. » | Diapo 6 | Rien | Une seule fois dans tout le pitch; en questions, Q9 |
-| 4:01 | « Ce qu’on demande à la SDC : dix membres volontaires, un trimestre, une personne à temps partiel. On mesure trois chiffres, et on décide ensemble si on étend. » | Diapo 6, dernière puce (la demande) | Rien | Si Q montre 2 doigts (4:30 dépassé) : cette ligne reste, c’est la conclusion qui se raccourcit à « Merci! » |
+| 3:17 | Coéquipière : « Où est l’IA? On l’a testée, et on a choisi des règles pour que chaque suggestion s’explique. » | Diapo 5 (Règles visibles; Score pondéré visible; IA phase 2) | Page suivante sur « pré-remplies » | |
+| 3:25 | « L’app tolère déjà les fautes et un peu d’anglais; en phase 2, l’IA comprendra toutes les langues, toutes les fautes. L’app suggère, les personnes décident. » | Diapo 5 | Rien | Chiffres du labo seulement en questions (Q6, Q11, Q29) |
 
-## Partie 7. Conclusion (4:13 à 4:25) [COÉQUIPIÈRE]
+## Partie 6. Impact, pilote, faisabilité (3:35 à 4:20) [CIAN]
 
 | Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
 |---|---|---|---|---|
-| 4:13 | Coéquipière : « Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci! » | Diapo 7 (lien GitHub Pages et code QR, pied de page IA) | Page suivante sur « étend » | Diapo 7 absente : Alt+Tab vers l’app, accueil, le lien se dit à voix haute |
-| 4:25 | Silence. Les quatre restent debout, face au jury, la diapo 7 reste affichée pendant les questions | Diapo 7 | Rien; pour une question qui demande l’écran (Q7, Q22), Alt+Tab vers l’app | |
+| 3:35 | Cian : « L’impact : plus de projets communs, des commerces plus vivants, et une contribution possible au sentiment de sécurité. On le mesure : projets confirmés, nouveaux partenariats, fréquentation. » | Diapo 6 (Maintenant, Pilote, Plus tard; la demande à la SDC) | Page suivante sur « décident » | |
+| 3:47 | « Maillage règle un problème précis : trouver le bon partenaire, se mettre d’accord et passer à l’action. On s’arrête là où d’autres outils existent : 311, 911, financement. » | Diapo 6 | Rien | |
+| 3:59 | « Le fil de la démo est simulé; un vrai fil partagé existe déjà en option, hébergé au Canada. Le tableau de modération pour la SDC est prévu, pas construit. » | Diapo 6 | Rien | Une seule fois dans tout le pitch; en questions, Q9 |
+| 4:08 | « Ce qu’on demande à la SDC : dix membres volontaires, un trimestre, une personne à temps partiel. On mesure trois chiffres, et on décide ensemble si on étend. » | Diapo 6, dernière puce (la demande) | Rien | Si Q montre 2 doigts (4:30 dépassé) : cette ligne reste, c’est la conclusion qui se raccourcit à « Merci! » |
+
+## Partie 7. Conclusion (4:20 à 4:32) [COÉQUIPIÈRE]
+
+| Temps | Qui parle, quoi (abrégé) | À l’écran | Cian clique | Si ça rate |
+|---|---|---|---|---|
+| 4:20 | Coéquipière : « Saint-Roch a déjà tout ce qu’il faut. Maillage aide simplement ses voisins à se trouver. Un café, une artiste, un organisme : un projet. Le lien est à l’écran, essayez-le. Merci! » | Diapo 7 (lien GitHub Pages et code QR, pied de page IA) | Page suivante sur « étend » | Diapo 7 absente : Alt+Tab vers l’app, accueil, le lien se dit à voix haute |
+| 4:32 | Silence. Les quatre restent debout, face au jury, la diapo 7 reste affichée pendant les questions | Diapo 7 | Rien; pour une question qui demande l’écran (Q7, Q22), Alt+Tab vers l’app | |
 
 ## Pendant les questions (3 min)
 
 - Une voix par réponse, 20 s au plus, répartition dans `qa-fr.md` (en-tête). La diapo 7 reste à l’écran; Cian ne touche l’app que si la question porte sur un écran précis (le score, une fiche pré-remplie, le Tableau SDC).
-- Pour montrer une fiche pré-remplie (Q22) : Accueil, « Explorer le quartier », une épingle avec l’étiquette « Profil pré-rempli » (par exemple « Salle Le Bémol »), et dire la phrase de consentement en deux moitiés.
+- Pour montrer une fiche pré-remplie (Q22) : Accueil, « Explorer le quartier », une épingle avec l’étiquette pré-rempli (par exemple « Salle Le Bémol »), et dire la phrase de consentement en deux moitiés.
 - Pour montrer le score (Q7, Q23) : la proposition est toujours ouverte dans l’app si on n’a pas quitté; sinon refaire Commerçant, Ctrl+V, Trouver des partenaires (8 s).
 
 ## Moments sans parole à couvrir (pour que personne ne regarde ses pieds)
@@ -101,10 +101,10 @@ Plan B (déclencheur : l’app plante, ou la carte est encore grise à 1:20) : C
 | 1. Accroche, quoi, qui | 41 | 16 s | 0 | 0:00 à 0:18 |
 | 2. Le problème | 77 | 31 s | 0 | 0:18 à 0:50 |
 | 3. La démo (étapes 1 à 5) | 160 | 64 s | environ 40 s | 0:50 à 2:35 |
-| 4. Les données | 86 | 34 s | 0 | 2:35 à 3:10 |
-| 5. Transparence et IA | 42 | 17 s | 0 | 3:10 à 3:28 |
-| 6. Impact, pilote, faisabilité | 107 | 43 s | 0 | 3:28 à 4:13 |
-| 7. Conclusion | 30 | 12 s | 0 | 4:13 à 4:25 |
-| Total | 543 | 3 min 37 s | environ 40 s | 4 min 25 s (calculé 4:17; 4:51 à 130 mots par minute) |
+| 4. Les données | 106 | 42 s | 0 | 2:35 à 3:17 |
+| 5. Transparence et IA | 42 | 17 s | 0 | 3:17 à 3:35 |
+| 6. Impact, pilote, faisabilité | 107 | 43 s | 0 | 3:35 à 4:20 |
+| 7. Conclusion | 30 | 12 s | 0 | 4:20 à 4:32 |
+| Total | 563 | 3 min 45 s | environ 40 s | 4 min 32 s (calculé 4:25; 5:00 à 130 mots par minute) |
 
-Ordre de coupe si la répétition dépasse 4:45 : l’étape Sofia (déjà optionnelle, 25 s), puis la ligne « Réciprocité 58 % » (8 s), jamais l’acceptation de Camille ni la demande de pilote.
+Ordre de coupe si la répétition dépasse 4:45 : l’étape Sofia (déjà optionnelle, 25 s), puis la ligne « Réciprocité 58 % » (8 s), puis « Le code part à l’adresse… » (7 s), jamais l’acceptation de Camille ni la demande de pilote.

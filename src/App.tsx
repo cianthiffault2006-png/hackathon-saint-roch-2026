@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Besoin as BesoinType, Creneau, Evenement, Profil, Proposition as PropositionType, Role, Statut, Tag } from './types'
 import { chargerDonnees, type Donnees } from './lib/data'
 import { fusionnerAffichage } from './lib/presentation'
@@ -221,6 +221,30 @@ export default function App() {
     setEcran('accueil')
     window.setTimeout(() => document.querySelector<HTMLElement>('[data-visite]')?.focus(), 50)
   }
+
+  // Browser Back (phone back gesture) stays in the app: one guard entry, re-pushed on every popstate,
+  // then Back quits the tour or goes one step back like the screen's own « ← ».
+  const surRetour = useRef<() => void>(() => {})
+  surRetour.current = () => {
+    if (enVisite) { quitterVisite(); return }
+    if (ecran === 'accueil') return
+    if (ecran === 'besoin') { setVoulu(null); setEcran(retourBesoin) }
+    else if (ecran === 'proposition') setEcran('besoin')
+    else if (ecran === 'fiche') setEcran(retourFiche)
+    else if (ecran === 'profil') setEcran('explorer')
+    else if (ecran === 'plus' || ecran === 'invitation') setEcran('proposition')
+    else if (ecran === 'fil') { setDiscussionId(null); setEcran('fiche') }
+    else setEcran('accueil')
+  }
+  useEffect(() => {
+    history.pushState({ maillage: 1 }, '')
+    const retour = () => {
+      history.pushState({ maillage: 1 }, '')
+      surRetour.current()
+    }
+    window.addEventListener('popstate', retour)
+    return () => window.removeEventListener('popstate', retour)
+  }, [])
 
   function accepterInvitation(prop: PropositionType) {
     if (enVisite) return

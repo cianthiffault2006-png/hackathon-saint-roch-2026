@@ -179,11 +179,14 @@ function listeConcat(images, dossier) {
 }
 
 // H.264 High yuv420p 30 i/s constant, faststart : lisible dans PowerPoint, VLC et le lecteur Windows.
-const ENCODAGE = ['-r', '30', '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an']
+// Les JPEG sont en pleine plage (yuvj420p) : on convertit explicitement en plage limitée BT.709, sinon le fichier
+// garde l'étiquette « full range » et certains lecteurs l'affichent délavé.
+const PLAGE = 'scale=in_range=auto:out_range=tv:out_color_matrix=bt709,format=yuv420p'
+const ENCODAGE = ['-r', '30', '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', '-color_range', 'tv', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-movflags', '+faststart', '-an']
 
 function imagesDeControle(ffmpeg, fichier, secondes) {
   const base = fichier.replace(/\.mp4$/i, '')
-  for (const [nom, t] of [['debut', Math.min(8, secondes / 4)], ['milieu', secondes / 2], ['fin', Math.max(0, secondes - PAUSE_FIN_MS / 1000 - 2)]]) {
+  for (const [nom, t] of [['debut', Math.min(8, secondes / 4)], ['milieu', secondes / 2], ['fin', Math.max(0, secondes - 1.5)]]) {
     const png = `${base}-${nom}.png`
     execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-ss', t.toFixed(1), '-i', fichier, '-frames:v', '1', png])
     console.log(`Image : ${png} (à ${t.toFixed(0)} s)`)
@@ -260,7 +263,7 @@ async function main() {
   const liste = listeConcat(images, dossier)
 
   if (!portrait) {
-    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, ...ENCODAGE, sortie], { stdio: 'inherit' })
+    execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, '-vf', PLAGE, ...ENCODAGE, sortie], { stdio: 'inherit' })
     rmSync(dossier, { recursive: true, force: true })
     bilan(ffmpeg, sortie, `${ECRAN.largeur * ECRAN.echelle} x ${ECRAN.hauteur * ECRAN.echelle}`)
     return
@@ -269,7 +272,7 @@ async function main() {
   // Portrait : chaque image réduite à 434 x 940, coins arrondis par le masque, posée sur le cadre.
   const cadre = dessinerCadre(dossier)
   const { ecran } = CADRE
-  const filtre = `[0:v]scale=${ecran.l}:${ecran.h}:flags=lanczos,format=rgba[e];[2:v]format=gray[m];[e][m]alphamerge[ea];[1:v][ea]overlay=${cadre.x}:${cadre.y}:shortest=1,format=yuv420p[v]`
+  const filtre = `[0:v]scale=${ecran.l}:${ecran.h}:flags=lanczos,format=rgba[e];[2:v]format=gray[m];[e][m]alphamerge[ea];[1:v][ea]overlay=${cadre.x}:${cadre.y}:shortest=1,${PLAGE}[v]`
   execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', liste, '-loop', '1', '-i', cadre.cadre, '-i', cadre.masque, '-filter_complex', filtre, '-map', '[v]', ...ENCODAGE, sortie], { stdio: 'inherit' })
   rmSync(dossier, { recursive: true, force: true })
   const secondes = bilan(ffmpeg, sortie, `${CADRE.largeur} x ${CADRE.hauteur}`)
@@ -280,6 +283,7 @@ async function main() {
     if (!debutCh6) throw new Error('Chapitre 6 non observé : version courte impossible')
     const finA = debutCh6 - 0.2, debutB = tCarteFin + 0.2
     const filtreCourt = `[0:v]split[s1][s2];[s1]trim=0:${finA.toFixed(3)},setpts=PTS-STARTPTS[a];[s2]trim=${debutB.toFixed(3)}:${secondes.toFixed(3)},setpts=PTS-STARTPTS[b];[a][b]xfade=transition=fade:duration=${FONDU_S}:offset=${(finA - FONDU_S).toFixed(3)},format=yuv420p[v]`
+    // (la source est déjà en plage limitée ; xfade travaille dessus sans la changer)
     execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-i', sortie, '-filter_complex', filtreCourt, '-map', '[v]', ...ENCODAGE, sortieCourt], { stdio: 'inherit' })
     console.log(`Version courte : chapitres 1-5 (0 à ${finA.toFixed(1)} s) + carte de fin (${debutB.toFixed(1)} s à ${secondes.toFixed(1)} s)`)
     bilan(ffmpeg, sortieCourt, `${CADRE.largeur} x ${CADRE.hauteur}`)

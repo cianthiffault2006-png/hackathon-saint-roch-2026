@@ -1,5 +1,7 @@
 # Diapositives Maillage (7 diapos, 5 min)
 
+> **Remplacé le 16 octobre à 9 h 45** : la coéquipière monte le jeu de diapos dans PowerPoint à partir de `DIAPOS-POUR-COEQUIPIERE.md` (nouvelle structure en 7 diapos avec la vidéo de la visite guidée). Ce fichier et `build_pptx.py` restent comme secours (ancien jeu) et ne sont plus la référence.
+
 Ce fichier est la source de `build_pptx.py` (`py -3.12 docs/pitch/build_pptx.py` produit `Maillage.pptx`). Format de chaque diapo : « Ligne » = message principal, « Diapo » = puces courtes séparées par des points-virgules, tout le reste va dans les notes du présentateur. Captures d’écran : `img/slide-<n>.png`. Peu de texte par diapo, grosse police, une idée à la fois. Aucun vrai nom de commerce ou de personne.
 
 ## 1. Maillage

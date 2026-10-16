@@ -157,7 +157,7 @@ Non, et ils n’ont pas eu à le faire : ce sont des données ouvertes publiques
 - Licence du code : MIT. La Ville, la SDC ou n’importe qui peut reprendre, modifier et déployer le code librement, en gardant la mention des auteurs.
 - Notifications : pas dans la démo (aucun message ne part); en pilote, chaque partenaire reçoit l’invitation par courriel ou par notification.
 - Autres langues : tous les textes de l’interface sont dans un seul fichier, `src/i18n/fr.ts`; une autre langue, c’est un deuxième fichier du même format.
-- Demande de pilote (diapo 6) : dix membres volontaires de la SDC, un trimestre, une personne à temps partiel; trois mesures (Q10).
+- Proposition de pilote (diapo 5, nouvelle structure) : dix membres volontaires d’une SDC, un trimestre, une personne à temps partiel, un export des membres; trois mesures (Q10). C’est une proposition : nous n’avons rencontré personne de la SDC.
 
 ## Si on ne sait pas
 « Bonne question. Nous ne l’avons pas encore tranchée. Dans un pilote avec la SDC, voici comment nous le vérifierions : … » Puis une phrase. Ne jamais inventer un chiffre ni dire qu’une fonction existe si elle n’existe pas.

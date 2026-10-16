@@ -2,7 +2,7 @@
 
 Rôles : **Cian** clique sur le portable (écran en miroir). La **coéquipière** ouvre et conclut, Cian parle pendant la démo (U répète les textes de docs/pitch/). Q chronomètre depuis la salle et tient le plan C.
 Lien officiel : https://cianthiffault2006-png.github.io/hackathon-saint-roch-2026/ (GitHub Pages). Le lien Vercel (https://hackathon-saint-roch-2026.vercel.app) est figé sur une ancienne version sans Explorer, sans fil et sans « Proposer un projet » : secours seulement, peut être périmé.
-Le texte et le minutage qui font foi sont dans docs/pitch/script-fr.md (démo de 0:50 à 2:35; total visé 4:33, 4:45 au plus). Le plan écran par écran (projecteur, fenêtre, zoom, repli) est dans docs/pitch/ECRAN.md. Le tableau ci-dessous en est le résumé pour les clics.
+**Remplacé le 16 octobre à 10 h** : nouvelle structure (démo = vidéo de la visite guidée dans la diapo 3, app non touchée pendant le pitch). Le texte qui fait foi est docs/pitch/script-fr.md, le plan d’écran docs/pitch/ECRAN.md, l’antisèche docs/pitch/ANTISECHE.md; le tableau ci-dessous décrit l’ancienne démo en direct, gardée seulement comme plan B (onglet 2) et pour les questions.
 
 ## Déroulement minuté
 

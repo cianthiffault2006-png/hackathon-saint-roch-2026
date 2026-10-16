@@ -523,9 +523,10 @@ export const fr = {
     intro: 'Retrouvez vos initiatives et suivez vos collaborations à Saint-Roch.',
     stats: 'Statistiques de mes projets',
     total: 'Mes projets',
-    enAttente: 'En attente',
+    // Same words as the statuses in Mes projets.
+    enAttente: 'Intérêt envoyé ou en attente',
     confirmes: 'Confirmés (simulé)',
-    proposes: 'Proposés',
+    proposes: 'Propositions',
     inscriptions: 'Inscriptions',
     recents: 'Mes projets récents',
     voirTous: 'Voir tous les projets →',

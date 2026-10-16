@@ -524,7 +524,7 @@ export const fr = {
     stats: 'Statistiques de mes projets',
     total: 'Mes projets',
     enAttente: 'En attente',
-    confirmes: 'Confirmés (simulation)',
+    confirmes: 'Confirmés (simulé)',
     proposes: 'Proposés',
     inscriptions: 'Inscriptions',
     recents: 'Mes projets récents',

@@ -62,7 +62,11 @@ function construire(profils: Profil[], lieux: Lieu[], evenements: Evenement[]): 
       out.push({ id: p.id, genre: p.role, nom: p.nom, detail: p.sousType, lat: p.lat, lng: p.lng, profil: p, recherche: sans([p.nom, p.sousType, ...themesTxt(p.themes)].join(' ')) })
     }
   }
-  for (const l of lieux) out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: LIEU_TYPES[l.type], lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${LIEU_TYPES[l.type]}`) })
+  for (const l of lieux) {
+    // Places of worship arrive typed « salle » (vque_45); their licence line says what they are.
+    const type = l.attribution.includes('Lieux de culte') ? 'Lieu de culte' : LIEU_TYPES[l.type]
+    out.push({ id: l.id, genre: 'lieu', nom: l.nom, detail: type, lat: l.lat, lng: l.lng, recherche: sans(`${l.nom} ${type}`) })
+  }
   for (const e of evenements) out.push({ id: e.id, genre: 'evenement', nom: e.titre, detail: e.categorie, lat: e.lat, lng: e.lng, evenement: e, recherche: sans([e.titre, e.categorie, e.lieuNom, ...themesTxt(e.themes)].join(' ')) })
   return out
 }

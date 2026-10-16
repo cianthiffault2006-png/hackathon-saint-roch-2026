@@ -9,7 +9,7 @@ import '../layout/tiroir.css'
 export type PageSidebar = Rubrique
 
 interface Props {
-  pageActive: PageSidebar
+  pageActive: PageSidebar | null
   onNaviguer: (page: PageSidebar) => void
   nombreProjets: number
   /** Guided tour: the sidebar is inert, like the screens; the phone menu is hidden. */

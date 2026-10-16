@@ -105,6 +105,7 @@ export const fr = {
     lieuPropose: 'Lieu proposé',
     accordVoulu: (nom: string, n: number) => `Avec ${nom} seul : ${n} %. Ce qui baisse le score :`,
     creerQuandMeme: 'Créer le projet quand même',
+    nouveauProjet: 'Nouveau projet',
     peuCompatible: 'Aucune proposition ne dépasse 50 %. Vous pouvez lancer votre projet avec des rôles ouverts.',
     aucuneCompatible: 'Vous pouvez quand même lancer votre projet avec des rôles ouverts : les partenaires intéressés s’y joindront.',
     lieuSuggere: 'Lieu public proposé, à confirmer avec le lieu',

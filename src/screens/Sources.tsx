@@ -1,6 +1,13 @@
 import type { Lieu, Profil } from '../types'
 import { fr } from '../i18n/fr'
 
+// Every line ends with a period; « Source : producteur, jeu, licence » reads « Jeu : producteur, licence. » like the others.
+const point = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`)
+function ligneJeu(a: string): string {
+  const [producteur, jeu, ...reste] = a.replace(/^Source\s*:\s*/, '').split(', ')
+  return point(jeu && reste.length ? `${jeu} : ${producteur}, ${reste.join(', ')}` : a)
+}
+
 export default function Sources({ lieux, profils = [], onRetour }: { lieux: Lieu[]; profils?: Profil[]; onRetour: () => void }) {
   // The culture line comes from the attribution carried by the data itself.
   const culture = Array.from(new Set(lieux.map((l) => l.attribution).filter((a) => a.includes('SIT')).map((a) => a.replace(/^Source\s*:\s*/, ''))))
@@ -18,10 +25,10 @@ export default function Sources({ lieux, profils = [], onRetour }: { lieux: Lieu
         <li>{fr.sources.carte}</li>
         <li>{fr.sources.lieux}</li>
         <li>
-          {fr.sources.culture} {culture.length ? culture.join(' ; ') : 'SIT Québec, licence CC BY 4.0.'}
+          {fr.sources.culture} {culture.length ? point(culture.join(' ; ')) : 'SIT Québec, licence CC BY 4.0.'}
         </li>
-        {autresLieux.map((a) => <li key={a}>{a}</li>)}
-        {fiches.length > 0 && <li>Fiches réelles d’établissements (profils pré-remplis, à activer par leur responsable) : {fiches.join(' ; ')}</li>}
+        {autresLieux.map((a) => <li key={a}>{ligneJeu(a)}</li>)}
+        {fiches.length > 0 && <li>Fiches réelles d’établissements (profils pré-remplis, à activer par leur responsable) : {point(fiches.join(' ; '))}</li>}
         <li>{fr.sources.profils}</li>
       </ul>
       {/* The on-device model experiment (public/labo) is reachable from here only: it downloads 129 MB. */}

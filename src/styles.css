@@ -2443,3 +2443,8 @@ body:has(.accueil) .badge-demo {
 
 /* Mode présentation (laptop only): the provided-data banner, fixed at the top of every screen. */
 .bandeau-presentation { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; padding: 5px 12px; font-size: 12px; text-align: center; background: rgba(122, 46, 14, .92); color: #fff; pointer-events: none; }
+
+/* Mes projets: Discussion and « Me retirer du projet » sit inside the card, so the list item carries the frame. */
+.liste-projets > li { padding: 0 16px 12px; background: var(--craie); border: 1px solid var(--trait); border-radius: var(--rayon); }
+.liste-projets > li > .carte-projet { padding: 14px 0 4px; background: transparent; border: 0; }
+.liste-projets > li:has(> .carte-projet[aria-current='true']) { background: var(--vert-pale); border-color: var(--vert); }

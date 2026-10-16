@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { proposer } from '../engineAdapter'
@@ -182,9 +182,21 @@ describe('engine catalogue (src/lib/icsCatalogue.ts)', () => {
     expect(chemins(besoinDe(ROLE_VISITE, TEXTE_VISITE))[0]).toBe('ics/demo-cafe.ics')
     for (const c of chemins(besoinSofia(profils) as Besoin)) expect(c).toMatch(/^ics\/prop-[0-9a-f]{8}\.ics$/)
   })
+  it('leaves the café and Sofia demo paths as they were: DEMOS file first, even when the catalogue holds the same content', () => {
+    const cafe = projetCafe()
+    expect(cheminIcsStatique(cafe)).toBe('ics/demo-cafe.ics')
+    expect(catalogue.some((e) => cleIcs(e) === cleIcs(cafe))).toBe(true)
+    expect(cheminIcsStatique(projetSofia())).toBe('ics/demo-corvee.ics')
+    expect(contenuIcs(cafe, STAMP_STATIQUE, true)).toBe(readFileSync(join('public', 'ics', 'demo-cafe.ics'), 'utf8'))
+    expect(contenuIcs(projetSofia(), STAMP_STATIQUE, true)).toBe(readFileSync(join('public', 'ics', 'demo-corvee.ics'), 'utf8'))
+  })
+  it('keeps public/ics under 2 MB in total', () => {
+    const total = readdirSync(join('public', 'ics')).reduce((s, f) => s + statSync(join('public', 'ics', f)).size, 0)
+    expect(total).toBeLessThan(2 * 1024 * 1024)
+  })
   it('prebuilt engine files are valid French calendars: VCALENDAR, Toronto DTSTART/DTEND, stable UID, CRLF, SUMMARY and LOCATION', () => {
     const heure = (h: number) => `${String(h).padStart(2, '0')}0000`
-    for (const e of catalogue.filter((_, i) => i % 7 === 0)) {
+    for (const e of catalogue) {
       const ics = readFileSync(join('public', 'ics', `prop-${cleIcs(e)}.ics`), 'utf8')
       const plat = ics.replace(/\r\n /g, '')
       expect(ics.startsWith('BEGIN:VCALENDAR\r\nVERSION:2.0\r\n')).toBe(true)

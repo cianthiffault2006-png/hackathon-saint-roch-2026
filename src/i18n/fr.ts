@@ -98,7 +98,7 @@ export const fr = {
     evenementsProches: 'Événements à proximité',
     aucunEvenement: 'Aucun événement à proximité à ce moment-là.',
     partenaires: 'Les trois partenaires',
-    partenairesN: (n: number) => `Les ${NOMBRE[n] ?? n} partenaires`,
+    partenairesN: (n: number) => (n <= 1 ? 'Le partenaire' : `Les ${NOMBRE[n] ?? n} partenaires`),
     vous: 'Vous',
     quand: 'Quand',
     score: (n: number) => `Compatibilité : ${n} %`,

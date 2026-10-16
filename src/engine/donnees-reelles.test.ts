@@ -128,7 +128,7 @@ describe('visite guidée: phrase du café', () => {
           "Capacité d’accueil : Café Le Petit Détour",
           "Assurances (responsabilité civile) à valider",
           "Accessibilité du lieu pour tous",
-          "Événements voisins dans les 14 jours : Dégustation de bières d’automne (24 oct.), Corvée de verdissement d’automne (25 oct.)",
+          "Événements à proximité : Dégustation de bières d’automne (24 oct.), Corvée de verdissement d’automne (25 oct.)",
         ],
         "partenaires": [
           {

@@ -420,7 +420,7 @@ export const proposerAu = (
       .sort((x, y) => x.debut.localeCompare(y.debut) || x.id.localeCompare(y.id))
       .slice(0, 3);
     const rEvents = proches.length
-      ? [`À proximité dans les 14 prochains jours : ${proches.map((e) => e.titre).join(', ')}`]
+      ? [`Événements à proximité : ${proches.map((e) => e.titre).join(', ')}`]
       : [];
     // 5 lignes au plus, les plus informatives d'abord; le chevauchement d'événements est repris dans « à confirmer ».
     const raisons = [...rComp, ...rSecurite, ...rLieu, ...rRev, ...rDist, `Tous disponibles ${CRENEAU_TXT[creneau]}`, ...rTheme, ...rEvents].slice(0, 5);
@@ -431,7 +431,7 @@ export const proposerAu = (
       'Assurances (responsabilité civile) à valider',
       'Accessibilité du lieu pour tous',
       // Le moteur ne connaît pas la date retenue (src/lib/projets): on nomme les voisins avec leur jour, sans parler de chevauchement.
-      ...(proches.length ? [`Événements voisins dans les 14 jours : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
+      ...(proches.length ? [`Événements à proximité : ${proches.map((e) => `${e.titre} (${jourCourt(e.debut)})`).join(', ')}`] : []),
       ...manquants.map((t) => `Besoin non comblé : ${NU[t]}`),
       // Partenaire voulu gardé malgré tout: on dit ce qui ne colle pas.
       ...(impose && !impose.comp.length && !impose.rev.length ? [`Rôle de ${impose.p.nom} à préciser : son profil n’offre pas ce que vous cherchez`] : []),

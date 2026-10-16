@@ -6,7 +6,7 @@ const NOMBRE: Record<number, string> = { 2: 'deux', 3: 'trois', 4: 'quatre' }
 export const fr = {
   accueil: {
     titre: 'Maillage',
-    accroche: 'Des projets communs entre voisins de Saint-Roch, à trois partenaires, sur la carte du quartier.',
+    accroche: 'Des projets communs entre voisins de Saint-Roch, à deux, trois ou quatre partenaires, sur la carte du quartier.',
     question: 'Vous êtes…',
     roles: {
       commerce: 'Commerçant',
@@ -141,7 +141,7 @@ export const fr = {
     interet: 'Ça m’intéresse',
     statuts: {
       proposee: 'Proposition',
-      interet_envoye: 'Intérêt envoyé',
+      interet_envoye: 'Intérêt envoyé (simulé)',
       en_attente: 'En attente des partenaires',
       confirmee: 'Projet confirmé (simulé)',
     },

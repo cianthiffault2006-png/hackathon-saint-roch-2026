@@ -20,15 +20,17 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:prop9e7461ff@maillage.demo
+UID:prope67bb92f@maillage.demo
 DTSTAMP:20261015T000000Z
-DTSTART;TZID=America/Toronto:20261024T130000
-DTEND;TZID=America/Toronto:20261024T170000
-SUMMARY:Marché éphémère chez Musi'Quiz Québec
+DTSTART;TZID=America/Toronto:20261022T190000
+DTEND;TZID=America/Toronto:20261022T220000
+SUMMARY:Marché éphémère chez Torii Izakaya - Buvette japonai
+ se
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Centre Materia\, Saint-Roch\, Québec
+LOCATION:Centre communautaire YMCA-Saint-Roch\, Saint-Roch\,
+  Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

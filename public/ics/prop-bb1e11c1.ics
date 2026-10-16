@@ -20,15 +20,16 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:propde25c2e0@maillage.demo
+UID:propbb1e11c1@maillage.demo
 DTSTAMP:20261015T000000Z
-DTSTART;TZID=America/Toronto:20261022T190000
-DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Projet de verdissement avec Musi'Quiz Québec
+DTSTART;TZID=America/Toronto:20261024T130000
+DTEND;TZID=America/Toronto:20261024T170000
+SUMMARY:Exposition collaborative chez Résidents de la Coopér
+ ative des Arts
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Bibliothèque Gabrielle-Roy\, Saint-Roch\, Québec
+LOCATION:Église de Saint-Roch\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

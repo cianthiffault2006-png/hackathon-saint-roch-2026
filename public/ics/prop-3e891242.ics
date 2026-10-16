@@ -20,15 +20,17 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:propbf048e9f@maillage.demo
+UID:prop3e891242@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261024T130000
 DTEND;TZID=America/Toronto:20261024T170000
-SUMMARY:Soirée spectacle au Grand Mini-Golf
+SUMMARY:Exposition collaborative aux Jardins collectifs du F
+ aubourg
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Église de Saint-Roch\, Saint-Roch\, Québec
+LOCATION:Jardin communautaire Saint-Roch\, Saint-Roch\, Québ
+ ec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

@@ -20,16 +20,15 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:propdd1dea0b@maillage.demo
+UID:propf7e7420b@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261024T130000
 DTEND;TZID=America/Toronto:20261024T170000
-SUMMARY:Soirée spectacle au Grand Mini-Golf
+SUMMARY:Marché éphémère chez Battuto
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Université du Québec-Télé-Université\, Saint-Roch\,
-  Québec
+LOCATION:Théâtre La Bordée\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

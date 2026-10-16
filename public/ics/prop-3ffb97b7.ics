@@ -20,15 +20,15 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:propc41c5a19@maillage.demo
+UID:prop3ffb97b7@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261022T190000
 DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Exposition collaborative à la Salle Le Bémol
+SUMMARY:Marché éphémère chez Battuto
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Centre Materia\, Saint-Roch\, Québec
+LOCATION:Théâtre La Bordée\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

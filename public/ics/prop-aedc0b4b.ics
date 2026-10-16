@@ -20,16 +20,16 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:prop1a67f00c@maillage.demo
+UID:propaedc0b4b@maillage.demo
 DTSTAMP:20261015T000000Z
-DTSTART;TZID=America/Toronto:20261024T130000
-DTEND;TZID=America/Toronto:20261024T170000
-SUMMARY:Exposition collaborative chez Musi'Quiz Québec
+DTSTART;TZID=America/Toronto:20261022T190000
+DTEND;TZID=America/Toronto:20261022T220000
+SUMMARY:Soirée spectacle au Grand Mini-Golf
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Université du Québec-Télé-Université\, Saint-Roch\,
-  Québec
+LOCATION:Jardin communautaire Saint-Roch\, Saint-Roch\, Québ
+ ec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

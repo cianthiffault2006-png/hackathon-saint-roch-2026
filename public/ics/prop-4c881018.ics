@@ -20,15 +20,16 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:prop34953ea5@maillage.demo
+UID:prop4c881018@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261022T190000
 DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Soirée spectacle chez Musi'Quiz Québec
+SUMMARY:Soirée spectacle au Studio Souffle
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:L'Anti Bar & Spectacles\, Saint-Roch\, Québec
+LOCATION:Le Lieu\, centre en art actuel\, Saint-Roch\, Québe
+ c
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

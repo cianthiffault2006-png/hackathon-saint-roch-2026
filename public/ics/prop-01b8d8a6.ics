@@ -20,16 +20,15 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:propcb50d2b1@maillage.demo
+UID:prop01b8d8a6@maillage.demo
 DTSTAMP:20261015T000000Z
-DTSTART;TZID=America/Toronto:20261021T120000
-DTEND;TZID=America/Toronto:20261021T150000
-SUMMARY:Projet de verdissement avec Café Le Petit Détour
+DTSTART;TZID=America/Toronto:20261022T190000
+DTEND;TZID=America/Toronto:20261022T220000
+SUMMARY:Exposition collaborative au Studio Souffle
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Le Lieu\, centre en art actuel\, Saint-Roch\, Québe
- c
+LOCATION:Parc-école des Berges\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

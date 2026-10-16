@@ -20,16 +20,15 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:prop50bce610@maillage.demo
+UID:propc8f46003@maillage.demo
 DTSTAMP:20261015T000000Z
 DTSTART;TZID=America/Toronto:20261022T190000
 DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Exposition collaborative au Café Le Petit Détour
+SUMMARY:Marché éphémère au Grand Mini-Golf
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:Église de Notre-Dame-de-Jacques-Cartier\, Saint-Roc
- h\, Québec
+LOCATION:Parc-école des Berges\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

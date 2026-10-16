@@ -20,15 +20,15 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:prop82393974@maillage.demo
+UID:prop88dcc5fa@maillage.demo
 DTSTAMP:20261015T000000Z
-DTSTART;TZID=America/Toronto:20261022T190000
-DTEND;TZID=America/Toronto:20261022T220000
-SUMMARY:Marché éphémère chez Musi'Quiz Québec
+DTSTART;TZID=America/Toronto:20261021T120000
+DTEND;TZID=America/Toronto:20261021T150000
+SUMMARY:Exposition collaborative à l’Église de Saint-Roch
 DESCRIPTION:Projet Maillage (démo simulée). Date proposée\, 
  à confirmer avec les partenaires.\n\nPartenaires et liste à 
  cocher dans Maillage.
-LOCATION:L'Anti Bar & Spectacles\, Saint-Roch\, Québec
+LOCATION:Église de Saint-Roch\, Saint-Roch\, Québec
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Rappel : projet Maillage demain

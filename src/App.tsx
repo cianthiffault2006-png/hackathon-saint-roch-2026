@@ -63,6 +63,8 @@ export default function App() {
   const [dernierBesoin, setDernierBesoin] = useState<BesoinType | null>(null)
   const [profilId, setProfilId] = useState<string | null>(null)
   const [voulu, setVoulu] = useState<string | null>(null)
+  // Where Besoin's « ← » goes: the profile or claim search that pressed « Proposer une collaboration », else Accueil.
+  const [retourBesoin, setRetourBesoin] = useState<Ecran>('accueil')
   const [annonce, setAnnonce] = useState('')
   const { etat, saut, lireMs, demarrer, quitter, basculerPause, suivant, precedent, allerA, allerAuTemps, continuer } = useTour()
   const bureau = useBureau()
@@ -258,7 +260,7 @@ export default function App() {
       {ecranActif === 'accueil' && (
         <Accueil
           surbrillance={enVisite ? ROLE_VISITE : undefined}
-          onRole={(r) => { setRole(r); setVoulu(null); setEcran('besoin') }}
+          onRole={(r) => { setRole(r); setVoulu(null); setRetourBesoin('accueil'); setEcran('besoin') }}
           onVisite={lancerVisite}
           onProjets={!enVisite && projets.length > 0 ? () => setEcran('projets') : undefined}
           onSdc={enVisite ? undefined : () => setEcran('sdc')}
@@ -274,7 +276,7 @@ export default function App() {
           profils={donnees.profils}
           evenements={donnees.evenements}
           onRetour={() => setEcran('accueil')}
-          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
+          onProposer={(id) => { setVoulu(id); setRetourBesoin('reclamer'); setEcran('besoin') }}
         />
       )}
       {/* From the menu: the add-request form directly; done or cancelled, it lands on the claim search, which lists pending requests. */}
@@ -287,7 +289,7 @@ export default function App() {
           profils={donnees.profils}
           partenaireVoulu={voulu ? donnees.profils.find((p) => p.id === voulu) : undefined}
           guide={guideBesoin}
-          onRetour={() => { setVoulu(null); setEcran('accueil') }}
+          onRetour={() => { setVoulu(null); setEcran(retourBesoin) }}
           onTrouver={trouver}
         />
       )}
@@ -416,7 +418,7 @@ export default function App() {
           profils={affichage.profils}
           evenements={affichage.evenements}
           onRetour={() => setEcran('explorer')}
-          onProposer={(id) => { setVoulu(id); setEcran('besoin') }}
+          onProposer={(id) => { setVoulu(id); setRetourBesoin('profil'); setEcran('besoin') }}
         />
       )}
       {ecranActif === 'plus' && dernierBesoin && (

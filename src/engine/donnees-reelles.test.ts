@@ -270,6 +270,21 @@ describe('partenaire voulu (explorateur → « Proposer une collaboration »)', 
     expect(a).toContain('Rôle de Rémi C., cuisinier amateur à préciser : son profil n’offre pas ce que vous cherchez');
     expect(a).toContain('Horaire à convenir avec Rémi C., cuisinier amateur : aucun créneau commun');
   });
+  it('X qui ne colle pas: le % de la paire et ce qui le baisse', () => {
+    const acc = avecVoulu('commerce', 'p-cuisinier', false)[0].accordVoulu!;
+    expect(acc.nom).toBe('Rémi C., cuisinier amateur');
+    expect(acc.freins).toContain('Son profil n’offre rien de ce que vous cherchez');
+    expect(acc.freins).toContain('Aucun créneau en commun');
+    expect(acc.score).toBeLessThan(50);
+  });
+  it('café + Musi’Quiz Québec: % et freins réels', () => {
+    const acc = avecVoulu('commerce', 'sit-DIVLMTOV503I45', false)[0].accordVoulu!;
+    expect(acc.nom).toBe('Musi\'Quiz Québec');
+    expect(acc.freins).toContain('Répond à 1 de vos 3 besoins');
+    expect(acc.freins).not.toContain('Aucun créneau en commun');
+    expect(acc.score).toBeGreaterThan(0);
+    expect(acc.score).toBeLessThanOrEqual(100);
+  });
   it('X qui colle: aucune ligne d’excuse', () => {
     const a = avecVoulu('commerce', 'p-mdj')[0].aConfirmer.join('\n');
     expect(a).not.toMatch(/à préciser : son profil|aucun créneau commun/);

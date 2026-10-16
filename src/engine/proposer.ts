@@ -1,6 +1,6 @@
 import { normaliser } from './lecture.ts';
 import type {
-  Besoin, Contribution, Creneau, Evenement, Lieu, Profil, Proposer, Proposition, Tag, Theme, TypeProjet,
+  AccordVoulu, Besoin, Contribution, Creneau, Evenement, Lieu, Profil, Proposer, Proposition, Tag, Theme, TypeProjet,
 } from '../types.ts';
 
 const M_PROCHE = 400; // points pleins
@@ -90,6 +90,25 @@ function scorerPaire(b: Besoin, pos: Point | undefined, p: Profil, impose = fals
   const specialiste = b.besoins.length > 1 && comp.length === b.besoins.length && b.themes.length > 0 && b.themes.every((t) => p.themes.includes(t));
   const score = (specialiste ? 10 : 0) + POIDS.comp * sComp + POIDS.rev * sRev + POIDS.dist * sDist + POIDS.theme * sTheme + POIDS.creneau;
   return { p, comp, rev, dist, creneaux, sDist, sTheme, score };
+}
+
+/**
+ * Partenaire voulu: son score de paire et ce qui le baisse, tirés des mêmes composantes que scorerPaire.
+ * Sans créneau commun, les points de créneau que scorerPaire ajoute d'office (impose) sont retirés. undefined si rien ne le baisse.
+ */
+function accordVoulu(b: Besoin, c: Cand): AccordVoulu | undefined {
+  const sansCreneau = b.creneaux.length > 0 && !inter(b.creneaux, c.p.creneaux).length;
+  const freins: string[] = [];
+  if (b.besoins.length && c.comp.length < b.besoins.length) {
+    freins.push(c.comp.length ? `Répond à ${c.comp.length} de vos ${b.besoins.length} besoins` : 'Son profil n’offre rien de ce que vous cherchez');
+  }
+  if (c.p.besoins.length && !c.rev.length) freins.push('Vous n’offrez rien de ce que ce partenaire cherche');
+  if (sansCreneau) freins.push('Aucun créneau en commun');
+  if (c.dist !== undefined && c.sDist < 1) freins.push(`Distance : ${minTxt(c.dist)} à pied`);
+  if (b.themes.length && c.sTheme === 0) freins.push('Aucun thème en commun');
+  if (!freins.length) return undefined;
+  const score = Math.max(0, Math.min(100, Math.round(c.score - (sansCreneau ? POIDS.creneau : 0))));
+  return { nom: c.p.nom, score, freins };
 }
 
 function lienEntre(x: Profil, y: Profil): { sDist: number; sTheme: number } {
@@ -304,6 +323,7 @@ export const proposerAu = (
 
   const equipeVerifiee = new Map<string, number>(); // corvée avec une équipe de propreté reconnue: passe en premier (2 si elle couvre tous les thèmes du demandeur)
   const rang = new Map<string, number>(); // qualité des paires, pour départager les scores égaux
+  const accord = impose ? accordVoulu(besoin, impose) : undefined;
   const props = choix.map(({ a, b, valeur }): Proposition => {
     const membres = b && b.score > a.score && !impose ? [b, a] : b ? [a, b] : [a];
     const profs = membres.map((m) => m.p);
@@ -449,6 +469,7 @@ export const proposerAu = (
       aConfirmer,
       evenementsProches: proches.map((e) => e.id),
       statut: 'proposee',
+      ...(accord ? { accordVoulu: accord } : {}),
     };
   });
 

@@ -2443,3 +2443,45 @@ body:has(.accueil) .badge-demo {
 
 /* Mode présentation (laptop only): the provided-data banner, fixed at the top of every screen. */
 .bandeau-presentation { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; padding: 5px 12px; font-size: 12px; text-align: center; background: rgba(122, 46, 14, .92); color: #fff; pointer-events: none; }
+
+/* Wanted partner who does not fit fully: their pair % and what lowers it, under the score. */
+.accord-voulu {
+  margin: 6px 0 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--orange-pale);
+  font-size: 14px;
+}
+.accord-voulu p {
+  margin: 0;
+  font-weight: 600;
+}
+.accord-voulu ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+/* « Créer le projet quand même » */
+.note-faible {
+  margin: 8px 0 0;
+  color: var(--gris);
+  font-size: 14px;
+}
+.btn-creer-quand-meme {
+  width: 100%;
+}
+
+/* Besoin: who the user acts as, when coming from the explorer */
+.agir-comme {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+.agir-comme select {
+  font: inherit;
+  padding: 4px 6px;
+  border-radius: 8px;
+}

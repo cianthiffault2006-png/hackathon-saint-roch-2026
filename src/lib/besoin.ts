@@ -27,14 +27,16 @@ export function construireBesoin(
   texte: string,
   profils: Profil[],
   choix: { cherche: Tag[]; offre: Tag[]; creneaux: Creneau[] },
+  sansProfil = false,
 ): Besoin {
-  const asker = trouverAsker(role, profils)
+  // « Je démarre »: no existing profile; the engine scores an anonymous asker.
+  const asker = sansProfil ? undefined : trouverAsker(role, profils)
   const lu = lireBesoin(texte)
   const besoinsProfil = asker?.besoins ?? []
   const horsProfil = choix.cherche.some((t) => !besoinsProfil.includes(t))
   return {
     auteurRole: role,
-    auteurId: asker?.id ?? ASKER_PAR_ROLE[role],
+    auteurId: sansProfil ? undefined : asker?.id ?? ASKER_PAR_ROLE[role],
     texte,
     besoins: horsProfil ? [...choix.cherche] : union(besoinsProfil, choix.cherche),
     offres: union(choix.offre, asker?.offres ?? []),

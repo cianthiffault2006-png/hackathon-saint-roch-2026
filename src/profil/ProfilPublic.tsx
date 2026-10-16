@@ -19,6 +19,8 @@ interface Props {
   apercu?: boolean
   /** The viewer's own profile (the asker of the chosen role): no « Proposer une collaboration » with oneself. */
   moi?: boolean
+  /** Opens one of the « Profils semblables »; without it they stay plain text. */
+  onOuvrirProfil?(profilId: string): void
 }
 
 const THEMES = fr.besoin.themes
@@ -28,7 +30,7 @@ function dateCourte(iso: string): string {
   return new Intl.DateTimeFormat('fr-CA', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'America/Toronto' }).format(new Date(iso))
 }
 
-export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer, apercu = false, moi = false }: Props) {
+export default function ProfilPublic({ profil, profils, evenements, onRetour, onProposer, apercu = false, moi = false, onOuvrirProfil }: Props) {
   const reclames = useReclames()
   const [flux, setFlux] = useState(false)
   const titre = useRef<HTMLHeadingElement>(null)
@@ -136,7 +138,13 @@ export default function ProfilPublic({ profil, profils, evenements, onRetour, on
           <ul className="pp-liste">
             {semblables.map((p) => (
               // Citizens stay « Citoyen » here as in the explorer (Loi 25); the name only appears after a match.
-              <li key={p.id} className="pp-carte"><strong>{p.role === 'citoyen' ? t.citoyen : p.nom}</strong><span>{p.sousType}</span></li>
+              onOuvrirProfil ? (
+                <li key={p.id}>
+                  <button type="button" className="pp-carte pp-carte-lien" onClick={() => onOuvrirProfil(p.id)}>
+                    <strong>{p.role === 'citoyen' ? t.citoyen : p.nom}</strong><span>{p.sousType}</span>
+                  </button>
+                </li>
+              ) : <li key={p.id} className="pp-carte"><strong>{p.role === 'citoyen' ? t.citoyen : p.nom}</strong><span>{p.sousType}</span></li>
             ))}
           </ul>
         )}

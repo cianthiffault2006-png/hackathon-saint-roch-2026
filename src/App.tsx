@@ -458,6 +458,7 @@ export default function App() {
           moi={profilPublic.id === ASKER_PAR_ROLE[role]}
           onRetour={() => setEcran('explorer')}
           onProposer={(id) => { setVoulu(id); setRetourBesoin('profil'); setEcran('besoin') }}
+          onOuvrirProfil={enVisite ? undefined : (id) => { setProfilId(id); window.scrollTo(0, 0) }}
         />
       )}
       {ecranActif === 'plus' && dernierBesoin && (

@@ -15,7 +15,7 @@
 .ex-chip-on { background: var(--vert); color: #fff; }
 .ex-btn:focus-visible, .ex-chip:focus-visible, .ex-recherche input:focus-visible, .ex-pin:focus-visible, .ex-fermer:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 .ex-pin { background: none; border: 0; padding: 0; min-width: 44px; min-height: 44px; display: grid; place-items: center; cursor: pointer; }
-.ex-fiche { position: absolute; z-index: 6; left: 8px; right: 8px; bottom: calc(env(safe-area-inset-bottom) + 28px); display: flex; flex-direction: column; gap: 6px; padding: 16px; background: var(--craie); border: 1px solid var(--trait); border-radius: var(--rayon); box-shadow: 0 4px 16px rgba(21,32,27,.22); }
+.ex-fiche { position: absolute; z-index: 6; left: 8px; right: 8px; bottom: calc(env(safe-area-inset-bottom) + 72px); display: flex; flex-direction: column; gap: 6px; padding: 16px; background: var(--craie); border: 1px solid var(--trait); border-radius: var(--rayon); box-shadow: 0 4px 16px rgba(21,32,27,.22); }
 .ex-fiche-nom { font-family: var(--police-titre); font-optical-sizing: auto; font-variation-settings: "SOFT" 100; font-weight: 600; font-size: 20px; line-height: 1.2; color: var(--vert-fonce); padding-right: 48px; }
 .ex-fermer { position: absolute; top: 4px; right: 4px; width: 44px; height: 44px; border: 0; background: none; font-size: 28px; color: var(--texte); cursor: pointer; }
 .ex-note { color: var(--gris); font-size: 14px; }

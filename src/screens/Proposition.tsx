@@ -172,7 +172,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <button type="button" className="nav-btn" onClick={() => aller(1)} disabled={index === propositions.length - 1} aria-label={fr.proposition.suivante}>›</button>
           </div>
           <h1 className="feuille-titre">{prop.titre}</h1>
-          <p className="etiquette-collab">{fr.evenement.collab}</p>
+          {statut !== 'confirmee' && <p className="etiquette-collab">{fr.evenement.collab}</p>}
           <p className="score">{fr.proposition.score(prop.score)}</p>
           {prop.detailScore && (
             <div className="detail-score">

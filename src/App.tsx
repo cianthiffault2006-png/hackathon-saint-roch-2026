@@ -225,10 +225,13 @@ export default function App() {
     window.setTimeout(() => setEcran('proposition'), 2400)
   }
 
-  // « Pas cette fois »: the proposal goes back to « Proposition » with a note, and its invitation stays closed.
+  // « Pas cette fois »: the trio leaves Mes projets; its card keeps a note and no « Ça m'intéresse ».
   function declinerInvitation(prop: PropositionType, partenaire: Profil) {
     if (enVisite) return
-    changerStatut(prop, 'proposee')
+    const cle = idProjet(prop)
+    setStatuts((s) => ({ ...s, [cle]: 'proposee' }))
+    setProjets((prev) => prev.filter((p) => p.id !== cle))
+    setAnnonce(fr.proposition.decline(nomCourt(partenaire)))
     setDeclins((d) => ({ ...d, [idProjet(prop)]: nomCourt(partenaire) }))
     setEcran('proposition')
   }

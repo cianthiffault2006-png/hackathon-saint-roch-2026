@@ -267,7 +267,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
             <p className="note-declin" role="status">{fr.proposition.decline(declin)}</p>
           )}
           {statut === 'proposee' ? (
-            <button
+            !declin && <button
               type="button"
               className="btn btn-primaire"
               onClick={() => onChangerStatut(prop, 'interet_envoye')}

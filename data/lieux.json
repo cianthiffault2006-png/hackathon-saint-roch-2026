@@ -455,5 +455,31 @@
   ],
   "source": "fictif",
   "attribution": "Données fictives"
+ },
+ {
+  "id": "vque45-257",
+  "nom": "Église de Notre-Dame-de-Jacques-Cartier",
+  "type": "salle",
+  "lat": 46.813005,
+  "lng": -71.229187,
+  "offres": [
+   "espace_interieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux de culte, licence CC BY 4.0"
+ },
+ {
+  "id": "vque45-279",
+  "nom": "Église de Saint-Roch",
+  "type": "salle",
+  "lat": 46.815,
+  "lng": -71.222922,
+  "offres": [
+   "espace_interieur",
+   "public"
+  ],
+  "source": "ouvert",
+  "attribution": "Source : Ville de Québec, Lieux de culte, licence CC BY 4.0"
  }
 ]

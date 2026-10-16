@@ -3,7 +3,7 @@ import type { Evenement, Lieu, Profil, Proposition as PropositionType, Statut } 
 import { fr } from '../i18n/fr'
 import { PinForme, type NomIcone } from '../components/Icones'
 import MapView, { type Pin } from '../components/MapView'
-import { choisirInvite, prenom } from '../lib/invitation'
+import { choisirInvite, nomCourt } from '../lib/invitation'
 import { idEvenement, idProjet, type Projet } from '../lib/projets'
 
 interface Props {
@@ -291,7 +291,7 @@ export default function Proposition({ propositions, profils, lieux, evenements, 
           )}
           {statut === 'en_attente' && onInvitation && invite && !declin && (
             <button type="button" className="btn btn-texte btn-invitation" onClick={() => onInvitation(prop)}>
-              {fr.proposition.voirInvitation(prenom(invite.partenaire))}
+              {fr.proposition.voirInvitation(nomCourt(invite.partenaire))}
             </button>
           )}
           {statut === 'en_attente' && !enVisite && (

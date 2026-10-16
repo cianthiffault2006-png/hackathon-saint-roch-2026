@@ -3,7 +3,7 @@ import type { Besoin as BesoinType, Creneau, Evenement, Profil, Proposition as P
 import { chargerDonnees, type Donnees } from './lib/data'
 import { proposer } from './engineAdapter'
 import { choixDepuisTexte, construireBesoin } from './lib/besoin'
-import { choisirInvite, prenom } from './lib/invitation'
+import { choisirInvite, nomCourt } from './lib/invitation'
 import { trouverAsker } from './lib/besoin'
 import FilVisite from './tour/FilVisite'
 import Regie from './tour/Regie'
@@ -224,7 +224,7 @@ export default function App() {
   function declinerInvitation(prop: PropositionType, partenaire: Profil) {
     if (enVisite) return
     changerStatut(prop, 'proposee')
-    setDeclins((d) => ({ ...d, [idProjet(prop)]: prenom(partenaire) }))
+    setDeclins((d) => ({ ...d, [idProjet(prop)]: nomCourt(partenaire) }))
     setEcran('proposition')
   }
 
@@ -269,7 +269,7 @@ export default function App() {
   const propInvitation = enVisite ? propVisite : invitationProp
   const invite = propInvitation ? choisirInvite(propInvitation, donnees.profils) : null
   const legende = etape
-    ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? prenom(invite.partenaire) : '', scoreSofia: propositionsSofia[0]?.score ?? 0 })
+    ? legendeDe(etape, { score: propVisite?.score ?? 0, prenom: invite ? nomCourt(invite.partenaire) : '', scoreSofia: propositionsSofia[0]?.score ?? 0 })
     : ''
 
   return (

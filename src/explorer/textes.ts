@@ -44,7 +44,7 @@ export const t = {
   curseur: 'Distance à pied maximale',
   curseurValeur: (n: number) => `Jusqu’à ${n} min à pied`,
   choisir: 'Choisir',
-  score: (n: number) => `Score ${n} sur 100`,
+  score: (n: number) => `Compatibilité : ${n} %`,
   minPartenaires: (n: number) => `Le plus éloigné : ${n} min à pied`,
   aucunProjet: 'Aucun projet compatible dans ce rayon. Élargissez la distance.',
   partenairesSeuls: 'Partenaires compatibles pris un à un',

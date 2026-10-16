@@ -1,10 +1,13 @@
 import type { Evenement, Lieu, Profil } from '../types'
 import * as fixtures from '../fixtures'
+import { chargerPresentation, presentationDemandee, type Presentation } from './presentation'
 
 export interface Donnees {
   profils: Profil[]
   lieux: Lieu[]
   evenements: Evenement[]
+  /** Provided rows for the laptop presentation mode (?presentation=1, local files only); never in production. */
+  presentation?: Presentation | null
 }
 
 async function charger<T>(nom: string, repli: T[]): Promise<T[]> {
@@ -24,5 +27,6 @@ export async function chargerDonnees(): Promise<Donnees> {
     charger('lieux', fixtures.lieux),
     charger('evenements', fixtures.evenements),
   ])
-  return { profils, lieux, evenements }
+  const presentation = presentationDemandee() ? await chargerPresentation(import.meta.env.BASE_URL) : null
+  return { profils, lieux, evenements, presentation }
 }

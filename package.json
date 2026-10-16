@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/check_private.mjs",
     "lint": "oxlint",
     "preview": "vite preview",
+    "presentation": "npm run build && vite preview --open /?presentation=1",
+    "check:private": "node scripts/check_private.mjs",
     "test": "vitest run"
   },
   "dependencies": {

@@ -107,7 +107,8 @@ export default function PlusOptions({ besoin, profils, lieux, evenements, onChoi
           {individuels.map(({ p, offre, creneaux, min }) => (
             <li key={p.id} className="po-carte">
               <strong>{nomPublic(p, p.id)}</strong>
-              <span>{p.sousType} · {t.aPied(min)}</span>
+              {/* A citizen's sub-type is already in nomPublic. */}
+              <span>{p.role === 'citoyen' ? t.aPied(min) : `${p.sousType} · ${t.aPied(min)}`}</span>
               <span>{t.raisonPartenaire(offre.map((o) => LIBELLE_TAG[o]).join(', '), creneaux.map((c) => LIBELLE_CRENEAU[c]).join(', '))}</span>
             </li>
           ))}

@@ -139,6 +139,17 @@ export default function App() {
     setEcran('proposition')
   }
 
+  // « Choisir » in Plus d'options: the chosen proposal joins the list in front, so the first three stay one swipe away.
+  function choisirOption(p: PropositionType) {
+    const i = propositions.findIndex((x) => x.id === p.id)
+    if (i >= 0) setIndexProp(i)
+    else {
+      setPropositions([p, ...propositions])
+      setIndexProp(0)
+    }
+    setEcran('proposition')
+  }
+
   function ouvrirFiche(id: string, depuis: Ecran) {
     setDiscussionId(null)
     setOuvertId(id)
@@ -440,7 +451,7 @@ export default function App() {
             profils={donnees.profils}
             lieux={donnees.lieux}
             evenements={donnees.evenements}
-            onChoisir={(p) => { setPropositions([p]); setIndexProp(0); setEcran('proposition') }}
+            onChoisir={choisirOption}
           />
         </div>
       )}
